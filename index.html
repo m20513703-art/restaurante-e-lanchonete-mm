@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Restaurante e Lanchonete MM</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header>
+    <h1>🍔 Restaurante e Lanchonete MM</h1>
+    <p>Seu sabor favorito está aqui!</p>
+</header>
+
+
+<nav class="categorias">
+
+    <button onclick="mostrarCategoria('pizzas')">🍕 Pizzas</button>
+
+    <button onclick="mostrarCategoria('lanches')">🍔 Lanches</button>
+
+    <button onclick="mostrarCategoria('hotdogs')">🌭 Hot Dog</button>
+
+    <button onclick="mostrarCategoria('marmitas')">🍱 Marmitas</button>
+
+    <button onclick="mostrarCategoria('bebidas')">🥤 Bebidas</button>
+
+</nav>
+
+
+<main>
+
+
+<!-- ================= PIZZAS ================= -->
+
+<section id="pizzas" class="categoria">
+
+    <h2>🍕 Pizzas</h2>
+
+    <div class="lista-produtos">
+
+
+        <div class="produto">
+            <h3>Calabresa</h3>
+            <p>Muçarela, calabresa, cebola e orégano.</p>
+            <button onclick="abrirPizza('Calabresa')">Escolher</button>
+        </div>
+
+
+        <div class="produto">
+            <h3>Muçarela</h3>
+            <p>Muçarela, tomate e orégano.</p>
+            <button onclick="abrirPizza('Muçarela')">Escolher</button>
+        </div>
+
+
+        <div class="produto">
+            <h3>Margherita</h3>
+            <p>Muçarela, tomate, manjericão e azeite.</p>
+            <button onclick="abrirPizza('Margherita')">Escolher</button>
+        </div>
+
+
+        <div class="produto">
+            <h3>Frango com Catupiry</h3>
+            <p>Frango desfiado, Catupiry e milho.</p>
+            <button onclick="abrirPizza('Frango com Catupiry')">Escolher</button>
+        </div>
+
+
+        <div class="produto">
+            <h3>Portuguesa</h3>
+            <p>Muçarela, presunto, ovo, cebola, ervilha e azeitona.</p>
+            <button onclick="abrirPizza('Portuguesa')">Escolher</button>
+        </div>
+
+
+        <div class="produto">
+            <h3>Quatro Queijos</h3>
+            <p>Muçarela, provolone, parmesão e gorgonzola.</p>
+            <button onclick="abrirPizza('Quatro Queijos')">Escolher</button>
+        </div>
+
+
+        <div class="produto">
+            <h3>Bacon</h3>
+            <p>Muçarela, bacon e milho.</p>
+            <button onclick="abrirPizza('Bacon')">Escolher</button>
+        </div>
+
+
+        <div class="produto">
+            <h3>Atum</h3>
+            <p>Muçarela, atum e cebola.</p>
+            <button onclick="abrirPizza('Atum')">Escolher</button>
+        </div>
+
+
+        <div class="produto">
+            <h3>Palmito</h3>
+            <p>Muçarela, palmito e azeitonas.</p>
+            <button onclick="abrirPizza('Palmito')">Escolher</button>
+        </div>
+
+
+        <div class="produto">
+            <h3>Vegetariana</h3>
+            <p>Muçarela, brócolis, pimentão, tomate, milho e azeitonas.</p>
+            <button onclick="abrirPizza('Vegetariana')">Escolher</button>
+        </div>
+
+
+        <div class="produto">
+            <h3>Pepperoni</h3>
+            <p>Muçarela e pepperoni.</p>
+            <button onclick="abrirPizza('Pepperoni')">Escolher</button>
+        </div>
+
+
+        <div class="produto">
+            <h3>Carne Seca</h3>
+            <p>Muçarela, carne seca e cream cheese.</p>
+            <button onclick="abrirPizza('Carne Seca')">Escolher</button>
+        </div>
+
+
+        <div class="produto">
+            <h3>Lombo com Cream Cheese</h3>
+            <p>Muçarela, lombo e cream cheese.</p>
+            <button onclick="abrirPizza('Lombo com Cream Cheese')">Escolher</button>
+        </div>
+
+
+        <div class="produto">
+            <h3>Brócolis com Bacon</h3>
+            <p>Muçarela, brócolis, bacon e alho frito.</p>
+            <button onclick="abrirPizza('Brócolis com Bacon')">Escolher</button>
+        </div>
+
+
+        <div class="produto">
+            <h3>Lombo ao Alho</h3>
+            <p>Muçarela, lombo, alho e azeitonas.</p>
+            <button onclick="abrirPizza('Lombo ao Alho')">Escolher</button>
+        </div>
+
+
+        <div class="produto">
+            <h3>Moda da Casa</h3>
+            <p>Muçarela, presunto, calabresa, bacon, ovo, milho, palmito e Catupiry.</p>
+            <button onclick="abrirPizza('Moda da Casa')">Escolher</button>
+        </div>
+
+
+        <div class="produto">
+            <h3>Brigadeiro</h3>
+            <p>Chocolate ao leite e granulado.</p>
+            <button onclick="abrirPizza('Brigadeiro')">Escolher</button>
+        </div>
+
+
+        <div class="produto">
+            <h3>Prestígio</h3>
+            <p>Chocolate ao leite e coco.</p>
+            <button onclick="abrirPizza('Prestígio')">Escolher</button>
+        </div>
+
+
+        <div class="produto">
+            <h3>Romeu e Julieta</h3>
+            <p>Muçarela e goiabada.</p>
+            <button onclick="abrirPizza('Romeu e Julieta')">Escolher</button>
+        </div>
+
+
+        <div class="produto">
+            <h3>Banana com Canela</h3>
+            <p>Banana, açúcar, canela e leite condensado.</p>
+            <button onclick="abrirPizza('Banana com Canela')">Escolher</button>
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<!-- ================= LANCHES ================= -->
+
+<section id="lanches" class="categoria">
+
+<h2>🍔 Lanches</h2>
+
+<div class="lista-produtos">
+
+    <div class="produto">
+        <h3>X-Burguer</h3>
+        <p>Hambúrguer artesanal e queijo prato.</p>
+        <strong>R$ 18,00</strong>
+        <button onclick="adicionarProduto('X-Burguer',18)">Adicionar</button>
+    </div>
+
+    <div class="produto">
+        <h3>X-Salada</h3>
+        <p>Hambúrguer, queijo, alface, tomate e maionese.</p>
+        <strong>R$ 20,00</strong>
+        <button onclick="adicionarProduto('X-Salada',20)">Adicionar</button>
+    </div>
+
+    <div class="produto">
+        <h3>X-Bacon</h3>
+        <p>Hambúrguer, queijo, bacon e maionese.</p>
+        <strong>R$ 23,00</strong>
+        <button onclick="adicionarProduto('X-Bacon',23)">Adicionar</button>
+    </div>
+
+    <div class="produto">
+        <h3>X-Egg</h3>
+        <p>Hambúrguer, queijo, ovo, alface e tomate.</p>
+        <strong>R$ 21,00</strong>
+        <button onclick="adicionarProduto('X-Egg',21)">Adicionar</button>
+    </div>
+
+    <div class="produto">
+        <h3>X-Frango</h3>
+        <p>Filé de frango, queijo, alface e tomate.</p>
+        <strong>R$ 22,00</strong>
+        <button onclick="adicionarProduto('X-Frango',22)">Adicionar</button>
+    </div>
+
+    <div class="produto">
+        <h3>X-Tudo</h3>
+        <p>Hambúrguer, queijo, bacon, ovo, presunto e salada.</p>
+        <strong>R$ 28,00</strong>
+        <button onclick="adicionarProduto('X-Tudo',28)">Adicionar</button>
+    </div>
+
+    <div class="produto">
+        <h3>Duplo Bacon</h3>
+        <p>Dois hambúrgueres, cheddar e bacon.</p>
+        <strong>R$ 32,00</strong>
+        <button onclick="adicionarProduto('Duplo Bacon',32)">Adicionar</button>
+    </div>
+
+    <div class="produto">
+        <h3>Smash Burger</h3>
+        <p>Dois smash, cheddar e picles.</p>
+        <strong>R$ 26,00</strong>
+        <button onclick="adicionarProduto('Smash Burger',26)">Adicionar</button>
+    </div>
+
+    <div class="produto">
+        <h3>Chicken Crispy</h3>
+        <p>Frango crocante, cheddar e maionese.</p>
+        <strong>R$ 25,00</strong>
+        <button onclick="adicionarProduto('Chicken Crispy',25)">Adicionar</button>
+    </div>
+
+    <div class="produto">
+        <h3>Lanche de Calabresa</h3>
+        <p>Calabresa, queijo e maionese.</p>
+        <strong>R$ 20,00</strong>
+        <button onclick="adicionarProduto('Lanche de Calabresa',20)">Adicionar</button>
+    </div>
+
+</div>
+
+</section>
+
+
+
+<!-- ================= HOT DOG ================= -->
+
+<section id="hotdogs" class="categoria">
+
+<h2>🌭 Hot Dog</h2>
+
+<div class="lista-produtos">
+
+    <div class="produto">
+        <h3>Hot Dog Tradicional</h3>
+        <p>Salsicha, molho, milho, ervilha e batata palha.</p>
+        <strong>R$ 15,00</strong>
+        <button onclick="adicionarProduto('Hot Dog Tradicional',15)">Adicionar</button>
+    </div>
+
+    <div class="produto">
+        <h3>Hot Dog Prensado Especial</h3>
+        <p>Duas salsichas, purê, bacon, queijo e batata palha.</p>
+        <strong>R$ 20,00</strong>
+        <button onclick="adicionarProduto('Hot Dog Prensado Especial',20)">Adicionar</button>
+    </div>
+
+    <div class="produto">
+        <h3>Hot Dog Frango & Bacon</h3>
+        <p>Frango, bacon, Catupiry e batata palha.</p>
+        <strong>R$ 22,00</strong>
+        <button onclick="adicionarProduto('Hot Dog Frango & Bacon',22)">Adicionar</button>
+    </div>
+
+</div>
+
+</section>
+
+
+
+<!-- ================= MARMITAS ================= -->
+
+<section id="marmitas" class="categoria">
+
+<h2>🍱 Marmitas</h2>
+
+<div class="lista-produtos">
+
+    <div class="produto">
+        <h3>Marmita Tradicional</h3>
+        <p>Arroz, feijão, acompanhamento e mistura.</p>
+        <strong>R$ 20,00</strong>
+        <button onclick="adicionarProduto('Marmita Tradicional',20)">Adicionar</button>
+    </div>
+
+    <div class="produto">
+        <h3>Marmita Especial</h3>
+        <p>Arroz, feijão, carne e salada.</p>
+        <strong>R$ 25,00</strong>
+        <button onclick="adicionarProduto('Marmita Especial',25)">Adicionar</button>
+    </div>
+
+</div>
+
+</section>
+
+
+
+<!-- ================= BEBIDAS ================= -->
+
+<section id="bebidas" class="categoria">
+
+<h2>🥤 Bebidas</h2>
+
+<div class="lista-produtos">
+
+    <div class="produto">
+        <h3>Refrigerante Lata</h3>
+        <p>350ml</p>
+        <strong>R$ 6,00</strong>
+        <button onclick="adicionarProduto('Refrigerante Lata',6)">Adicionar</button>
+    </div>
+
+    <div class="produto">
+        <h3>Refrigerante 2 Litros</h3>
+        <p>Garrafa 2 litros</p>
+        <strong>R$ 12,00</strong>
+        <button onclick="adicionarProduto('Refrigerante 2 Litros',12)">Adicionar</button>
+    </div>
+
+    <div class="produto">
+        <h3>Suco Natural</h3>
+        <p>Suco natural da casa.</p>
+        <strong>R$ 8,00</strong>
+        <button onclick="adicionarProduto('Suco Natural',8)">Adicionar</button>
+    </div>
+
+    <div class="produto">
+        <h3>Água</h3>
+        <p>Água mineral.</p>
+        <strong>R$ 4,00</strong>
+        <button onclick="adicionarProduto('Água',4)">Adicionar</button>
+    </div>
+
+</div>
+
+</section>
+
+
+
+<!-- ================= CARRINHO ================= -->
+
+<section class="carrinho">
+
+<h2>🛒 Seu Carrinho</h2>
+
+<div id="carrinho">
+    <p>Seu carrinho está vazio.</p>
+</div>
+
+<h3>
+    Total:
+    <span id="total">R$ 0,00</span>
+</h3>
+
+<button onclick="limparCarrinho()">
+    🗑️ Limpar Carrinho
+</button>
+
+<button onclick="finalizarPedido()">
+    ✅ Finalizar Pedido
+</button>
+
+</section>
+
+</main>
+
+
+
+<!-- ================= MODAL PIZZA ================= -->
+
+<div id="modalPizza" class="modal">
+
+<div class="modal-conteudo">
+
+<button onclick="fecharPizza()">✖</button>
+
+<h2 id="nomePizza">Escolha sua pizza</h2>
+
+
+<h3>🍕 Tipo de pizza</h3>
+
+<label>
+<input type="radio" name="tipoPizza" value="inteira" checked onchange="alterarTipoPizza()">
+Pizza inteira
+</label>
+
+<br>
+
+<label>
+<input type="radio" name="tipoPizza" value="meio" onchange="alterarTipoPizza()">
+Meio a meio
+</label>
+
+
+<h3>📏 Tamanho</h3>
+
+<select id="tamanhoPizza">
+
+<option value="P">Pequena</option>
+
+<option value="M" selected>
+Média
+</option>
+
+<option value="G">
+Grande
+</option>
+
+</select>
+
+
+<div id="segundaPizza" style="display:none;">
+
+<h3>🍕 Segundo sabor</h3>
+
+<select id="sabor2">
+
+<option value="Calabresa">Calabresa</option>
+<option value="Muçarela">Muçarela</option>
+<option value="Margherita">Margherita</option>
+<option value="Frango com Catupiry">Frango com Catupiry</option>
+<option value="Portuguesa">Portuguesa</option>
+<option value="Quatro Queijos">Quatro Queijos</option>
+<option value="Bacon">Bacon</option>
+<option value="Atum">Atum</option>
+<option value="Palmito">Palmito</option>
+<option value="Vegetariana">Vegetariana</option>
+<option value="Pepperoni">Pepperoni</option>
+<option value="Carne Seca">Carne Seca</option>
+<option value="Lombo com Cream Cheese">Lombo com Cream Cheese</option>
+<option value="Brócolis com Bacon">Brócolis com Bacon</option>
+<option value="Lombo ao Alho">Lombo ao Alho</option>
+<option value="Moda da Casa">Moda da Casa</option>
+<option value="Brigadeiro">Brigadeiro</option>
+<option value="Prestígio">Prestígio</option>
+<option value="Romeu e Julieta">Romeu e Julieta</option>
+<option value="Banana com Canela">Banana com Canela</option>
+
+</select>
+
+</div>
+
+
+<h3>🧀 Borda</h3>
+
+<select id="borda">
+
+<option value="">Sem borda</option>
+
+<option value="Catupiry">Catupiry + R$ 6,00</option>
+
+<option value="Cheddar">Cheddar + R$ 6,00</option>
+
+<option value="Mussarela">Mussarela + R$ 6,00</option>
+
+<option value="Cream Cheese">Cream Cheese + R$ 7,00</option>
+
+<option value="Bacon com Cheddar">
+Bacon com Cheddar + R$ 9,00
+</option>
+
+<option value="Nutella">
+Nutella + R$ 9,00
+</option>
+
+</select>
+
+
+<h3>➕ Extras</h3>
+
+<label>
+<input type="checkbox" class="extra" value="Catupiry">
+Catupiry + R$ 3,00
+</label>
+
+<br>
+
+<label>
+<input type="checkbox" class="extra" value="Cheddar">
+Cheddar + R$ 3,00
+</label>
+
+<br>
+
+<label>
+<input type="checkbox" class="extra" value="Bacon">
+Bacon + R$ 4,00
+</label>
+
+<br>
+
+<label>
+<input type="checkbox" class="extra" value="Calabresa">
+Calabresa + R$ 4,00
+</label>
+
+<br>
+
+<label>
+<input type="checkbox" class="extra" value="Frango">
+Frango + R$ 4,00
+</label>
+
+<br>
+
+<label>
+<input type="checkbox" class="extra" value="Pepperoni">
+Pepperoni + R$ 5,00
+</label>
+
+
+<br><br>
+
+<button onclick="adicionarPizza()">
+🍕 Adicionar Pizza
+</button>
+
+</div>
+
+</div>
+
+
+
+<footer>
+
+<p>
+© 2026 Restaurante e Lanchonete MM
+</p>
+
+</footer>
+
+
+<script src="script.js"></script>
+
+</body>
+
+</html>
