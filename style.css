@@ -1,0 +1,486 @@
+/* =========================================
+   RESTAURANTE LANCHONETE MM
+   CSS - VERSÃO MAIOR
+   ========================================= */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f4f4f4;
+    color: #222;
+    font-size: 21px;
+    line-height: 1.5;
+}
+
+/* =========================================
+   CABEÇALHO
+   ========================================= */
+
+header {
+    background: #111;
+    color: white;
+    text-align: center;
+    padding: 28px 15px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+header h1 {
+    font-size: 42px;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+header p {
+    font-size: 23px;
+}
+
+/* =========================================
+   CONTAINER
+   ========================================= */
+
+.container {
+    width: 94%;
+    max-width: 1150px;
+    margin: 30px auto;
+}
+
+/* =========================================
+   BOTÕES DAS CATEGORIAS
+   ========================================= */
+
+.categorias {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 30px;
+}
+
+.categorias button {
+    min-height: 68px;
+    padding: 17px 28px;
+    border: none;
+    border-radius: 16px;
+    background: #222;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.18);
+}
+
+.categorias button:hover {
+    transform: scale(1.04);
+}
+
+.categorias button:active {
+    transform: scale(0.97);
+}
+
+/* =========================================
+   PRODUTOS
+   ========================================= */
+
+.produtos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+/* =========================================
+   CARD DO PRODUTO
+   ========================================= */
+
+.produto {
+    background: white;
+    border-radius: 20px;
+    padding: 22px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.13);
+    transition: 0.2s;
+}
+
+.produto:hover {
+    transform: translateY(-3px);
+}
+
+.produto img {
+    width: 100%;
+    max-height: 250px;
+    object-fit: cover;
+    border-radius: 16px;
+    margin-bottom: 18px;
+}
+
+.produto h2 {
+    font-size: 31px;
+    margin-bottom: 10px;
+}
+
+.produto p {
+    font-size: 21px;
+    margin-bottom: 12px;
+}
+
+.preco {
+    font-size: 29px;
+    font-weight: bold;
+    margin: 15px 0;
+}
+
+/* =========================================
+   BOTÃO ADICIONAR
+   ========================================= */
+
+.produto button {
+    width: 100%;
+    min-height: 72px;
+    padding: 17px;
+    border: none;
+    border-radius: 16px;
+    background: #0a8f3c;
+    color: white;
+    font-size: 25px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.18);
+}
+
+.produto button:hover {
+    transform: scale(1.02);
+}
+
+.produto button:active {
+    transform: scale(0.97);
+}
+
+/* =========================================
+   CARRINHO
+   ========================================= */
+
+#carrinho {
+    background: white;
+    margin-top: 35px;
+    padding: 28px;
+    border-radius: 20px;
+    box-shadow: 0 5px 18px rgba(0,0,0,0.15);
+}
+
+#carrinho h2 {
+    font-size: 34px;
+    margin-bottom: 22px;
+}
+
+/* =========================================
+   ITEM DO CARRINHO
+   ========================================= */
+
+.item-carrinho {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    padding: 19px 5px;
+    border-bottom: 2px solid #ddd;
+    font-size: 22px;
+}
+
+.item-carrinho button {
+    min-width: 52px;
+    min-height: 52px;
+    border: none;
+    border-radius: 12px;
+    background: #d62828;
+    color: white;
+    font-size: 25px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+/* =========================================
+   TOTAL
+   ========================================= */
+
+#total {
+    text-align: right;
+    font-size: 33px;
+    font-weight: bold;
+    margin-top: 25px;
+}
+
+/* =========================================
+   FINALIZAR PEDIDO
+   ========================================= */
+
+#finalizarPedido {
+    width: 100%;
+    min-height: 78px;
+    margin-top: 22px;
+    padding: 18px;
+    border: none;
+    border-radius: 17px;
+    background: #25d366;
+    color: white;
+    font-size: 27px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+#finalizarPedido:hover {
+    transform: scale(1.02);
+}
+
+/* =========================================
+   BOTÃO WHATSAPP
+   ========================================= */
+
+.whatsapp {
+    position: fixed;
+    right: 22px;
+    bottom: 22px;
+
+    width: 82px;
+    height: 82px;
+
+    border-radius: 50%;
+    background: #25d366;
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 42px;
+    text-decoration: none;
+
+    box-shadow: 0 5px 16px rgba(0,0,0,0.3);
+
+    z-index: 999;
+}
+
+/* =========================================
+   BOTÃO APARÊNCIA
+   ========================================= */
+
+#btnAparencia {
+    position: fixed;
+    right: 22px;
+    bottom: 125px;
+
+    width: 70px;
+    height: 70px;
+
+    border: none;
+    border-radius: 50%;
+
+    background: #222;
+    color: white;
+
+    font-size: 34px;
+
+    cursor: pointer;
+
+    box-shadow: 0 5px 14px rgba(0,0,0,0.3);
+
+    z-index: 999;
+}
+
+/* =========================================
+   CAMPOS
+   ========================================= */
+
+input,
+select,
+textarea {
+    width: 100%;
+    min-height: 64px;
+    padding: 16px;
+
+    border: 2px solid #ccc;
+    border-radius: 14px;
+
+    font-size: 22px;
+
+    margin-bottom: 18px;
+}
+
+/* =========================================
+   MODO ESCURO
+   ========================================= */
+
+body.dark {
+    background: #111;
+    color: white;
+}
+
+body.dark .produto,
+body.dark #carrinho {
+    background: #1f1f1f;
+    color: white;
+}
+
+body.dark .item-carrinho {
+    border-color: #444;
+}
+
+body.dark input,
+body.dark select,
+body.dark textarea {
+    background: #292929;
+    color: white;
+    border-color: #555;
+}
+
+body.dark .categorias button {
+    background: #333;
+}
+
+/* =========================================
+   CELULAR
+   ========================================= */
+
+@media (max-width: 600px) {
+
+    body {
+        font-size: 21px;
+    }
+
+    header {
+        padding: 25px 12px;
+    }
+
+    header h1 {
+        font-size: 36px;
+        line-height: 1.2;
+    }
+
+    header p {
+        font-size: 21px;
+    }
+
+    .container {
+        width: 94%;
+        margin: 22px auto;
+    }
+
+    /* CATEGORIAS */
+
+    .categorias {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+    }
+
+    .categorias button {
+        min-height: 74px;
+        padding: 12px 6px;
+        font-size: 22px;
+    }
+
+    /* PRODUTOS */
+
+    .produtos {
+        grid-template-columns: 1fr;
+        gap: 22px;
+    }
+
+    .produto {
+        padding: 20px;
+    }
+
+    .produto img {
+        max-height: 240px;
+    }
+
+    .produto h2 {
+        font-size: 32px;
+    }
+
+    .produto p {
+        font-size: 22px;
+    }
+
+    .preco {
+        font-size: 30px;
+    }
+
+    .produto button {
+        min-height: 76px;
+        font-size: 26px;
+    }
+
+    /* CARRINHO */
+
+    #carrinho {
+        padding: 22px;
+    }
+
+    #carrinho h2 {
+        font-size: 32px;
+    }
+
+    .item-carrinho {
+        font-size: 21px;
+        padding: 20px 3px;
+    }
+
+    .item-carrinho button {
+        min-width: 54px;
+        min-height: 54px;
+        font-size: 26px;
+    }
+
+    /* TOTAL */
+
+    #total {
+        font-size: 31px;
+    }
+
+    /* FINALIZAR */
+
+    #finalizarPedido {
+        min-height: 82px;
+        font-size: 26px;
+    }
+
+    /* WHATSAPP */
+
+    .whatsapp {
+        width: 78px;
+        height: 78px;
+        right: 17px;
+        bottom: 17px;
+        font-size: 40px;
+    }
+
+    /* APARÊNCIA */
+
+    #btnAparencia {
+        width: 68px;
+        height: 68px;
+        right: 22px;
+        bottom: 115px;
+        font-size: 32px;
+    }
+
+    /* CAMPOS */
+
+    input,
+    select,
+    textarea {
+        min-height: 66px;
+        font-size: 21px;
+    }
+}
