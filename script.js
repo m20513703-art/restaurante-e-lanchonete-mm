@@ -1,797 +1,412 @@
-// ==========================================
-// RESTAURANTE E LANCHONETE MM
-// JAVASCRIPT COMPLETO
-// ==========================================
+// ========================================
+// RESTAURANTE LANCHONETE MM
+// SCRIPT.JS
+// ========================================
 
 let carrinho = [];
-
-const WHATSAPP_EMPRESA = "5519981123401";
-
-
-// ==========================================
-// MOSTRAR CATEGORIA
-// ==========================================
-
-function mostrarCategoria(categoria) {
-
-    const categorias =
-        document.querySelectorAll(".categoria");
-
-    categorias.forEach(function(secao) {
-        secao.style.display = "none";
-    });
-
-    const selecionada =
-        document.getElementById(categoria);
-
-    if (selecionada) {
-        selecionada.style.display = "block";
-    }
-}
+let pedidoAtual = null;
 
 
-// ==========================================
-// PIZZA - MEIO A MEIO
-// ==========================================
+// ========================================
+// ADICIONAR PRODUTO NORMAL
+// ========================================
 
-function mostrarMeioAMeio() {
+function adicionarCarrinho(nome, preco) {
 
-    const tipo =
-        document.querySelector(
-            'input[name="tipoPizza"]:checked'
-        );
+    let produto = carrinho.find(
+        item => item.nome === nome
+    );
 
-    const segundoSabor =
-        document.getElementById("segundoSabor");
-
-    if (!tipo || !segundoSabor) {
-        return;
-    }
-
-    if (tipo.value === "meio") {
-
-        segundoSabor.style.display = "block";
-
-        preencherSabores();
-
+    if (produto) {
+        produto.quantidade++;
     } else {
-
-        segundoSabor.style.display = "none";
+        carrinho.push({
+            nome: nome,
+            preco: Number(preco),
+            quantidade: 1
+        });
     }
+
+    atualizarCarrinho();
 }
 
 
-// ==========================================
-// SABORES DAS PIZZAS
-// ==========================================
+// ========================================
+// PERSONALIZAR PIZZA
+// ========================================
 
-function preencherSabores() {
+function abrirPizza(nome, preco) {
 
-    const select =
-        document.getElementById("sabor2");
+    let antigo = document.getElementById("modalPizza");
 
-    if (!select) {
-        return;
+    if (antigo) {
+        antigo.remove();
     }
 
-    const sabores = [
+    let modal = document.createElement("div");
 
-        "Calabresa",
-        "Muçarela",
-        "Margherita",
-        "Frango com Catupiry",
-        "Portuguesa",
-        "Quatro Queijos",
-        "Bacon",
-        "Atum",
-        "Palmito",
-        "Vegetariana",
-        "Pepperoni",
-        "Carne Seca",
-        "Lombo com Cream Cheese",
-        "Brócolis com Bacon",
-        "Lombo ao Alho",
-        "Moda da Casa",
-        "Brigadeiro",
-        "Prestígio",
-        "Romeu e Julieta",
-        "Banana com Canela"
+    modal.id = "modalPizza";
 
-    ];
+    modal.style.position = "fixed";
+    modal.style.top = "0";
+    modal.style.left = "0";
+    modal.style.width = "100%";
+    modal.style.height = "100%";
+    modal.style.background = "rgba(0,0,0,0.75)";
+    modal.style.display = "flex";
+    modal.style.alignItems = "center";
+    modal.style.justifyContent = "center";
+    modal.style.padding = "20px";
+    modal.style.zIndex = "2000";
 
-    select.innerHTML = `
-        <option value="">
-            Escolha o segundo sabor
-        </option>
+    let caixa = document.createElement("div");
+
+    caixa.style.background = "white";
+    caixa.style.color = "#222";
+    caixa.style.width = "100%";
+    caixa.style.maxWidth = "500px";
+    caixa.style.maxHeight = "90vh";
+    caixa.style.overflowY = "auto";
+    caixa.style.borderRadius = "20px";
+    caixa.style.padding = "25px";
+    caixa.style.boxShadow =
+        "0 10px 30px rgba(0,0,0,0.4)";
+
+    caixa.innerHTML = `
+
+        <h2>🍕 ${nome}</h2>
+
+        <p>
+            Pizza:
+            <strong>
+                R$ ${Number(preco)
+                    .toFixed(2)
+                    .replace(".", ",")}
+            </strong>
+        </p>
+
+        <h3 style="margin-top:20px;">
+            🧀 Escolha a borda
+        </h3>
+
+        <select id="bordaPizza">
+
+            <option value="0|Sem borda">
+                Sem borda — R$ 0,00
+            </option>
+
+            <option value="8|Catupiry">
+                Catupiry — R$ 8,00
+            </option>
+
+            <option value="8|Cheddar">
+                Cheddar — R$ 8,00
+            </option>
+
+            <option value="7|Requeijão">
+                Requeijão — R$ 7,00
+            </option>
+
+            <option value="7|Requeijão Escala">
+                Requeijão Escala — R$ 7,00
+            </option>
+
+            <option value="10|Chocolate">
+                Chocolate — R$ 10,00
+            </option>
+
+        </select>
+
+        <h3 style="margin-top:20px;">
+            ➕ Acréscimos
+        </h3>
+
+        <label style="display:block;margin:12px 0;">
+            <input
+                type="checkbox"
+                class="extraPizza"
+                value="5|Bacon">
+            🥓 Bacon — R$ 5,00
+        </label>
+
+        <label style="display:block;margin:12px 0;">
+            <input
+                type="checkbox"
+                class="extraPizza"
+                value="4|Muçarela">
+            🧀 Muçarela — R$ 4,00
+        </label>
+
+        <label style="display:block;margin:12px 0;">
+            <input
+                type="checkbox"
+                class="extraPizza"
+                value="4|Catupiry">
+            🧀 Catupiry — R$ 4,00
+        </label>
+
+        <label style="display:block;margin:12px 0;">
+            <input
+                type="checkbox"
+                class="extraPizza"
+                value="4|Cheddar">
+            🧀 Cheddar — R$ 4,00
+        </label>
+
+        <div
+            id="totalPizzaModal"
+            style="
+                margin-top:20px;
+                font-size:25px;
+                font-weight:bold;
+                text-align:center;
+            ">
+
+            Total: R$ ${Number(preco)
+                .toFixed(2)
+                .replace(".", ",")}
+
+        </div>
+
+        <button
+            id="confirmarPizza"
+            style="
+                width:100%;
+                min-height:60px;
+                margin-top:18px;
+                border:0;
+                border-radius:14px;
+                background:#16803c;
+                color:white;
+                font-size:20px;
+                font-weight:bold;
+                cursor:pointer;
+            ">
+
+            🛒 Adicionar pizza
+
+        </button>
+
+        <button
+            id="cancelarPizza"
+            style="
+                width:100%;
+                min-height:55px;
+                margin-top:10px;
+                border:0;
+                border-radius:14px;
+                background:#d62828;
+                color:white;
+                font-size:19px;
+                font-weight:bold;
+                cursor:pointer;
+            ">
+
+            ❌ Cancelar
+
+        </button>
     `;
 
-    sabores.forEach(function(sabor) {
-
-        const option =
-            document.createElement("option");
-
-        option.value = sabor;
-        option.textContent = sabor;
-
-        select.appendChild(option);
-
-    });
-}
+    modal.appendChild(caixa);
+    document.body.appendChild(modal);
 
 
-// ==========================================
-// PREÇOS DAS PIZZAS
-// ==========================================
+    let selectBorda =
+        document.getElementById("bordaPizza");
 
-const precosPizzas = {
+    let extras =
+        document.querySelectorAll(".extraPizza");
 
-    "Calabresa": [30, 40, 50],
-    "Muçarela": [30, 40, 50],
-    "Margherita": [32, 42, 52],
-    "Frango com Catupiry": [35, 45, 55],
-    "Portuguesa": [35, 45, 55],
-    "Quatro Queijos": [36, 46, 56],
-    "Bacon": [34, 44, 54],
-    "Atum": [34, 44, 54],
-    "Palmito": [34, 44, 54],
-    "Vegetariana": [34, 44, 54],
-    "Pepperoni": [36, 46, 56],
-    "Carne Seca": [38, 48, 58],
-    "Lombo com Cream Cheese": [38, 48, 58],
-    "Brócolis com Bacon": [36, 46, 56],
-    "Lombo ao Alho": [36, 46, 56],
-    "Moda da Casa": [40, 50, 60],
-    "Brigadeiro": [35, 45, 55],
-    "Prestígio": [35, 45, 55],
-    "Romeu e Julieta": [35, 45, 55],
-    "Banana com Canela": [35, 45, 55]
-
-};
+    let totalElemento =
+        document.getElementById("totalPizzaModal");
 
 
-// ==========================================
-// PEGAR TAMANHO DA PIZZA
-// ==========================================
+    function calcularPizza() {
 
-function pegarTamanho() {
+        let total = Number(preco);
 
-    const tamanho =
-        document.querySelector(
-            'input[name="tamanhoPizza"]:checked'
-        );
+        let borda =
+            selectBorda.value.split("|");
 
-    if (!tamanho) {
-        return "P";
-    }
+        total += Number(borda[0]);
 
-    return tamanho.value;
-}
+        extras.forEach(function(extra) {
 
+            if (extra.checked) {
 
-// ==========================================
-// PEGAR PREÇO
-// ==========================================
+                let partes =
+                    extra.value.split("|");
 
-function pegarPreco(
-    tamanho,
-    pequena,
-    media,
-    grande
-) {
-
-    if (tamanho === "P") {
-        return pequena;
-    }
-
-    if (tamanho === "G") {
-        return grande;
-    }
-
-    return media;
-}
-
-
-// ==========================================
-// ADICIONAR PIZZA
-// ==========================================
-
-function adicionarPizza(
-    botao,
-    nome,
-    precoP,
-    precoM,
-    precoG
-) {
-
-    const card =
-        botao.closest(".pizza-card");
-
-    if (!card) {
-        return;
-    }
-
-    const tamanho =
-        pegarTamanho();
-
-    const tipo =
-        document.querySelector(
-            'input[name="tipoPizza"]:checked'
-        );
-
-    const tipoPizza =
-        tipo ? tipo.value : "inteira";
-
-
-    let preco =
-        pegarPreco(
-            tamanho,
-            precoP,
-            precoM,
-            precoG
-        );
-
-
-    // ======================================
-    // MEIO A MEIO
-    // ======================================
-
-    let segundoSabor = "";
-
-    if (tipoPizza === "meio") {
-
-        const select =
-            document.getElementById("sabor2");
-
-        if (!select || !select.value) {
-
-            alert(
-                "Escolha o segundo sabor da pizza."
-            );
-
-            return;
-        }
-
-        segundoSabor =
-            select.value;
-
-        const precosSegundo =
-            precosPizzas[segundoSabor];
-
-        if (precosSegundo) {
-
-            let indice = 1;
-
-            if (tamanho === "P") {
-                indice = 0;
+                total += Number(partes[0]);
             }
+        });
 
-            if (tamanho === "G") {
-                indice = 2;
-            }
-
-            preco =
-                Math.max(
-                    preco,
-                    precosSegundo[indice]
-                );
-        }
+        totalElemento.innerText =
+            "Total: R$ " +
+            total.toFixed(2).replace(".", ",");
     }
 
 
-    // ======================================
-    // NOME
-    // ======================================
+    selectBorda.addEventListener(
+        "change",
+        calcularPizza
+    );
 
-    let nomePizza = nome;
-
-    if (tipoPizza === "meio") {
-
-        nomePizza =
-            "½ " +
-            nome +
-            " + ½ " +
-            segundoSabor;
-    }
-
-
-    // ======================================
-    // BORDA
-    // ======================================
-
-    const borda =
-        card.querySelector(".borda");
-
-    let valorBorda = 0;
-
-    let nomeBorda = "Sem borda";
-
-    if (borda) {
-
-        valorBorda =
-            Number(borda.value);
-
-        if (borda.value !== "0") {
-
-            nomeBorda =
-                borda.options[
-                    borda.selectedIndex
-                ].textContent;
-        }
-    }
-
-
-    // ======================================
-    // EXTRAS
-    // ======================================
-
-    const extras =
-        card.querySelectorAll(
-            ".extra:checked"
-        );
-
-    let valorExtras = 0;
-
-    let nomesExtras = [];
 
     extras.forEach(function(extra) {
 
-        valorExtras +=
-            Number(extra.value);
-
-        let texto =
-            extra.parentElement.textContent.trim();
-
-        texto =
-            texto.replace(
-                /-\s*R\$\s*[\d,.]+/,
-                ""
-            );
-
-        nomesExtras.push(
-            texto.trim()
+        extra.addEventListener(
+            "change",
+            calcularPizza
         );
 
     });
-
-
-    const produto = {
-
-        id: Date.now(),
-
-        categoria: "Pizza",
-
-        nome: nomePizza,
-
-        tamanho: tamanho,
-
-        precoPizza: preco,
-
-        borda: nomeBorda,
-
-        valorBorda: valorBorda,
-
-        extras: nomesExtras,
-
-        valorExtras: valorExtras,
-
-        quantidade: 1,
-
-        total:
-            preco +
-            valorBorda +
-            valorExtras
-    };
-
-
-    carrinho.push(produto);
-
-    atualizarCarrinho();
-
-    alert(
-        "Pizza adicionada ao carrinho!"
-    );
-}
-
-
-// ==========================================
-// ADICIONAR PRODUTO NORMAL
-// ==========================================
-
-function adicionarProduto(
-    nome,
-    preco,
-    categoria
-) {
-
-    const produto = {
-
-        id: Date.now(),
-
-        categoria: categoria,
-
-        nome: nome,
-
-        precoPizza: Number(preco),
-
-        borda: "",
-
-        valorBorda: 0,
-
-        extras: [],
-
-        valorExtras: 0,
-
-        quantidade: 1,
-
-        total: Number(preco)
-    };
-
-
-    carrinho.push(produto);
-
-    atualizarCarrinho();
-
-    alert(
-        nome +
-        " foi adicionado ao carrinho!"
-    );
-}
-
-
-// ==========================================
-// MARMITAS
-// ==========================================
-
-function configurarMarmita() {
-
-    const tamanho =
-        document.querySelector(
-            'input[name="tamanhoMarmita"]:checked'
-        );
-
-    const limite =
-        document.getElementById(
-            "limiteMisturas"
-        );
-
-    if (!tamanho || !limite) {
-        return;
-    }
-
-    let quantidade = 0;
-
-    if (tamanho.value === "pequena") {
-        quantidade = 1;
-    }
-
-    if (tamanho.value === "media") {
-        quantidade = 2;
-    }
-
-    if (tamanho.value === "grande") {
-        quantidade = 2;
-    }
-
-    if (tamanho.value === "comercial") {
-        quantidade = 3;
-    }
-
-    limite.textContent =
-        "Você pode escolher até " +
-        quantidade +
-        " mistura(s).";
 
 
     document
-        .querySelectorAll(
-            ".mistura-marmita"
-        )
-        .forEach(function(mistura) {
+        .getElementById("cancelarPizza")
+        .onclick = function() {
 
-            mistura.checked = false;
-            mistura.disabled = false;
+            modal.remove();
 
-        });
-}
+        };
 
 
-// ==========================================
-// VERIFICAR MISTURAS
-// ==========================================
+    document
+        .getElementById("confirmarPizza")
+        .onclick = function() {
 
-function verificarMisturas() {
+            let total = Number(preco);
 
-    const tamanho =
-        document.querySelector(
-            'input[name="tamanhoMarmita"]:checked'
-        );
+            let descricao = nome;
 
-    if (!tamanho) {
-        return;
-    }
 
-    let limite = 0;
+            // BORDA
 
-    if (tamanho.value === "pequena") {
-        limite = 1;
-    }
+            let borda =
+                selectBorda.value.split("|");
 
-    if (tamanho.value === "media") {
-        limite = 2;
-    }
+            let valorBorda =
+                Number(borda[0]);
 
-    if (tamanho.value === "grande") {
-        limite = 2;
-    }
+            let nomeBorda =
+                borda[1];
 
-    if (tamanho.value === "comercial") {
-        limite = 3;
-    }
 
+            if (valorBorda > 0) {
 
-    const misturas =
-        document.querySelectorAll(
-            ".mistura-marmita"
-        );
+                total += valorBorda;
 
-    let selecionadas = [];
+                descricao +=
+                    " | Borda " +
+                    nomeBorda;
+            }
 
 
-    misturas.forEach(function(mistura) {
+            // ACRÉSCIMOS
 
-        if (mistura.checked) {
-            selecionadas.push(mistura);
-        }
+            let listaExtras = [];
 
-    });
 
+            extras.forEach(function(extra) {
 
-    if (selecionadas.length > limite) {
+                if (extra.checked) {
 
-        selecionadas[
-            selecionadas.length - 1
-        ].checked = false;
+                    let partes =
+                        extra.value.split("|");
 
-        alert(
-            "Essa marmita permite apenas " +
-            limite +
-            " mistura(s)."
-        );
+                    total +=
+                        Number(partes[0]);
 
-    }
+                    listaExtras.push(
+                        partes[1]
+                    );
+                }
 
+            });
 
-    misturas.forEach(function(mistura) {
 
-        if (
-            selecionadas.length >= limite &&
-            !mistura.checked
-        ) {
+            if (listaExtras.length > 0) {
 
-            mistura.disabled = true;
+                descricao +=
+                    " | Acréscimos: " +
+                    listaExtras.join(", ");
 
-        } else {
+            }
 
-            mistura.disabled = false;
 
-        }
-
-    });
-}
-
-
-// ==========================================
-// ADICIONAR MARMITA
-// ==========================================
-
-function adicionarMarmita() {
-
-    const tamanho =
-        document.querySelector(
-            'input[name="tamanhoMarmita"]:checked'
-        );
-
-    if (!tamanho) {
-
-        alert(
-            "Escolha o tamanho da marmita."
-        );
-
-        return;
-    }
-
-
-    let preco = 0;
-    let limite = 0;
-    let nomeTamanho = "";
-
-
-    if (tamanho.value === "pequena") {
-
-        preco = 20;
-        limite = 1;
-        nomeTamanho = "Pequena";
-
-    }
-
-
-    if (tamanho.value === "media") {
-
-        preco = 25;
-        limite = 2;
-        nomeTamanho = "Média";
-
-    }
-
-
-    if (tamanho.value === "grande") {
-
-        preco = 28;
-        limite = 2;
-        nomeTamanho = "Grande";
-
-    }
-
-
-    if (tamanho.value === "comercial") {
-
-        preco = 50;
-        limite = 3;
-        nomeTamanho = "Comercial";
-
-    }
-
-
-    const misturasSelecionadas =
-        document.querySelectorAll(
-            ".mistura-marmita:checked"
-        );
-
-
-    if (
-        misturasSelecionadas.length === 0
-    ) {
-
-        alert(
-            "Escolha pelo menos uma mistura."
-        );
-
-        return;
-    }
-
-
-    if (
-        misturasSelecionadas.length > limite
-    ) {
-
-        alert(
-            "Essa marmita permite apenas " +
-            limite +
-            " mistura(s)."
-        );
-
-        return;
-    }
-
-
-    const misturas = [];
-
-
-    misturasSelecionadas.forEach(
-        function(mistura) {
-
-            misturas.push(
-                mistura.value
+            adicionarCarrinho(
+                descricao,
+                total
             );
 
-        }
+
+            modal.remove();
+        };
+}
+
+
+// ========================================
+// CARDÁPIO DO DIA
+// ========================================
+
+function adicionarCardapioDia() {
+
+    let peso = prompt(
+        "🍽️ CARDÁPIO DO DIA\n\n" +
+        "Preço: R$ 35,00 por kg\n\n" +
+        "Digite o peso em kg.\n" +
+        "Exemplo: 0,500 para 500 gramas."
     );
 
+    if (peso === null) {
+        return;
+    }
 
-    const produto = {
+    peso = peso.replace(",", ".");
+    peso = parseFloat(peso);
 
-        id: Date.now(),
+    if (isNaN(peso) || peso <= 0) {
 
-        categoria: "Marmita",
+        alert(
+            "⚠️ Digite um peso válido."
+        );
+
+        return;
+    }
+
+    let valor = peso * 35;
+
+    carrinho.push({
 
         nome:
-            "Marmita " +
-            nomeTamanho,
+            "Cardápio do Dia - " +
+            peso.toFixed(3) +
+            " kg",
 
-        tamanho:
-            nomeTamanho,
+        preco: valor,
 
-        precoPizza:
-            preco,
-
-        borda: "",
-
-        valorBorda: 0,
-
-        extras: [],
-
-        valorExtras: 0,
-
-        misturas:
-            misturas,
-
-        acompanhamentos:
-            [
-                "Arroz",
-                "Feijão",
-                "Tutu de feijão"
-            ],
-
-        quantidade: 1,
-
-        total: preco
-    };
-
-
-    carrinho.push(produto);
+        quantidade: 1
+    });
 
     atualizarCarrinho();
-
-
-    alert(
-        "Marmita adicionada ao carrinho!"
-    );
-
-
-    // Limpar seleção
-
-    document
-        .querySelectorAll(
-            'input[name="tamanhoMarmita"]'
-        )
-        .forEach(function(input) {
-
-            input.checked = false;
-
-        });
-
-
-    document
-        .querySelectorAll(
-            ".mistura-marmita"
-        )
-        .forEach(function(input) {
-
-            input.checked = false;
-
-            input.disabled = false;
-
-        });
-
-
-    const limiteTexto =
-        document.getElementById(
-            "limiteMisturas"
-        );
-
-    if (limiteTexto) {
-
-        limiteTexto.textContent =
-            "Escolha o tamanho da marmita primeiro.";
-
-    }
 }
 
 
-// ==========================================
+// ========================================
 // ATUALIZAR CARRINHO
-// ==========================================
+// ========================================
 
 function atualizarCarrinho() {
 
-    const lista =
+    let lista =
         document.getElementById(
             "listaCarrinho"
         );
 
-    const totalElemento =
+    let totalElemento =
         document.getElementById(
-            "totalCarrinho"
+            "total"
         );
 
 
@@ -802,490 +417,345 @@ function atualizarCarrinho() {
 
     lista.innerHTML = "";
 
+    let total = 0;
+
 
     if (carrinho.length === 0) {
 
         lista.innerHTML =
-            "<p>Seu carrinho está vazio.</p>";
+            "<p>🛒 Seu carrinho está vazio.</p>";
 
-        totalElemento.textContent =
-            "R$ 0,00";
+        totalElemento.innerText =
+            "Total: R$ 0,00";
 
         return;
     }
 
 
-    let totalGeral = 0;
+    carrinho.forEach(function(item, index) {
+
+        let subtotal =
+            item.preco *
+            item.quantidade;
+
+        total += subtotal;
 
 
-    carrinho.forEach(function(produto) {
-
-        const item =
+        let div =
             document.createElement("div");
 
-        item.className =
+        div.className =
             "item-carrinho";
 
 
-        const totalProduto =
-            produto.total *
-            produto.quantidade;
+        div.innerHTML = `
 
+            <div>
 
-        totalGeral += totalProduto;
-
-
-        let tamanhoTexto = "";
-
-        if (produto.tamanho) {
-
-            tamanhoTexto =
-                `
-                <p>
-                    📏 Tamanho:
-                    ${produto.tamanho}
-                </p>
-                `;
-        }
-
-
-        let bordaTexto = "";
-
-        if (
-            produto.borda &&
-            produto.borda !== "Sem borda"
-        ) {
-
-            bordaTexto =
-                `
-                <p>
-                    🧀 Borda:
-                    ${produto.borda}
-                </p>
-                `;
-        }
-
-
-        let extrasTexto = "";
-
-        if (
-            produto.extras &&
-            produto.extras.length > 0
-        ) {
-
-            extrasTexto =
-                `
-                <p>
-                    ➕ Extras:
-                    ${produto.extras.join(", ")}
-                </p>
-                `;
-        }
-
-
-        let misturasTexto = "";
-
-        if (
-            produto.misturas &&
-            produto.misturas.length > 0
-        ) {
-
-            misturasTexto =
-                `
-                <p>
-                    🍖 Misturas:
-                    ${produto.misturas.join(", ")}
-                </p>
-                `;
-        }
-
-
-        let acompanhamentosTexto = "";
-
-        if (
-            produto.acompanhamentos &&
-            produto.acompanhamentos.length > 0
-        ) {
-
-            acompanhamentosTexto =
-                `
-                <p>
-                    🍚 Acompanhamentos:
-                    ${produto.acompanhamentos.join(", ")}
-                </p>
-                `;
-        }
-
-
-        item.innerHTML = `
-
-            <h3>
-                ${produto.nome}
-            </h3>
-
-            ${tamanhoTexto}
-
-            ${misturasTexto}
-
-            ${acompanhamentosTexto}
-
-            ${bordaTexto}
-
-            ${extrasTexto}
-
-            <p>
-                🔢 Quantidade:
-            </p>
-
-            <button
-                onclick="diminuirQuantidade(${produto.id})"
-            >
-                ➖
-            </button>
-
-            <strong>
-                ${produto.quantidade}
-            </strong>
-
-            <button
-                onclick="aumentarQuantidade(${produto.id})"
-            >
-                ➕
-            </button>
-
-            <p>
-                💰
                 <strong>
-                    R$ ${formatarMoeda(totalProduto)}
+                    ${item.quantidade}x
+                    ${item.nome}
                 </strong>
-            </p>
 
-            <button
-                onclick="removerProduto(${produto.id})"
-            >
-                🗑️ Remover
-            </button>
+                <br>
 
-            <hr>
+                R$ ${subtotal
+                    .toFixed(2)
+                    .replace(".", ",")}
 
+            </div>
+
+            <div>
+
+                <button
+                    onclick="diminuirQuantidade(${index})"
+                    style="
+                        background:#d35400;
+                        margin-right:5px;
+                    ">
+
+                    −
+
+                </button>
+
+                <button
+                    onclick="aumentarQuantidade(${index})"
+                    style="
+                        background:#16803c;
+                        margin-right:5px;
+                    ">
+
+                    +
+
+                </button>
+
+                <button
+                    onclick="removerCarrinho(${index})">
+
+                    🗑️
+
+                </button>
+
+            </div>
         `;
 
-
-        lista.appendChild(item);
+        lista.appendChild(div);
 
     });
 
 
-    totalElemento.textContent =
-        "R$ " +
-        formatarMoeda(totalGeral);
+    totalElemento.innerText =
+        "Total: R$ " +
+        total.toFixed(2).replace(".", ",");
 }
 
 
-// ==========================================
+// ========================================
 // AUMENTAR QUANTIDADE
-// ==========================================
+// ========================================
 
-function aumentarQuantidade(id) {
+function aumentarQuantidade(index) {
 
-    const produto =
-        carrinho.find(function(item) {
-
-            return item.id === id;
-
-        });
-
-
-    if (produto) {
-
-        produto.quantidade++;
-
-    }
-
-
-    atualizarCarrinho();
-}
-
-
-// ==========================================
-// DIMINUIR QUANTIDADE
-// ==========================================
-
-function diminuirQuantidade(id) {
-
-    const produto =
-        carrinho.find(function(item) {
-
-            return item.id === id;
-
-        });
-
-
-    if (!produto) {
+    if (!carrinho[index]) {
         return;
     }
 
+    carrinho[index].quantidade++;
 
-    if (produto.quantidade > 1) {
+    atualizarCarrinho();
+}
 
-        produto.quantidade--;
 
-    } else {
+// ========================================
+// DIMINUIR QUANTIDADE
+// ========================================
 
-        carrinho =
-            carrinho.filter(function(item) {
+function diminuirQuantidade(index) {
 
-                return item.id !== id;
-
-            });
-
+    if (!carrinho[index]) {
+        return;
     }
 
+    carrinho[index].quantidade--;
+
+    if (carrinho[index].quantidade <= 0) {
+
+        carrinho.splice(index, 1);
+    }
 
     atualizarCarrinho();
 }
 
 
-// ==========================================
+// ========================================
 // REMOVER PRODUTO
-// ==========================================
+// ========================================
 
-function removerProduto(id) {
+function removerCarrinho(index) {
 
-    carrinho =
-        carrinho.filter(function(item) {
-
-            return item.id !== id;
-
-        });
-
+    carrinho.splice(index, 1);
 
     atualizarCarrinho();
 }
 
 
-// ==========================================
-// LIMPAR CARRINHO
-// ==========================================
+// ========================================
+// FILTRAR CATEGORIA
+// ========================================
 
-function limparCarrinho() {
+function filtrarCategoria(categoria) {
+
+    let produtos =
+        document.querySelectorAll(
+            ".produto"
+        );
+
+
+    produtos.forEach(function(produto) {
+
+        let categoriaProduto =
+            produto.getAttribute(
+                "data-categoria"
+            );
+
+
+        if (
+            categoria === "todos" ||
+            categoriaProduto === categoria
+        ) {
+
+            produto.style.display = "";
+
+        } else {
+
+            produto.style.display = "none";
+
+        }
+
+    });
+}
+
+
+// ========================================
+// FINALIZAR PEDIDO
+// ========================================
+
+function finalizarPedido() {
 
     if (carrinho.length === 0) {
+
+        alert(
+            "🛒 Seu carrinho está vazio!\n\n" +
+            "Adicione algum produto primeiro."
+        );
+
         return;
     }
 
 
-    const confirmar =
-        confirm(
-            "Deseja realmente limpar o carrinho?"
+    let finalizacao =
+        document.getElementById(
+            "finalizacao"
         );
 
 
-    if (!confirmar) {
+    if (!finalizacao) {
         return;
     }
 
 
-    carrinho = [];
+    finalizacao.style.display =
+        "block";
 
-    atualizarCarrinho();
+
+    finalizacao.scrollIntoView({
+        behavior: "smooth"
+    });
 }
 
 
-// ==========================================
-// MOSTRAR ENDEREÇO
-// ==========================================
+// ========================================
+// ENTREGA / RETIRADA
+// ========================================
 
-function mostrarEndereco() {
+function alternarEndereco() {
 
-    const tipo =
-        document.querySelector(
-            'input[name="tipoEntrega"]:checked'
+    let tipo =
+        document.getElementById(
+            "tipoEntrega"
         );
 
-    const campo =
+    let campo =
         document.getElementById(
             "campoEndereco"
         );
 
+    let endereco =
+        document.getElementById(
+            "enderecoCliente"
+        );
 
-    if (!tipo || !campo) {
+
+    if (
+        !tipo ||
+        !campo ||
+        !endereco
+    ) {
         return;
     }
 
 
     if (tipo.value === "delivery") {
 
-        campo.style.display = "block";
-
-    } else {
-
-        campo.style.display = "none";
-    }
-}
-
-
-// ==========================================
-// PAGAMENTO
-// ==========================================
-
-function verificarPagamento() {
-
-    const pagamento =
-        document.getElementById(
-            "formaPagamento"
-        );
-
-    const campoTroco =
-        document.getElementById(
-            "campoTroco"
-        );
-
-
-    if (!pagamento || !campoTroco) {
-        return;
-    }
-
-
-    if (pagamento.value === "Dinheiro") {
-
-        campoTroco.style.display =
+        campo.style.display =
             "block";
 
+        endereco.required =
+            true;
+
     } else {
 
-        campoTroco.style.display =
+        campo.style.display =
             "none";
+
+        endereco.required =
+            false;
+
+        endereco.value =
+            "";
     }
 }
 
 
-// ==========================================
-// FORMATAR MOEDA
-// ==========================================
+// ========================================
+// CONFIRMAR PEDIDO
+// ========================================
 
-function formatarMoeda(valor) {
+function confirmarPedido(event) {
 
-    return Number(valor)
-        .toFixed(2)
-        .replace(".", ",");
-}
+    event.preventDefault();
 
-
-// ==========================================
-// TOTAL
-// ==========================================
-
-function calcularTotalCarrinho() {
-
-    let total = 0;
-
-
-    carrinho.forEach(function(produto) {
-
-        total +=
-            produto.total *
-            produto.quantidade;
-
-    });
-
-
-    return total;
-}
-
-
-// ==========================================
-// ENVIAR PEDIDO PELO WHATSAPP
-// ==========================================
-
-function enviarPedidoWhatsApp() {
 
     if (carrinho.length === 0) {
 
         alert(
-            "Seu carrinho está vazio!"
+            "🛒 Carrinho vazio."
         );
 
         return;
     }
 
 
-    const nome =
+    let nome =
         document.getElementById(
             "nomeCliente"
         ).value.trim();
 
 
-    const whatsapp =
+    let telefone =
         document.getElementById(
-            "whatsappCliente"
+            "telefoneCliente"
         ).value.trim();
 
 
-    const tipoEntrega =
-        document.querySelector(
-            'input[name="tipoEntrega"]:checked'
-        );
+    let tipoEntrega =
+        document.getElementById(
+            "tipoEntrega"
+        ).value;
 
 
-    const endereco =
+    let endereco =
         document.getElementById(
             "enderecoCliente"
         ).value.trim();
 
 
-    const complemento =
+    let pagamento =
         document.getElementById(
-            "complementoCliente"
-        ).value.trim();
-
-
-    const pagamento =
-        document.getElementById(
-            "formaPagamento"
+            "pagamentoCliente"
         ).value;
 
 
-    const troco =
+    let observacao =
         document.getElementById(
-            "troco"
-        ).value;
-
-
-    const observacao =
-        document.getElementById(
-            "observacao"
+            "observacaoCliente"
         ).value.trim();
 
 
-    // ======================================
-    // VALIDAÇÕES
-    // ======================================
-
-    if (!nome) {
+    if (nome === "") {
 
         alert(
-            "Digite seu nome."
+            "⚠️ Digite seu nome."
         );
 
         return;
     }
 
 
-    if (!whatsapp) {
+    if (telefone === "") {
 
         alert(
-            "Digite seu WhatsApp."
-        );
-
-        return;
-    }
-
-
-    if (!tipoEntrega) {
-
-        alert(
-            "Escolha Delivery ou Retirada."
+            "⚠️ Digite seu telefone."
         );
 
         return;
@@ -1293,341 +763,462 @@ function enviarPedidoWhatsApp() {
 
 
     if (
-        tipoEntrega.value === "delivery" &&
-        !endereco
+        tipoEntrega === "delivery" &&
+        endereco === ""
     ) {
 
         alert(
-            "Digite o endereço para entrega."
+            "⚠️ Digite seu endereço."
         );
 
         return;
     }
 
 
-    if (!pagamento) {
+    if (pagamento === "") {
 
         alert(
-            "Escolha a forma de pagamento."
+            "⚠️ Escolha uma forma de pagamento."
         );
 
         return;
     }
+
+
+    let total = 0;
+
+
+    carrinho.forEach(function(item) {
+
+        total +=
+            item.preco *
+            item.quantidade;
+
+    });
+
+
+    let numeroPedido =
+        Math.floor(
+            1000 +
+            Math.random() * 9000
+        );
+
+
+    pedidoAtual = {
+
+        numero: numeroPedido,
+
+        nome: nome,
+
+        telefone: telefone,
+
+        tipoEntrega: tipoEntrega,
+
+        endereco: endereco,
+
+        pagamento: pagamento,
+
+        observacao: observacao,
+
+        itens: carrinho.map(function(item) {
+
+            return {
+
+                nome: item.nome,
+
+                preco: item.preco,
+
+                quantidade:
+                    item.quantidade
+
+            };
+
+        }),
+
+        total: total
+    };
+
+
+    mostrarPedidoConfirmado();
+}
+
+
+// ========================================
+// MOSTRAR PEDIDO CONFIRMADO
+// ========================================
+
+function mostrarPedidoConfirmado() {
+
+    let finalizacao =
+        document.getElementById(
+            "finalizacao"
+        );
+
+    let confirmado =
+        document.getElementById(
+            "pedidoConfirmado"
+        );
+
+    let numero =
+        document.getElementById(
+            "numeroPedido"
+        );
+
+    let resumo =
+        document.getElementById(
+            "resumoPedido"
+        );
 
 
     if (
-        pagamento === "Dinheiro" &&
-        !troco
+        !finalizacao ||
+        !confirmado ||
+        !numero ||
+        !resumo
+    ) {
+        return;
+    }
+
+
+    numero.innerText =
+        "Pedido #" +
+        pedidoAtual.numero;
+
+
+    let html = "";
+
+
+    html +=
+        "<p><strong>👤 Cliente:</strong> " +
+        pedidoAtual.nome +
+        "</p>";
+
+
+    html +=
+        "<p><strong>📞 Telefone:</strong> " +
+        pedidoAtual.telefone +
+        "</p>";
+
+
+    if (
+        pedidoAtual.tipoEntrega ===
+        "delivery"
     ) {
 
+        html +=
+            "<p><strong>🚴 Entrega</strong></p>";
+
+        html +=
+            "<p><strong>📍 Endereço:</strong><br>" +
+            pedidoAtual.endereco +
+            "</p>";
+
+    } else {
+
+        html +=
+            "<p><strong>🏪 Retirada no local</strong></p>";
+
+    }
+
+
+    html += "<hr>";
+
+
+    html +=
+        "<h3>🛒 Produtos</h3>";
+
+
+    pedidoAtual.itens.forEach(function(item) {
+
+        let subtotal =
+            item.preco *
+            item.quantidade;
+
+
+        html +=
+            "<p>" +
+            item.quantidade +
+            "x " +
+            item.nome +
+            " — R$ " +
+            subtotal
+                .toFixed(2)
+                .replace(".", ",") +
+            "</p>";
+
+    });
+
+
+    html += "<hr>";
+
+
+    html +=
+        "<p><strong>💳 Pagamento:</strong> " +
+        pedidoAtual.pagamento +
+        "</p>";
+
+
+    if (pedidoAtual.observacao !== "") {
+
+        html +=
+            "<p><strong>📝 Observação:</strong><br>" +
+            pedidoAtual.observacao +
+            "</p>";
+    }
+
+
+    html +=
+        "<h2>💰 Total: R$ " +
+        pedidoAtual.total
+            .toFixed(2)
+            .replace(".", ",") +
+        "</h2>";
+
+
+    resumo.innerHTML = html;
+
+
+    finalizacao.style.display =
+        "none";
+
+    confirmado.style.display =
+        "block";
+
+
+    confirmado.scrollIntoView({
+        behavior: "smooth"
+    });
+}
+
+
+// ========================================
+// ENVIAR PARA WHATSAPP
+// ========================================
+
+function enviarPedidoWhatsApp() {
+
+    if (!pedidoAtual) {
+
         alert(
-            "Informe o valor para o troco."
+            "⚠️ Pedido não encontrado."
         );
 
         return;
     }
 
-
-    // ======================================
-    // TAXA DELIVERY
-    // ======================================
-
-    let taxaDelivery = 0;
-
-
-    if (
-        tipoEntrega.value === "delivery"
-    ) {
-
-        taxaDelivery = 5;
-
-    }
-
-
-    // ======================================
-    // TOTAL
-    // ======================================
-
-    const subtotal =
-        calcularTotalCarrinho();
-
-
-    const totalFinal =
-        subtotal +
-        taxaDelivery;
-
-
-    // ======================================
-    // MENSAGEM
-    // ======================================
 
     let mensagem = "";
 
 
     mensagem +=
-        "🍽️ *NOVO PEDIDO*";
+        "🍔 *RESTAURANTE LANCHONETE MM*%0A";
 
     mensagem +=
-        "\n*Restaurante e Lanchonete MM*";
-
-
-    mensagem +=
-        "\n\n━━━━━━━━━━━━━━━━━━";
-
+        "━━━━━━━━━━━━━━━━━━%0A";
 
     mensagem +=
-        "\n👤 *Cliente:* " +
-        nome;
+        "📋 *PEDIDO #" +
+        pedidoAtual.numero +
+        "*%0A%0A";
 
 
     mensagem +=
-        "\n📱 *WhatsApp:* " +
-        whatsapp;
+        "👤 *Cliente:* " +
+        pedidoAtual.nome +
+        "%0A";
 
 
-    // ======================================
-    // ENTREGA
-    // ======================================
+    mensagem +=
+        "📞 *Telefone:* " +
+        pedidoAtual.telefone +
+        "%0A%0A";
+
 
     if (
-        tipoEntrega.value === "delivery"
+        pedidoAtual.tipoEntrega ===
+        "delivery"
     ) {
 
         mensagem +=
-            "\n🛵 *Entrega:* Delivery";
+            "🚴 *ENTREGA*%0A";
 
         mensagem +=
-            "\n🏠 *Endereço:* " +
-            endereco;
-
-
-        if (complemento) {
-
-            mensagem +=
-                "\n📍 *Referência:* " +
-                complemento;
-
-        }
+            "📍 *Endereço:* " +
+            pedidoAtual.endereco +
+            "%0A%0A";
 
     } else {
 
         mensagem +=
-            "\n📍 *Entrega:* Retirar no local";
-
+            "🏪 *RETIRADA NO LOCAL*%0A%0A";
     }
 
 
-    // ======================================
-    // PEDIDOS
-    // ======================================
+    mensagem +=
+        "🛒 *PRODUTOS*%0A";
 
     mensagem +=
-        "\n\n🛒 *PEDIDO:*";
+        "━━━━━━━━━━━━━━━━━━%0A";
 
 
-    mensagem +=
-        "\n━━━━━━━━━━━━━━━━━━";
+    pedidoAtual.itens.forEach(function(item) {
 
-
-    carrinho.forEach(function(produto) {
-
-        const valor =
-            produto.total *
-            produto.quantidade;
+        let subtotal =
+            item.preco *
+            item.quantidade;
 
 
         mensagem +=
-            "\n\n" +
-            produto.quantidade +
+            item.quantidade +
             "x " +
-            produto.nome;
-
-
-        if (produto.tamanho) {
-
-            mensagem +=
-                "\n📏 Tamanho: " +
-                produto.tamanho;
-
-        }
-
-
-        if (
-            produto.misturas &&
-            produto.misturas.length > 0
-        ) {
-
-            mensagem +=
-                "\n🍖 Misturas: " +
-                produto.misturas.join(", ");
-
-        }
-
-
-        if (
-            produto.acompanhamentos &&
-            produto.acompanhamentos.length > 0
-        ) {
-
-            mensagem +=
-                "\n🍚 Acompanhamentos: " +
-                produto.acompanhamentos.join(", ");
-
-        }
-
-
-        if (
-            produto.borda &&
-            produto.borda !== "Sem borda"
-        ) {
-
-            mensagem +=
-                "\n🧀 Borda: " +
-                produto.borda;
-
-        }
-
-
-        if (
-            produto.extras &&
-            produto.extras.length > 0
-        ) {
-
-            mensagem +=
-                "\n➕ Extras: " +
-                produto.extras.join(", ");
-
-        }
-
-
-        mensagem +=
-            "\n💰 R$ " +
-            formatarMoeda(valor);
+            item.nome +
+            " - R$ " +
+            subtotal
+                .toFixed(2)
+                .replace(".", ",") +
+            "%0A";
 
     });
 
 
-    // ======================================
-    // VALORES
-    // ======================================
-
-    mensagem +=
-        "\n\n━━━━━━━━━━━━━━━━━━";
+    mensagem += "%0A";
 
 
     mensagem +=
-        "\n💰 *Subtotal:* R$ " +
-        formatarMoeda(subtotal);
+        "💳 *Pagamento:* " +
+        pedidoAtual.pagamento +
+        "%0A";
 
 
-    if (taxaDelivery > 0) {
+    if (pedidoAtual.observacao !== "") {
 
         mensagem +=
-            "\n🛵 *Taxa de delivery:* R$ " +
-            formatarMoeda(taxaDelivery);
-
+            "📝 *Observação:* " +
+            pedidoAtual.observacao +
+            "%0A";
     }
 
 
     mensagem +=
-        "\n💵 *TOTAL:* R$ " +
-        formatarMoeda(totalFinal);
+        "%0A💰 *TOTAL: R$ " +
+        pedidoAtual.total
+            .toFixed(2)
+            .replace(".", ",") +
+        "*";
 
 
-    // ======================================
-    // PAGAMENTO
-    // ======================================
-
-    mensagem +=
-        "\n\n💳 *Pagamento:* " +
-        pagamento;
+    let numeroWhatsApp =
+        "5519981123401";
 
 
-    if (
-        pagamento === "Dinheiro"
-    ) {
-
-        mensagem +=
-            "\n💵 *Troco para:* R$ " +
-            formatarMoeda(troco);
-
-    }
-
-
-    // ======================================
-    // OBSERVAÇÃO
-    // ======================================
-
-    if (observacao) {
-
-        mensagem +=
-            "\n\n📝 *Observação:* " +
-            observacao;
-
-    }
-
-
-    mensagem +=
-        "\n\n━━━━━━━━━━━━━━━━━━";
-
-
-    mensagem +=
-        "\n🙏 Obrigado pelo pedido!";
-
-
-    // ======================================
-    // WHATSAPP
-    // ======================================
-
-    const mensagemCodificada =
-        encodeURIComponent(
-            mensagem
-        );
-
-
-    const link =
+    let url =
         "https://wa.me/" +
-        WHATSAPP_EMPRESA +
+        numeroWhatsApp +
         "?text=" +
-        mensagemCodificada;
+        mensagem;
 
 
     window.open(
-        link,
+        url,
         "_blank"
     );
 }
 
 
-// ==========================================
-// INICIAR SITE
-// ==========================================
+// ========================================
+// MODO ESCURO
+// ========================================
+
+function alternarAparencia() {
+
+    document.body.classList.toggle(
+        "dark"
+    );
+
+
+    let escuro =
+        document.body.classList.contains(
+            "dark"
+        );
+
+
+    localStorage.setItem(
+        "temaMM",
+        escuro ? "dark" : "light"
+    );
+
+
+    let botao =
+        document.getElementById(
+            "btnAparencia"
+        );
+
+
+    if (botao) {
+
+        botao.innerText =
+            escuro ? "☀️" : "🌙";
+    }
+}
+
+
+// ========================================
+// CARREGAR TEMA
+// ========================================
+
+function carregarTema() {
+
+    let tema =
+        localStorage.getItem(
+            "temaMM"
+        );
+
+
+    if (tema === "dark") {
+
+        document.body.classList.add(
+            "dark"
+        );
+
+    } else {
+
+        document.body.classList.remove(
+            "dark"
+        );
+    }
+
+
+    let botao =
+        document.getElementById(
+            "btnAparencia"
+        );
+
+
+    if (botao) {
+
+        botao.innerText =
+            tema === "dark"
+                ? "☀️"
+                : "🌙";
+    }
+}
+
+
+// ========================================
+// INICIAR
+// ========================================
 
 document.addEventListener(
     "DOMContentLoaded",
     function() {
 
+        carregarTema();
+
         atualizarCarrinho();
 
-        mostrarCategoria("pizzas");
+        alternarEndereco();
 
-        mostrarEndereco();
-
-
-        const pagamento =
-            document.getElementById(
-                "formaPagamento"
-            );
-
-
-        if (pagamento) {
-
-            pagamento.addEventListener(
-                "change",
-                verificarPagamento
-            );
-
-        }
+        filtrarCategoria("todos");
 
     }
 );
