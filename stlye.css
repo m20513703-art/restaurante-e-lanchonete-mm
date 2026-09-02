@@ -1,257 +1,515 @@
-stlye.css
+/* =========================================
+   RESTAURANTE E LANCHONETE MM
+   CSS NOVO - DESIGN MODERNO
+========================================= */
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+html {
+    scroll-behavior: smooth;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    background: #fff8f0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f5f5f5;
     color: #222;
+    line-height: 1.5;
 }
 
-a {
-    text-decoration: none;
-    color: inherit;
-}
-
-button {
-    border: none;
-    cursor: pointer;
-}
+/* =========================================
+   CABEÇALHO
+========================================= */
 
 header {
-    background: #ff6b00;
+    background: linear-gradient(135deg, #111, #292929);
     color: white;
-    padding: 20px;
     text-align: center;
+    padding: 30px 15px;
+    border-radius: 0 0 30px 30px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.25);
 }
 
 header h1 {
     font-size: 32px;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
+
+header p {
+    color: #ddd;
+    font-size: 15px;
+}
+
+/* =========================================
+   INFORMAÇÕES DO RESTAURANTE
+========================================= */
+
+.info-restaurante {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 25px;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.10);
+}
+
+.info-restaurante p {
+    margin: 7px 0;
+    font-size: 15px;
+}
+
+/* =========================================
+   CARDÁPIO DO DIA
+========================================= */
+
+.cardapio-dia {
+    max-width: 1000px;
+    margin: 20px auto;
+    padding: 25px;
+    background: white;
+    border-radius: 25px;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.10);
+}
+
+.cardapio-dia h2 {
+    margin-bottom: 15px;
+}
+
+/* =========================================
+   MENU DE CATEGORIAS
+========================================= */
 
 nav {
     display: flex;
-    justify-content: center;
-    gap: 20px;
-}
-
-nav a {
-    font-weight: bold;
-}
-
-nav a:hover {
-    color: #ffe0c2;
-}
-
-.cardapio {
-    padding: 50px 20px;
-    text-align: center;
-}
-
-.cardapio h2 {
-    font-size: 32px;
-    margin-bottom: 30px;
-}
-
-.produtos {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 25px;
+    gap: 10px;
+    overflow-x: auto;
+    padding: 15px;
+    margin: 15px auto;
     max-width: 1100px;
-    margin: 0 auto;
 }
 
-.produto {
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.produto h3 {
-    margin-bottom: 10px;
-    font-size: 22px;
-}
-
-.produto p {
-    margin-bottom: 15px;
-}
-
-.preco {
-    display: block;
-    font-size: 20px;
-    font-weight: bold;
-    color: #ff6b00;
-    margin-bottom: 15px;
-}
-
-.produto button {
-    background: #ff6b00;
-    color: white;
-    padding: 10px 18px;
-    border-radius: 6px;
-}
-
-.produto button:hover {
-    background: #e85d00;
-}
-.contato {
-    padding: 50px 20px;
-    text-align: center;
-    background: #fff0df;
-}
-
-.contato h2 {
-    font-size: 32px;
-    margin-bottom: 15px;
-}
-
-.contato p {
-    margin-bottom: 10px;
-}
-
-footer {
+nav button {
+    flex: 0 0 auto;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 50px;
     background: #222;
     color: white;
-    text-align: center;
-    padding: 20px;
-    margin-top: 30px;
-}
-
-@media (max-width: 600px) {
-    .hero h2 {
-        font-size: 30px;
-    }
-
-    nav {
-        flex-direction: column;
-        gap: 10px;
-    }
-}
-
-.produto {
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.produto:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-}
-
-.produto button {
-    transition: background 0.3s ease, transform 0.2s ease;
-}
-
-.produto button:hover {
-    transform: scale(1.05);
-}
-.categorias {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-bottom: 30px;
-}
-
-.categorias button {
-    background: white;
-    color: #ff6b00;
-    border: 2px solid #ff6b00;
-    padding: 10px 18px;
-    border-radius: 20px;
     font-weight: bold;
-    transition: 0.3s;
+    cursor: pointer;
+    transition: 0.25s;
 }
 
-.categorias button:hover {
-    background: #ff6b00;
-    color: white;
-}
-.carrinho {
-    max-width: 500px;
-    margin: 40px auto;
-    padding: 25px;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+nav button:hover {
+    transform: translateY(-3px);
+    background: #e63946;
 }
 
-.carrinho h2 {
+/* =========================================
+   CATEGORIAS
+========================================= */
+
+.categoria {
+    max-width: 1100px;
+    margin: 25px auto;
+    padding: 20px;
+}
+
+.categoria h2 {
+    font-size: 28px;
     margin-bottom: 20px;
     text-align: center;
 }
 
-.item-carrinho {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 12px 0;
-    border-bottom: 1px solid #ddd;
+/* =========================================
+   GRID DOS PRODUTOS
+========================================= */
+
+.produtos {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
 }
 
-.total {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 20px;
+/* =========================================
+   CARDS
+========================================= */
+
+.produto,
+.pizza-card {
+    background: white;
+    border-radius: 28px;
+    padding: 18px;
+    box-shadow: 0 7px 20px rgba(0, 0, 0, 0.12);
+    transition: 0.25s;
+    border: 1px solid #eee;
+    overflow: hidden;
+}
+
+.produto:hover,
+.pizza-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.18);
+}
+
+.produto h3,
+.pizza-card h3 {
+    font-size: 20px;
+    margin-bottom: 8px;
+}
+
+.produto p,
+.pizza-card p {
+    color: #666;
+    font-size: 14px;
+}
+
+/* =========================================
+   IMAGENS DOS PRODUTOS
+========================================= */
+
+.produto img,
+.pizza-card img {
+    width: 100%;
+    height: 190px;
+    object-fit: cover;
+    border-radius: 22px;
+    margin-bottom: 12px;
+    display: block;
+}
+
+/* =========================================
+   PREÇO
+========================================= */
+
+.preco {
+    display: block;
     font-size: 22px;
     font-weight: bold;
+    margin: 12px 0;
+    color: #159947;
 }
 
-.btn-finalizar {
+/* =========================================
+   BOTÕES
+========================================= */
+
+button {
+    font-family: inherit;
+}
+
+.produto button,
+.pizza-card button {
     width: 100%;
-    margin-top: 20px;
-    padding: 14px;
-    background: #28a745;
+    border: none;
+    padding: 13px;
+    border-radius: 50px;
+    background: #159947;
     color: white;
-    border-radius: 8px;
     font-size: 16px;
     font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
 }
 
-.btn-finalizar:hover {
-    background: #218838;
-}
-.formulario {
-    max-width: 600px;
-    margin: 30px auto 0;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+.produto button:hover,
+.pizza-card button:hover {
+    background: #0d7d38;
+    transform: scale(1.02);
 }
 
-.formulario input,
-.formulario textarea {
+/* =========================================
+   CONFIGURAÇÃO DA PIZZA
+========================================= */
+
+.pizza-config {
+    background: white;
+    max-width: 900px;
+    margin: 20px auto;
+    padding: 22px;
+    border-radius: 25px;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.10);
+}
+
+.pizza-config h3 {
+    margin-bottom: 10px;
+}
+
+.pizza-config label {
+    display: inline-block;
+    margin: 6px;
+    padding: 9px 15px;
+    border-radius: 30px;
+    background: #f0f0f0;
+    cursor: pointer;
+}
+
+/* =========================================
+   SELECTS
+========================================= */
+
+select,
+input,
+textarea {
     width: 100%;
-    padding: 12px;
+    padding: 13px;
+    margin-top: 7px;
+    margin-bottom: 12px;
     border: 1px solid #ddd;
-    border-radius: 8px;
-    font-size: 16px;
+    border-radius: 15px;
+    font-size: 15px;
     outline: none;
 }
 
-.formulario input:focus,
-.formulario textarea:focus {
-    border-color: #ff6b00;
+select:focus,
+input:focus,
+textarea:focus {
+    border-color: #159947;
+    box-shadow: 0 0 0 3px rgba(21, 153, 71, 0.10);
 }
 
-.formulario textarea {
-    min-height: 120px;
-    resize: vertical;
+/* =========================================
+   CARRINHO
+========================================= */
+
+#carrinho {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 25px;
+    background: white;
+    border-radius: 30px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
 }
 
-.formulario button {
-    background: #ff6b00;
+#carrinho h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.item-carrinho {
+    background: #f8f8f8;
+    padding: 18px;
+    margin-bottom: 15px;
+    border-radius: 22px;
+    border: 1px solid #eee;
+}
+
+.item-carrinho button {
+    border: none;
+    background: #222;
     color: white;
-    padding: 13px;
-    border-radius: 8px;
-    font-size: 16px;
-    font-weight: bold;
+    padding: 8px 13px;
+    border-radius: 50px;
+    cursor: pointer;
+    margin: 3px;
 }
 
-.formulario button:hover {
-    background: #e85d00;
+.item-carrinho button:hover {
+    background: #e63946;
+}
+
+/* =========================================
+   TOTAL
+========================================= */
+
+#totalCarrinho {
+    display: block;
+    text-align: right;
+    font-size: 28px;
+    font-weight: bold;
+    color: #159947;
+    margin-top: 20px;
+}
+
+/* =========================================
+   CHECKOUT
+========================================= */
+
+.checkout {
+    max-width: 1000px;
+    margin: 30px auto;
+    padding: 25px;
+    background: white;
+    border-radius: 30px;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.checkout h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.checkout label {
+    display: block;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* =========================================
+   BOTÃO WHATSAPP
+========================================= */
+
+button[onclick="enviarPedidoWhatsApp()"] {
+    width: 100%;
+    padding: 17px;
+    border: none;
+    border-radius: 50px;
+    background: #25d366;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.20);
+    transition: 0.25s;
+}
+
+button[onclick="enviarPedidoWhatsApp()"]:hover {
+    transform: scale(1.02);
+    background: #1ebe5d;
+}
+
+/* =========================================
+   BOTÃO LIMPAR CARRINHO
+========================================= */
+
+button[onclick="limparCarrinho()"] {
+    background: #e63946;
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 50px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button[onclick="limparCarrinho()"]:hover {
+    background: #c92f3b;
+}
+
+/* =========================================
+   DELIVERY / RETIRADA
+========================================= */
+
+.entrega-opcoes {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.entrega-opcoes label {
+    background: #f1f1f1;
+    padding: 12px 18px;
+    border-radius: 50px;
+    cursor: pointer;
+}
+
+/* =========================================
+   RODAPÉ
+========================================= */
+
+footer {
+    margin-top: 40px;
+    padding: 30px 15px;
+    background: #111;
+    color: white;
+    text-align: center;
+    border-radius: 30px 30px 0 0;
+}
+
+footer p {
+    margin: 5px;
+}
+
+/* =========================================
+   CELULAR
+========================================= */
+
+@media (max-width: 600px) {
+
+    header {
+        padding: 25px 12px;
+    }
+
+    header h1 {
+        font-size: 25px;
+    }
+
+    .categoria {
+        padding: 12px;
+    }
+
+    .categoria h2 {
+        font-size: 24px;
+    }
+
+    .produtos {
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+    }
+
+    .produto,
+    .pizza-card {
+        padding: 12px;
+        border-radius: 22px;
+    }
+
+    .produto img,
+    .pizza-card img {
+        height: 130px;
+        border-radius: 18px;
+    }
+
+    .produto h3,
+    .pizza-card h3 {
+        font-size: 17px;
+    }
+
+    .preco {
+        font-size: 19px;
+    }
+
+    .produto button,
+    .pizza-card button {
+        font-size: 14px;
+        padding: 11px 5px;
+    }
+
+    #carrinho,
+    .checkout,
+    .info-restaurante,
+    .cardapio-dia {
+        margin-left: 10px;
+        margin-right: 10px;
+        padding: 18px;
+        border-radius: 22px;
+    }
+
+    #totalCarrinho {
+        font-size: 24px;
+    }
+}
+
+/* =========================================
+   ANIMAÇÃO
+========================================= */
+
+@keyframes aparecer {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.produto,
+.pizza-card {
+    animation: aparecer 0.4s ease;
 }
