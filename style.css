@@ -1,12 +1,12 @@
 /* =========================================================
    RESTAURANTE LANCHONETE MM
-   NOVO STYLE.CSS
-   ========================================================= */
+   STYLE.CSS
+========================================================= */
 
 * {
+    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
 }
 
 html {
@@ -22,69 +22,51 @@ body {
 
 /* =========================================================
    TOPO
-   ========================================================= */
+========================================================= */
 
 .topo {
     background: linear-gradient(135deg, #111, #292929);
     color: white;
-    padding: 16px;
+    padding: 18px 15px;
+    text-align: center;
     position: sticky;
     top: 0;
     z-index: 1000;
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.25);
+    box-shadow: 0 3px 12px rgba(0,0,0,0.25);
 }
 
 .logo-area {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    gap: 12px;
-    max-width: 1100px;
-    margin: auto;
+    gap: 5px;
 }
 
 .logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.logo h1 {
-    font-size: 20px;
-    line-height: 1.1;
-}
-
-.logo span {
-    font-size: 28px;
+    font-size: 25px;
+    font-weight: bold;
 }
 
 .status-restaurante {
-    font-size: 12px;
+    font-size: 14px;
     font-weight: bold;
-    background: #168a38;
-    padding: 6px 10px;
-    border-radius: 20px;
-    white-space: nowrap;
+    margin-top: 4px;
 }
 
 /* =========================================================
    BANNER
-   ========================================================= */
+========================================================= */
 
 .banner {
-    max-width: 1100px;
-    margin: 15px auto;
-    padding: 28px 18px;
-    border-radius: 18px;
-    background: linear-gradient(135deg, #ff8c00, #ff4500);
+    background: linear-gradient(135deg, #ff7a00, #ffb300);
     color: white;
+    padding: 25px 18px;
     text-align: center;
-    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.15);
 }
 
 .banner h2 {
-    font-size: 27px;
-    margin-bottom: 6px;
+    font-size: 25px;
+    margin-bottom: 8px;
 }
 
 .banner p {
@@ -93,42 +75,41 @@ body {
 
 /* =========================================================
    BOTÃO CARRINHO
-   ========================================================= */
+========================================================= */
 
 .botao-carrinho {
     display: block;
     width: calc(100% - 30px);
-    max-width: 500px;
+    max-width: 600px;
     margin: 15px auto;
+    padding: 15px;
     border: none;
     border-radius: 14px;
-    padding: 15px;
-    background: #25d366;
+    background: #111;
     color: white;
     font-size: 17px;
     font-weight: bold;
     cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.18);
-    transition: 0.2s;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.18);
 }
 
 .botao-carrinho:hover {
-    transform: translateY(-2px);
-    filter: brightness(0.95);
+    transform: translateY(-1px);
 }
 
 /* =========================================================
    CATEGORIAS
-   ========================================================= */
+========================================================= */
 
 .categorias {
     display: flex;
     gap: 8px;
     overflow-x: auto;
-    padding: 10px 15px 15px;
-    max-width: 1100px;
-    margin: auto;
-    scrollbar-width: none;
+    padding: 12px 15px;
+    background: white;
+    position: sticky;
+    top: 86px;
+    z-index: 900;
 }
 
 .categorias::-webkit-scrollbar {
@@ -137,15 +118,13 @@ body {
 
 .categoria {
     flex: 0 0 auto;
-    padding: 9px 14px;
     border: none;
-    border-radius: 25px;
-    background: white;
-    color: #333;
+    background: #eee;
+    color: #222;
+    padding: 10px 15px;
+    border-radius: 30px;
     font-weight: bold;
     cursor: pointer;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    transition: 0.2s;
 }
 
 .categoria:hover {
@@ -154,103 +133,99 @@ body {
 }
 
 /* =========================================================
-   SEÇÕES
-   ========================================================= */
+   CONTEÚDO
+========================================================= */
 
-section {
+main {
+    width: 100%;
     max-width: 1100px;
-    margin: 0 auto 25px;
-    padding: 0 15px;
+    margin: auto;
 }
 
 .titulo-categoria {
-    font-size: 24px;
-    margin: 25px 0 15px;
-    color: #222;
-    border-left: 5px solid #ff6500;
-    padding-left: 10px;
+    font-size: 25px;
+    margin: 25px 15px 15px;
+    padding-bottom: 8px;
+    border-bottom: 3px solid #ff7a00;
 }
 
 /* =========================================================
    PRODUTOS
-   ========================================================= */
+========================================================= */
 
 .produtos-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 13px;
+    gap: 14px;
+    padding: 0 15px;
 }
 
 .produto {
     background: white;
-    border-radius: 15px;
-    padding: 15px;
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.09);
-    transition: 0.2s;
+    border-radius: 16px;
+    padding: 17px;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.10);
     border: 1px solid #eee;
 }
 
-.produto:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.13);
-}
-
 .produto h3 {
-    font-size: 17px;
-    margin-bottom: 5px;
-    color: #222;
+    font-size: 19px;
+    margin-bottom: 7px;
 }
 
 .produto p {
-    font-size: 13px;
     color: #666;
-    margin-bottom: 10px;
+    font-size: 14px;
+    margin-bottom: 12px;
 }
 
 .produto strong {
     display: block;
-    color: #e85d00;
-    font-size: 19px;
-    margin-bottom: 10px;
+    color: #e65100;
+    font-size: 20px;
+    margin-bottom: 12px;
 }
 
 .produto button {
     width: 100%;
     border: none;
-    border-radius: 10px;
-    padding: 11px;
-    background: #ff6500;
+    border-radius: 12px;
+    background: #ff7a00;
     color: white;
+    padding: 12px;
+    font-size: 16px;
     font-weight: bold;
-    font-size: 15px;
     cursor: pointer;
-    transition: 0.2s;
 }
 
 .produto button:hover {
-    background: #e95500;
+    background: #e56700;
 }
 
-.produto button:active {
-    transform: scale(0.98);
+.produto.esgotado {
+    opacity: 0.65;
+}
+
+.produto.esgotado button {
+    background: #777;
+    cursor: not-allowed;
 }
 
 /* =========================================================
    SUBCATEGORIAS
-   ========================================================= */
+========================================================= */
 
 .subcategoria {
-    font-size: 19px;
-    margin: 22px 0 12px;
-    color: #444;
+    font-size: 21px;
+    margin: 25px 15px 12px;
 }
 
 /* =========================================================
    INFORMAÇÕES
-   ========================================================= */
+========================================================= */
 
 .informacoes {
-    margin-top: 25px;
+    padding: 15px;
 }
 
 .info-grid {
@@ -261,14 +236,14 @@ section {
 
 .info-card {
     background: white;
+    padding: 18px;
     border-radius: 15px;
-    padding: 17px;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
 }
 
 .info-card h3 {
     margin-bottom: 8px;
-    color: #ff6500;
+    color: #e65100;
 }
 
 .info-card p {
@@ -277,19 +252,17 @@ section {
 
 /* =========================================================
    DELIVERY
-   ========================================================= */
+========================================================= */
 
 .delivery {
-    background: #fff7ed;
-    border: 1px solid #ffd7ad;
+    margin: 25px 15px;
+    background: #111;
+    color: white;
+    padding: 20px;
     border-radius: 16px;
-    padding: 18px;
-    margin: 20px auto;
-    max-width: 1100px;
 }
 
 .delivery h2 {
-    color: #e85d00;
     margin-bottom: 10px;
 }
 
@@ -300,93 +273,78 @@ section {
 }
 
 .delivery-grid div {
-    background: white;
-    border-radius: 10px;
+    background: #222;
     padding: 12px;
+    border-radius: 10px;
 }
 
 /* =========================================================
-   BUFFET
-   ========================================================= */
+   SELF-SERVICE
+========================================================= */
 
 .buffet-lista {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 10px;
+    padding: 0 15px;
 }
 
 .buffet-lista li {
-    list-style: none;
     background: white;
-    border-radius: 10px;
+    list-style: none;
     padding: 12px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+    margin-bottom: 7px;
+    border-radius: 10px;
 }
 
 .dias-buffet {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 15px;
+    gap: 12px;
+    padding: 0 15px;
 }
 
 .dia-buffet {
     background: white;
     border-radius: 15px;
-    padding: 17px;
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+    padding: 16px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
 }
 
 .dia-buffet h3 {
-    color: #ff6500;
-    margin-bottom: 10px;
-}
-
-.dia-buffet ul {
-    padding-left: 18px;
-}
-
-.dia-buffet li {
-    margin-bottom: 6px;
-    font-size: 14px;
+    color: #e65100;
+    margin-bottom: 8px;
 }
 
 /* =========================================================
-   SOBREMESAS
-   ========================================================= */
+   SOBREMESAS DO DIA
+========================================================= */
 
 .dias-sobremesas {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 14px;
+    gap: 10px;
+    padding: 0 15px;
 }
 
 .dia-sobremesa {
     background: white;
-    border-radius: 15px;
-    padding: 17px;
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
-}
-
-.dia-sobremesa h3 {
-    color: #e85d00;
-    margin-bottom: 10px;
+    padding: 14px;
+    border-radius: 12px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.07);
 }
 
 .dia-sobremesa p {
     font-size: 14px;
-    margin-bottom: 6px;
 }
 
 /* =========================================================
    CARRINHO
-   ========================================================= */
+========================================================= */
 
 .carrinho {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.65);
-    z-index: 2000;
+    background: rgba(0,0,0,0.65);
     display: none;
+    z-index: 3000;
     align-items: flex-end;
 }
 
@@ -395,7 +353,7 @@ section {
 }
 
 .carrinho-conteudo {
-    background: #f7f7f7;
+    background: white;
     width: 100%;
     max-height: 90vh;
     overflow-y: auto;
@@ -414,39 +372,36 @@ section {
     }
 }
 
-.carrinho-conteudo h2 {
-    margin-bottom: 15px;
-}
-
 .fechar {
     float: right;
     border: none;
     background: #eee;
-    width: 35px;
-    height: 35px;
+    width: 38px;
+    height: 38px;
     border-radius: 50%;
     font-size: 20px;
     cursor: pointer;
 }
 
+.carrinho-conteudo h2 {
+    margin-bottom: 18px;
+}
+
 .item-carrinho {
-    background: white;
-    border-radius: 12px;
-    padding: 12px;
-    margin-bottom: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 10px;
-}
-
-.item-carrinho strong {
-    font-size: 15px;
+    background: #f5f5f5;
+    padding: 13px;
+    border-radius: 12px;
+    margin-bottom: 10px;
 }
 
 .item-carrinho small {
     display: block;
-    color: #777;
+    color: #666;
+    font-size: 12px;
 }
 
 .controle-quantidade {
@@ -456,131 +411,167 @@ section {
 }
 
 .controle-quantidade button {
-    width: 30px;
-    height: 30px;
     border: none;
-    border-radius: 8px;
-    background: #ff6500;
+    background: #ff7a00;
     color: white;
+    width: 34px;
+    height: 34px;
+    border-radius: 9px;
     font-size: 18px;
     cursor: pointer;
 }
 
-.remover-item {
-    border: none;
-    background: #ffdddd;
-    color: #d00000;
-    padding: 7px;
-    border-radius: 7px;
-    cursor: pointer;
+.controle-quantidade .remover-item {
+    background: #d32f2f;
+}
+
+.mensagem-vazia {
+    text-align: center;
+    padding: 30px;
+    color: #777;
 }
 
 /* =========================================================
    CHECKOUT
-   ========================================================= */
+========================================================= */
 
 .checkout {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.65);
-    z-index: 2100;
+    background: rgba(0,0,0,0.65);
     display: none;
-    align-items: flex-end;
+    z-index: 4000;
+    overflow-y: auto;
 }
 
 .checkout.ativo {
-    display: flex;
+    display: block;
 }
 
 .checkout-conteudo {
-    width: 100%;
-    max-height: 92vh;
-    overflow-y: auto;
     background: white;
-    border-radius: 22px 22px 0 0;
-    padding: 20px;
-    animation: subir 0.25s ease;
+    width: 100%;
+    max-width: 650px;
+    min-height: 100vh;
+    margin: auto;
+    padding: 22px;
 }
 
 .checkout-conteudo h2 {
-    margin-bottom: 18px;
+    margin-bottom: 20px;
 }
 
 .checkout-conteudo label {
     display: block;
     font-weight: bold;
-    margin-top: 13px;
-    margin-bottom: 5px;
+    margin-top: 14px;
+    margin-bottom: 6px;
 }
 
 .checkout-conteudo input,
-.checkout-conteudo textarea,
-.checkout-conteudo select {
+.checkout-conteudo select,
+.checkout-conteudo textarea {
     width: 100%;
-    padding: 12px;
+    padding: 13px;
     border: 1px solid #ccc;
     border-radius: 10px;
-    font-size: 15px;
+    font-size: 16px;
     outline: none;
 }
 
-.checkout-conteudo input:focus,
-.checkout-conteudo textarea:focus,
-.checkout-conteudo select:focus {
-    border-color: #ff6500;
-}
-
 .checkout-conteudo textarea {
-    min-height: 80px;
+    min-height: 90px;
     resize: vertical;
 }
 
-/* =========================================================
-   BOTÕES
-   ========================================================= */
-
 .botao-whatsapp {
     width: 100%;
-    margin-top: 18px;
-    padding: 14px;
     border: none;
-    border-radius: 12px;
     background: #25d366;
     color: white;
+    padding: 15px;
+    border-radius: 13px;
     font-size: 17px;
     font-weight: bold;
+    margin-top: 18px;
     cursor: pointer;
-}
-
-.botao-whatsapp:hover {
-    filter: brightness(0.95);
 }
 
 .botao-voltar {
     width: 100%;
-    margin-top: 10px;
-    padding: 13px;
     border: none;
-    border-radius: 12px;
-    background: #e9e9e9;
-    color: #333;
+    background: #ddd;
+    color: #222;
+    padding: 14px;
+    border-radius: 13px;
+    font-size: 16px;
     font-weight: bold;
+    margin-top: 10px;
     cursor: pointer;
 }
 
 /* =========================================================
+   MODAL MARMITA
+========================================================= */
+
+#modalMarmita {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.65);
+    display: none;
+    z-index: 5000;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+}
+
+#modalMarmita.ativo {
+    display: flex;
+}
+
+.modal-marmita {
+    width: 100%;
+    max-width: 500px;
+}
+
+.modal-conteudo {
+    background: white;
+    border-radius: 20px;
+    padding: 20px;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.modal-conteudo h2 {
+    margin-bottom: 10px;
+}
+
+#opcoesMistura {
+    margin-top: 15px;
+}
+
+#opcoesMistura label {
+    font-size: 15px;
+}
+
+#opcoesMistura input {
+    width: 20px;
+    height: 20px;
+}
+
+/* =========================================================
    PEDIDO ENVIADO
-   ========================================================= */
+========================================================= */
 
 .pedido-sucesso {
     position: fixed;
     inset: 0;
-    z-index: 3000;
-    background: rgba(0, 0, 0, 0.7);
+    background: rgba(0,0,0,0.75);
     display: none;
     align-items: center;
     justify-content: center;
-    padding: 20px;
+    padding: 15px;
+    z-index: 6000;
 }
 
 .pedido-sucesso.ativo {
@@ -588,43 +579,30 @@ section {
 }
 
 .sucesso-conteudo {
-    width: 100%;
-    max-width: 480px;
     background: white;
+    width: 100%;
+    max-width: 500px;
     border-radius: 22px;
     padding: 25px;
     text-align: center;
-    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-    animation: aparecer 0.3s ease;
-}
-
-@keyframes aparecer {
-    from {
-        opacity: 0;
-        transform: scale(0.92);
-    }
-
-    to {
-        opacity: 1;
-        transform: scale(1);
-    }
+    box-shadow: 0 10px 35px rgba(0,0,0,0.3);
 }
 
 .sucesso-conteudo h2 {
-    color: #168a38;
-    margin-bottom: 12px;
+    color: #2e7d32;
+    margin-bottom: 15px;
 }
 
 .sucesso-conteudo p {
-    margin-bottom: 8px;
+    margin: 10px 0;
 }
 
 /* =========================================================
    RODAPÉ
-   ========================================================= */
+========================================================= */
 
 footer {
-    margin-top: 40px;
+    margin-top: 35px;
     background: #111;
     color: white;
     text-align: center;
@@ -632,15 +610,15 @@ footer {
 }
 
 footer p {
-    font-size: 13px;
-    margin-bottom: 5px;
+    margin: 5px 0;
+    font-size: 14px;
 }
 
 /* =========================================================
-   RESPONSIVO - TABLET
-   ========================================================= */
+   DESKTOP
+========================================================= */
 
-@media (min-width: 600px) {
+@media (min-width: 700px) {
 
     .produtos-grid {
         grid-template-columns: repeat(2, 1fr);
@@ -651,7 +629,7 @@ footer p {
     }
 
     .delivery-grid {
-        grid-template-columns: repeat(2, 1fr);
+        grid-template-columns: repeat(3, 1fr);
     }
 
     .dias-buffet {
@@ -668,54 +646,23 @@ footer p {
     }
 
     .carrinho-conteudo {
-        max-width: 600px;
+        width: 90%;
+        max-width: 650px;
         max-height: 85vh;
         border-radius: 22px;
     }
 
-    .checkout {
-        align-items: center;
-        justify-content: center;
-    }
-
     .checkout-conteudo {
-        max-width: 600px;
-        max-height: 85vh;
+        min-height: auto;
+        margin-top: 40px;
+        margin-bottom: 40px;
         border-radius: 22px;
     }
 }
 
-/* =========================================================
-   RESPONSIVO - COMPUTADOR
-   ========================================================= */
-
-@media (min-width: 900px) {
-
-    .topo {
-        padding: 18px 25px;
-    }
-
-    .logo h1 {
-        font-size: 25px;
-    }
-
-    .banner {
-        padding: 40px;
-    }
-
-    .banner h2 {
-        font-size: 34px;
-    }
+@media (min-width: 1000px) {
 
     .produtos-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
-    .info-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
-    .delivery-grid {
         grid-template-columns: repeat(3, 1fr);
     }
 
@@ -724,73 +671,26 @@ footer p {
     }
 
     .dias-sobremesas {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
-    .categoria {
-        padding: 10px 17px;
-    }
-
-    .produto {
-        min-height: 180px;
+        grid-template-columns: repeat(4, 1fr);
     }
 }
 
 /* =========================================================
-   DESTAQUES
-   ========================================================= */
+   ANIMAÇÕES
+========================================================= */
 
-.preco {
-    color: #e85d00;
-    font-weight: bold;
+button {
+    transition: 0.2s;
 }
 
-.destaque {
-    border: 2px solid #ff6500;
+button:active {
+    transform: scale(0.97);
 }
 
-.esgotado {
-    opacity: 0.6;
+.produto {
+    transition: 0.2s;
 }
 
-.esgotado button {
-    background: #777;
-    cursor: not-allowed;
-}
-
-/* =========================================================
-   UTILITÁRIOS
-   ========================================================= */
-
-.oculto {
-    display: none !important;
-}
-
-.texto-centro {
-    text-align: center;
-}
-
-.mensagem-vazia {
-    text-align: center;
-    background: white;
-    padding: 20px;
-    border-radius: 12px;
-    color: #777;
-}
-
-/* =========================================================
-   SCROLLBAR
-   ========================================================= */
-
-::-webkit-scrollbar {
-    width: 7px;
-}
-
-::-webkit-scrollbar-track {
-    background: #eee;
-}
-
-::-webkit-scrollbar-thumb {
-    background: #aaa;
-    border-radius: 10px;
+.produto:hover {
+    transform: translateY(-2px);
 }
