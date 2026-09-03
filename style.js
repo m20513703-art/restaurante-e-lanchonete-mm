@@ -1,6 +1,6 @@
 /* =========================================================
    RESTAURANTE LANCHONETE MM
-   SCRIPT.JS
+   SCRIPT.JS - NOVO SISTEMA
 ========================================================= */
 
 let carrinho = [];
@@ -12,11 +12,11 @@ const TAXA_ENTREGA = 5.00;
 
 
 /* =========================================================
-   DINHEIRO
+   FORMATAÇÃO
 ========================================================= */
 
 function dinheiro(valor) {
-    return Number(valor).toLocaleString("pt-BR", {
+    return valor.toLocaleString("pt-BR", {
         style: "currency",
         currency: "BRL"
     });
@@ -24,7 +24,7 @@ function dinheiro(valor) {
 
 
 /* =========================================================
-   NAVEGAÇÃO
+   NAVEGAÇÃO ENTRE PÁGINAS
 ========================================================= */
 
 function abrirPagina(id) {
@@ -35,9 +35,11 @@ function abrirPagina(id) {
         inicio.style.display = "none";
     }
 
-    document.querySelectorAll(".pagina-cardapio").forEach(function(pagina) {
-        pagina.style.display = "none";
-    });
+    document.querySelectorAll(".pagina-cardapio").forEach(
+        pagina => {
+            pagina.style.display = "none";
+        }
+    );
 
     const pagina = document.getElementById(id);
 
@@ -54,9 +56,11 @@ function abrirPagina(id) {
 
 function voltarInicio() {
 
-    document.querySelectorAll(".pagina-cardapio").forEach(function(pagina) {
-        pagina.style.display = "none";
-    });
+    document.querySelectorAll(".pagina-cardapio").forEach(
+        pagina => {
+            pagina.style.display = "none";
+        }
+    );
 
     const inicio = document.getElementById("paginaInicio");
 
@@ -64,11 +68,16 @@ function voltarInicio() {
         inicio.style.display = "block";
     }
 
-    const sucesso = document.getElementById("pedidoSucesso");
+    const sucesso =
+        document.getElementById("pedidoSucesso");
 
     if (sucesso) {
         sucesso.classList.remove("ativo");
     }
+
+    carrinho = [];
+
+    atualizarCarrinho();
 
     window.scrollTo({
         top: 0,
@@ -82,6 +91,7 @@ function voltarInicio() {
 ========================================================= */
 
 const pizzasSalgadas = [
+
     ["Atum", "Molho de tomate, atum sólido e cebola fatiada", 52],
     ["Bacon", "Molho de tomate, mussarela, bacon crocante e cebola", 50],
     ["Baiana", "Molho de tomate, mussarela, calabresa moída, ovo, pimenta calabresa e cebola", 52],
@@ -102,10 +112,12 @@ const pizzasSalgadas = [
     ["Strogonoff de Carne", "Molho de tomate, mussarela, strogonoff de carne bovina e batata palha crocante", 60],
     ["Tilápia", "Molho de tomate, mussarela, tiras de filé de tilápia empanadas e molho tártaro", 58],
     ["Vegetariana", "Molho de tomate, mussarela, escarola, milho, ervilha, palmito e tomate", 52]
+
 ];
 
 
 const pizzasDoces = [
+
     ["Banana com Canela", "Mussarela, banana fatiada, açúcar, canela e leite condensado", 45],
     ["Beijinho", "Chocolate branco derretido, leite condensado e coco ralado", 48],
     ["Brigadeiro", "Chocolate ao leite derretido e granulado", 45],
@@ -116,10 +128,12 @@ const pizzasDoces = [
     ["Prestígio", "Chocolate ao leite derretido e coco ralado", 48],
     ["Romeu e Julieta", "Mussarela e goiabada derretida", 45],
     ["Sensação", "Chocolate ao leite com morangos fatiados", 52]
+
 ];
 
 
 const bordas = [
+
     ["Catupiry Original", "Borda recheada", 10],
     ["Cheddar", "Borda recheada", 10],
     ["Mussarela", "Borda recheada", 12],
@@ -130,10 +144,12 @@ const bordas = [
     ["Chocolate Branco", "Borda doce", 12],
     ["Doce de Leite", "Borda doce", 10],
     ["Goiabada", "Borda doce", 10]
+
 ];
 
 
 const complementos = [
+
     ["Azeite Trufado", "Adicional", 8],
     ["Bacon Crocante Extra", "Adicional", 7],
     ["Catupiry Extra", "Adicional", 8],
@@ -144,10 +160,12 @@ const complementos = [
     ["Ovo Cozido Extra", "Adicional", 4],
     ["Parmesão Ralado Frio", "Adicional", 6],
     ["Pimenta Biquinho", "Adicional", 5]
+
 ];
 
 
 const lanches = [
+
     ["X-Burguer", "Pão brioche, hambúrguer 150g, queijo prato e maionese", 20],
     ["X-Salada", "Pão brioche, hambúrguer 150g, queijo, alface, tomate e maionese", 22],
     ["X-Bacon", "Pão brioche, hambúrguer 150g, queijo, bacon e maionese", 26],
@@ -158,10 +176,12 @@ const lanches = [
     ["X-Duplo Cheddar", "Pão brioche, 2 hambúrgueres 150g, cheddar duplo e bacon", 34],
     ["X-Contrafilé", "Pão brioche, contrafilé, queijo prato, cebola e maionese", 30],
     ["X-Vegetariano", "Pão brioche, hambúrguer vegetal, queijo, salada e maionese", 25]
+
 ];
 
 
 const esfihas = [
+
     ["Atum", "Atum, cebola e azeitona", 7.50],
     ["Bacon com Queijo", "Mussarela e bacon", 7.50],
     ["Banana com Canela", "Banana, canela e leite condensado", 6.50],
@@ -187,26 +207,79 @@ const esfihas = [
     ["Romeu e Julieta", "Mussarela e goiabada", 6.50],
     ["Sensação", "Chocolate ao leite e morango", 7.50],
     ["Tomate Seco com Rúcula", "Mussarela de búfala, tomate seco e rúcula", 8]
+
 ];
 
 
 const hotDogs = [
+
     ["Dog Simples", "Pão, 1 salsicha, molho, milho, batata palha e maionese", 14],
     ["Dog Duplo", "Pão, 2 salsichas, molho, purê, milho, batata palha e maionese", 18],
     ["Dog Frango", "Pão, 1 salsicha, frango, catupiry, molho e batata palha", 20],
     ["Dog Bacon", "Pão, 1 salsicha, bacon, cheddar, molho e batata palha", 22],
     ["Dog Tudo", "Pão, 2 salsichas, frango, bacon, purê, milho, cheddar, catupiry e batata palha", 26]
+
 ];
 
 
 const porcoes = [
+
     ["Batata Frita Tradicional (500g)", "Batata frita crocante", 28],
     ["Batata Frita com Cheddar e Bacon (600g)", "Batata, cheddar e bacon", 38],
     ["Calabresa Acebolada (500g)", "Calabresa acebolada", 35],
     ["Frango a Passarinho (700g)", "Frango frito temperado", 42],
     ["Isca de Tilápia (500g)", "Filé de tilápia empanado", 48],
     ["Contrafilé Acebolado na Chapa (500g)", "Contrafilé acebolado na chapa", 55]
+
 ];
+
+
+/* =========================================================
+   CRIAR CARDS
+========================================================= */
+
+function criarCards(lista, elementoId) {
+
+    const container = document.getElementById(elementoId);
+
+    if (!container) return;
+
+    container.innerHTML = "";
+
+    lista.forEach(produto => {
+
+        const nome = produto[0];
+        const descricao = produto[1];
+        const preco = produto[2];
+
+        const card = document.createElement("div");
+
+        card.className = "produto";
+
+        card.innerHTML = `
+
+            <h3>${nome}</h3>
+
+            <p>
+                ${descricao}
+            </p>
+
+            <strong>
+                ${dinheiro(preco)}
+            </strong>
+
+            <button
+                onclick="adicionarProduto('${nome.replace(/'/g, "\\'")}', ${preco})"
+            >
+                🛒 Adicionar
+            </button>
+
+        `;
+
+        container.appendChild(card);
+
+    });
+}
 
 
 /* =========================================================
@@ -214,24 +287,30 @@ const porcoes = [
 ========================================================= */
 
 const refrigerantesLata = [
+
     ["Coca-Cola", "Lata 350ml", 6.50],
     ["Coca-Cola Zero", "Lata 350ml", 6.50],
     ["Guaraná", "Lata 350ml", 6.50],
     ["Fanta", "Lata 350ml", 6.50],
     ["Sprite", "Lata 350ml", 6.50]
+
 ];
 
 
 const refrigerantes2L = [
+
     ["Coca-Cola", "Garrafa 2 litros", 14],
     ["Guaraná Antarctica", "Garrafa 2 litros", 14],
     ["Fanta", "Garrafa 2 litros", 14]
+
 ];
 
 
 const aguas = [
+
     ["Água Mineral sem Gás", "500ml", 4],
     ["Água Mineral com Gás", "500ml", 4.50]
+
 ];
 
 
@@ -240,10 +319,12 @@ const aguas = [
 ========================================================= */
 
 const marmitas = [
+
     ["Marmita Pequena", "Escolha até 1 mistura", 20, 1],
     ["Marmita Média", "Escolha até 2 misturas", 25, 2],
     ["Marmita Grande", "Escolha até 3 misturas", 28, 3],
     ["Marmita Comercial", "Escolha até 4 misturas", 50, 4]
+
 ];
 
 
@@ -300,122 +381,13 @@ const misturasPorDia = {
         "Bacalhau",
         "Massas especiais"
     ]
+
 };
 
 
 /* =========================================================
-   CRIAR PRODUTOS
+   ABRIR MARMITA
 ========================================================= */
-
-function criarCards(lista, id) {
-
-    const container = document.getElementById(id);
-
-    if (!container) return;
-
-    container.innerHTML = "";
-
-    lista.forEach(function(produto) {
-
-        const nome = produto[0];
-        const descricao = produto[1];
-        const preco = produto[2];
-
-        const card = document.createElement("div");
-
-        card.className = "produto";
-
-        const titulo = document.createElement("h3");
-        titulo.textContent = nome;
-
-        const texto = document.createElement("p");
-        texto.textContent = descricao;
-
-        const valor = document.createElement("strong");
-        valor.textContent = dinheiro(preco);
-
-        const botao = document.createElement("button");
-
-        botao.textContent = "🛒 Adicionar";
-
-        botao.addEventListener("click", function() {
-            adicionarProduto(nome, preco);
-        });
-
-        card.appendChild(titulo);
-        card.appendChild(texto);
-        card.appendChild(valor);
-        card.appendChild(botao);
-
-        container.appendChild(card);
-    });
-}
-
-
-/* =========================================================
-   MARMITAS
-========================================================= */
-
-function criarMarmitas() {
-
-    const container =
-        document.getElementById("listaMarmitas");
-
-    if (!container) return;
-
-    container.innerHTML = "";
-
-    marmitas.forEach(function(marmita) {
-
-        const card =
-            document.createElement("div");
-
-        card.className = "produto";
-
-        const titulo =
-            document.createElement("h3");
-
-        titulo.textContent =
-            "🍱 " + marmita[0];
-
-        const descricao =
-            document.createElement("p");
-
-        descricao.textContent =
-            marmita[1];
-
-        const valor =
-            document.createElement("strong");
-
-        valor.textContent =
-            dinheiro(marmita[2]);
-
-        const botao =
-            document.createElement("button");
-
-        botao.textContent =
-            "🍱 Escolher mistura";
-
-        botao.addEventListener(
-            "click",
-            function() {
-                abrirEscolhaMarmita(
-                    marmita[0],
-                    marmita[2],
-                    marmita[3]
-                );
-            }
-        );
-
-        card.appendChild(titulo);
-        card.appendChild(descricao);
-        card.appendChild(valor);
-        card.appendChild(botao);
-
-        container.appendChild(card);
-    });
-}
-
 
 function abrirEscolhaMarmita(nome, preco, limite) {
 
@@ -434,57 +406,46 @@ function abrirEscolhaMarmita(nome, preco, limite) {
     const opcoes =
         document.getElementById("opcoesMistura");
 
-    if (!modal || !texto || !opcoes) {
-        alert("Erro: área de marmita não encontrada.");
-        return;
-    }
+    if (!modal || !texto || !opcoes) return;
 
-    texto.innerHTML =
-        `<strong>${nome}</strong><br>Escolha até ${limite} mistura(s).`;
+    texto.innerHTML = `
+        <strong>${nome}</strong>
+        <br>
+        Escolha até ${limite} mistura(s).
+    `;
 
-    opcoes.innerHTML = "";
-
-    const dia =
-        new Date().getDay();
+    const dia = new Date().getDay();
 
     const misturas =
         misturasPorDia[dia] || [];
 
-    misturas.forEach(function(mistura) {
+    opcoes.innerHTML = "";
 
-        const label =
-            document.createElement("label");
+    misturas.forEach((mistura, index) => {
 
-        label.className =
-            "opcao-mistura";
+        const div = document.createElement("div");
 
-        const checkbox =
-            document.createElement("input");
+        div.innerHTML = `
 
-        checkbox.type =
-            "checkbox";
+            <label class="opcao-mistura">
 
-        checkbox.name =
-            "misturaMarmita";
+                <input
+                    type="checkbox"
+                    name="misturaMarmita"
+                    value="${mistura}"
+                    onchange="limitarMisturas()"
+                >
 
-        checkbox.value =
-            mistura;
+                <span>
+                    ${mistura}
+                </span>
 
-        checkbox.addEventListener(
-            "change",
-            limitarMisturas
-        );
+            </label>
 
-        const span =
-            document.createElement("span");
+        `;
 
-        span.textContent =
-            mistura;
+        opcoes.appendChild(div);
 
-        label.appendChild(checkbox);
-        label.appendChild(span);
-
-        opcoes.appendChild(label);
     });
 
     modal.classList.add("ativo");
@@ -525,12 +486,6 @@ function fecharEscolhaMarmita() {
         modal.classList.remove("ativo");
     }
 
-    document.querySelectorAll(
-        'input[name="misturaMarmita"]'
-    ).forEach(function(input) {
-        input.checked = false;
-    });
-
     marmitaAtual = null;
 }
 
@@ -555,42 +510,33 @@ function confirmarMarmita() {
         return;
     }
 
-    const nomes =
-        selecionadas.map(function(input) {
-            return input.value;
-        });
+    const misturas =
+        selecionadas.map(
+            item => item.value
+        );
 
     const nomeCompleto =
-        marmitaAtual.nome +
-        " - " +
-        nomes.join(", ");
+        `${marmitaAtual.nome} - ${misturas.join(", ")}`;
 
-    carrinho.push({
-        nome: nomeCompleto,
-        preco: marmitaAtual.preco,
-        quantidade: 1
-    });
-
-    atualizarCarrinho();
+    adicionarProduto(
+        nomeCompleto,
+        marmitaAtual.preco
+    );
 
     fecharEscolhaMarmita();
-
-    alert(
-        "✅ Marmita adicionada ao carrinho!"
-    );
 }
 
 
 /* =========================================================
-   CARRINHO
+   ADICIONAR PRODUTO
 ========================================================= */
 
 function adicionarProduto(nome, preco) {
 
     const existente =
-        carrinho.find(function(item) {
-            return item.nome === nome;
-        });
+        carrinho.find(
+            item => item.nome === nome
+        );
 
     if (existente) {
 
@@ -600,18 +546,23 @@ function adicionarProduto(nome, preco) {
 
         carrinho.push({
             nome: nome,
-            preco: Number(preco),
+            preco: preco,
             quantidade: 1
         });
+
     }
 
     atualizarCarrinho();
 
     alert(
-        "✅ " + nome + " foi adicionado ao carrinho!"
+        `✅ ${nome} foi adicionado ao carrinho!`
     );
 }
 
+
+/* =========================================================
+   CARRINHO
+========================================================= */
 
 function atualizarCarrinho() {
 
@@ -631,72 +582,88 @@ function atualizarCarrinho() {
     let totalProdutos = 0;
     let quantidadeTotal = 0;
 
+    carrinho.forEach((item, index) => {
+
+        const subtotal =
+            item.preco * item.quantidade;
+
+        totalProdutos += subtotal;
+
+        quantidadeTotal += item.quantidade;
+
+        const div =
+            document.createElement("div");
+
+        div.className =
+            "item-carrinho";
+
+        div.innerHTML = `
+
+            <div>
+
+                <strong>
+                    ${item.nome}
+                </strong>
+
+                <small>
+                    ${dinheiro(item.preco)} cada
+                </small>
+
+                <small>
+                    Subtotal:
+                    ${dinheiro(subtotal)}
+                </small>
+
+            </div>
+
+            <div class="controle-quantidade">
+
+                <button
+                    onclick="diminuirQuantidade(${index})"
+                >
+                    −
+                </button>
+
+                <strong>
+                    ${item.quantidade}
+                </strong>
+
+                <button
+                    onclick="aumentarQuantidade(${index})"
+                >
+                    +
+                </button>
+
+                <button
+                    class="remover-item"
+                    onclick="removerProduto(${index})"
+                >
+                    🗑️
+                </button>
+
+            </div>
+        `;
+
+        lista.appendChild(div);
+
+    });
+
     if (carrinho.length === 0) {
 
-        lista.innerHTML =
-            `<div class="mensagem-vazia">
+        lista.innerHTML = `
+            <div class="mensagem-vazia">
                 🛒 Seu carrinho está vazio.
-            </div>`;
+            </div>
+        `;
 
-    } else {
-
-        carrinho.forEach(function(item, index) {
-
-            const subtotal =
-                item.preco * item.quantidade;
-
-            totalProdutos += subtotal;
-
-            quantidadeTotal +=
-                item.quantidade;
-
-            const div =
-                document.createElement("div");
-
-            div.className =
-                "item-carrinho";
-
-            div.innerHTML = `
-                <div>
-                    <strong>${item.nome}</strong>
-                    <small>${dinheiro(item.preco)} cada</small>
-                    <small>Subtotal: ${dinheiro(subtotal)}</small>
-                </div>
-
-                <div class="controle-quantidade">
-
-                    <button
-                        onclick="diminuirQuantidade(${index})"
-                    >
-                        −
-                    </button>
-
-                    <strong>
-                        ${item.quantidade}
-                    </strong>
-
-                    <button
-                        onclick="aumentarQuantidade(${index})"
-                    >
-                        +
-                    </button>
-
-                    <button
-                        class="remover-item"
-                        onclick="removerProduto(${index})"
-                    >
-                        🗑️
-                    </button>
-
-                </div>
-            `;
-
-            lista.appendChild(div);
-        });
     }
 
-    total.innerHTML =
-        `<h3>Total: ${dinheiro(totalProdutos)}</h3>`;
+    total.innerHTML = `
+        <h3>
+            Total:
+            ${dinheiro(totalProdutos)}
+        </h3>
+    `;
 
     if (quantidade) {
         quantidade.textContent =
@@ -707,8 +674,6 @@ function atualizarCarrinho() {
 
 function aumentarQuantidade(index) {
 
-    if (!carrinho[index]) return;
-
     carrinho[index].quantidade++;
 
     atualizarCarrinho();
@@ -716,8 +681,6 @@ function aumentarQuantidade(index) {
 
 
 function diminuirQuantidade(index) {
-
-    if (!carrinho[index]) return;
 
     if (
         carrinho[index].quantidade > 1
@@ -736,8 +699,6 @@ function diminuirQuantidade(index) {
 
 function removerProduto(index) {
 
-    if (!carrinho[index]) return;
-
     carrinho.splice(index, 1);
 
     atualizarCarrinho();
@@ -745,16 +706,19 @@ function removerProduto(index) {
 
 
 /* =========================================================
-   ABRIR CARRINHO
+   ABRIR / FECHAR CARRINHO
 ========================================================= */
 
 function abrirCarrinho() {
 
-    const elemento =
+    const carrinhoElemento =
         document.getElementById("carrinho");
 
-    if (elemento) {
-        elemento.classList.add("ativo");
+    if (carrinhoElemento) {
+
+        carrinhoElemento.classList.add(
+            "ativo"
+        );
     }
 
     atualizarCarrinho();
@@ -763,11 +727,14 @@ function abrirCarrinho() {
 
 function fecharCarrinho() {
 
-    const elemento =
+    const carrinhoElemento =
         document.getElementById("carrinho");
 
-    if (elemento) {
-        elemento.classList.remove("ativo");
+    if (carrinhoElemento) {
+
+        carrinhoElemento.classList.remove(
+            "ativo"
+        );
     }
 }
 
@@ -794,7 +761,9 @@ function irParaCheckout() {
 
     if (checkout) {
 
-        checkout.classList.add("ativo");
+        checkout.classList.add(
+            "ativo"
+        );
 
         atualizarCheckout();
     }
@@ -807,56 +776,70 @@ function voltarCardapio() {
         document.getElementById("checkout");
 
     if (checkout) {
-        checkout.classList.remove("ativo");
+
+        checkout.classList.remove(
+            "ativo"
+        );
     }
 }
 
 
+/* =========================================================
+   CHECKOUT / TOTAL
+========================================================= */
+
 function atualizarCheckout() {
 
     const resumo =
-        document.getElementById("resumoCheckout");
+        document.getElementById(
+            "resumoCheckout"
+        );
 
     if (!resumo) return;
 
-    let produtos = 0;
+    let totalProdutos = 0;
 
-    carrinho.forEach(function(item) {
+    carrinho.forEach(item => {
 
-        produtos +=
-            item.preco *
-            item.quantidade;
+        totalProdutos +=
+            item.preco * item.quantidade;
+
     });
 
     const tipo =
-        document.getElementById("tipoEntrega");
+        document.getElementById(
+            "tipoEntrega"
+        );
 
-    let entrega = 0;
+    let taxa = 0;
 
     if (
         tipo &&
         tipo.value === "delivery"
     ) {
-        entrega = TAXA_ENTREGA;
+
+        taxa = TAXA_ENTREGA;
+
     }
 
-    const total =
-        produtos + entrega;
+    const totalFinal =
+        totalProdutos + taxa;
 
     resumo.innerHTML = `
+
         <div class="resumo-final">
 
             <p>
                 Produtos:
                 <strong>
-                    ${dinheiro(produtos)}
+                    ${dinheiro(totalProdutos)}
                 </strong>
             </p>
 
             <p>
                 Entrega:
                 <strong>
-                    ${dinheiro(entrega)}
+                    ${dinheiro(taxa)}
                 </strong>
             </p>
 
@@ -864,7 +847,7 @@ function atualizarCheckout() {
 
             <h3>
                 TOTAL:
-                ${dinheiro(total)}
+                ${dinheiro(totalFinal)}
             </h3>
 
         </div>
@@ -873,7 +856,7 @@ function atualizarCheckout() {
 
 
 /* =========================================================
-   ENTREGA
+   ENTREGA / RETIRADA
 ========================================================= */
 
 document.addEventListener(
@@ -927,8 +910,7 @@ function verificarHorario() {
 
     if (!status) return;
 
-    const agora =
-        new Date();
+    const agora = new Date();
 
     const dia =
         agora.getDay();
@@ -938,35 +920,39 @@ function verificarHorario() {
         agora.getMinutes();
 
     let aberto = false;
-    let mensagem = "🔴 FECHADO";
+    let mensagem = "";
 
 
     /* ALMOÇO */
 
     if (
         dia >= 1 &&
-        dia <= 5 &&
-        minutos >= 660 &&
-        minutos < 900
+        dia <= 5
     ) {
 
-        aberto = true;
+        if (
+            minutos >= 660 &&
+            minutos < 900
+        ) {
 
-        mensagem =
-            "🟢 ABERTO - ALMOÇO";
-    }
+            aberto = true;
 
+            mensagem =
+                "🟢 ABERTO - ALMOÇO";
+        }
 
-    if (
-        (dia === 0 || dia === 6) &&
-        minutos >= 690 &&
-        minutos < 930
-    ) {
+    } else {
 
-        aberto = true;
+        if (
+            minutos >= 690 &&
+            minutos < 930
+        ) {
 
-        mensagem =
-            "🟢 ABERTO - ALMOÇO";
+            aberto = true;
+
+            mensagem =
+                "🟢 ABERTO - ALMOÇO";
+        }
     }
 
 
@@ -974,17 +960,27 @@ function verificarHorario() {
 
     if (
         dia >= 2 &&
-        dia <= 6 &&
-        minutos >= 1080 &&
-        minutos < 1350
+        dia <= 6
     ) {
 
-        aberto = true;
+        if (
+            minutos >= 1080 &&
+            minutos < 1350
+        ) {
 
-        mensagem =
-            "🟢 ABERTO - NOITE";
+            aberto = true;
+
+            mensagem =
+                "🟢 ABERTO - NOITE";
+        }
     }
 
+
+    if (!aberto) {
+
+        mensagem =
+            "🔴 FECHADO";
+    }
 
     status.textContent =
         mensagem;
@@ -992,59 +988,60 @@ function verificarHorario() {
 
 
 /* =========================================================
-   SOBREMESAS
+   SOBREMESAS DO DIA
 ========================================================= */
 
 const sobremesasPorDia = {
 
     0: [
-        "🍫 Mousse aveludada de chocolate meio amargo",
-        "🍑 Pavê de pêssego em calda com creme branco",
-        "🥭 Manga fatiada com raspas de coco queimado",
-        "🧀 Romeu e Julieta"
+        "🍫 Tradição: Mousse aveludada de chocolate meio amargo",
+        "🍑 Frutada: Pavê de pêssego em calda com creme branco",
+        "🥭 Leve/Fit: Manga fatiada com raspas de coco queimado",
+        "🧀 Rápida: Romeu e Julieta"
     ],
 
     1: [
-        "🍮 Pudim de leite condensado com calda de caramelo",
-        "🥭 Mousse de maracujá",
-        "🍍 Salada de frutas tropicais com hortelã",
-        "🍓 Gelatina de morango com creme de leite"
+        "🍮 Tradição: Pudim de leite condensado com calda de caramelo",
+        "🥭 Frutada: Mousse de maracujá",
+        "🍍 Leve/Fit: Salada de frutas tropicais com hortelã",
+        "🍓 Rápida: Gelatina de morango com creme de leite"
     ],
 
     2: [
-        "🍫 Brigadeiro de colher com granulado",
-        "🍌 Banana assada com canela e mel",
-        "🍍 Abacaxi com raspas de limão",
-        "🍈 Creme de papaya"
+        "🍫 Tradição: Brigadeiro de colher com granulado",
+        "🍌 Frutada: Banana assada com canela e mel",
+        "🍍 Leve/Fit: Abacaxi fatiado com raspas de limão siciliano",
+        "🍈 Rápida: Creme de papaya"
     ],
 
     3: [
-        "🍰 Pavê de biscoito champagne e baunilha",
-        "🍋 Torta gelada de limão",
-        "🍓 Sorbet de morango e banana",
-        "🍓 Morango com leite condensado"
+        "🍰 Tradição: Pavê de biscoito champagne e baunilha",
+        "🍋 Frutada: Torta gelada de limão",
+        "🍓 Leve/Fit: Sorbet de morango e banana",
+        "🍓 Rápida: Morango com leite condensado"
     ],
 
     4: [
-        "🍚 Arroz doce cremoso com canela",
-        "🍑 Compota de ameixa com creme de baunilha",
-        "🍎 Maçã assada com nozes",
-        "🍮 Mousse de doce de leite"
+        "🍚 Tradição: Arroz doce cremoso com canela",
+        "🍑 Frutada: Compota de ameixa com creme de baunilha",
+        "🍎 Leve/Fit: Maçã assada com nozes",
+        "🍮 Rápida: Mousse de doce de leite"
     ],
 
     5: [
-        "🍫 Petit gâteau de chocolate com sorvete",
-        "🍎 Torta aberta de maçã",
-        "🍓 Espetinho de frutas frescas",
-        "🍫 Fondue de chocolate"
+        "🍫 Tradição: Petit gâteau com sorvete",
+        "🍎 Frutada: Torta aberta de maçã",
+        "🍓 Leve/Fit: Espetinho de frutas",
+        "🍫 Rápida: Fondue de chocolate"
     ],
 
     6: [
-        "🍰 Torta Holandesa tradicional",
-        "🍓 Cheesecake com frutas vermelhas",
-        "🥑 Mousse de cacau 70%",
-        "🍨 Sorvete de creme com brigadeiro"
+        "🍰 Tradição: Torta Holandesa",
+        "🍓 Frutada: Cheesecake com frutas vermelhas",
+        "🥑 Leve/Fit: Mousse de cacau 70%",
+        "🍨 Rápida: Sorvete de creme com brigadeiro"
     ]
+
 };
 
 
@@ -1067,7 +1064,7 @@ function mostrarSobremesasDoDia() {
 
     if (!lista) return;
 
-    lista.forEach(function(item) {
+    lista.forEach(item => {
 
         const div =
             document.createElement("div");
@@ -1075,15 +1072,12 @@ function mostrarSobremesasDoDia() {
         div.className =
             "dia-sobremesa";
 
-        const p =
-            document.createElement("p");
-
-        p.textContent =
-            item;
-
-        div.appendChild(p);
+        div.innerHTML = `
+            <p>${item}</p>
+        `;
 
         container.appendChild(div);
+
     });
 }
 
@@ -1164,10 +1158,10 @@ function enviarPedidoWhatsApp() {
 
     let totalProdutos = 0;
 
-    let itens = "";
+    let itensTexto = "";
 
 
-    carrinho.forEach(function(item) {
+    carrinho.forEach(item => {
 
         const subtotal =
             item.preco *
@@ -1176,8 +1170,9 @@ function enviarPedidoWhatsApp() {
         totalProdutos +=
             subtotal;
 
-        itens +=
+        itensTexto +=
             `• ${item.quantidade}x ${item.nome} - ${dinheiro(subtotal)}\n`;
+
     });
 
 
@@ -1191,20 +1186,21 @@ function enviarPedidoWhatsApp() {
         totalProdutos + taxa;
 
 
-    const numero =
+    const numeroPedido =
         gerarNumeroPedido();
 
 
     let mensagem =
+
 `🍔 RESTAURANTE LANCHONETE MM
 📋 NOVO PEDIDO
 
-🔢 Pedido nº ${numero}
+🔢 Pedido nº ${numeroPedido}
 
 👤 Cliente: ${nome}
 
-🛒 ITENS:
-${itens}
+🛒 ITENS DO PEDIDO:
+${itensTexto}
 💰 Produtos: ${dinheiro(totalProdutos)}
 🚚 Entrega: ${dinheiro(taxa)}
 💵 TOTAL: ${dinheiro(total)}
@@ -1215,7 +1211,8 @@ ${itens}
     if (tipo === "delivery") {
 
         mensagem +=
-`🛵 Delivery
+
+`🛵 Tipo: Delivery
 📍 Endereço: ${endereco}
 ⏱️ Tempo estimado: 60 a 80 minutos
 
@@ -1224,8 +1221,9 @@ ${itens}
     } else {
 
         mensagem +=
-`🏪 Retirada no balcão
-⏱️ Pedido sendo preparado para retirada.
+
+`🏪 Tipo: Retirada no balcão
+⏱️ Seu pedido está sendo preparado para retirada no balcão.
 
 `;
     }
@@ -1243,28 +1241,33 @@ ${itens}
 
 
     pedidoAtual = {
-        numero: numero,
+
+        numero: numeroPedido,
+
         nome: nome,
+
         total: total,
+
         endereco:
             tipo === "delivery"
                 ? endereco
                 : "Retirada no balcão",
+
         tipoEntrega: tipo
+
     };
 
 
     localStorage.setItem(
         "ultimoPedidoMM",
-        JSON.stringify(pedidoAtual)
+        JSON.stringify(
+            pedidoAtual
+        )
     );
 
 
     const url =
-        "https://wa.me/" +
-        WHATSAPP +
-        "?text=" +
-        encodeURIComponent(mensagem);
+        `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(mensagem)}`;
 
 
     window.open(
@@ -1303,7 +1306,7 @@ function gerarNumeroPedido() {
 
 
 /* =========================================================
-   SUCESSO
+   TELA DE SUCESSO
 ========================================================= */
 
 function mostrarSucesso() {
@@ -1315,28 +1318,28 @@ function mostrarSucesso() {
 
     if (!tela) return;
 
+    const numero =
+        document.getElementById(
+            "numeroPedidoSucesso"
+        );
+
+    const tempo =
+        document.getElementById(
+            "tempoPedidoSucesso"
+        );
+
+    const total =
+        document.getElementById(
+            "totalPedidoSucesso"
+        );
+
+    const endereco =
+        document.getElementById(
+            "enderecoPedidoSucesso"
+        );
+
+
     if (pedidoAtual) {
-
-        const numero =
-            document.getElementById(
-                "numeroPedidoSucesso"
-            );
-
-        const tempo =
-            document.getElementById(
-                "tempoPedidoSucesso"
-            );
-
-        const total =
-            document.getElementById(
-                "totalPedidoSucesso"
-            );
-
-        const endereco =
-            document.getElementById(
-                "enderecoPedidoSucesso"
-            );
-
 
         if (numero) {
 
@@ -1380,17 +1383,22 @@ function mostrarSucesso() {
         }
     }
 
-    tela.classList.add("ativo");
+
+    tela.classList.add(
+        "ativo"
+    );
 }
 
 
 /* =========================================================
-   INICIAR SISTEMA
+   INICIALIZAÇÃO
 ========================================================= */
 
 document.addEventListener(
     "DOMContentLoaded",
     function() {
+
+        /* PIZZAS */
 
         criarCards(
             pizzasSalgadas,
@@ -1412,25 +1420,40 @@ document.addEventListener(
             "listaComplementos"
         );
 
+
+        /* LANCHES */
+
         criarCards(
             lanches,
             "listaLanches"
         );
+
+
+        /* ESFIHAS */
 
         criarCards(
             esfihas,
             "listaEsfihas"
         );
 
+
+        /* HOT DOG */
+
         criarCards(
             hotDogs,
             "listaHotDog"
         );
 
+
+        /* PORÇÕES */
+
         criarCards(
             porcoes,
             "listaPorcoes"
         );
+
+
+        /* BEBIDAS */
 
         criarCards(
             refrigerantesLata,
@@ -1447,13 +1470,103 @@ document.addEventListener(
             "listaAguas"
         );
 
-        criarMarmitas();
 
-        mostrarSobremesasDoDia();
+        /* MARMITAS */
+
+        const listaMarmitas =
+            document.getElementById(
+                "listaMarmitas"
+            );
+
+        if (listaMarmitas) {
+
+            listaMarmitas.innerHTML = "";
+
+            marmitas.forEach(
+                marmita => {
+
+                    const card =
+                        document.createElement(
+                            "div"
+                        );
+
+                    card.className =
+                        "produto";
+
+                    card.innerHTML = `
+
+                        <h3>
+                            🍱 ${marmita[0]}
+                        </h3>
+
+                        <p>
+                            ${marmita[1]}
+                        </p>
+
+                        <strong>
+                            ${dinheiro(marmita[2])}
+                        </strong>
+
+                        <button
+                            onclick="abrirEscolhaMarmita(
+                                '${marmita[0]}',
+                                ${marmita[2]},
+                                ${marmita[3]}
+                            )"
+                        >
+                            🍱 Escolher mistura
+                        </button>
+
+                    `;
+
+                    listaMarmitas.appendChild(
+                        card
+                    );
+                }
+            );
+        }
+
+
+        /* OUTRAS FUNÇÕES */
 
         verificarHorario();
 
+        mostrarSobremesasDoDia();
+
         atualizarCarrinho();
+
+
+        /* ENTREGA */
+
+        const tipo =
+            document.getElementById(
+                "tipoEntrega"
+            );
+
+        const area =
+            document.getElementById(
+                "enderecoArea"
+            );
+
+        if (
+            tipo &&
+            area
+        ) {
+
+            if (
+                tipo.value ===
+                "delivery"
+            ) {
+
+                area.style.display =
+                    "block";
+
+            } else {
+
+                area.style.display =
+                    "none";
+            }
+        }
 
 
         setInterval(
