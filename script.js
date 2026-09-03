@@ -1,35 +1,30 @@
-// ==========================================
-// RESTAURANTE LANCHONETE MM
-// SCRIPT PRINCIPAL
-// ==========================================
-
-
-// ==========================================
-// VARIÁVEIS
-// ==========================================
+/* =========================================================
+   RESTAURANTE LANCHONETE MM
+   SCRIPT.JS
+========================================================= */
 
 let carrinho = [];
-
 let pedidoAtual = null;
 
+const WHATSAPP = "5519981123401";
+const TAXA_ENTREGA = 5.00;
 
-// ==========================================
-// FORMATAÇÃO DE DINHEIRO
-// ==========================================
+
+/* =========================================================
+   FORMATAR DINHEIRO
+========================================================= */
 
 function formatarDinheiro(valor) {
-
     return valor.toLocaleString("pt-BR", {
         style: "currency",
         currency: "BRL"
     });
-
 }
 
 
-// ==========================================
-// ADICIONAR PRODUTO
-// ==========================================
+/* =========================================================
+   CARRINHO
+========================================================= */
 
 function adicionarProduto(nome, preco) {
 
@@ -37,78 +32,53 @@ function adicionarProduto(nome, preco) {
         item => item.nome === nome
     );
 
-
     if (produtoExistente) {
-
         produtoExistente.quantidade++;
-
     } else {
-
         carrinho.push({
-
             nome: nome,
             preco: preco,
             quantidade: 1
-
         });
-
     }
-
 
     atualizarCarrinho();
 
-    alert("✅ " + nome + " foi adicionado ao carrinho!");
-
+    alert("✅ Produto adicionado ao carrinho!");
 }
 
 
-// ==========================================
-// ATUALIZAR CARRINHO
-// ==========================================
-
 function atualizarCarrinho() {
 
-    const lista = document.getElementById(
-        "listaCarrinho"
-    );
+    const lista = document.getElementById("listaCarrinho");
+    const total = document.getElementById("totalCarrinho");
+    const quantidade = document.getElementById("quantidadeCarrinho");
 
-    const contador = document.getElementById(
-        "contadorCarrinho"
-    );
-
-    const totalElemento = document.getElementById(
-        "totalCarrinho"
-    );
-
-
-    if (!lista) return;
-
+    if (!lista || !total) return;
 
     lista.innerHTML = "";
 
+    let totalProdutos = 0;
+    let quantidadeTotal = 0;
 
     if (carrinho.length === 0) {
 
         lista.innerHTML = `
-            <p>
+            <div class="mensagem-vazia">
                 🛒 Seu carrinho está vazio.
-            </p>
+            </div>
         `;
 
-        contador.textContent = "0";
+        total.innerHTML = `
+            <h3>Total: R$ 0,00</h3>
+        `;
 
-        totalElemento.textContent =
-            formatarDinheiro(0);
-
-        atualizarCheckout();
+        if (quantidade) {
+            quantidade.textContent = "0";
+        }
 
         return;
     }
-
-
-    let total = 0;
-
-    let quantidadeTotal = 0;
 
 
     carrinho.forEach((item, index) => {
@@ -116,102 +86,70 @@ function atualizarCarrinho() {
         const subtotal =
             item.preco * item.quantidade;
 
-
-        total += subtotal;
-
+        totalProdutos += subtotal;
         quantidadeTotal += item.quantidade;
-
 
         const div = document.createElement("div");
 
         div.className = "item-carrinho";
 
-
         div.innerHTML = `
-
             <div>
-
-                <strong>
-                    ${item.nome}
-                </strong>
-
-                <p>
-                    ${formatarDinheiro(item.preco)}
-                    cada
-                </p>
-
+                <strong>${item.nome}</strong>
+                <small>${formatarDinheiro(item.preco)} cada</small>
+                <small>Subtotal: ${formatarDinheiro(subtotal)}</small>
             </div>
-
 
             <div class="controle-quantidade">
 
-                <button
-                    onclick="diminuirQuantidade(${index})">
+                <button onclick="diminuirQuantidade(${index})">
                     −
                 </button>
 
-                <span>
-                    ${item.quantidade}
-                </span>
+                <strong>${item.quantidade}</strong>
 
-                <button
-                    onclick="aumentarQuantidade(${index})">
+                <button onclick="aumentarQuantidade(${index})">
                     +
                 </button>
 
+                <button
+                    class="remover-item"
+                    onclick="removerProduto(${index})"
+                >
+                    🗑️
+                </button>
+
             </div>
-
-
-            <strong>
-                ${formatarDinheiro(subtotal)}
-            </strong>
-
-
-            <button
-                class="remover-item"
-                onclick="removerProduto(${index})">
-
-                🗑️
-
-            </button>
-
         `;
-
 
         lista.appendChild(div);
 
     });
 
 
-    contador.textContent =
-        quantidadeTotal;
+    total.innerHTML = `
+        <div style="margin-top:15px;">
+            <h3>
+                Total dos produtos:
+                ${formatarDinheiro(totalProdutos)}
+            </h3>
+        </div>
+    `;
 
 
-    totalElemento.textContent =
-        formatarDinheiro(total);
-
-
-    atualizarCheckout();
-
+    if (quantidade) {
+        quantidade.textContent = quantidadeTotal;
+    }
 }
 
-
-// ==========================================
-// AUMENTAR QUANTIDADE
-// ==========================================
 
 function aumentarQuantidade(index) {
 
     carrinho[index].quantidade++;
 
     atualizarCarrinho();
-
 }
 
-
-// ==========================================
-// DIMINUIR QUANTIDADE
-// ==========================================
 
 function diminuirQuantidade(index) {
 
@@ -225,231 +163,184 @@ function diminuirQuantidade(index) {
 
     }
 
-
     atualizarCarrinho();
-
 }
 
-
-// ==========================================
-// REMOVER PRODUTO
-// ==========================================
 
 function removerProduto(index) {
 
     carrinho.splice(index, 1);
 
     atualizarCarrinho();
-
 }
 
 
-// ==========================================
-// ABRIR CARRINHO
-// ==========================================
+/* =========================================================
+   ABRIR / FECHAR CARRINHO
+========================================================= */
 
 function abrirCarrinho() {
 
     const carrinhoElemento =
         document.getElementById("carrinho");
 
-
     if (carrinhoElemento) {
-
         carrinhoElemento.classList.add("ativo");
-
     }
 
+    atualizarCarrinho();
 }
 
-
-// ==========================================
-// FECHAR CARRINHO
-// ==========================================
 
 function fecharCarrinho() {
 
     const carrinhoElemento =
         document.getElementById("carrinho");
 
-
     if (carrinhoElemento) {
-
         carrinhoElemento.classList.remove("ativo");
-
     }
-
 }
 
 
-// ==========================================
-// IR PARA CHECKOUT
-// ==========================================
+/* =========================================================
+   CHECKOUT
+========================================================= */
 
 function irParaCheckout() {
 
     if (carrinho.length === 0) {
 
-        alert(
-            "🛒 Seu carrinho está vazio!"
-        );
+        alert("🛒 Seu carrinho está vazio!");
 
         return;
-
     }
 
-
     fecharCarrinho();
-
 
     const checkout =
         document.getElementById("checkout");
 
+    if (checkout) {
 
-    checkout.classList.add("ativo");
+        checkout.classList.add("ativo");
 
+        atualizarCheckout();
 
-    checkout.scrollIntoView({
-        behavior: "smooth"
-    });
-
-
-    atualizarCheckout();
-
+    }
 }
 
-
-// ==========================================
-// VOLTAR AO CARDÁPIO
-// ==========================================
 
 function voltarCardapio() {
 
     const checkout =
         document.getElementById("checkout");
 
+    if (checkout) {
+        checkout.classList.remove("ativo");
+    }
 
-    checkout.classList.remove("ativo");
-
-
-    window.scrollTo({
-
-        top: 0,
-
-        behavior: "smooth"
-
-    });
-
+    fecharCarrinho();
 }
 
 
-// ==========================================
-// ATUALIZAR CHECKOUT
-// ==========================================
-
 function atualizarCheckout() {
 
-    const subtotalElemento =
-        document.getElementById(
-            "subtotalCheckout"
-        );
+    const resumo =
+        document.getElementById("resumoCheckout");
+
+    if (!resumo) return;
 
 
-    const taxaElemento =
-        document.getElementById(
-            "taxaEntrega"
-        );
-
-
-    const totalElemento =
-        document.getElementById(
-            "totalCheckout"
-        );
-
-
-    if (!subtotalElemento) return;
-
-
-    let subtotal = 0;
-
+    let totalProdutos = 0;
 
     carrinho.forEach(item => {
 
-        subtotal +=
-            item.preco *
-            item.quantidade;
+        totalProdutos +=
+            item.preco * item.quantidade;
 
     });
 
 
     const tipoEntrega =
-        document.querySelector(
-            'input[name="tipoEntrega"]:checked'
-        );
+        document.getElementById("tipoEntrega");
 
 
-    let taxaEntrega = 0;
-
+    let taxa = 0;
 
     if (
         tipoEntrega &&
         tipoEntrega.value === "delivery"
     ) {
 
-        taxaEntrega = 5;
+        taxa = TAXA_ENTREGA;
 
     }
 
 
-    const total =
-        subtotal + taxaEntrega;
+    const totalFinal =
+        totalProdutos + taxa;
 
 
-    subtotalElemento.textContent =
-        formatarDinheiro(subtotal);
+    resumo.innerHTML = `
+        <div
+            style="
+                background:#f5f5f5;
+                padding:15px;
+                border-radius:12px;
+                margin-top:15px;
+            "
+        >
 
+            <p>
+                Produtos:
+                <strong>${formatarDinheiro(totalProdutos)}</strong>
+            </p>
 
-    taxaElemento.textContent =
-        formatarDinheiro(taxaEntrega);
+            <p>
+                Entrega:
+                <strong>${formatarDinheiro(taxa)}</strong>
+            </p>
 
+            <hr style="margin:10px 0;">
 
-    totalElemento.textContent =
-        formatarDinheiro(total);
+            <h3>
+                Total:
+                ${formatarDinheiro(totalFinal)}
+            </h3>
 
+        </div>
+    `;
 }
 
 
-// ==========================================
-// ALTERAR TIPO DE ENTREGA
-// ==========================================
+/* =========================================================
+   ENTREGA / RETIRADA
+========================================================= */
 
 document.addEventListener(
     "change",
     function(event) {
 
-        if (
-            event.target.name ===
-            "tipoEntrega"
-        ) {
+        if (event.target.id === "tipoEntrega") {
 
-            const campoEndereco =
-                document.getElementById(
-                    "campoEndereco"
-                );
+            const enderecoArea =
+                document.getElementById("enderecoArea");
 
 
             if (
-                event.target.value ===
-                "delivery"
+                event.target.value === "delivery"
             ) {
 
-                campoEndereco.style.display =
-                    "block";
+                if (enderecoArea) {
+                    enderecoArea.style.display = "block";
+                }
 
             } else {
 
-                campoEndereco.style.display =
-                    "none";
+                if (enderecoArea) {
+                    enderecoArea.style.display = "none";
+                }
 
             }
 
@@ -462,29 +353,28 @@ document.addEventListener(
 );
 
 
-// ==========================================
-// STATUS DO RESTAURANTE
-// ==========================================
+/* =========================================================
+   HORÁRIO DE FUNCIONAMENTO
+========================================================= */
 
 function verificarHorario() {
 
+    const status =
+        document.getElementById("statusRestaurante");
+
+    if (!status) return;
+
+
     const agora = new Date();
 
+    const dia = agora.getDay();
 
-    const dia =
-        agora.getDay();
+    const hora = agora.getHours();
 
-
-    const hora =
-        agora.getHours();
-
-
-    const minuto =
-        agora.getMinutes();
-
+    const minutos = agora.getMinutes();
 
     const horarioAtual =
-        hora * 60 + minuto;
+        hora * 60 + minutos;
 
 
     let aberto = false;
@@ -492,452 +382,486 @@ function verificarHorario() {
     let mensagem = "";
 
 
-    // ======================================
-    // ALMOÇO
-    // ======================================
+    /*
+       DOMINGO = 0
+       SEGUNDA = 1
+       TERÇA = 2
+       QUARTA = 3
+       QUINTA = 4
+       SEXTA = 5
+       SÁBADO = 6
+    */
+
+
+    /* ALMOÇO */
 
     if (dia >= 1 && dia <= 5) {
 
-        const abertura =
-            11 * 60;
-
-        const fechamento =
-            15 * 60;
-
-
         if (
-            horarioAtual >= abertura &&
-            horarioAtual <= fechamento
+            horarioAtual >= 11 * 60 &&
+            horarioAtual < 15 * 60
         ) {
 
             aberto = true;
 
-            mensagem =
-                "🟢 ABERTO • Almoço";
+            mensagem = "🟢 ABERTO - ALMOÇO";
 
         }
 
     } else {
 
-        const abertura =
-            11 * 60 + 30;
-
-        const fechamento =
-            15 * 60 + 30;
-
-
         if (
-            horarioAtual >= abertura &&
-            horarioAtual <= fechamento
+            horarioAtual >= 11 * 60 + 30 &&
+            horarioAtual < 15 * 60 + 30
         ) {
 
             aberto = true;
 
-            mensagem =
-                "🟢 ABERTO • Almoço";
+            mensagem = "🟢 ABERTO - ALMOÇO";
 
         }
 
     }
 
 
-    // ======================================
-    // NOITE
-    // ======================================
+    /* NOITE */
+
+    if (dia >= 2 && dia <= 0) {
+
+        /*
+           Mantido apenas como proteção.
+        */
+
+    }
+
 
     if (dia >= 2 && dia <= 6) {
 
-        const abertura =
-            18 * 60;
-
-        const fechamento =
-            22 * 60 + 30;
-
-
         if (
-            horarioAtual >= abertura &&
-            horarioAtual <= fechamento
+            horarioAtual >= 18 * 60 &&
+            horarioAtual < 22 * 60 + 30
         ) {
 
             aberto = true;
 
-            mensagem =
-                "🟢 ABERTO • Pizzaria / Lanchonete";
+            mensagem = "🟢 ABERTO - NOITE";
 
         }
 
     }
 
-
-    // ======================================
-    // DOMINGO
-    // ======================================
-
-    if (dia === 0) {
-
-        const abertura =
-            18 * 60;
-
-        const fechamento =
-            22 * 60 + 30;
-
-
-        if (
-            horarioAtual >= abertura &&
-            horarioAtual <= fechamento
-        ) {
-
-            aberto = true;
-
-            mensagem =
-                "🟢 ABERTO • Pizzaria / Lanchonete";
-
-        }
-
-    }
-
-
-    // ======================================
-    // FECHADO
-    // ======================================
 
     if (!aberto) {
 
-        if (dia === 1) {
-
-            mensagem =
-                "🔴 FECHADO • Pizzaria fechada hoje";
-
-        } else {
-
-            mensagem =
-                "🔴 FECHADO no momento";
-
-        }
+        mensagem = "🔴 FECHADO";
 
     }
 
 
-    const status =
-        document.getElementById(
-            "statusRestaurante"
-        );
-
-
-    if (status) {
-
-        status.textContent =
-            mensagem;
-
-    }
+    status.textContent = mensagem;
 
 }
 
 
-// ==========================================
-// SOBREMESAS POR DIA
-// ==========================================
+/* =========================================================
+   SOBREMESAS POR DIA
+========================================================= */
 
 const sobremesasPorDia = {
 
     1: [
-
-        {
-            categoria: "Tradição",
-            nome:
-                "Pudim de leite condensado com calda de caramelo"
-        },
-
-        {
-            categoria: "Frutada",
-            nome:
-                "Mousse de maracujá"
-        },
-
-        {
-            categoria: "Leve/Fit",
-            nome:
-                "Salada de frutas tropicais com hortelã"
-        },
-
-        {
-            categoria: "Rápida",
-            nome:
-                "Gelatina de morango com creme de leite"
-        }
-
+        "🍮 Tradição: Pudim de leite condensado com calda de caramelo",
+        "🥭 Frutada: Mousse de maracujá",
+        "🍍 Leve/Fit: Salada de frutas tropicais com hortelã",
+        "🍓 Rápida: Gelatina de morango com creme de leite"
     ],
-
 
     2: [
-
-        {
-            categoria: "Tradição",
-            nome:
-                "Brigadeiro de colher com granulado"
-        },
-
-        {
-            categoria: "Frutada",
-            nome:
-                "Banana assada com canela e mel"
-        },
-
-        {
-            categoria: "Leve/Fit",
-            nome:
-                "Abacaxi fatiado com raspas de limão siciliano"
-        },
-
-        {
-            categoria: "Rápida",
-            nome:
-                "Creme de papaya com licor de cassis"
-        }
-
+        "🍫 Tradição: Brigadeiro de colher com granulado",
+        "🍌 Frutada: Banana assada com canela e mel",
+        "🍍 Leve/Fit: Abacaxi fatiado com raspas de limão siciliano",
+        "🍈 Rápida: Creme de papaya com licor de cassis"
     ],
-
 
     3: [
-
-        {
-            categoria: "Tradição",
-            nome:
-                "Pavê de biscoito champagne e baunilha"
-        },
-
-        {
-            categoria: "Frutada",
-            nome:
-                "Torta gelada de limão com biscoito"
-        },
-
-        {
-            categoria: "Leve/Fit",
-            nome:
-                "Sorbet caseiro de morango congelado e banana"
-        },
-
-        {
-            categoria: "Rápida",
-            nome:
-                "Morango fresco com leite condensado"
-        }
-
+        "🍰 Tradição: Pavê de biscoito champagne e baunilha",
+        "🍋 Frutada: Torta gelada de limão com biscoito",
+        "🍓 Leve/Fit: Sorbet caseiro de morango congelado e banana",
+        "🍓 Rápida: Morango fresco com leite condensado"
     ],
-
 
     4: [
-
-        {
-            categoria: "Tradição",
-            nome:
-                "Arroz doce cremoso com canela"
-        },
-
-        {
-            categoria: "Frutada",
-            nome:
-                "Compota de ameixa com creme de baunilha"
-        },
-
-        {
-            categoria: "Leve/Fit",
-            nome:
-                "Maçã assada no forno com nozes"
-        },
-
-        {
-            categoria: "Rápida",
-            nome:
-                "Mousse rápida de doce de leite com chantilly"
-        }
-
+        "🍚 Tradição: Arroz doce cremoso com canela",
+        "🍑 Frutada: Compota de ameixa com creme de baunilha",
+        "🍎 Leve/Fit: Maçã assada no forno com nozes",
+        "🍮 Rápida: Mousse rápida de doce de leite com chantilly"
     ],
-
 
     5: [
-
-        {
-            categoria: "Tradição",
-            nome:
-                "Petit gâteau de chocolate com sorvete de baunilha"
-        },
-
-        {
-            categoria: "Frutada",
-            nome:
-                "Torta aberta de maçã com massa folhada"
-        },
-
-        {
-            categoria: "Leve/Fit",
-            nome:
-                "Espetinho de frutas frescas com cacau em pó"
-        },
-
-        {
-            categoria: "Rápida",
-            nome:
-                "Fondue rápido de chocolate com morangos e uvas"
-        }
-
+        "🍫 Tradição: Petit gâteau de chocolate com sorvete de baunilha",
+        "🍎 Frutada: Torta aberta de maçã com massa folhada",
+        "🍓 Leve/Fit: Espetinho de frutas frescas com cacau em pó",
+        "🍫 Rápida: Fondue rápido de chocolate com morangos e uvas"
     ],
-
 
     6: [
-
-        {
-            categoria: "Tradição",
-            nome:
-                "Torta Holandesa tradicional"
-        },
-
-        {
-            categoria: "Frutada",
-            nome:
-                "Cheesecake com calda de frutas vermelhas"
-        },
-
-        {
-            categoria: "Leve/Fit",
-            nome:
-                "Mousse de cacau 70% com abacate e adoçante"
-        },
-
-        {
-            categoria: "Rápida",
-            nome:
-                "Sorvete de creme com calda quente de brigadeiro"
-        }
-
+        "🍰 Tradição: Torta Holandesa tradicional",
+        "🍓 Frutada: Cheesecake com calda de frutas vermelhas",
+        "🥑 Leve/Fit: Mousse de cacau 70% com abacate e adoçante",
+        "🍨 Rápida: Sorvete de creme com calda quente de brigadeiro"
     ],
 
-
     0: [
-
-        {
-            categoria: "Tradição",
-            nome:
-                "Mousse aveludada de chocolate meio amargo"
-        },
-
-        {
-            categoria: "Frutada",
-            nome:
-                "Pavê de pêssego em calda com creme branco"
-        },
-
-        {
-            categoria: "Leve/Fit",
-            nome:
-                "Manga fatiada com raspas de coco queimado"
-        },
-
-        {
-            categoria: "Rápida",
-            nome:
-                "Romeu e Julieta — queijo minas com goiabada cascão"
-        }
-
+        "🍫 Tradição: Mousse aveludada de chocolate meio amargo",
+        "🍑 Frutada: Pavê de pêssego em calda com creme branco",
+        "🥭 Leve/Fit: Manga fatiada com raspas de coco queimado",
+        "🧀 Rápida: Romeu e Julieta (queijo minas com goiabada cascão)"
     ]
 
 };
 
 
-// ==========================================
-// MOSTRAR SOBREMESAS DE HOJE
-// ==========================================
-
 function mostrarSobremesasDoDia() {
 
     const container =
-        document.getElementById(
-            "sobremesasDoDia"
-        );
-
+        document.getElementById("sobremesasDoDia");
 
     if (!container) return;
 
 
-    const dia =
+    const diaAtual =
         new Date().getDay();
 
 
     const sobremesas =
-        sobremesasPorDia[dia];
+        sobremesasPorDia[diaAtual];
 
 
     container.innerHTML = "";
 
 
-    sobremesas.forEach(
-        sobremesa => {
-
-            const card =
-                document.createElement("article");
+    if (!sobremesas) return;
 
 
-            card.className =
-                "produto sobremesa-dia";
+    sobremesas.forEach(sobremesa => {
 
+        const div =
+            document.createElement("div");
 
-            card.innerHTML = `
+        div.className =
+            "dia-sobremesa";
 
-                <h3>
-                    🍨 ${sobremesa.categoria}
-                </h3>
+        div.innerHTML = `
+            <p>${sobremesa}</p>
+        `;
 
-                <p>
-                    ${sobremesa.nome}
-                </p>
-
-            `;
-
-
-            container.appendChild(card);
-
-        }
-    );
-
-}
-
-
-// ==========================================
-// NAVEGAÇÃO DAS CATEGORIAS
-// ==========================================
-
-function irPara(id) {
-
-    const elemento =
-        document.getElementById(id);
-
-
-    if (!elemento) return;
-
-
-    elemento.scrollIntoView({
-
-        behavior: "smooth",
-
-        block: "start"
+        container.appendChild(div);
 
     });
 
 }
 
 
-// ==========================================
-// ENVIAR PEDIDO PARA WHATSAPP
-// ==========================================
+/* =========================================================
+   NAVEGAÇÃO
+========================================================= */
+
+function irPara(id) {
+
+    const elemento =
+        document.getElementById(id);
+
+    if (elemento) {
+
+        elemento.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+
+    }
+
+}
+
+
+/* =========================================================
+   MARMITAS
+========================================================= */
+
+let marmitaAtual = null;
+
+
+/*
+   Cardápio quente usado para as opções de mistura.
+*/
+
+const misturasPorDia = {
+
+    1: [
+        "Bife de contrafilé acebolado",
+        "Filé de frango grelhado com ervas",
+        "Peixe empanado crocante"
+    ],
+
+    2: [
+        "Strogonoff de frango",
+        "Frango assado com batatas",
+        "Pernil fatiado com molho de cebola"
+    ],
+
+    3: [
+        "Feijoada tradicional",
+        "Torresmo crocante",
+        "Calabresa acebolada",
+        "Maminha grelhada",
+        "Filé de peixe ao molho de camarão"
+    ],
+
+    4: [
+        "Bife à parmegiana",
+        "Costela suína ao molho barbecue",
+        "Sobrecoxa de frango grelhada",
+        "Nhoque à bolonhesa"
+    ],
+
+    5: [
+        "Moqueca de peixe",
+        "Tilápia grelhada com alcaparras",
+        "Bife de picanha suína",
+        "Escalope de filé mignon ao molho madeira"
+    ],
+
+    6: [
+        "Feijoada completa",
+        "Feijão tropeiro",
+        "Cupim assado na manteiga de garrafa",
+        "Picanha fatiada no réchaud",
+        "Bacalhau espiritual",
+        "Frango crocante"
+    ],
+
+    0: [
+        "Feijoada completa",
+        "Feijão tropeiro",
+        "Cupim assado na manteiga de garrafa",
+        "Picanha fatiada no réchaud",
+        "Bacalhau espiritual",
+        "Frango crocante"
+    ]
+
+};
+
+
+function abrirEscolhaMarmita(
+    nome,
+    preco,
+    limite
+) {
+
+    marmitaAtual = {
+        nome: nome,
+        preco: preco,
+        limite: limite
+    };
+
+
+    const modal =
+        document.getElementById("modalMarmita");
+
+    const texto =
+        document.getElementById("textoMarmita");
+
+    const opcoes =
+        document.getElementById("opcoesMistura");
+
+
+    if (!modal || !texto || !opcoes) return;
+
+
+    texto.innerHTML = `
+        <strong>${nome}</strong><br>
+        Escolha até ${limite} mistura(s).
+    `;
+
+
+    const diaAtual =
+        new Date().getDay();
+
+
+    const misturas =
+        misturasPorDia[diaAtual] || [];
+
+
+    opcoes.innerHTML = "";
+
+
+    if (misturas.length === 0) {
+
+        opcoes.innerHTML = `
+            <p>
+                Não há opções cadastradas para hoje.
+            </p>
+        `;
+
+    } else {
+
+        misturas.forEach(
+            (mistura, index) => {
+
+                const div =
+                    document.createElement("div");
+
+                div.style.margin =
+                    "10px 0";
+
+                div.innerHTML = `
+                    <label
+                        style="
+                            display:flex;
+                            align-items:center;
+                            gap:8px;
+                            background:#f5f5f5;
+                            padding:10px;
+                            border-radius:10px;
+                            cursor:pointer;
+                        "
+                    >
+
+                        <input
+                            type="checkbox"
+                            name="misturaMarmita"
+                            value="${mistura}"
+                            onchange="limitarMisturas()"
+                        >
+
+                        <span>
+                            ${mistura}
+                        </span>
+
+                    </label>
+                `;
+
+                opcoes.appendChild(div);
+
+            }
+        );
+
+    }
+
+
+    modal.classList.add("ativo");
+
+}
+
+
+function limitarMisturas() {
+
+    if (!marmitaAtual) return;
+
+
+    const selecionadas =
+        document.querySelectorAll(
+            'input[name="misturaMarmita"]:checked'
+        );
+
+
+    if (
+        selecionadas.length >
+        marmitaAtual.limite
+    ) {
+
+        const ultima =
+            selecionadas[selecionadas.length - 1];
+
+        ultima.checked = false;
+
+        alert(
+            `Você pode escolher no máximo ${marmitaAtual.limite} mistura(s).`
+        );
+
+    }
+
+}
+
+
+function fecharEscolhaMarmita() {
+
+    const modal =
+        document.getElementById("modalMarmita");
+
+    if (modal) {
+        modal.classList.remove("ativo");
+    }
+
+    marmitaAtual = null;
+
+}
+
+
+function confirmarMarmita() {
+
+    if (!marmitaAtual) return;
+
+
+    const selecionadas =
+        Array.from(
+            document.querySelectorAll(
+                'input[name="misturaMarmita"]:checked'
+            )
+        );
+
+
+    if (selecionadas.length === 0) {
+
+        alert(
+            "🍱 Escolha pelo menos uma mistura."
+        );
+
+        return;
+
+    }
+
+
+    const misturas =
+        selecionadas.map(
+            item => item.value
+        );
+
+
+    const nomeCompleto =
+        `${marmitaAtual.nome} - ${misturas.join(", ")}`;
+
+
+    carrinho.push({
+
+        nome: nomeCompleto,
+
+        preco: marmitaAtual.preco,
+
+        quantidade: 1
+
+    });
+
+
+    atualizarCarrinho();
+
+    fecharEscolhaMarmita();
+
+    alert(
+        "✅ Marmita adicionada ao carrinho!"
+    );
+
+}
+
+
+/* =========================================================
+   ENVIAR PEDIDO WHATSAPP
+========================================================= */
 
 function enviarPedidoWhatsApp() {
 
     if (carrinho.length === 0) {
 
-        alert(
-            "🛒 Seu carrinho está vazio!"
-        );
+        alert("🛒 Seu carrinho está vazio!");
 
         return;
 
@@ -945,57 +869,33 @@ function enviarPedidoWhatsApp() {
 
 
     const nome =
-        document.getElementById(
-            "nomeCliente"
-        ).value.trim();
-
-
-    const telefone =
-        document.getElementById(
-            "telefoneCliente"
-        ).value.trim();
+        document.getElementById("nomeCliente")
+            ?.value.trim();
 
 
     const tipoEntrega =
-        document.querySelector(
-            'input[name="tipoEntrega"]:checked'
-        ).value;
+        document.getElementById("tipoEntrega")
+            ?.value;
 
 
     const endereco =
-        document.getElementById(
-            "enderecoCliente"
-        ).value.trim();
+        document.getElementById("enderecoCliente")
+            ?.value.trim();
 
 
     const pagamento =
-        document.getElementById(
-            "pagamento"
-        ).value;
+        document.getElementById("formaPagamento")
+            ?.value;
 
 
-    const observacao =
-        document.getElementById(
-            "observacao"
-        ).value.trim();
+    const observacoes =
+        document.getElementById("observacoes")
+            ?.value.trim();
 
 
-    if (nome === "") {
+    if (!nome) {
 
-        alert(
-            "⚠️ Digite seu nome."
-        );
-
-        return;
-
-    }
-
-
-    if (telefone === "") {
-
-        alert(
-            "⚠️ Digite seu telefone."
-        );
+        alert("Digite seu nome.");
 
         return;
 
@@ -1004,381 +904,319 @@ function enviarPedidoWhatsApp() {
 
     if (
         tipoEntrega === "delivery" &&
-        endereco === ""
+        !endereco
     ) {
 
-        alert(
-            "⚠️ Digite o endereço de entrega."
-        );
+        alert("Digite seu endereço.");
 
         return;
 
     }
 
 
-    if (pagamento === "") {
+    let mensagem =
+        "🍔 *RESTAURANTE LANCHONETE MM*%0A";
 
-        alert(
-            "⚠️ Escolha a forma de pagamento."
-        );
-
-        return;
-
-    }
+    mensagem +=
+        "📋 *NOVO PEDIDO*%0A%0A";
 
 
-    let subtotal = 0;
+    mensagem +=
+        `👤 *Cliente:* ${nome}%0A%0A`;
+
+
+    mensagem +=
+        "🛒 *ITENS DO PEDIDO:*%0A";
+
+
+    let totalProdutos = 0;
 
 
     carrinho.forEach(item => {
 
-        subtotal +=
-            item.preco *
-            item.quantidade;
+        const subtotal =
+            item.preco * item.quantidade;
+
+
+        totalProdutos += subtotal;
+
+
+        mensagem +=
+            `• ${item.quantidade}x ${item.nome} - ${formatarDinheiro(subtotal)}%0A`;
 
     });
 
 
-    const taxaEntrega =
-        tipoEntrega === "delivery"
-            ? 5
-            : 0;
+    let taxaEntrega = 0;
 
 
-    const total =
-        subtotal +
-        taxaEntrega;
+    if (tipoEntrega === "delivery") {
+
+        taxaEntrega =
+            TAXA_ENTREGA;
+
+    }
 
 
-    const numeroPedido =
-        Math.floor(
-            1000 +
-            Math.random() * 9000
-        );
+    const totalFinal =
+        totalProdutos + taxaEntrega;
 
 
-    pedidoAtual = {
+    mensagem += "%0A";
 
-        numero:
-            numeroPedido,
-
-        nome:
-            nome,
-
-        telefone:
-            telefone,
-
-        tipoEntrega:
-            tipoEntrega,
-
-        endereco:
-            endereco,
-
-        pagamento:
-            pagamento,
-
-        observacao:
-            observacao,
-
-        itens:
-            [...carrinho],
-
-        subtotal:
-            subtotal,
-
-        taxaEntrega:
-            taxaEntrega,
-
-        total:
-            total
-
-    };
-
-
-    let mensagem = "";
+    mensagem +=
+        `💰 *Produtos:* ${formatarDinheiro(totalProdutos)}%0A`;
 
 
     mensagem +=
-        "🍔 RESTAURANTE LANCHONETE MM\n";
-
-    mensagem +=
-        "━━━━━━━━━━━━━━━━━━\n";
-
-    mensagem +=
-        "📋 PEDIDO #" +
-        numeroPedido +
-        "\n\n";
+        `🚚 *Entrega:* ${formatarDinheiro(taxaEntrega)}%0A`;
 
 
     mensagem +=
-        "👤 Cliente: " +
-        nome +
-        "\n";
-
-
-    mensagem +=
-        "📞 Telefone: " +
-        telefone +
-        "\n\n";
+        `💵 *TOTAL:* ${formatarDinheiro(totalFinal)}%0A%0A`;
 
 
     if (tipoEntrega === "delivery") {
 
         mensagem +=
-            "🛵 DELIVERY\n";
+            `🛵 *Entrega:* Delivery%0A`;
 
         mensagem +=
-            "📍 Endereço: " +
-            endereco +
-            "\n\n";
+            `📍 *Endereço:* ${endereco}%0A`;
+
+        mensagem +=
+            `⏱️ *Tempo estimado:* 60 a 80 minutos%0A`;
 
     } else {
 
         mensagem +=
-            "🏪 RETIRADA NO BALCÃO\n\n";
+            "🏪 *Entrega:* Retirada no balcão%0A";
+
+        mensagem +=
+            "⏱️ *Retirada:* Seu pedido está sendo preparado para retirada no balcão.%0A";
 
     }
 
 
+    mensagem += "%0A";
+
+
     mensagem +=
-        "🛒 PRODUTOS\n";
-
-    mensagem +=
-        "━━━━━━━━━━━━━━━━━━\n";
+        `💳 *Pagamento:* ${pagamento}%0A`;
 
 
-    carrinho.forEach(item => {
-
-        const subtotalItem =
-            item.preco *
-            item.quantidade;
-
+    if (observacoes) {
 
         mensagem +=
-            item.quantidade +
-            "x " +
-            item.nome +
-            " - " +
-            formatarDinheiro(
-                subtotalItem
-            ) +
-            "\n";
-
-    });
-
-
-    mensagem += "\n";
-
-
-    mensagem +=
-        "💳 Pagamento: " +
-        pagamento +
-        "\n";
-
-
-    if (observacao !== "") {
-
-        mensagem +=
-            "📝 Observação: " +
-            observacao +
-            "\n";
+            `📝 *Observações:* ${observacoes}%0A`;
 
     }
 
 
-    if (tipoEntrega === "delivery") {
-
-        mensagem +=
-            "🛵 Taxa de entrega: R$ 5,00\n";
-
-    }
+    const numeroPedido =
+        gerarNumeroPedido();
 
 
     mensagem +=
-        "\n💰 TOTAL: " +
-        formatarDinheiro(total);
+        `%0A🔢 *Pedido nº ${numeroPedido}*`;
 
 
-    const numeroWhatsApp =
-        "5519981123401";
+    pedidoAtual = {
+
+        numero: numeroPedido,
+
+        nome: nome,
+
+        total: totalFinal,
+
+        endereco:
+            tipoEntrega === "delivery"
+                ? endereco
+                : "Retirada no balcão",
+
+        tipoEntrega:
+            tipoEntrega
+
+    };
 
 
-    const url =
-        "https://wa.me/" +
-        numeroWhatsApp +
-        "?text=" +
-        encodeURIComponent(mensagem);
-
-
-    // ======================================
-    // MOSTRAR CONFIRMAÇÃO
-    // ======================================
-
-    mostrarSucesso(
-        numeroPedido,
-        total,
-        tipoEntrega
+    localStorage.setItem(
+        "ultimoPedidoMM",
+        JSON.stringify(pedidoAtual)
     );
 
 
-    // ======================================
-    // ABRIR WHATSAPP
-    // ======================================
+    const url =
+        `https://wa.me/${WHATSAPP}?text=${mensagem}`;
+
 
     window.open(
         url,
         "_blank"
     );
 
+
+    mostrarSucesso();
+
 }
 
 
-// ==========================================
-// TELA DE SUCESSO
-// ==========================================
+/* =========================================================
+   NÚMERO DO PEDIDO
+========================================================= */
 
-function mostrarSucesso(
-    numeroPedido,
-    total,
-    tipoEntrega
-) {
+function gerarNumeroPedido() {
 
-    const checkout =
-        document.getElementById(
-            "checkout"
+    const ultimo =
+        parseInt(
+            localStorage.getItem(
+                "numeroPedidoMM"
+            ) || "0"
         );
 
 
-    const sucesso =
+    const novoNumero =
+        ultimo + 1;
+
+
+    localStorage.setItem(
+        "numeroPedidoMM",
+        novoNumero
+    );
+
+
+    return novoNumero;
+
+}
+
+
+/* =========================================================
+   SUCESSO
+========================================================= */
+
+function mostrarSucesso() {
+
+    const tela =
         document.getElementById(
             "pedidoSucesso"
         );
 
 
-    const numeroElemento =
+    if (!tela) return;
+
+
+    const numero =
         document.getElementById(
-            "numeroPedido"
+            "numeroPedidoSucesso"
         );
 
 
-    const totalElemento =
+    const tempo =
         document.getElementById(
-            "totalSucesso"
+            "tempoPedidoSucesso"
         );
 
 
-    checkout.classList.remove(
-        "ativo"
-    );
+    const total =
+        document.getElementById(
+            "totalPedidoSucesso"
+        );
 
 
-    sucesso.classList.add(
-        "ativo"
-    );
+    const endereco =
+        document.getElementById(
+            "enderecoPedidoSucesso"
+        );
 
 
-    numeroElemento.textContent =
-        "#" + numeroPedido;
+    if (pedidoAtual) {
+
+        if (numero) {
+
+            numero.textContent =
+                `🔢 Número do pedido: ${pedidoAtual.numero}`;
+
+        }
 
 
-    totalElemento.textContent =
-        formatarDinheiro(total);
+        if (total) {
+
+            total.textContent =
+                `💰 Total: ${formatarDinheiro(pedidoAtual.total)}`;
+
+        }
 
 
-    const texto =
-        sucesso.querySelector("p");
+        if (endereco) {
+
+            endereco.textContent =
+                `📍 ${pedidoAtual.endereco}`;
+
+        }
 
 
-    if (tipoEntrega === "retirada") {
+        if (
+            pedidoAtual.tipoEntrega ===
+            "retirada"
+        ) {
 
-        const mensagens =
-            sucesso.querySelectorAll("p");
+            if (tempo) {
 
+                tempo.textContent =
+                    "🏪 Seu pedido está sendo preparado para retirada no balcão.";
 
-        if (mensagens.length >= 2) {
+            }
 
-            mensagens[1].textContent =
-                "🏪 Seu pedido está sendo preparado para retirada no balcão.";
+        } else {
+
+            if (tempo) {
+
+                tempo.textContent =
+                    "⏱️ Tempo estimado de entrega: 60 a 80 minutos.";
+
+            }
 
         }
 
     }
 
 
-    sucesso.scrollIntoView({
-
-        behavior: "smooth"
-
-    });
+    tela.classList.add("ativo");
 
 }
 
 
-// ==========================================
-// VOLTAR AO INÍCIO
-// ==========================================
-
 function voltarInicio() {
 
-    const sucesso =
+    const tela =
         document.getElementById(
             "pedidoSucesso"
         );
 
 
-    sucesso.classList.remove(
-        "ativo"
-    );
+    if (tela) {
+
+        tela.classList.remove("ativo");
+
+    }
 
 
     carrinho = [];
 
-
-    pedidoAtual = null;
-
-
     atualizarCarrinho();
 
 
-    document.getElementById(
-        "nomeCliente"
-    ).value = "";
-
-
-    document.getElementById(
-        "telefoneCliente"
-    ).value = "";
-
-
-    document.getElementById(
-        "enderecoCliente"
-    ).value = "";
-
-
-    document.getElementById(
-        "pagamento"
-    ).value = "";
-
-
-    document.getElementById(
-        "observacao"
-    ).value = "";
-
-
     window.scrollTo({
-
         top: 0,
-
         behavior: "smooth"
-
     });
 
 }
 
 
-// ==========================================
-// INICIALIZAÇÃO
-// ==========================================
+/* =========================================================
+   INICIALIZAÇÃO
+========================================================= */
 
 document.addEventListener(
     "DOMContentLoaded",
@@ -1389,6 +1227,42 @@ document.addEventListener(
         mostrarSobremesasDoDia();
 
         atualizarCarrinho();
+
+
+        const tipoEntrega =
+            document.getElementById(
+                "tipoEntrega"
+            );
+
+
+        const enderecoArea =
+            document.getElementById(
+                "enderecoArea"
+            );
+
+
+        if (
+            tipoEntrega &&
+            enderecoArea
+        ) {
+
+            if (
+                tipoEntrega.value ===
+                "retirada"
+            ) {
+
+                enderecoArea.style.display =
+                    "none";
+
+            } else {
+
+                enderecoArea.style.display =
+                    "block";
+
+            }
+
+        }
+
 
         setInterval(
             verificarHorario,
