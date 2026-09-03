@@ -3,1240 +3,975 @@
 
 <head>
     <meta charset="UTF-8">
-
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
-
-    <meta
-        name="theme-color"
-        content="#111111"
-    >
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>Restaurante Lanchonete MM</title>
 
-    <link
-        rel="stylesheet"
-        href="style.css"
-    >
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<!-- =====================================================
-     CABEÇALHO
-===================================================== -->
-
 <header class="topo">
 
-    <div class="logo-area">
-
-        <div class="logo">
-            🍔 Restaurante Lanchonete MM
-        </div>
-
-        <div
-            id="statusRestaurante"
-            class="status-restaurante"
-        >
-            🔴 FECHADO
-        </div>
-
+    <div>
+        <h1>🍔 Restaurante Lanchonete MM</h1>
+        <p>Sabor que dá vontade de voltar!</p>
     </div>
+
+    <button class="carrinho-topo" onclick="abrirCarrinho()">
+        🛒 <span id="contadorCarrinho">0</span>
+    </button>
 
 </header>
 
 
+<main>
+
+
 <!-- =====================================================
-     PÁGINA INICIAL
+     INÍCIO
 ===================================================== -->
 
-<main id="paginaInicio">
+<section id="inicio" class="pagina ativa">
 
-    <section class="banner">
+    <div class="inicio-card">
 
-        <h1>
-            🍔 Restaurante Lanchonete MM
-        </h1>
-
-        <p>
-            Faça seu pedido de forma rápida e fácil!
-        </p>
-
-        <p>
-            🛵 Delivery • 🏪 Retirada no balcão
-        </p>
-
-    </section>
-
-
-    <!-- BOTÃO CARRINHO -->
-
-    <button
-        class="botao-carrinho"
-        onclick="abrirCarrinho()"
-    >
-
-        🛒 Carrinho
-
-        <span id="quantidadeCarrinho">
-            0
-        </span>
-
-    </button>
-
-
-    <!-- =================================================
-         CATEGORIAS
-    ================================================== -->
-
-    <section class="categorias">
+        <div class="logo">
+            MM
+        </div>
 
         <h2>
-            📋 O que você quer pedir?
+            Restaurante Lanchonete MM
         </h2>
 
-
-        <div class="categorias-grid">
-
-
-            <!-- PIZZAS -->
-
-            <button
-                class="categoria"
-                onclick="abrirPagina('paginaPizzas')"
-            >
-
-                <span class="categoria-icone">
-                    🍕
-                </span>
-
-                <strong>
-                    Pizzas
-                </strong>
-
-                <small>
-                    Salgadas e doces
-                </small>
-
-            </button>
+        <div id="statusFuncionamento" class="status">
+            Verificando...
+        </div>
 
 
-            <!-- LANCHES -->
+        <div class="horarios">
 
-            <button
-                class="categoria"
-                onclick="abrirPagina('paginaLanches')"
-            >
+            <h3>
+                🕐 Horário de funcionamento
+            </h3>
 
-                <span class="categoria-icone">
-                    🍔
-                </span>
+            <p>
+                <strong>🍱 Almoço</strong>
+            </p>
 
-                <strong>
-                    Lanches
-                </strong>
+            <p>
+                Segunda a sexta: 11:00 às 15:00
+            </p>
 
-                <small>
-                    Hambúrgueres
-                </small>
+            <p>
+                Sábado, domingo e feriados:
+                11:30 às 15:30
+            </p>
 
-            </button>
+            <br>
 
+            <p>
+                <strong>🍕 Lanchonete / Pizzaria</strong>
+            </p>
 
-            <!-- ESFIHAS -->
+            <p>
+                Terça a domingo: 18:00 às 22:30
+            </p>
 
-            <button
-                class="categoria"
-                onclick="abrirPagina('paginaEsfihas')"
-            >
-
-                <span class="categoria-icone">
-                    🥙
-                </span>
-
-                <strong>
-                    Esfihas
-                </strong>
-
-                <small>
-                    Abertas
-                </small>
-
-            </button>
-
-
-            <!-- CACHORRO QUENTE -->
-
-            <button
-                class="categoria"
-                onclick="abrirPagina('paginaHotDog')"
-            >
-
-                <span class="categoria-icone">
-                    🌭
-                </span>
-
-                <strong>
-                    Cachorro-quente
-                </strong>
-
-                <small>
-                    Dogs
-                </small>
-
-            </button>
-
-
-            <!-- PORÇÕES -->
-
-            <button
-                class="categoria"
-                onclick="abrirPagina('paginaPorcoes')"
-            >
-
-                <span class="categoria-icone">
-                    🍟
-                </span>
-
-                <strong>
-                    Porções
-                </strong>
-
-                <small>
-                    Para compartilhar
-                </small>
-
-            </button>
-
-
-            <!-- BEBIDAS -->
-
-            <button
-                class="categoria"
-                onclick="abrirPagina('paginaBebidas')"
-            >
-
-                <span class="categoria-icone">
-                    🥤
-                </span>
-
-                <strong>
-                    Bebidas
-                </strong>
-
-                <small>
-                    Refrigerantes e água
-                </small>
-
-            </button>
-
-
-            <!-- MARMITAS -->
-
-            <button
-                class="categoria"
-                onclick="abrirPagina('paginaMarmitas')"
-            >
-
-                <span class="categoria-icone">
-                    🍱
-                </span>
-
-                <strong>
-                    Marmitas
-                </strong>
-
-                <small>
-                    Escolha sua mistura
-                </small>
-
-            </button>
-
-
-            <!-- CARDÁPIO DO DIA -->
-
-            <button
-                class="categoria categoria-destaque"
-                onclick="abrirPagina('paginaCardapioDia')"
-            >
-
-                <span class="categoria-icone">
-                    🍽️
-                </span>
-
-                <strong>
-                    Cardápio do Dia
-                </strong>
-
-                <small>
-                    Almoço e sobremesas
-                </small>
-
-            </button>
+            <p>
+                Segunda-feira à noite: fechado
+            </p>
 
         </div>
 
-    </section>
+
+        <!-- CARDÁPIO AUTOMÁTICO DO DIA -->
+
+        <div
+            id="cardapioInicio"
+            class="almoco-dia">
+        </div>
 
 
-    <!-- =================================================
-         INFORMAÇÕES
-    ================================================== -->
+        <div class="taxa-inicio">
 
-    <section class="informacoes">
+            🚚 Delivery:
+            <strong>R$ 5,00</strong>
 
-        <h2 class="titulo-categoria">
-            ℹ️ Informações
-        </h2>
+            <br>
 
-
-        <div class="info-grid">
-
-
-            <div class="info-card">
-
-                <h3>
-                    🕒 Almoço
-                </h3>
-
-                <p>
-                    Segunda a sexta:
-                    11h00 às 15h00
-                </p>
-
-                <p>
-                    Sábados, domingos e feriados:
-                    11h30 às 15h30
-                </p>
-
-                <p>
-                    Pedidos até 14h00.
-                </p>
-
-            </div>
-
-
-            <div class="info-card">
-
-                <h3>
-                    🌙 Noite
-                </h3>
-
-                <p>
-                    Terça a domingo:
-                    18h00 às 22h30
-                </p>
-
-                <p>
-                    Segunda-feira:
-                    fechado à noite.
-                </p>
-
-                <p>
-                    Pedidos até 22h00.
-                </p>
-
-            </div>
-
-
-            <div class="info-card">
-
-                <h3>
-                    🛵 Delivery
-                </h3>
-
-                <p>
-                    Taxa fixa de entrega:
-                    <strong>R$ 5,00</strong>
-                </p>
-
-                <p>
-                    Entrega para toda a cidade.
-                </p>
-
-                <p>
-                    Tempo estimado:
-                    60 a 80 minutos.
-                </p>
-
-            </div>
-
-
-            <div class="info-card">
-
-                <h3>
-                    🏪 Retirada
-                </h3>
-
-                <p>
-                    Retire seu pedido
-                    diretamente no balcão.
-                </p>
-
-                <p>
-                    Taxa de retirada:
-                    <strong>Grátis</strong>
-                </p>
-
-            </div>
+            🏪 Retirada no balcão:
+            <strong>Grátis</strong>
 
         </div>
 
-    </section>
 
-</main>
+        <button
+            class="btn-principal"
+            onclick="abrirPagina('cardapio')">
+
+            📋 VER CARDÁPIO
+
+        </button>
+
+    </div>
+
+</section>
+
 
 
 <!-- =====================================================
-     PÁGINA DE PIZZAS
+     CARDÁPIO
 ===================================================== -->
 
-<section
-    id="paginaPizzas"
-    class="pagina-cardapio"
->
+<section id="cardapio" class="pagina">
 
     <button
-        class="botao-voltar-topo"
-        onclick="voltarInicio()"
-    >
+        class="btn-voltar"
+        onclick="voltarInicio()">
+
         ← Voltar
+
     </button>
 
-    <h2 class="titulo-categoria">
-        🍕 Pizzas
+
+    <h2>
+        📋 Cardápio
     </h2>
 
 
-    <!-- PIZZAS SALGADAS -->
+    <div class="categorias">
 
-    <h3 class="subcategoria">
-        🍕 Pizzas Salgadas
-    </h3>
+
+        <button onclick="abrirPagina('almoco')">
+
+            🍱
+
+            <span>
+                Almoço do Dia
+            </span>
+
+        </button>
+
+
+        <button onclick="abrirPagina('pizzas')">
+
+            🍕
+
+            <span>
+                Pizza
+            </span>
+
+        </button>
+
+
+        <button onclick="abrirPagina('lanches')">
+
+            🍔
+
+            <span>
+                Lanches
+            </span>
+
+        </button>
+
+
+        <button onclick="abrirPagina('esfirras')">
+
+            🥟
+
+            <span>
+                Esfirras
+            </span>
+
+        </button>
+
+
+        <button onclick="abrirPagina('hotdogs')">
+
+            🌭
+
+            <span>
+                Hot Dog
+            </span>
+
+        </button>
+
+
+        <button onclick="abrirPagina('porcoes')">
+
+            🍟
+
+            <span>
+                Porções
+            </span>
+
+        </button>
+
+
+        <button onclick="abrirPagina('bebidas')">
+
+            🥤
+
+            <span>
+                Bebidas
+            </span>
+
+        </button>
+
+
+        <button onclick="abrirPagina('marmitas')">
+
+            🍱
+
+            <span>
+                Marmitas
+            </span>
+
+        </button>
+
+    </div>
+
+</section>
+
+
+
+<!-- =====================================================
+     ALMOÇO DO DIA
+===================================================== -->
+
+<section id="almoco" class="pagina">
+
+    <button
+        class="btn-voltar"
+        onclick="abrirPagina('cardapio')">
+
+        ← Voltar
+
+    </button>
+
 
     <div
-        id="listaPizzasSalgadas"
-        class="produtos-grid"
-    >
+        id="cardapioAlmoco">
+    </div>
 
-        <!-- PRODUTOS INSERIDOS PELO JAVASCRIPT -->
+</section>
+
+
+
+<!-- =====================================================
+     PIZZAS
+===================================================== -->
+
+<section id="pizzas" class="pagina">
+
+    <button
+        class="btn-voltar"
+        onclick="abrirPagina('cardapio')">
+
+        ← Voltar
+
+    </button>
+
+
+    <h2>
+        🍕 Monte sua Pizza
+    </h2>
+
+
+    <!-- TAMANHO -->
+
+    <div id="pizzaTamanho">
+
+        <h3>
+            1. Escolha o tamanho
+        </h3>
+
+        <div id="listaTamanhos"></div>
 
     </div>
 
 
-    <!-- PIZZAS DOCES -->
-
-    <h3 class="subcategoria">
-        🍫 Pizzas Doces
-    </h3>
+    <!-- SABORES -->
 
     <div
-        id="listaPizzasDoces"
-        class="produtos-grid"
-    >
+        id="pizzaSabores"
+        class="etapa escondido">
 
-        <!-- PRODUTOS INSERIDOS PELO JAVASCRIPT -->
+        <h3>
+            2. Escolha os sabores
+        </h3>
+
+        <p id="limiteSabores"></p>
+
+        <div id="listaSabores"></div>
+
+        <div id="saboresEscolhidos"></div>
+
+
+        <button
+            class="btn-principal"
+            onclick="irParaBordaPizza()">
+
+            Continuar →
+
+        </button>
 
     </div>
 
 
-    <!-- BORDAS -->
-
-    <h3 class="subcategoria">
-        🧀 Bordas Recheadas
-    </h3>
+    <!-- BORDA -->
 
     <div
-        id="listaBordas"
-        class="produtos-grid"
-    >
+        id="pizzaBorda"
+        class="etapa escondido">
 
-        <!-- PRODUTOS INSERIDOS PELO JAVASCRIPT -->
+        <h3>
+            3. Escolha a borda
+        </h3>
+
+        <div id="listaBordasPizza"></div>
+
+
+        <button
+            class="btn-principal"
+            onclick="irParaComplementosPizza()">
+
+            Continuar →
+
+        </button>
 
     </div>
 
 
     <!-- COMPLEMENTOS -->
 
-    <h3 class="subcategoria">
-        ➕ Complementos
-    </h3>
+    <div
+        id="pizzaComplementos"
+        class="etapa escondido">
+
+        <h3>
+            4. Complementos
+        </h3>
+
+        <p>
+            Escolha os adicionais que quiser.
+        </p>
+
+        <div id="listaComplementosPizza"></div>
+
+
+        <button
+            class="btn-principal"
+            onclick="mostrarResumoPizza()">
+
+            Ver resumo →
+
+        </button>
+
+    </div>
+
+
+    <!-- RESUMO -->
 
     <div
-        id="listaComplementos"
-        class="produtos-grid"
-    >
+        id="pizzaResumo"
+        class="etapa escondido">
 
-        <!-- PRODUTOS INSERIDOS PELO JAVASCRIPT -->
+        <h3>
+            5. Resumo
+        </h3>
+
+        <div
+            id="resumoPizza"
+            class="resumo">
+        </div>
+
+
+        <button
+            class="btn-principal"
+            onclick="adicionarPizzaCarrinho()">
+
+            🛒 Adicionar ao carrinho
+
+        </button>
 
     </div>
 
 </section>
 
 
+
 <!-- =====================================================
-     PÁGINA DE LANCHES
+     LANCHES
 ===================================================== -->
 
-<section
-    id="paginaLanches"
-    class="pagina-cardapio"
->
+<section id="lanches" class="pagina">
 
     <button
-        class="botao-voltar-topo"
-        onclick="voltarInicio()"
-    >
+        class="btn-voltar"
+        onclick="abrirPagina('cardapio')">
+
         ← Voltar
+
     </button>
 
-    <h2 class="titulo-categoria">
+
+    <h2>
         🍔 Lanches
     </h2>
 
-    <p class="descricao-pagina">
-        Todos preparados no pão brioche.
-    </p>
 
     <div
         id="listaLanches"
-        class="produtos-grid"
-    >
-
-        <!-- PRODUTOS INSERIDOS PELO JAVASCRIPT -->
-
+        class="produtos">
     </div>
 
 </section>
 
 
+
 <!-- =====================================================
-     PÁGINA DE ESFIHAS
+     ESFIRRAS
 ===================================================== -->
 
-<section
-    id="paginaEsfihas"
-    class="pagina-cardapio"
->
+<section id="esfirras" class="pagina">
 
     <button
-        class="botao-voltar-topo"
-        onclick="voltarInicio()"
-    >
+        class="btn-voltar"
+        onclick="abrirPagina('cardapio')">
+
         ← Voltar
+
     </button>
 
-    <h2 class="titulo-categoria">
-        🥙 Esfihas Abertas
+
+    <h2>
+        🥟 Monte sua Esfirra
     </h2>
 
-    <div
-        id="listaEsfihas"
-        class="produtos-grid"
-    >
 
-        <!-- PRODUTOS INSERIDOS PELO JAVASCRIPT -->
+    <!-- ESCOLHA DA ESFIRRA -->
+
+    <div id="esfirraEscolha">
+
+        <h3>
+            1. Escolha a esfirra
+        </h3>
+
+
+        <div
+            id="listaEsfirras"
+            class="produtos">
+        </div>
+
+    </div>
+
+
+    <!-- BORDA DA ESFIRRA -->
+
+    <div
+        id="esfirraBorda"
+        class="etapa escondido">
+
+        <h3>
+            2. Escolha a borda
+        </h3>
+
+
+        <div
+            id="listaBordasEsfirra">
+        </div>
+
+
+        <button
+            class="btn-principal"
+            onclick="irParaComplementosEsfirra()">
+
+            Continuar →
+
+        </button>
+
+    </div>
+
+
+    <!-- COMPLEMENTOS DA ESFIRRA -->
+
+    <div
+        id="esfirraComplementos"
+        class="etapa escondido">
+
+        <h3>
+            3. Complementos
+        </h3>
+
+
+        <p>
+            Escolha os adicionais que quiser.
+        </p>
+
+
+        <div
+            id="listaComplementosEsfirra">
+        </div>
+
+
+        <button
+            class="btn-principal"
+            onclick="mostrarResumoEsfirra()">
+
+            Ver resumo →
+
+        </button>
+
+    </div>
+
+
+    <!-- RESUMO DA ESFIRRA -->
+
+    <div
+        id="esfirraResumo"
+        class="etapa escondido">
+
+        <h3>
+            4. Resumo
+        </h3>
+
+
+        <div
+            id="resumoEsfirra"
+            class="resumo">
+        </div>
+
+
+        <button
+            class="btn-principal"
+            onclick="adicionarEsfirraCarrinho()">
+
+            🛒 Adicionar ao carrinho
+
+        </button>
 
     </div>
 
 </section>
 
 
+
 <!-- =====================================================
-     PÁGINA DE CACHORRO-QUENTE
+     HOT DOG
 ===================================================== -->
 
-<section
-    id="paginaHotDog"
-    class="pagina-cardapio"
->
+<section id="hotdogs" class="pagina">
 
     <button
-        class="botao-voltar-topo"
-        onclick="voltarInicio()"
-    >
+        class="btn-voltar"
+        onclick="abrirPagina('cardapio')">
+
         ← Voltar
+
     </button>
 
-    <h2 class="titulo-categoria">
-        🌭 Cachorro-quente
+
+    <h2>
+        🌭 Hot Dog
     </h2>
 
+
     <div
-        id="listaHotDog"
-        class="produtos-grid"
-    >
-
-        <!-- PRODUTOS INSERIDOS PELO JAVASCRIPT -->
-
+        id="listaHotdogs"
+        class="produtos">
     </div>
 
 </section>
 
 
+
 <!-- =====================================================
-     PÁGINA DE PORÇÕES
+     PORÇÕES
 ===================================================== -->
 
-<section
-    id="paginaPorcoes"
-    class="pagina-cardapio"
->
+<section id="porcoes" class="pagina">
 
     <button
-        class="botao-voltar-topo"
-        onclick="voltarInicio()"
-    >
+        class="btn-voltar"
+        onclick="abrirPagina('cardapio')">
+
         ← Voltar
+
     </button>
 
-    <h2 class="titulo-categoria">
+
+    <h2>
         🍟 Porções
     </h2>
 
+
     <div
         id="listaPorcoes"
-        class="produtos-grid"
-    >
-
-        <!-- PRODUTOS INSERIDOS PELO JAVASCRIPT -->
-
+        class="produtos">
     </div>
 
 </section>
 
 
+
 <!-- =====================================================
-     PÁGINA DE BEBIDAS
+     BEBIDAS
 ===================================================== -->
 
-<section
-    id="paginaBebidas"
-    class="pagina-cardapio"
->
+<section id="bebidas" class="pagina">
 
     <button
-        class="botao-voltar-topo"
-        onclick="voltarInicio()"
-    >
+        class="btn-voltar"
+        onclick="abrirPagina('cardapio')">
+
         ← Voltar
+
     </button>
 
-    <h2 class="titulo-categoria">
+
+    <h2>
         🥤 Bebidas
     </h2>
 
 
-    <!-- REFRIGERANTES LATA -->
-
-    <h3 class="subcategoria">
-        🥤 Refrigerantes Lata — 350ml
-    </h3>
-
-    <div class="aviso-escolha">
-
-        Escolha o refrigerante que você deseja:
-
-    </div>
-
     <div
-        id="listaRefriLata"
-        class="produtos-grid"
-    >
-
-        <!-- PRODUTOS INSERIDOS PELO JAVASCRIPT -->
-
-    </div>
-
-
-    <!-- REFRIGERANTES 2 LITROS -->
-
-    <h3 class="subcategoria">
-        🥤 Refrigerantes — 2 Litros
-    </h3>
-
-    <div class="aviso-escolha">
-
-        Escolha o sabor:
-
-    </div>
-
-    <div
-        id="listaRefri2L"
-        class="produtos-grid"
-    >
-
-        <!-- PRODUTOS INSERIDOS PELO JAVASCRIPT -->
-
-    </div>
-
-
-    <!-- ÁGUAS -->
-
-    <h3 class="subcategoria">
-        💧 Águas
-    </h3>
-
-    <div
-        id="listaAguas"
-        class="produtos-grid"
-    >
-
-        <!-- PRODUTOS INSERIDOS PELO JAVASCRIPT -->
-
+        id="listaBebidas"
+        class="produtos">
     </div>
 
 </section>
 
 
+
 <!-- =====================================================
-     PÁGINA DE MARMITAS
+     MARMITAS
 ===================================================== -->
 
-<section
-    id="paginaMarmitas"
-    class="pagina-cardapio"
->
+<section id="marmitas" class="pagina">
 
     <button
-        class="botao-voltar-topo"
-        onclick="voltarInicio()"
-    >
+        class="btn-voltar"
+        onclick="abrirPagina('cardapio')">
+
         ← Voltar
+
     </button>
 
-    <h2 class="titulo-categoria">
+
+    <h2>
         🍱 Marmitas
     </h2>
 
-    <div class="aviso-escolha">
 
-        Escolha o tamanho da sua marmita
-        e depois selecione suas misturas.
-
+    <div
+        id="tituloMarmitaDia">
     </div>
+
 
     <div
         id="listaMarmitas"
-        class="produtos-grid"
-    >
-
-        <!-- MARMITAS INSERIDAS PELO JAVASCRIPT -->
-
+        class="produtos">
     </div>
 
 </section>
 
 
+
 <!-- =====================================================
-     PÁGINA CARDÁPIO DO DIA
+     MONTAGEM DA MARMITA
 ===================================================== -->
 
-<section
-    id="paginaCardapioDia"
-    class="pagina-cardapio"
->
+<section id="montarMarmita" class="pagina">
 
     <button
-        class="botao-voltar-topo"
-        onclick="voltarInicio()"
-    >
+        class="btn-voltar"
+        onclick="abrirPagina('marmitas')">
+
         ← Voltar
+
     </button>
 
-    <h2 class="titulo-categoria">
-        🍽️ Cardápio do Dia
+
+    <h2>
+        🍱 Monte sua Marmita
     </h2>
 
 
-    <!-- PREÇOS -->
-
-    <div class="info-card">
-
-        <h3>
-            💰 Self-Service no Quilo
-        </h3>
-
-        <p>
-            Segunda a sexta sem churrasco:
-            <strong>R$ 49,90/kg</strong>
-        </p>
-
-        <p>
-            Segunda a sexta com churrasco:
-            <strong>R$ 64,90/kg</strong>
-        </p>
-
-        <p>
-            Sábados, domingos e feriados:
-            <strong>R$ 72,90/kg</strong>
-        </p>
-
+    <div
+        id="infoMarmita"
+        class="resumo">
     </div>
 
 
-    <!-- SALADAS -->
-
-    <h3 class="subcategoria">
-        🥗 Saladas & Frios
+    <h3>
+        🥩 Escolha suas misturas
     </h3>
 
-    <div class="buffet-lista">
 
-        <div class="dia-buffet">
-            Mix de folhas
-        </div>
+    <p id="limiteMisturas"></p>
 
-        <div class="dia-buffet">
-            Tomate
-        </div>
-
-        <div class="dia-buffet">
-            Cenoura
-        </div>
-
-        <div class="dia-buffet">
-            Palmito
-        </div>
-
-        <div class="dia-buffet">
-            Maionese
-        </div>
-
-        <div class="dia-buffet">
-            Salpicão
-        </div>
-
-    </div>
-
-
-    <!-- CARDÁPIO QUENTE -->
-
-    <h3 class="subcategoria">
-        🍲 Cardápio Quente Diário
-    </h3>
-
-    <div class="dias-buffet">
-
-
-        <div class="dia-buffet">
-
-            <h3>
-                Segunda-feira
-            </h3>
-
-            <p>
-                Arroz, feijão, contrafilé acebolado,
-                frango grelhado, peixe empanado,
-                fritas e purê.
-            </p>
-
-        </div>
-
-
-        <div class="dia-buffet">
-
-            <h3>
-                Terça-feira
-            </h3>
-
-            <p>
-                Arroz, feijão, strogonoff de frango,
-                frango assado, pernil acebolado,
-                massa e abóbora assada.
-            </p>
-
-        </div>
-
-
-        <div class="dia-buffet">
-
-            <h3>
-                Quarta-feira
-            </h3>
-
-            <p>
-                Feijoada completa, arroz,
-                bife de maminha, peixe ao molho
-                de camarão, couve, farofa e torresmo.
-            </p>
-
-        </div>
-
-
-        <div class="dia-buffet">
-
-            <h3>
-                Quinta-feira
-            </h3>
-
-            <p>
-                Arroz, feijão, parmegiana de carne,
-                costelinha barbecue, nhoque
-                à bolonhesa e polenta frita.
-            </p>
-
-        </div>
-
-
-        <div class="dia-buffet">
-
-            <h3>
-                Sexta-feira
-            </h3>
-
-            <p>
-                Arroz, feijão fradinho,
-                moqueca de peixe, tilápia com
-                alcaparras, escalope de mignon,
-                pirão e batata rústica.
-            </p>
-
-        </div>
-
-
-        <div class="dia-buffet">
-
-            <h3>
-                Sábado e Domingo
-            </h3>
-
-            <p>
-                Feijoada, feijão tropeiro,
-                picanha no réchaud, cupim na
-                manteiga, bacalhau e massas especiais.
-            </p>
-
-        </div>
-
-    </div>
-
-
-    <!-- SOBREMESAS -->
-
-    <h3 class="subcategoria">
-        🍰 Sobremesas do Dia
-    </h3>
 
     <div
-        id="sobremesasDoDia"
-        class="dias-sobremesas"
-    >
-
-        <!-- PREENCHIDO PELO JAVASCRIPT -->
-
+        id="listaMisturas">
     </div>
 
 
-    <!-- SOBREMESAS DO QUILO -->
-
-    <h3 class="subcategoria">
-        🍮 Sobremesas no Quilo
-    </h3>
-
-    <div class="buffet-lista">
-
-        <div class="dia-buffet">
-            Pudim de Leite Condensado
-        </div>
-
-        <div class="dia-buffet">
-            Mousse de Maracujá e Chocolate
-        </div>
-
-        <div class="dia-buffet">
-            Pavê de Morango
-        </div>
-
-        <div class="dia-buffet">
-            Frutas Fatiadas
-        </div>
-
+    <div
+        id="misturasEscolhidas">
     </div>
+
+
+    <button
+        class="btn-principal"
+        onclick="adicionarMarmitaCarrinho()">
+
+        🛒 Adicionar ao carrinho
+
+    </button>
 
 </section>
 
-
-<!-- =====================================================
-     MODAL PARA ESCOLHER MARMITA
-===================================================== -->
-
-<div
-    id="modalMarmita"
-    class="modal-marmita"
->
-
-    <div class="modal-conteudo">
-
-        <button
-            class="fechar"
-            onclick="fecharEscolhaMarmita()"
-        >
-            ✕
-        </button>
-
-        <h2>
-            🍱 Monte sua marmita
-        </h2>
-
-        <div
-            id="textoMarmita"
-            class="texto-marmita"
-        >
-        </div>
-
-        <div
-            id="opcoesMistura"
-            class="opcoes-mistura"
-        >
-        </div>
-
-        <button
-            class="botao-confirmar"
-            onclick="confirmarMarmita()"
-        >
-            ✅ Confirmar marmita
-        </button>
-
-        <button
-            class="botao-voltar"
-            onclick="fecharEscolhaMarmita()"
-        >
-            Cancelar
-        </button>
-
-    </div>
-
-</div>
 
 
 <!-- =====================================================
      CARRINHO
 ===================================================== -->
 
-<section
-    id="carrinho"
-    class="carrinho"
->
+<section id="carrinho" class="pagina">
 
-    <div class="carrinho-conteudo">
+    <button
+        class="btn-voltar"
+        onclick="abrirPagina('cardapio')">
 
-        <button
-            class="fechar"
-            onclick="fecharCarrinho()"
-        >
-            ✕
-        </button>
+        ← Continuar comprando
 
-        <h2>
-            🛒 Seu Carrinho
-        </h2>
+    </button>
 
-        <div
-            id="listaCarrinho"
-        >
-        </div>
 
-        <div
-            id="totalCarrinho"
-        >
-        </div>
+    <h2>
+        🛒 Carrinho
+    </h2>
 
-        <button
-            class="botao-whatsapp"
-            onclick="irParaCheckout()"
-        >
-            Continuar pedido
-        </button>
 
-        <button
-            class="botao-voltar"
-            onclick="fecharCarrinho()"
-        >
-            Continuar comprando
-        </button>
-
+    <div
+        id="listaCarrinho">
     </div>
 
+
+    <div
+        id="totalCarrinho"
+        class="total">
+    </div>
+
+
+    <button
+        class="btn-principal"
+        onclick="abrirCheckout()">
+
+        Finalizar pedido →
+
+    </button>
+
 </section>
+
 
 
 <!-- =====================================================
      CHECKOUT
 ===================================================== -->
 
-<section
-    id="checkout"
-    class="checkout"
->
+<section id="checkout" class="pagina">
 
-    <div class="checkout-conteudo">
+    <button
+        class="btn-voltar"
+        onclick="abrirCarrinho()">
 
-        <button
-            class="fechar"
-            onclick="voltarCardapio()"
-        >
-            ✕
-        </button>
+        ← Voltar
 
-        <h2>
-            📋 Finalizar Pedido
-        </h2>
+    </button>
 
 
-        <label for="nomeCliente">
-            👤 Seu nome
+    <h2>
+        📋 Finalizar pedido
+    </h2>
+
+
+    <div class="formulario">
+
+
+        <label>
+            Nome
         </label>
+
 
         <input
+            id="nome"
             type="text"
-            id="nomeCliente"
-            placeholder="Digite seu nome"
-        >
+            placeholder="Seu nome">
 
 
-        <label for="tipoEntrega">
-            🚚 Como deseja receber?
+        <label>
+            Telefone
         </label>
 
-        <select id="tipoEntrega">
+
+        <input
+            id="telefone"
+            type="tel"
+            placeholder="Seu telefone">
+
+
+        <label>
+            Recebimento
+        </label>
+
+
+        <select
+            id="recebimento"
+            onchange="mostrarEndereco()">
+
+            <option value="entrega">
+                🚚 Entrega - R$ 5,00
+            </option>
 
             <option value="retirada">
-                🏪 Retirar no balcão — Grátis
-            </option>
-
-            <option value="delivery">
-                🛵 Delivery — R$ 5,00
+                🏪 Retirada no balcão - Grátis
             </option>
 
         </select>
 
 
-        <div
-            id="enderecoArea"
-            style="display:none;"
-        >
+        <div id="enderecoArea">
 
-            <label for="enderecoCliente">
-                📍 Endereço para entrega
+
+            <label>
+                Endereço
             </label>
 
-            <textarea
-                id="enderecoCliente"
-                placeholder="Rua, número, bairro e referência"
-            ></textarea>
+
+            <input
+                id="endereco"
+                type="text"
+                placeholder="Rua, número e bairro">
+
 
         </div>
 
 
-        <label for="formaPagamento">
-            💳 Forma de pagamento
+        <label>
+            Pagamento
         </label>
 
-        <select id="formaPagamento">
 
-            <option value="">
-                Selecione
+        <select id="pagamento">
+
+            <option>
+                Pix
             </option>
 
-            <option value="Dinheiro">
-                💵 Dinheiro
+            <option>
+                Dinheiro
             </option>
 
-            <option value="Pix">
-                📱 Pix
+            <option>
+                Cartão de Débito
             </option>
 
-            <option value="Cartão de Débito">
-                💳 Cartão de Débito
-            </option>
-
-            <option value="Cartão de Crédito">
-                💳 Cartão de Crédito
+            <option>
+                Cartão de Crédito
             </option>
 
         </select>
 
 
-        <label for="observacoes">
-            📝 Observações
+        <label>
+            Observação
         </label>
 
+
         <textarea
-            id="observacoes"
-            placeholder="Alguma observação sobre seu pedido?"
-        ></textarea>
+            id="observacao"
+            placeholder="Alguma observação?">
+        </textarea>
 
-
-        <div
-            id="resumoCheckout"
-        >
-        </div>
-
-
-        <button
-            class="botao-whatsapp"
-            onclick="enviarPedidoWhatsApp()"
-        >
-            📲 Enviar pedido pelo WhatsApp
-        </button>
-
-
-        <button
-            class="botao-voltar"
-            onclick="voltarCardapio()"
-        >
-            ← Voltar
-        </button>
 
     </div>
 
+
+    <div
+        id="resumoCheckout"
+        class="resumo">
+    </div>
+
+
+    <button
+        class="btn-principal"
+        onclick="enviarWhatsApp()">
+
+        📱 ENVIAR PEDIDO NO WHATSAPP
+
+    </button>
+
 </section>
+
 
 
 <!-- =====================================================
-     TELA DE SUCESSO
+     SUCESSO
 ===================================================== -->
 
 <section
-    id="pedidoSucesso"
-    class="pedido-sucesso"
->
+    id="sucesso"
+    class="pagina sucesso">
 
-    <div class="sucesso-conteudo">
+
+    <div class="sucesso-card">
+
+
+        <div class="check">
+            ✓
+        </div>
+
 
         <h2>
-            ✅ PEDIDO ENVIADO COM SUCESSO!
+            Pedido enviado! 🎉
         </h2>
 
+
         <p>
-            Restaurante Lanchonete MM
+            Confira o WhatsApp e confirme
+            o envio da mensagem.
         </p>
 
-        <p id="numeroPedidoSucesso">
-        </p>
 
-        <p id="tempoPedidoSucesso">
-        </p>
+        <h3>
 
-        <p id="totalPedidoSucesso">
-        </p>
+            Pedido nº
 
-        <p id="enderecoPedidoSucesso">
-        </p>
+            <span id="numeroPedido"></span>
+
+        </h3>
+
 
         <button
-            class="botao-whatsapp"
-            onclick="voltarInicio()"
-        >
-            🏠 Voltar para o início
+            class="btn-principal"
+            onclick="voltarInicio()">
+
+            🏠 Voltar ao início
+
         </button>
+
 
     </div>
 
 </section>
+
+
+</main>
+
 
 
 <!-- =====================================================
@@ -1246,23 +981,16 @@
 <footer>
 
     <p>
-        🍔 Restaurante Lanchonete MM
+        Restaurante Lanchonete MM
     </p>
 
     <p>
-        🛵 Delivery • 🏪 Retirada no balcão
-    </p>
-
-    <p>
-        📲 Pedidos pelo WhatsApp
+        🧡 Obrigado pela preferência!
     </p>
 
 </footer>
 
 
-<!-- =====================================================
-     JAVASCRIPT
-===================================================== -->
 
 <script src="script.js"></script>
 
