@@ -1,696 +1,484 @@
-/* =========================================================
-   RESTAURANTE LANCHONETE MM
-   STYLE.CSS
-========================================================= */
-
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
 }
 
-html {
-    scroll-behavior: smooth;
-}
-
 body {
-    font-family: Arial, Helvetica, sans-serif;
-    background: #f5f5f5;
-    color: #222;
-    line-height: 1.5;
+    font-family: Arial, sans-serif;
+    background: #080808;
+    color: white;
+    min-height: 100vh;
 }
-
-/* =========================================================
-   TOPO
-========================================================= */
 
 .topo {
-    background: linear-gradient(135deg, #111, #292929);
-    color: white;
-    padding: 18px 15px;
-    text-align: center;
+    background: #ff6500;
+    color: #111;
+    padding: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     position: sticky;
     top: 0;
-    z-index: 1000;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.25);
+    z-index: 100;
+    box-shadow: 0 3px 15px #000;
 }
 
-.logo-area {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
+.topo h1 {
+    font-size: 20px;
 }
 
-.logo {
-    font-size: 25px;
-    font-weight: bold;
-}
-
-.status-restaurante {
-    font-size: 14px;
-    font-weight: bold;
+.topo p {
+    font-size: 12px;
     margin-top: 4px;
 }
 
-/* =========================================================
-   BANNER
-========================================================= */
-
-.banner {
-    background: linear-gradient(135deg, #ff7a00, #ffb300);
-    color: white;
-    padding: 25px 18px;
-    text-align: center;
-}
-
-.banner h2 {
-    font-size: 25px;
-    margin-bottom: 8px;
-}
-
-.banner p {
-    font-size: 15px;
-}
-
-/* =========================================================
-   BOTÃO CARRINHO
-========================================================= */
-
-.botao-carrinho {
-    display: block;
-    width: calc(100% - 30px);
-    max-width: 600px;
-    margin: 15px auto;
-    padding: 15px;
-    border: none;
-    border-radius: 14px;
+.carrinho-topo {
     background: #111;
-    color: white;
-    font-size: 17px;
+    color: #ff7200;
+    border: 2px solid #111;
+    border-radius: 12px;
+    padding: 10px 14px;
+    font-size: 18px;
     font-weight: bold;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.18);
 }
 
-.botao-carrinho:hover {
-    transform: translateY(-1px);
+main {
+    max-width: 900px;
+    margin: auto;
+    padding: 15px;
 }
 
-/* =========================================================
-   CATEGORIAS
-========================================================= */
-
-.categorias {
-    display: flex;
-    gap: 8px;
-    overflow-x: auto;
-    padding: 12px 15px;
-    background: white;
-    position: sticky;
-    top: 86px;
-    z-index: 900;
-}
-
-.categorias::-webkit-scrollbar {
+.pagina {
     display: none;
 }
 
-.categoria {
-    flex: 0 0 auto;
-    border: none;
-    background: #eee;
-    color: #222;
-    padding: 10px 15px;
+.pagina.ativa {
+    display: block;
+}
+
+.inicio-card {
+    margin-top: 25px;
+    background: #111;
+    border: 2px solid #ff6500;
+    border-radius: 25px;
+    padding: 30px 20px;
+    text-align: center;
+    box-shadow: 0 0 25px rgba(255, 101, 0, .20);
+}
+
+.logo {
+    width: 85px;
+    height: 85px;
+    background: #ff6500;
+    color: #111;
+    border-radius: 50%;
+    margin: auto;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 32px;
+    font-weight: 900;
+}
+
+.inicio-card h2 {
+    color: #ff7200;
+    margin: 18px 0;
+}
+
+.status {
+    display: inline-block;
+    padding: 10px 20px;
     border-radius: 30px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.status.aberto {
+    background: #143d20;
+    color: #4cff72;
+    border: 1px solid #4cff72;
+}
+
+.status.fechado {
+    background: #3d1414;
+    color: #ff5252;
+    border: 1px solid #ff5252;
+}
+
+.horarios {
+    background: #191919;
+    border-radius: 15px;
+    padding: 18px;
+    text-align: left;
+    margin-bottom: 20px;
+    border-left: 4px solid #ff6500;
+}
+
+.horarios h3 {
+    color: #ff7200;
+    margin-bottom: 15px;
+}
+
+.horarios p {
+    color: #ccc;
+    margin: 6px 0;
+    font-size: 14px;
+}
+
+.taxa-inicio {
+    background: #191919;
+    border: 1px solid #333;
+    border-radius: 13px;
+    padding: 14px;
+    margin-bottom: 15px;
+    color: #ddd;
+    line-height: 1.8;
+}
+
+.taxa-inicio strong {
+    color: #ff7200;
+}
+
+.btn-principal {
+    width: 100%;
+    background: #ff6500;
+    color: #111;
+    border: none;
+    border-radius: 13px;
+    padding: 15px;
+    margin-top: 15px;
+    font-size: 16px;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.btn-principal:hover {
+    background: #ff8500;
+}
+
+.btn-voltar {
+    background: #181818;
+    color: #ff7200;
+    border: 1px solid #ff6500;
+    border-radius: 10px;
+    padding: 10px 15px;
+    margin-bottom: 18px;
+    cursor: pointer;
+}
+
+h2 {
+    color: #ff7200;
+    margin-bottom: 20px;
+}
+
+h3 {
+    margin-bottom: 12px;
+}
+
+.categorias {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+}
+
+.categorias button {
+    background: #151515;
+    color: white;
+    border: 2px solid #ff6500;
+    border-radius: 18px;
+    padding: 22px 10px;
+    font-size: 18px;
     font-weight: bold;
     cursor: pointer;
 }
 
-.categoria:hover {
-    background: #ff7a00;
-    color: white;
+.categorias button:first-letter {
+    font-size: 28px;
 }
 
-/* =========================================================
-   CONTEÚDO
-========================================================= */
-
-main {
-    width: 100%;
-    max-width: 1100px;
-    margin: auto;
+.categorias span {
+    display: block;
+    margin-top: 8px;
 }
 
-.titulo-categoria {
-    font-size: 25px;
-    margin: 25px 15px 15px;
-    padding-bottom: 8px;
-    border-bottom: 3px solid #ff7a00;
-}
-
-/* =========================================================
-   PRODUTOS
-========================================================= */
-
-.produtos-grid {
+.produtos {
     display: grid;
-    grid-template-columns: 1fr;
-    gap: 14px;
-    padding: 0 15px;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
 }
 
 .produto {
-    background: white;
+    background: #151515;
+    border: 1px solid #333;
     border-radius: 16px;
-    padding: 17px;
-    box-shadow: 0 3px 12px rgba(0,0,0,0.10);
-    border: 1px solid #eee;
+    padding: 15px;
 }
 
 .produto h3 {
-    font-size: 19px;
-    margin-bottom: 7px;
+    color: white;
+    font-size: 16px;
+    margin-bottom: 8px;
 }
 
-.produto p {
-    color: #666;
-    font-size: 14px;
-    margin-bottom: 12px;
+.produto-descricao {
+    color: #bbb;
+    font-size: 13px;
+    line-height: 1.5;
+    margin: 8px 0;
 }
 
-.produto strong {
-    display: block;
-    color: #e65100;
+.preco {
+    color: #ff7200;
     font-size: 20px;
-    margin-bottom: 12px;
+    font-weight: bold;
+    margin: 10px 0;
 }
 
 .produto button {
     width: 100%;
+    background: #ff6500;
+    color: #111;
     border: none;
-    border-radius: 12px;
-    background: #ff7a00;
-    color: white;
-    padding: 12px;
-    font-size: 16px;
+    border-radius: 9px;
+    padding: 10px;
     font-weight: bold;
     cursor: pointer;
 }
 
 .produto button:hover {
-    background: #e56700;
+    background: #ff8500;
 }
 
-.produto.esgotado {
-    opacity: 0.65;
-}
-
-.produto.esgotado button {
-    background: #777;
-    cursor: not-allowed;
-}
-
-/* =========================================================
-   SUBCATEGORIAS
-========================================================= */
-
-.subcategoria {
-    font-size: 21px;
-    margin: 25px 15px 12px;
-}
-
-/* =========================================================
-   INFORMAÇÕES
-========================================================= */
-
-.informacoes {
-    padding: 15px;
-}
-
-.info-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 12px;
-}
-
-.info-card {
-    background: white;
-    padding: 18px;
-    border-radius: 15px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-}
-
-.info-card h3 {
-    margin-bottom: 8px;
-    color: #e65100;
-}
-
-.info-card p {
-    font-size: 14px;
-}
-
-/* =========================================================
-   DELIVERY
-========================================================= */
-
-.delivery {
-    margin: 25px 15px;
-    background: #111;
-    color: white;
-    padding: 20px;
-    border-radius: 16px;
-}
-
-.delivery h2 {
-    margin-bottom: 10px;
-}
-
-.delivery-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 10px;
-}
-
-.delivery-grid div {
-    background: #222;
-    padding: 12px;
-    border-radius: 10px;
-}
-
-/* =========================================================
-   SELF-SERVICE
-========================================================= */
-
-.buffet-lista {
-    padding: 0 15px;
-}
-
-.buffet-lista li {
-    background: white;
-    list-style: none;
-    padding: 12px;
-    margin-bottom: 7px;
-    border-radius: 10px;
-}
-
-.dias-buffet {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 12px;
-    padding: 0 15px;
-}
-
-.dia-buffet {
-    background: white;
-    border-radius: 15px;
-    padding: 16px;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.08);
-}
-
-.dia-buffet h3 {
-    color: #e65100;
-    margin-bottom: 8px;
-}
-
-/* =========================================================
-   SOBREMESAS DO DIA
-========================================================= */
-
-.dias-sobremesas {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 10px;
-    padding: 0 15px;
-}
-
-.dia-sobremesa {
-    background: white;
-    padding: 14px;
-    border-radius: 12px;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.07);
-}
-
-.dia-sobremesa p {
-    font-size: 14px;
-}
-
-/* =========================================================
-   CARRINHO
-========================================================= */
-
-.carrinho {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.65);
-    display: none;
-    z-index: 3000;
-    align-items: flex-end;
-}
-
-.carrinho.ativo {
-    display: flex;
-}
-
-.carrinho-conteudo {
-    background: white;
+.opcao {
     width: 100%;
-    max-height: 90vh;
-    overflow-y: auto;
-    border-radius: 22px 22px 0 0;
-    padding: 20px;
-    animation: subir 0.25s ease;
-}
-
-@keyframes subir {
-    from {
-        transform: translateY(100%);
-    }
-
-    to {
-        transform: translateY(0);
-    }
-}
-
-.fechar {
-    float: right;
-    border: none;
-    background: #eee;
-    width: 38px;
-    height: 38px;
-    border-radius: 50%;
-    font-size: 20px;
+    background: #151515;
+    color: white;
+    border: 2px solid #333;
+    border-radius: 13px;
+    padding: 15px;
+    text-align: left;
+    margin-bottom: 10px;
     cursor: pointer;
 }
 
-.carrinho-conteudo h2 {
-    margin-bottom: 18px;
+.opcao:hover {
+    border-color: #ff6500;
+}
+
+.opcao.selecionado {
+    border-color: #ff6500;
+    background: #241408;
+}
+
+.opcao strong {
+    color: #ff7200;
+}
+
+.opcao .produto-descricao {
+    color: #bbb;
+}
+
+.etapa {
+    margin-top: 20px;
+}
+
+.escondido {
+    display: none !important;
+}
+
+.resumo {
+    background: #151515;
+    border: 1px solid #333;
+    border-radius: 15px;
+    padding: 18px;
+    margin-top: 15px;
+}
+
+.resumo p {
+    color: #ddd;
+    margin: 8px 0;
+    line-height: 1.5;
+}
+
+.resumo strong {
+    color: #ff7200;
+}
+
+.resumo hr {
+    border: 0;
+    border-top: 1px solid #333;
+    margin: 15px 0;
+}
+
+.total {
+    background: #ff6500;
+    color: #111;
+    padding: 17px;
+    border-radius: 13px;
+    margin-top: 15px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
 }
 
 .item-carrinho {
+    background: #151515;
+    border-left: 4px solid #ff6500;
+    border-radius: 13px;
+    padding: 15px;
+    margin-bottom: 12px;
+}
+
+.item-carrinho h3 {
+    color: #ff7200;
+}
+
+.item-carrinho p {
+    color: #ccc;
+    margin: 6px 0;
+    line-height: 1.5;
+}
+
+.controles {
     display: flex;
-    justify-content: space-between;
+    gap: 8px;
     align-items: center;
-    gap: 10px;
-    background: #f5f5f5;
-    padding: 13px;
-    border-radius: 12px;
-    margin-bottom: 10px;
+    margin-top: 10px;
 }
 
-.item-carrinho small {
-    display: block;
-    color: #666;
-    font-size: 12px;
-}
-
-.controle-quantidade {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-}
-
-.controle-quantidade button {
+.controles button {
+    background: #ff6500;
+    color: #111;
     border: none;
-    background: #ff7a00;
-    color: white;
-    width: 34px;
-    height: 34px;
-    border-radius: 9px;
-    font-size: 18px;
+    border-radius: 7px;
+    padding: 7px 12px;
+    font-weight: bold;
     cursor: pointer;
 }
 
-.controle-quantidade .remover-item {
-    background: #d32f2f;
+.controles button:hover {
+    background: #ff8500;
 }
 
-.mensagem-vazia {
-    text-align: center;
-    padding: 30px;
-    color: #777;
+.formulario {
+    background: #151515;
+    padding: 18px;
+    border-radius: 15px;
 }
 
-/* =========================================================
-   CHECKOUT
-========================================================= */
-
-.checkout {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.65);
-    display: none;
-    z-index: 4000;
-    overflow-y: auto;
-}
-
-.checkout.ativo {
+.formulario label {
     display: block;
-}
-
-.checkout-conteudo {
-    background: white;
-    width: 100%;
-    max-width: 650px;
-    min-height: 100vh;
-    margin: auto;
-    padding: 22px;
-}
-
-.checkout-conteudo h2 {
-    margin-bottom: 20px;
-}
-
-.checkout-conteudo label {
-    display: block;
+    color: #ff7200;
     font-weight: bold;
-    margin-top: 14px;
-    margin-bottom: 6px;
+    margin: 12px 0 6px;
 }
 
-.checkout-conteudo input,
-.checkout-conteudo select,
-.checkout-conteudo textarea {
+.formulario input,
+.formulario select,
+.formulario textarea {
     width: 100%;
+    background: #080808;
+    color: white;
+    border: 1px solid #444;
+    border-radius: 9px;
     padding: 13px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    font-size: 16px;
     outline: none;
 }
 
-.checkout-conteudo textarea {
+.formulario input:focus,
+.formulario select:focus,
+.formulario textarea:focus {
+    border-color: #ff6500;
+}
+
+.formulario textarea {
     min-height: 90px;
     resize: vertical;
 }
 
-.botao-whatsapp {
-    width: 100%;
-    border: none;
-    background: #25d366;
-    color: white;
-    padding: 15px;
-    border-radius: 13px;
-    font-size: 17px;
-    font-weight: bold;
-    margin-top: 18px;
-    cursor: pointer;
-}
-
-.botao-voltar {
-    width: 100%;
-    border: none;
-    background: #ddd;
-    color: #222;
-    padding: 14px;
-    border-radius: 13px;
-    font-size: 16px;
-    font-weight: bold;
-    margin-top: 10px;
-    cursor: pointer;
-}
-
-/* =========================================================
-   MODAL MARMITA
-========================================================= */
-
-#modalMarmita {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.65);
-    display: none;
-    z-index: 5000;
-    align-items: center;
-    justify-content: center;
-    padding: 15px;
-}
-
-#modalMarmita.ativo {
-    display: flex;
-}
-
-.modal-marmita {
-    width: 100%;
-    max-width: 500px;
-}
-
-.modal-conteudo {
-    background: white;
-    border-radius: 20px;
-    padding: 20px;
-    max-height: 90vh;
-    overflow-y: auto;
-}
-
-.modal-conteudo h2 {
-    margin-bottom: 10px;
-}
-
-#opcoesMistura {
-    margin-top: 15px;
-}
-
-#opcoesMistura label {
-    font-size: 15px;
-}
-
-#opcoesMistura input {
-    width: 20px;
-    height: 20px;
-}
-
-/* =========================================================
-   PEDIDO ENVIADO
-========================================================= */
-
-.pedido-sucesso {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.75);
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 15px;
-    z-index: 6000;
-}
-
-.pedido-sucesso.ativo {
-    display: flex;
-}
-
-.sucesso-conteudo {
-    background: white;
-    width: 100%;
-    max-width: 500px;
-    border-radius: 22px;
-    padding: 25px;
+.sucesso {
     text-align: center;
-    box-shadow: 0 10px 35px rgba(0,0,0,0.3);
 }
 
-.sucesso-conteudo h2 {
-    color: #2e7d32;
-    margin-bottom: 15px;
+.sucesso-card {
+    background: #151515;
+    border: 2px solid #ff6500;
+    border-radius: 20px;
+    padding: 30px 20px;
+    margin-top: 50px;
 }
 
-.sucesso-conteudo p {
+.check {
+    width: 70px;
+    height: 70px;
+    background: #ff6500;
+    color: #111;
+    border-radius: 50%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.sucesso-card h2 {
+    margin-top: 20px;
+}
+
+.sucesso-card p {
+    color: #ccc;
     margin: 10px 0;
 }
 
-/* =========================================================
-   RODAPÉ
-========================================================= */
+#numeroPedido {
+    color: #ff7200;
+}
+
+#listaMisturas {
+    margin-top: 15px;
+}
+
+#misturasEscolhidas {
+    margin-top: 15px;
+}
+
+#limiteMisturas {
+    color: #bbb;
+    margin-bottom: 15px;
+    line-height: 1.5;
+}
 
 footer {
-    margin-top: 35px;
-    background: #111;
-    color: white;
     text-align: center;
-    padding: 25px 15px;
+    padding: 30px 10px;
+    color: #666;
 }
 
-footer p {
-    margin: 5px 0;
-    font-size: 14px;
-}
+@media (max-width: 550px) {
 
-/* =========================================================
-   DESKTOP
-========================================================= */
+    .topo h1 {
+        font-size: 16px;
+    }
 
-@media (min-width: 700px) {
+    .produtos {
+        grid-template-columns: 1fr;
+    }
 
-    .produtos-grid {
+    .categorias {
         grid-template-columns: repeat(2, 1fr);
     }
 
-    .info-grid {
-        grid-template-columns: repeat(2, 1fr);
+    .inicio-card {
+        padding: 25px 15px;
     }
 
-    .delivery-grid {
-        grid-template-columns: repeat(3, 1fr);
+    .produto {
+        padding: 14px;
     }
 
-    .dias-buffet {
-        grid-template-columns: repeat(2, 1fr);
+    .opcao {
+        padding: 14px;
     }
-
-    .dias-sobremesas {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .carrinho {
-        align-items: center;
-        justify-content: center;
-    }
-
-    .carrinho-conteudo {
-        width: 90%;
-        max-width: 650px;
-        max-height: 85vh;
-        border-radius: 22px;
-    }
-
-    .checkout-conteudo {
-        min-height: auto;
-        margin-top: 40px;
-        margin-bottom: 40px;
-        border-radius: 22px;
-    }
-}
-
-@media (min-width: 1000px) {
-
-    .produtos-grid {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
-    .dias-buffet {
-        grid-template-columns: repeat(3, 1fr);
-    }
-
-    .dias-sobremesas {
-        grid-template-columns: repeat(4, 1fr);
-    }
-}
-
-/* =========================================================
-   ANIMAÇÕES
-========================================================= */
-
-button {
-    transition: 0.2s;
-}
-
-button:active {
-    transform: scale(0.97);
-}
-
-.produto {
-    transition: 0.2s;
-}
-
-.produto:hover {
-    transform: translateY(-2px);
 }
