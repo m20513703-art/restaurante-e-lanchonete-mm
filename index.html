@@ -12,962 +12,1494 @@
 
 <body>
 
-<header>
-    <h1>🍔 Restaurante Lanchonete MM</h1>
-    <p>Faça seu pedido de forma rápida e fácil!</p>
-</header>
+    <!-- =========================
+         CABEÇALHO
+    ========================== -->
 
-<main class="container">
+    <header class="topo">
 
-    <!-- CATEGORIAS -->
-    <nav class="categorias">
+        <div class="logo-area">
+            <div class="logo">🍔</div>
 
-        <button onclick="filtrarCategoria('todos')">
-            🍽️ Todos
-        </button>
-
-        <button onclick="filtrarCategoria('pizza')">
-            🍕 Pizzas
-        </button>
-
-        <button onclick="filtrarCategoria('lanche')">
-            🍔 Lanches
-        </button>
-
-        <button onclick="filtrarCategoria('hotdog')">
-            🌭 Hot Dogs
-        </button>
-
-        <button onclick="filtrarCategoria('marmita')">
-            🍱 Marmitas
-        </button>
-
-        <button onclick="filtrarCategoria('cardapio')">
-            📅 Cardápio do Dia
-        </button>
-
-        <button onclick="filtrarCategoria('bebida')">
-            🥤 Bebidas
-        </button>
-
-        <button onclick="filtrarCategoria('porcao')">
-            🍟 Porções
-        </button>
-
-    </nav>
-
-
-    <!-- PRODUTOS -->
-    <section class="produtos" id="produtos">
-
-
-        <!-- ========================= -->
-        <!-- PIZZAS SALGADAS -->
-        <!-- ========================= -->
-
-        <div class="produto" data-categoria="pizza">
-            <h2>🍕 Pizza Calabresa</h2>
-            <p>Calabresa, cebola e queijo</p>
-            <div class="preco">R$ 45,00</div>
-            <button onclick="abrirPizza('Pizza Calabresa',45)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="pizza">
-            <h2>🍕 Frango com Catupiry</h2>
-            <p>Frango e catupiry</p>
-            <div class="preco">R$ 48,00</div>
-            <button onclick="abrirPizza('Frango com Catupiry',48)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="pizza">
-            <h2>🍕 Pizza Mussarela</h2>
-            <p>Mussarela e orégano</p>
-            <div class="preco">R$ 43,00</div>
-            <button onclick="abrirPizza('Pizza Mussarela',43)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="pizza">
-            <h2>🍕 Portuguesa</h2>
-            <p>Presunto, queijo, ovo, cebola e ervilha</p>
-            <div class="preco">R$ 50,00</div>
-            <button onclick="abrirPizza('Pizza Portuguesa',50)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="pizza">
-            <h2>🍕 4 Queijos</h2>
-            <p>Mussarela, catupiry, cheddar e parmesão</p>
-            <div class="preco">R$ 52,00</div>
-            <button onclick="abrirPizza('Pizza 4 Queijos',52)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="pizza">
-            <h2>🍕 Pizza Bacon</h2>
-            <p>Bacon e queijo</p>
-            <div class="preco">R$ 48,00</div>
-            <button onclick="abrirPizza('Pizza Bacon',48)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="pizza">
-            <h2>🍕 Napolitana</h2>
-            <p>Queijo, tomate e orégano</p>
-            <div class="preco">R$ 46,00</div>
-            <button onclick="abrirPizza('Pizza Napolitana',46)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="pizza">
-            <h2>🍕 Milho com Bacon</h2>
-            <p>Milho, bacon e queijo</p>
-            <div class="preco">R$ 48,00</div>
-            <button onclick="abrirPizza('Pizza Milho com Bacon',48)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="pizza">
-            <h2>🍕 Frango com Milho</h2>
-            <p>Frango, milho e queijo</p>
-            <div class="preco">R$ 47,00</div>
-            <button onclick="abrirPizza('Pizza Frango com Milho',47)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="pizza">
-            <h2>🍕 Presunto e Queijo</h2>
-            <p>Presunto e mussarela</p>
-            <div class="preco">R$ 45,00</div>
-            <button onclick="abrirPizza('Pizza Presunto e Queijo',45)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="pizza">
-            <h2>🍕 Calabresa com Catupiry</h2>
-            <p>Calabresa, queijo e catupiry</p>
-            <div class="preco">R$ 50,00</div>
-            <button onclick="abrirPizza('Pizza Calabresa com Catupiry',50)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="pizza">
-            <h2>🍕 Frango com Cheddar</h2>
-            <p>Frango, queijo e cheddar</p>
-            <div class="preco">R$ 50,00</div>
-            <button onclick="abrirPizza('Pizza Frango com Cheddar',50)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="pizza">
-            <h2>🍕 Bacon com Catupiry</h2>
-            <p>Bacon, queijo e catupiry</p>
-            <div class="preco">R$ 50,00</div>
-            <button onclick="abrirPizza('Pizza Bacon com Catupiry',50)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="pizza">
-            <h2>🍕 Calabresa com Bacon</h2>
-            <p>Calabresa, bacon e queijo</p>
-            <div class="preco">R$ 52,00</div>
-            <button onclick="abrirPizza('Pizza Calabresa com Bacon',52)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="pizza">
-            <h2>🍕 Atum</h2>
-            <p>Atum, cebola e queijo</p>
-            <div class="preco">R$ 50,00</div>
-            <button onclick="abrirPizza('Pizza Atum',50)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="pizza">
-            <h2>🍕 Vegetariana</h2>
-            <p>Legumes, queijo e tomate</p>
-            <div class="preco">R$ 47,00</div>
-            <button onclick="abrirPizza('Pizza Vegetariana',47)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="pizza">
-            <h2>🍕 Moda da Casa</h2>
-            <p>Especial da casa</p>
-            <div class="preco">R$ 55,00</div>
-            <button onclick="abrirPizza('Pizza Moda da Casa',55)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="pizza">
-            <h2>🍕 Pepperoni</h2>
-            <p>Pepperoni e queijo</p>
-            <div class="preco">R$ 52,00</div>
-            <button onclick="abrirPizza('Pizza Pepperoni',52)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="pizza">
-            <h2>🍕 Carne Seca com Catupiry</h2>
-            <p>Carne seca e catupiry</p>
-            <div class="preco">R$ 55,00</div>
-            <button onclick="abrirPizza('Pizza Carne Seca com Catupiry',55)">
-                Adicionar
-            </button>
-        </div>
-
-
-        <!-- ========================= -->
-        <!-- PIZZAS DOCES -->
-        <!-- ========================= -->
-
-        <div class="produto" data-categoria="pizza">
-            <h2>🍫 Pizza Chocolate</h2>
-            <p>Chocolate</p>
-            <div class="preco">R$ 50,00</div>
-            <button onclick="abrirPizza('Pizza Chocolate',50)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="pizza">
-            <h2>🍫 Chocolate com Morango</h2>
-            <p>Chocolate e morango</p>
-            <div class="preco">R$ 55,00</div>
-            <button onclick="abrirPizza('Chocolate com Morango',55)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="pizza">
-            <h2>🍫 Chocolate com Banana</h2>
-            <p>Chocolate e banana</p>
-            <div class="preco">R$ 53,00</div>
-            <button onclick="abrirPizza('Chocolate com Banana',53)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="pizza">
-            <h2>🍫 Prestígio</h2>
-            <p>Chocolate e coco</p>
-            <div class="preco">R$ 53,00</div>
-            <button onclick="abrirPizza('Pizza Prestígio',53)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="pizza">
-            <h2>🍓 Romeu e Julieta</h2>
-            <p>Queijo e goiabada</p>
-            <div class="preco">R$ 52,00</div>
-            <button onclick="abrirPizza('Pizza Romeu e Julieta',52)">
-                Adicionar
-            </button>
-        </div>
-
-
-        <!-- ========================= -->
-        <!-- BORDAS -->
-        <!-- ========================= -->
-
-        <div class="produto" data-categoria="borda">
-            <h2>🧀 Borda Catupiry</h2>
-            <p>Borda recheada</p>
-            <div class="preco">R$ 8,00</div>
-            <button onclick="adicionarCarrinho('Borda Catupiry',8)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="borda">
-            <h2>🧀 Borda Cheddar</h2>
-            <p>Borda recheada</p>
-            <div class="preco">R$ 8,00</div>
-            <button onclick="adicionarCarrinho('Borda Cheddar',8)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="borda">
-            <h2>🧀 Borda Requeijão</h2>
-            <p>Borda recheada</p>
-            <div class="preco">R$ 7,00</div>
-            <button onclick="adicionarCarrinho('Borda Requeijão',7)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="borda">
-            <h2>🧀 Borda Requeijão Escala</h2>
-            <p>Borda recheada</p>
-            <div class="preco">R$ 7,00</div>
-            <button onclick="adicionarCarrinho('Borda Requeijão Escala',7)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="borda">
-            <h2>🍫 Borda Chocolate</h2>
-            <p>Borda doce</p>
-            <div class="preco">R$ 10,00</div>
-            <button onclick="adicionarCarrinho('Borda Chocolate',10)">
-                Adicionar
-            </button>
-        </div>
-
-
-        <!-- ========================= -->
-        <!-- ACRÉSCIMOS -->
-        <!-- ========================= -->
-
-        <div class="produto" data-categoria="acrescimo">
-            <h2>🥓 Bacon</h2>
-            <p>Acréscimo para pizza</p>
-            <div class="preco">R$ 5,00</div>
-            <button onclick="adicionarCarrinho('Acréscimo Bacon',5)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="acrescimo">
-            <h2>🧀 Muçarela</h2>
-            <p>Acréscimo para pizza</p>
-            <div class="preco">R$ 4,00</div>
-            <button onclick="adicionarCarrinho('Acréscimo Muçarela',4)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="acrescimo">
-            <h2>🧀 Catupiry</h2>
-            <p>Acréscimo para pizza</p>
-            <div class="preco">R$ 4,00</div>
-            <button onclick="adicionarCarrinho('Acréscimo Catupiry',4)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="acrescimo">
-            <h2>🧀 Cheddar</h2>
-            <p>Acréscimo para pizza</p>
-            <div class="preco">R$ 4,00</div>
-            <button onclick="adicionarCarrinho('Acréscimo Cheddar',4)">
-                Adicionar
-            </button>
-        </div>
-
-
-        <!-- ========================= -->
-        <!-- LANCHES -->
-        <!-- ========================= -->
-
-        <div class="produto" data-categoria="lanche">
-            <h2>🍔 X-Burguer</h2>
-            <p>Hambúrguer, queijo e molho</p>
-            <div class="preco">R$ 22,00</div>
-            <button onclick="adicionarCarrinho('X-Burguer',22)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="lanche">
-            <h2>🍔 X-Salada</h2>
-            <p>Hambúrguer, queijo, salada e molho</p>
-            <div class="preco">R$ 25,00</div>
-            <button onclick="adicionarCarrinho('X-Salada',25)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="lanche">
-            <h2>🍔 X-Bacon</h2>
-            <p>Hambúrguer, queijo e bacon</p>
-            <div class="preco">R$ 28,00</div>
-            <button onclick="adicionarCarrinho('X-Bacon',28)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="lanche">
-            <h2>🍔 X-Frango</h2>
-            <p>Frango, queijo e molho</p>
-            <div class="preco">R$ 27,00</div>
-            <button onclick="adicionarCarrinho('X-Frango',27)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="lanche">
-            <h2>🍔 X-Calabresa</h2>
-            <p>Calabresa, queijo e molho</p>
-            <div class="preco">R$ 27,00</div>
-            <button onclick="adicionarCarrinho('X-Calabresa',27)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="lanche">
-            <h2>🍔 X-Egg</h2>
-            <p>Hambúrguer, ovo e queijo</p>
-            <div class="preco">R$ 27,00</div>
-            <button onclick="adicionarCarrinho('X-Egg',27)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="lanche">
-            <h2>🍔 X-Cheddar</h2>
-            <p>Hambúrguer e cheddar</p>
-            <div class="preco">R$ 30,00</div>
-            <button onclick="adicionarCarrinho('X-Cheddar',30)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="lanche">
-            <h2>🍔 X-Tudo</h2>
-            <p>O lanche completo da casa</p>
-            <div class="preco">R$ 35,00</div>
-            <button onclick="adicionarCarrinho('X-Tudo',35)">
-                Adicionar
-            </button>
-        </div>
-
-
-        <!-- ========================= -->
-        <!-- HOT DOG -->
-        <!-- ========================= -->
-
-        <div class="produto" data-categoria="hotdog">
-            <h2>🌭 Hot Dog Tradicional</h2>
-            <p>Hot dog tradicional</p>
-            <div class="preco">R$ 15,00</div>
-            <button onclick="adicionarCarrinho('Hot Dog Tradicional',15)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="hotdog">
-            <h2>🌭 Hot Dog Especial</h2>
-            <p>Hot dog especial</p>
-            <div class="preco">R$ 20,00</div>
-            <button onclick="adicionarCarrinho('Hot Dog Especial',20)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="hotdog">
-            <h2>🌭 Hot Dog Frango</h2>
-            <p>Hot dog com frango</p>
-            <div class="preco">R$ 22,00</div>
-            <button onclick="adicionarCarrinho('Hot Dog Frango',22)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="hotdog">
-            <h2>🌭 Hot Dog Bacon</h2>
-            <p>Hot dog com bacon</p>
-            <div class="preco">R$ 23,00</div>
-            <button onclick="adicionarCarrinho('Hot Dog Bacon',23)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="hotdog">
-            <h2>🌭 Hot Dog Completo</h2>
-            <p>Completo da casa</p>
-            <div class="preco">R$ 25,00</div>
-            <button onclick="adicionarCarrinho('Hot Dog Completo',25)">
-                Adicionar
-            </button>
-        </div>
-
-
-        <!-- ========================= -->
-        <!-- MARMITAS -->
-        <!-- ========================= -->
-
-        <div class="produto" data-categoria="marmita">
-            <h2>🍱 Marmita Pequena</h2>
-            <p>1 carne + acompanhamentos</p>
-            <div class="preco">R$ 20,00</div>
-            <button onclick="adicionarCarrinho('Marmita Pequena',20)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="marmita">
-            <h2>🍱 Marmita Média</h2>
-            <p>2 carnes + acompanhamentos</p>
-            <div class="preco">R$ 25,00</div>
-            <button onclick="adicionarCarrinho('Marmita Média',25)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="marmita">
-            <h2>🍱 Marmita Grande</h2>
-            <p>3 carnes + acompanhamentos</p>
-            <div class="preco">R$ 28,00</div>
-            <button onclick="adicionarCarrinho('Marmita Grande',28)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="marmita">
-            <h2>🍱 Marmita Comercial</h2>
-            <p>4 carnes + acompanhamentos</p>
-            <div class="preco">R$ 45,00</div>
-            <button onclick="adicionarCarrinho('Marmita Comercial',45)">
-                Adicionar
-            </button>
-        </div>
-
-
-        <!-- ========================= -->
-        <!-- CARDÁPIO DO DIA -->
-        <!-- ========================= -->
-
-        <div class="produto" data-categoria="cardapio">
-            <h2>📅 Cardápio do Dia</h2>
-
-            <p>
-                Arroz, feijão, feijoada, linguiça frita,
-                bife à parmegiana, bife acebolado,
-                filé de frango e creme de milho.
-            </p>
-
-            <p>
-                Saladas: tomate, alface, berinjela,
-                almeirão, vinagrete, maionese e farofa.
-            </p>
-
-            <div class="preco">R$ 35,00 / kg</div>
-
-            <button onclick="adicionarCardapioDia()">
-                Adicionar
-            </button>
-        </div>
-
-
-        <!-- ========================= -->
-        <!-- BEBIDAS -->
-        <!-- ========================= -->
-
-        <div class="produto" data-categoria="bebida">
-            <h2>🥤 Coca-Cola Lata 350ml</h2>
-            <div class="preco">R$ 6,00</div>
-            <button onclick="adicionarCarrinho('Coca-Cola Lata 350ml',6)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="bebida">
-            <h2>🥤 Coca-Cola 2L</h2>
-            <div class="preco">R$ 12,00</div>
-            <button onclick="adicionarCarrinho('Coca-Cola 2L',12)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="bebida">
-            <h2>🥤 Coca-Cola Zero Lata 350ml</h2>
-            <div class="preco">R$ 6,00</div>
-            <button onclick="adicionarCarrinho('Coca-Cola Zero Lata 350ml',6)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="bebida">
-            <h2>🥤 Coca-Cola Zero 2L</h2>
-            <div class="preco">R$ 13,00</div>
-            <button onclick="adicionarCarrinho('Coca-Cola Zero 2L',13)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="bebida">
-            <h2>🥤 Guaraná Antarctica Lata 350ml</h2>
-            <div class="preco">R$ 6,00</div>
-            <button onclick="adicionarCarrinho('Guaraná Antarctica Lata 350ml',6)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="bebida">
-            <h2>🥤 Guaraná Antarctica 2L</h2>
-            <div class="preco">R$ 12,00</div>
-            <button onclick="adicionarCarrinho('Guaraná Antarctica 2L',12)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="bebida">
-            <h2>🥤 Fanta Laranja Lata</h2>
-            <div class="preco">R$ 6,00</div>
-            <button onclick="adicionarCarrinho('Fanta Laranja Lata',6)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="bebida">
-            <h2>🥤 Fanta Laranja 2L</h2>
-            <div class="preco">R$ 12,00</div>
-            <button onclick="adicionarCarrinho('Fanta Laranja 2L',12)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="bebida">
-            <h2>🥤 Fanta Uva Lata</h2>
-            <div class="preco">R$ 6,00</div>
-            <button onclick="adicionarCarrinho('Fanta Uva Lata',6)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="bebida">
-            <h2>🥤 Fanta Uva 2L</h2>
-            <div class="preco">R$ 12,00</div>
-            <button onclick="adicionarCarrinho('Fanta Uva 2L',12)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="bebida">
-            <h2>🥤 Sprite Lata</h2>
-            <div class="preco">R$ 6,00</div>
-            <button onclick="adicionarCarrinho('Sprite Lata',6)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="bebida">
-            <h2>🥤 Sprite 2L</h2>
-            <div class="preco">R$ 12,00</div>
-            <button onclick="adicionarCarrinho('Sprite 2L',12)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="bebida">
-            <h2>🥤 Antarctica Normal</h2>
-            <div class="preco">R$ 6,00</div>
-            <button onclick="adicionarCarrinho('Antarctica Normal',6)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="bebida">
-            <h2>🥤 Antarctica Zero</h2>
-            <div class="preco">R$ 6,00</div>
-            <button onclick="adicionarCarrinho('Antarctica Zero',6)">
-                Adicionar
-            </button>
+            <div>
+                <h1>Restaurante Lanchonete MM</h1>
+                <p>🍕 Pizzaria • 🍔 Lanchonete • 🥙 Esfiharia</p>
+            </div>
         </div>
 
-        <div class="produto" data-categoria="bebida">
-            <h2>💧 Água sem Gás</h2>
-            <div class="preco">R$ 3,00</div>
-            <button onclick="adicionarCarrinho('Água sem Gás',3)">
-                Adicionar
-            </button>
+        <div id="statusRestaurante" class="status-restaurante">
+            🟢 Verificando horário...
         </div>
 
-        <div class="produto" data-categoria="bebida">
-            <h2>💧 Água com Gás</h2>
-            <div class="preco">R$ 4,00</div>
-            <button onclick="adicionarCarrinho('Água com Gás',4)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="bebida">
-            <h2>🧃 Suco Natural</h2>
-            <div class="preco">R$ 8,00</div>
-            <button onclick="adicionarCarrinho('Suco Natural',8)">
-                Adicionar
-            </button>
-        </div>
-
-
-        <!-- ========================= -->
-        <!-- PORÇÕES -->
-        <!-- ========================= -->
-
-        <div class="produto" data-categoria="porcao">
-            <h2>🍟 Batata Frita</h2>
-            <p>Porção de batata frita</p>
-            <div class="preco">R$ 25,00</div>
-            <button onclick="adicionarCarrinho('Porção Batata Frita',25)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="porcao">
-            <h2>🍟 Batata Cheddar e Bacon</h2>
-            <p>Batata, cheddar e bacon</p>
-            <div class="preco">R$ 35,00</div>
-            <button onclick="adicionarCarrinho('Porção Batata Cheddar e Bacon',35)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="porcao">
-            <h2>🍠 Mandioca Frita</h2>
-            <p>Porção de mandioca frita</p>
-            <div class="preco">R$ 25,00</div>
-            <button onclick="adicionarCarrinho('Porção Mandioca Frita',25)">
-                Adicionar
-            </button>
-        </div>
+    </header>
 
-        <div class="produto" data-categoria="porcao">
-            <h2>🧅 Anéis de Cebola</h2>
-            <p>Porção de onion rings</p>
-            <div class="preco">R$ 28,00</div>
-            <button onclick="adicionarCarrinho('Porção Anéis de Cebola',28)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="porcao">
-            <h2>🌭 Calabresa Acebolada</h2>
-            <p>Calabresa com cebola</p>
-            <div class="preco">R$ 32,00</div>
-            <button onclick="adicionarCarrinho('Porção Calabresa Acebolada',32)">
-                Adicionar
-            </button>
-        </div>
-
-        <div class="produto" data-categoria="porcao">
-            <h2>🍗 Frango a Passarinho</h2>
-            <p>Porção de frango</p>
-            <div class="preco">R$ 35,00</div>
-            <button onclick="adicionarCarrinho('Porção Frango a Passarinho',35)">
-                Adicionar
-            </button>
-        </div>
-
-    </section>
 
+    <!-- =========================
+         BANNER PRINCIPAL
+    ========================== -->
 
-    <!-- ========================= -->
-    <!-- CARRINHO -->
-    <!-- ========================= -->
-
-    <section id="carrinho">
-
-        <h2>🛒 Seu Carrinho</h2>
-
-        <div id="listaCarrinho">
-            <p>🛒 Seu carrinho está vazio.</p>
-        </div>
-
-        <div id="total">
-            Total: R$ 0,00
-        </div>
+    <section class="banner">
 
-        <button
-            id="finalizarPedido"
-            onclick="finalizarPedido()">
+        <h2>🍴 Seja bem-vindo à Lanchonete MM!</h2>
 
-            📝 Finalizar pedido
+        <p>
+            Faça seu pedido de forma rápida e fácil.
+        </p>
 
+        <button onclick="abrirCarrinho()" class="botao-carrinho">
+            🛒 Meu Carrinho
+            <span id="contadorCarrinho">0</span>
         </button>
 
     </section>
 
 
-    <!-- ========================= -->
-    <!-- FINALIZAÇÃO -->
-    <!-- ========================= -->
+    <!-- =========================
+         HORÁRIO DE FUNCIONAMENTO
+    ========================== -->
 
-    <section
-        id="finalizacao"
-        style="display:none; margin-top:30px;">
+    <section class="informacoes">
 
-        <h2>📝 Finalizar Pedido</h2>
+        <h2>🕐 Horário de Funcionamento</h2>
 
-        <form onsubmit="confirmarPedido(event)">
+        <div class="info-grid">
 
-            <input
-                type="text"
-                id="nomeCliente"
-                placeholder="Seu nome"
-                required
-            >
+            <div class="info-card">
 
-            <input
-                type="tel"
-                id="telefoneCliente"
-                placeholder="Seu telefone"
-                required
-            >
+                <h3>🍱 Self-Service / Almoço</h3>
 
-            <select
-                id="tipoEntrega"
-                onchange="alternarEndereco()"
-                required>
+                <p>
+                    <strong>Segunda a sexta:</strong><br>
+                    11:00 às 15:00
+                </p>
 
-                <option value="">
-                    Escolha a forma de recebimento
-                </option>
+                <p>
+                    <strong>Sábado, domingo e feriados:</strong><br>
+                    11:30 às 15:30
+                </p>
 
-                <option value="delivery">
-                    🚴 Entrega
-                </option>
-
-                <option value="retirada">
-                    🏪 Retirada no local
-                </option>
-
-            </select>
-
-
-            <div
-                id="campoEndereco"
-                style="display:none;">
-
-                <input
-                    type="text"
-                    id="enderecoCliente"
-                    placeholder="Endereço para entrega"
-                >
+                <p class="aviso">
+                    🚨 Pedidos de delivery/marmitex até 14:00
+                </p>
 
             </div>
 
 
-            <select
-                id="pagamentoCliente"
-                required>
+            <div class="info-card">
 
-                <option value="">
-                    Forma de pagamento
-                </option>
+                <h3>🍕 Pizzaria • Lanchonete • Esfiharia</h3>
 
-                <option value="Dinheiro">
-                    💵 Dinheiro
-                </option>
+                <p>
+                    <strong>Terça a domingo:</strong><br>
+                    18:00 às 22:30
+                </p>
 
-                <option value="Pix">
-                    📱 Pix
-                </option>
+                <p>
+                    <strong>Segunda à noite:</strong><br>
+                    🔴 Fechado
+                </p>
 
-                <option value="Cartão de Débito">
-                    💳 Cartão de Débito
-                </option>
+                <p class="aviso">
+                    🚨 Pedidos delivery e balcão até 22:00
+                </p>
 
-                <option value="Cartão de Crédito">
-                    💳 Cartão de Crédito
-                </option>
+            </div>
 
-            </select>
+        </div>
+
+    </section>
 
 
-            <textarea
-                id="observacaoCliente"
-                placeholder="Observação do pedido">
-            </textarea>
+    <!-- =========================
+         DELIVERY
+    ========================== -->
+
+    <section class="delivery">
+
+        <h2>🛵 Delivery</h2>
+
+        <div class="delivery-grid">
+
+            <div>
+                <span>🛵</span>
+                <strong>Taxa</strong>
+                <p>R$ 5,00 para toda a cidade</p>
+            </div>
+
+            <div>
+                <span>🏪</span>
+                <strong>Retirada</strong>
+                <p>Grátis no balcão</p>
+            </div>
+
+            <div>
+                <span>📦</span>
+                <strong>Embalagem</strong>
+                <p>Sem taxa</p>
+            </div>
+
+            <div>
+                <span>⏱️</span>
+                <strong>Entrega</strong>
+                <p>60–80 minutos</p>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+         NAVEGAÇÃO DO CARDÁPIO
+    ========================== -->
+
+    <nav class="categorias">
+
+        <button onclick="irPara('cardapioDia')">🍱 Cardápio do Dia</button>
+
+        <button onclick="irPara('pizzasSalgadas')">🍕 Pizzas</button>
+
+        <button onclick="irPara('pizzasDoces')">🍫 Pizzas Doces</button>
+
+        <button onclick="irPara('bordas')">🥖 Bordas</button>
+
+        <button onclick="irPara('adicionais')">🧀 Adicionais</button>
+
+        <button onclick="irPara('porcoes')">🍟 Porções</button>
+
+        <button onclick="irPara('lanches')">🍔 Lanches</button>
+
+        <button onclick="irPara('hotdogs')">🌭 Hot Dog</button>
+
+        <button onclick="irPara('esfihas')">🥙 Esfihas</button>
+
+        <button onclick="irPara('bebidas')">🥤 Bebidas</button>
+
+        <button onclick="irPara('buffetFrio')">🥗 Buffet Frio</button>
+
+        <button onclick="irPara('buffetQuente')">🍲 Buffet Quente</button>
+
+        <button onclick="irPara('sobremesas')">🍨 Sobremesas</button>
+
+    </nav>
+
+
+    <main>
+
+
+        <!-- =========================
+             CARDÁPIO DO DIA
+        ========================== -->
+
+        <section id="cardapioDia" class="categoria">
+
+            <div class="titulo-categoria">
+
+                <h2>🍱 Cardápio do Dia + Marmitas</h2>
+
+                <p>
+                    Almoço preparado com carinho todos os dias.
+                </p>
+
+            </div>
+
+
+            <div class="produtos-grid">
+
+
+                <article class="produto">
+
+                    <h3>🍱 Marmita Pequena</h3>
+
+                    <p>
+                        1 mistura do cardápio do dia
+                    </p>
+
+                    <strong>R$ 20,00</strong>
+
+                    <button onclick="adicionarProduto('Marmita Pequena',20)">
+                        Adicionar
+                    </button>
+
+                </article>
+
+
+                <article class="produto">
+
+                    <h3>🍱 Marmita Média</h3>
+
+                    <p>
+                        2 misturas do cardápio do dia
+                    </p>
+
+                    <strong>R$ 25,00</strong>
+
+                    <button onclick="adicionarProduto('Marmita Média',25)">
+                        Adicionar
+                    </button>
+
+                </article>
+
+
+                <article class="produto">
+
+                    <h3>🍱 Marmita Grande</h3>
+
+                    <p>
+                        3 misturas do cardápio do dia
+                    </p>
+
+                    <strong>R$ 28,00</strong>
+
+                    <button onclick="adicionarProduto('Marmita Grande',28)">
+                        Adicionar
+                    </button>
+
+                </article>
+
+
+                <article class="produto">
+
+                    <h3>🍱 Marmita Comercial</h3>
+
+                    <p>
+                        4 misturas do cardápio do dia
+                    </p>
+
+                    <strong>R$ 50,00</strong>
+
+                    <button onclick="adicionarProduto('Marmita Comercial',50)">
+                        Adicionar
+                    </button>
+
+                </article>
+
+
+                <article class="produto">
+
+                    <h3>⚖️ Marmita por Quilo</h3>
+
+                    <p>
+                        Segunda a sexta: R$ 35,00/kg
+                    </p>
+
+                    <p>
+                        Sábado, domingo e feriados: R$ 45,00/kg
+                    </p>
+
+                    <small>
+                        Tare do prato: 200g a 250g, descontada na balança.
+                    </small>
+
+                    <strong>
+                        Consulte o peso no balcão
+                    </strong>
+
+                </article>
+
+            </div>
+
+
+            <!-- SOBREMESAS DO DIA -->
+
+            <div class="subcategoria">
+
+                <h3>🍨 Sobremesas de Hoje</h3>
+
+                <p>
+                    4 opções preparadas especialmente para cada dia.
+                </p>
+
+                <div id="sobremesasDoDia" class="produtos-grid">
+
+                    <!-- O JavaScript vai colocar aqui
+                         as sobremesas correspondentes ao dia -->
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             PIZZAS SALGADAS
+        ========================== -->
+
+        <section id="pizzasSalgadas" class="categoria">
+
+            <div class="titulo-categoria">
+
+                <h2>🍕 Pizzas Salgadas</h2>
+
+                <p>Escolha seu sabor favorito.</p>
+
+            </div>
+
+            <div class="produtos-grid">
+
+
+                <article class="produto">
+                    <h3>Atum</h3>
+                    <p>Molho de tomate, atum sólido e cebola fatiada</p>
+                    <strong>R$ 52,00</strong>
+                    <button onclick="adicionarProduto('Pizza Atum',52)">Adicionar</button>
+                </article>
+
+
+                <article class="produto">
+                    <h3>Bacon</h3>
+                    <p>Molho de tomate, mussarela, bacon crocante e cebola</p>
+                    <strong>R$ 50,00</strong>
+                    <button onclick="adicionarProduto('Pizza Bacon',50)">Adicionar</button>
+                </article>
+
+
+                <article class="produto">
+                    <h3>Baiana</h3>
+                    <p>Mussarela, calabresa moída, ovo, pimenta calabresa e cebola</p>
+                    <strong>R$ 52,00</strong>
+                    <button onclick="adicionarProduto('Pizza Baiana',52)">Adicionar</button>
+                </article>
+
+
+                <article class="produto">
+                    <h3>Calabresa</h3>
+                    <p>Mussarela, calabresa fatiada e cebola</p>
+                    <strong>R$ 48,00</strong>
+                    <button onclick="adicionarProduto('Pizza Calabresa',48)">Adicionar</button>
+                </article>
+
+
+                <article class="produto">
+                    <h3>Calabresa com Catupiry</h3>
+                    <p>Mussarela, calabresa fatiada e requeijão cremoso</p>
+                    <strong>R$ 52,00</strong>
+                    <button onclick="adicionarProduto('Pizza Calabresa com Catupiry',52)">Adicionar</button>
+                </article>
+
+
+                <article class="produto">
+                    <h3>Churrasco</h3>
+                    <p>Carne grelhada, alho frito e molho chimichurri</p>
+                    <strong>R$ 62,00</strong>
+                    <button onclick="adicionarProduto('Pizza Churrasco',62)">Adicionar</button>
+                </article>
+
+
+                <article class="produto">
+                    <h3>Frango com Catupiry</h3>
+                    <p>Frango desfiado e requeijão cremoso</p>
+                    <strong>R$ 52,00</strong>
+                    <button onclick="adicionarProduto('Pizza Frango com Catupiry',52)">Adicionar</button>
+                </article>
+
+
+                <article class="produto">
+                    <h3>Lombo com Catupiry</h3>
+                    <p>Lombo canadense e requeijão cremoso</p>
+                    <strong>R$ 54,00</strong>
+                    <button onclick="adicionarProduto('Pizza Lombo com Catupiry',54)">Adicionar</button>
+                </article>
+
+
+                <article class="produto">
+                    <h3>Marguerita</h3>
+                    <p>Mussarela, tomate e manjericão fresco</p>
+                    <strong>R$ 48,00</strong>
+                    <button onclick="adicionarProduto('Pizza Marguerita',48)">Adicionar</button>
+                </article>
+
+
+                <article class="produto">
+                    <h3>Milho com Bacon</h3>
+                    <p>Mussarela, milho verde e bacon em cubos</p>
+                    <strong>R$ 50,00</strong>
+                    <button onclick="adicionarProduto('Pizza Milho com Bacon',50)">Adicionar</button>
+                </article>
+
+
+                <article class="produto">
+                    <h3>Moda da Casa</h3>
+                    <p>Contrafilé, presunto, calabresa, ovos, milho, catupiry, cebola e azeitonas</p>
+                    <strong>R$ 65,00</strong>
+                    <button onclick="adicionarProduto('Pizza Moda da Casa',65)">Adicionar</button>
+                </article>
+
+
+                <article class="produto">
+                    <h3>Mussarela</h3>
+                    <p>Mussarela, tomate e orégano</p>
+                    <strong>R$ 45,00</strong>
+                    <button onclick="adicionarProduto('Pizza Mussarela',45)">Adicionar</button>
+                </article>
+
+
+                <article class="produto">
+                    <h3>Napolitana</h3>
+                    <p>Mussarela, tomate, parmesão e alho frito</p>
+                    <strong>R$ 48,00</strong>
+                    <button onclick="adicionarProduto('Pizza Napolitana',48)">Adicionar</button>
+                </article>
+
+
+                <article class="produto">
+                    <h3>Palmito</h3>
+                    <p>Mussarela e palmito fatiado</p>
+                    <strong>R$ 54,00</strong>
+                    <button onclick="adicionarProduto('Pizza Palmito',54)">Adicionar</button>
+                </article>
+
+
+                <article class="produto">
+                    <h3>Portuguesa</h3>
+                    <p>Mussarela, presunto, ovo, cebola, ervilha e azeitona</p>
+                    <strong>R$ 52,00</strong>
+                    <button onclick="adicionarProduto('Pizza Portuguesa',52)">Adicionar</button>
+                </article>
+
+
+                <article class="produto">
+                    <h3>Presunto e Queijo</h3>
+                    <p>Mussarela, presunto e orégano</p>
+                    <strong>R$ 48,00</strong>
+                    <button onclick="adicionarProduto('Pizza Presunto e Queijo',48)">Adicionar</button>
+                </article>
+
+
+                <article class="produto">
+                    <h3>Quatro Queijos</h3>
+                    <p>Mussarela, provolone, parmesão e catupiry</p>
+                    <strong>R$ 55,00</strong>
+                    <button onclick="adicionarProduto('Pizza Quatro Queijos',55)">Adicionar</button>
+                </article>
+
+
+                <article class="produto">
+                    <h3>Strogonoff de Carne</h3>
+                    <p>Strogonoff de carne bovina e batata palha crocante</p>
+                    <strong>R$ 60,00</strong>
+                    <button onclick="adicionarProduto('Pizza Strogonoff de Carne',60)">Adicionar</button>
+                </article>
+
+
+                <article class="produto">
+                    <h3>Tilápia</h3>
+                    <p>Filé de tilápia empanado e molho tártaro</p>
+                    <strong>R$ 58,00</strong>
+                    <button onclick="adicionarProduto('Pizza Tilápia',58)">Adicionar</button>
+                </article>
+
+
+                <article class="produto">
+                    <h3>Vegetariana</h3>
+                    <p>Escarola, milho, ervilha, palmito e tomate</p>
+                    <strong>R$ 52,00</strong>
+                    <button onclick="adicionarProduto('Pizza Vegetariana',52)">Adicionar</button>
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             PIZZAS DOCES
+        ========================== -->
+
+        <section id="pizzasDoces" class="categoria">
+
+            <div class="titulo-categoria">
+                <h2>🍫 Pizzas Doces</h2>
+            </div>
+
+            <div class="produtos-grid">
+
+                <article class="produto">
+                    <h3>Banana com Canela</h3>
+                    <p>Mussarela, banana, açúcar, canela e leite condensado</p>
+                    <strong>R$ 45,00</strong>
+                    <button onclick="adicionarProduto('Pizza Banana com Canela',45)">Adicionar</button>
+                </article>
+
+                <article class="produto">
+                    <h3>Beijinho</h3>
+                    <p>Chocolate branco, leite condensado e coco ralado</p>
+                    <strong>R$ 48,00</strong>
+                    <button onclick="adicionarProduto('Pizza Beijinho',48)">Adicionar</button>
+                </article>
+
+                <article class="produto">
+                    <h3>Brigadeiro</h3>
+                    <p>Chocolate ao leite e granulado</p>
+                    <strong>R$ 45,00</strong>
+                    <button onclick="adicionarProduto('Pizza Brigadeiro',45)">Adicionar</button>
+                </article>
+
+                <article class="produto">
+                    <h3>Chocoloco</h3>
+                    <p>Chocolate branco com raspas de chocolate ao leite</p>
+                    <strong>R$ 50,00</strong>
+                    <button onclick="adicionarProduto('Pizza Chocoloco',50)">Adicionar</button>
+                </article>
+
+                <article class="produto">
+                    <h3>Confeti</h3>
+                    <p>Chocolate ao leite com confeitos coloridos</p>
+                    <strong>R$ 48,00</strong>
+                    <button onclick="adicionarProduto('Pizza Confeti',48)">Adicionar</button>
+                </article>
+
+                <article class="produto">
+                    <h3>Doce de Leite</h3>
+                    <p>Doce de leite cremoso com coco ralado</p>
+                    <strong>R$ 45,00</strong>
+                    <button onclick="adicionarProduto('Pizza Doce de Leite',45)">Adicionar</button>
+                </article>
+
+                <article class="produto">
+                    <h3>Paçoca</h3>
+                    <p>Doce de leite com paçoca</p>
+                    <strong>R$ 48,00</strong>
+                    <button onclick="adicionarProduto('Pizza Paçoca',48)">Adicionar</button>
+                </article>
+
+                <article class="produto">
+                    <h3>Prestígio</h3>
+                    <p>Chocolate ao leite e coco ralado</p>
+                    <strong>R$ 48,00</strong>
+                    <button onclick="adicionarProduto('Pizza Prestígio',48)">Adicionar</button>
+                </article>
+
+                <article class="produto">
+                    <h3>Romeu e Julieta</h3>
+                    <p>Mussarela e goiabada derretida</p>
+                    <strong>R$ 45,00</strong>
+                    <button onclick="adicionarProduto('Pizza Romeu e Julieta',45)">Adicionar</button>
+                </article>
+
+                <article class="produto">
+                    <h3>Sensação</h3>
+                    <p>Chocolate ao leite com morangos</p>
+                    <strong>R$ 52,00</strong>
+                    <button onclick="adicionarProduto('Pizza Sensação',52)">Adicionar</button>
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             BORDAS
+        ========================== -->
+
+        <section id="bordas" class="categoria">
+
+            <div class="titulo-categoria">
+                <h2>🥖 Bordas Recheadas</h2>
+            </div>
+
+            <div class="produtos-grid">
+
+                <article class="produto"><h3>Catupiry Original</h3><strong>R$ 10,00</strong><button onclick="adicionarProduto('Borda Catupiry Original',10)">Adicionar</button></article>
+
+                <article class="produto"><h3>Cheddar</h3><strong>R$ 10,00</strong><button onclick="adicionarProduto('Borda Cheddar',10)">Adicionar</button></article>
+
+                <article class="produto"><h3>Mussarela</h3><strong>R$ 12,00</strong><button onclick="adicionarProduto('Borda Mussarela',12)">Adicionar</button></article>
+
+                <article class="produto"><h3>Provolone</h3><strong>R$ 12,00</strong><button onclick="adicionarProduto('Borda Provolone',12)">Adicionar</button></article>
+
+                <article class="produto"><h3>Requeijão com Alho Frito</h3><strong>R$ 11,00</strong><button onclick="adicionarProduto('Borda Requeijão com Alho Frito',11)">Adicionar</button></article>
+
+                <article class="produto"><h3>Vulcão / Pãozinho</h3><strong>R$ 15,00</strong><button onclick="adicionarProduto('Borda Vulcão / Pãozinho',15)">Adicionar</button></article>
+
+                <article class="produto"><h3>Chocolate ao Leite</h3><strong>R$ 12,00</strong><button onclick="adicionarProduto('Borda Chocolate ao Leite',12)">Adicionar</button></article>
+
+                <article class="produto"><h3>Chocolate Branco</h3><strong>R$ 12,00</strong><button onclick="adicionarProduto('Borda Chocolate Branco',12)">Adicionar</button></article>
+
+                <article class="produto"><h3>Doce de Leite</h3><strong>R$ 10,00</strong><button onclick="adicionarProduto('Borda Doce de Leite',10)">Adicionar</button></article>
+
+                <article class="produto"><h3>Goiabada</h3><strong>R$ 10,00</strong><button onclick="adicionarProduto('Borda Goiabada',10)">Adicionar</button></article>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             ADICIONAIS
+        ========================== -->
+
+        <section id="adicionais" class="categoria">
+
+            <div class="titulo-categoria">
+                <h2>🧀 Complementos / Adicionais</h2>
+            </div>
+
+            <div class="produtos-grid">
+
+                <article class="produto"><h3>Azeite Trufado</h3><strong>R$ 8,00</strong><button onclick="adicionarProduto('Azeite Trufado',8)">Adicionar</button></article>
+
+                <article class="produto"><h3>Bacon Crocante Extra</h3><strong>R$ 7,00</strong><button onclick="adicionarProduto('Bacon Crocante Extra',7)">Adicionar</button></article>
+
+                <article class="produto"><h3>Catupiry Extra</h3><strong>R$ 8,00</strong><button onclick="adicionarProduto('Catupiry Extra',8)">Adicionar</button></article>
+
+                <article class="produto"><h3>Cheddar Extra</h3><strong>R$ 7,00</strong><button onclick="adicionarProduto('Cheddar Extra',7)">Adicionar</button></article>
+
+                <article class="produto"><h3>Cebola Crispy</h3><strong>R$ 5,00</strong><button onclick="adicionarProduto('Cebola Crispy',5)">Adicionar</button></article>
+
+                <article class="produto"><h3>Geleia de Pimenta</h3><strong>R$ 6,00</strong><button onclick="adicionarProduto('Geleia de Pimenta',6)">Adicionar</button></article>
+
+                <article class="produto"><h3>Mussarela Extra</h3><strong>R$ 8,00</strong><button onclick="adicionarProduto('Mussarela Extra',8)">Adicionar</button></article>
+
+                <article class="produto"><h3>Ovo Cozido Extra</h3><strong>R$ 4,00</strong><button onclick="adicionarProduto('Ovo Cozido Extra',4)">Adicionar</button></article>
+
+                <article class="produto"><h3>Parmesão Ralado Frio</h3><strong>R$ 6,00</strong><button onclick="adicionarProduto('Parmesão Ralado Frio',6)">Adicionar</button></article>
+
+                <article class="produto"><h3>Pimenta Biquinho</h3><strong>R$ 5,00</strong><button onclick="adicionarProduto('Pimenta Biquinho',5)">Adicionar</button></article>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             PORÇÕES
+        ========================== -->
+
+        <section id="porcoes" class="categoria">
+
+            <div class="titulo-categoria">
+                <h2>🍟 Porções</h2>
+            </div>
+
+            <div class="produtos-grid">
+
+                <article class="produto">
+                    <h3>Batata Frita Tradicional (500g)</h3>
+                    <strong>R$ 28,00</strong>
+                    <button onclick="adicionarProduto('Batata Frita Tradicional (500g)',28)">Adicionar</button>
+                </article>
+
+                <article class="produto">
+                    <h3>Batata Frita com Cheddar e Bacon (600g)</h3>
+                    <strong>R$ 38,00</strong>
+                    <button onclick="adicionarProduto('Batata Frita com Cheddar e Bacon (600g)',38)">Adicionar</button>
+                </article>
+
+                <article class="produto">
+                    <h3>Calabresa Acebolada (500g)</h3>
+                    <strong>R$ 35,00</strong>
+                    <button onclick="adicionarProduto('Calabresa Acebolada (500g)',35)">Adicionar</button>
+                </article>
+
+                <article class="produto">
+                    <h3>Frango a Passarinho (700g)</h3>
+                    <strong>R$ 42,00</strong>
+                    <button onclick="adicionarProduto('Frango a Passarinho (700g)',42)">Adicionar</button>
+                </article>
+
+                <article class="produto">
+                    <h3>Isca de Tilápia (500g)</h3>
+                    <strong>R$ 48,00</strong>
+                    <button onclick="adicionarProduto('Isca de Tilápia (500g)',48)">Adicionar</button>
+                </article>
+
+                <article class="produto">
+                    <h3>Contrafilé Acebolado na Chapa (500g)</h3>
+                    <strong>R$ 55,00</strong>
+                    <button onclick="adicionarProduto('Contrafilé Acebolado na Chapa (500g)',55)">Adicionar</button>
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             LANCHES
+        ========================== -->
+
+        <section id="lanches" class="categoria">
+
+            <div class="titulo-categoria">
+                <h2>🍔 Lanches — Pão Brioche</h2>
+            </div>
+
+            <div class="produtos-grid">
+
+                <article class="produto"><h3>X-Burguer</h3><strong>R$ 20,00</strong><button onclick="adicionarProduto('X-Burguer',20)">Adicionar</button></article>
+
+                <article class="produto"><h3>X-Salada</h3><strong>R$ 22,00</strong><button onclick="adicionarProduto('X-Salada',22)">Adicionar</button></article>
+
+                <article class="produto"><h3>X-Bacon</h3><strong>R$ 26,00</strong><button onclick="adicionarProduto('X-Bacon',26)">Adicionar</button></article>
+
+                <article class="produto"><h3>X-Egg</h3><strong>R$ 24,00</strong><button onclick="adicionarProduto('X-Egg',24)">Adicionar</button></article>
+
+                <article class="produto"><h3>X-Frango</h3><strong>R$ 22,00</strong><button onclick="adicionarProduto('X-Frango',22)">Adicionar</button></article>
+
+                <article class="produto"><h3>X-Tudo</h3><strong>R$ 32,00</strong><button onclick="adicionarProduto('X-Tudo',32)">Adicionar</button></article>
+
+                <article class="produto"><h3>X-Calabresa</h3><strong>R$ 23,00</strong><button onclick="adicionarProduto('X-Calabresa',23)">Adicionar</button></article>
+
+                <article class="produto"><h3>X-Duplo Cheddar</h3><strong>R$ 34,00</strong><button onclick="adicionarProduto('X-Duplo Cheddar',34)">Adicionar</button></article>
+
+                <article class="produto"><h3>X-Contrafilé</h3><strong>R$ 30,00</strong><button onclick="adicionarProduto('X-Contrafilé',30)">Adicionar</button></article>
+
+                <article class="produto"><h3>X-Vegetariano</h3><strong>R$ 25,00</strong><button onclick="adicionarProduto('X-Vegetariano',25)">Adicionar</button></article>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             HOT DOG
+        ========================== -->
+
+        <section id="hotdogs" class="categoria">
+
+            <div class="titulo-categoria">
+                <h2>🌭 Cachorro-Quente</h2>
+            </div>
+
+            <div class="produtos-grid">
+
+                <article class="produto"><h3>Dog Simples</h3><strong>R$ 14,00</strong><button onclick="adicionarProduto('Dog Simples',14)">Adicionar</button></article>
+
+                <article class="produto"><h3>Dog Duplo</h3><strong>R$ 18,00</strong><button onclick="adicionarProduto('Dog Duplo',18)">Adicionar</button></article>
+
+                <article class="produto"><h3>Dog Frango</h3><strong>R$ 20,00</strong><button onclick="adicionarProduto('Dog Frango',20)">Adicionar</button></article>
+
+                <article class="produto"><h3>Dog Bacon</h3><strong>R$ 22,00</strong><button onclick="adicionarProduto('Dog Bacon',22)">Adicionar</button></article>
+
+                <article class="produto"><h3>Dog Tudo</h3><strong>R$ 26,00</strong><button onclick="adicionarProduto('Dog Tudo',26)">Adicionar</button></article>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             ESFIHAS
+        ========================== -->
+
+        <section id="esfihas" class="categoria">
+
+            <div class="titulo-categoria">
+                <h2>🥙 Esfihas Abertas</h2>
+            </div>
+
+            <div class="produtos-grid">
+
+                <article class="produto"><h3>Atum</h3><strong>R$ 7,50</strong><button onclick="adicionarProduto('Esfiha Atum',7.5)">Adicionar</button></article>
+                <article class="produto"><h3>Bacon com Queijo</h3><strong>R$ 7,50</strong><button onclick="adicionarProduto('Esfiha Bacon com Queijo',7.5)">Adicionar</button></article>
+                <article class="produto"><h3>Banana com Canela</h3><strong>R$ 6,50</strong><button onclick="adicionarProduto('Esfiha Banana com Canela',6.5)">Adicionar</button></article>
+                <article class="produto"><h3>Beijinho</h3><strong>R$ 7,00</strong><button onclick="adicionarProduto('Esfiha Beijinho',7)">Adicionar</button></article>
+                <article class="produto"><h3>Brigadeiro</h3><strong>R$ 6,50</strong><button onclick="adicionarProduto('Esfiha Brigadeiro',6.5)">Adicionar</button></article>
+                <article class="produto"><h3>Calabresa</h3><strong>R$ 5,50</strong><button onclick="adicionarProduto('Esfiha Calabresa',5.5)">Adicionar</button></article>
+                <article class="produto"><h3>Calabresa com Catupiry</h3><strong>R$ 6,50</strong><button onclick="adicionarProduto('Esfiha Calabresa com Catupiry',6.5)">Adicionar</button></article>
+                <article class="produto"><h3>Carne</h3><strong>R$ 5,50</strong><button onclick="adicionarProduto('Esfiha Carne',5.5)">Adicionar</button></article>
+                <article class="produto"><h3>Carne com Queijo</h3><strong>R$ 6,50</strong><button onclick="adicionarProduto('Esfiha Carne com Queijo',6.5)">Adicionar</button></article>
+                <article class="produto"><h3>Doce de Leite</h3><strong>R$ 6,50</strong><button onclick="adicionarProduto('Esfiha Doce de Leite',6.5)">Adicionar</button></article>
+                <article class="produto"><h3>Escarola com Bacon</h3><strong>R$ 7,00</strong><button onclick="adicionarProduto('Esfiha Escarola com Bacon',7)">Adicionar</button></article>
+                <article class="produto"><h3>Frango</h3><strong>R$ 5,50</strong><button onclick="adicionarProduto('Esfiha Frango',5.5)">Adicionar</button></article>
+                <article class="produto"><h3>Frango com Catupiry</h3><strong>R$ 6,50</strong><button onclick="adicionarProduto('Esfiha Frango com Catupiry',6.5)">Adicionar</button></article>
+                <article class="produto"><h3>Lombo com Catupiry</h3><strong>R$ 7,50</strong><button onclick="adicionarProduto('Esfiha Lombo com Catupiry',7.5)">Adicionar</button></article>
+                <article class="produto"><h3>Marguerita</h3><strong>R$ 6,50</strong><button onclick="adicionarProduto('Esfiha Marguerita',6.5)">Adicionar</button></article>
+                <article class="produto"><h3>Milho com Catupiry</h3><strong>R$ 6,00</strong><button onclick="adicionarProduto('Esfiha Milho com Catupiry',6)">Adicionar</button></article>
+                <article class="produto"><h3>Moda da Casa</h3><strong>R$ 8,00</strong><button onclick="adicionarProduto('Esfiha Moda da Casa',8)">Adicionar</button></article>
+                <article class="produto"><h3>Mussarela</h3><strong>R$ 5,50</strong><button onclick="adicionarProduto('Esfiha Mussarela',5.5)">Adicionar</button></article>
+                <article class="produto"><h3>Palmito</h3><strong>R$ 7,50</strong><button onclick="adicionarProduto('Esfiha Palmito',7.5)">Adicionar</button></article>
+                <article class="produto"><h3>Pepperoni</h3><strong>R$ 8,00</strong><button onclick="adicionarProduto('Esfiha Pepperoni',8)">Adicionar</button></article>
+                <article class="produto"><h3>Prestígio</h3><strong>R$ 7,00</strong><button onclick="adicionarProduto('Esfiha Prestígio',7)">Adicionar</button></article>
+                <article class="produto"><h3>Quatro Queijos</h3><strong>R$ 7,50</strong><button onclick="adicionarProduto('Esfiha Quatro Queijos',7.5)">Adicionar</button></article>
+                <article class="produto"><h3>Romeu e Julieta</h3><strong>R$ 6,50</strong><button onclick="adicionarProduto('Esfiha Romeu e Julieta',6.5)">Adicionar</button></article>
+                <article class="produto"><h3>Sensação</h3><strong>R$ 7,50</strong><button onclick="adicionarProduto('Esfiha Sensação',7.5)">Adicionar</button></article>
+                <article class="produto"><h3>Tomate Seco com Rúcula</h3><strong>R$ 8,00</strong><button onclick="adicionarProduto('Esfiha Tomate Seco com Rúcula',8)">Adicionar</button></article>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             BEBIDAS
+        ========================== -->
+
+        <section id="bebidas" class="categoria">
+
+            <div class="titulo-categoria">
+                <h2>🥤 Bebidas</h2>
+            </div>
+
+            <div class="produtos-grid">
+
+                <article class="produto">
+                    <h3>🥤 Refrigerante Lata 350ml</h3>
+                    <p>Coca-Cola, Coca Zero, Guaraná, Fanta ou Sprite</p>
+                    <strong>R$ 6,50</strong>
+                    <button onclick="adicionarProduto('Refrigerante Lata 350ml',6.5)">Adicionar</button>
+                </article>
+
+                <article class="produto">
+                    <h3>🥤 Refrigerante 2 Litros</h3>
+                    <p>Coca-Cola, Guaraná Antarctica ou Fanta</p>
+                    <strong>R$ 14,00</strong>
+                    <button onclick="adicionarProduto('Refrigerante 2 Litros',14)">Adicionar</button>
+                </article>
+
+                <article class="produto">
+                    <h3>💧 Água Mineral sem Gás 500ml</h3>
+                    <strong>R$ 4,00</strong>
+                    <button onclick="adicionarProduto('Água Mineral sem Gás 500ml',4)">Adicionar</button>
+                </article>
+
+                <article class="produto">
+                    <h3>💧 Água Mineral com Gás 500ml</h3>
+                    <strong>R$ 4,50</strong>
+                    <button onclick="adicionarProduto('Água Mineral com Gás 500ml',4.5)">Adicionar</button>
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             BUFFET FRIO
+        ========================== -->
+
+        <section id="buffetFrio" class="categoria">
+
+            <div class="titulo-categoria">
+
+                <h2>🥗 Buffet Frio</h2>
+
+                <p>Disponível todos os dias.</p>
+
+            </div>
+
+            <div class="buffet-lista">
+
+                <div>
+                    <h3>🌿 Verdes</h3>
+                    <p>
+                        Alface crespa, alface americana, rúcula e agrião.
+                    </p>
+                </div>
+
+                <div>
+                    <h3>🥕 Legumes</h3>
+                    <p>
+                        Tomate fatiado, cenoura ralada, beterraba ralada,
+                        palmito e pepino japonês.
+                    </p>
+                </div>
+
+                <div>
+                    <h3>🥗 Saladas Compostas</h3>
+                    <p>
+                        Maionese caseira, salpicão de frango e tabule.
+                    </p>
+                </div>
+
+                <div>
+                    <h3>🥣 Molhos e Acompanhamentos</h3>
+                    <p>
+                        Mostarda e mel, molho de ervas, azeite extra virgem,
+                        croutons e gergelim.
+                    </p>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             BUFFET QUENTE
+        ========================== -->
+
+        <section id="buffetQuente" class="categoria">
+
+            <div class="titulo-categoria">
+
+                <h2>🍲 Buffet Quente</h2>
+
+                <p>Confira a programação de cada dia.</p>
+
+            </div>
+
+
+            <div class="dias-buffet">
+
+
+                <article class="dia-buffet">
+
+                    <h3>📅 Segunda-feira</h3>
+
+                    <h4>Dia do Clássico e Caseiro</h4>
+
+                    <p>
+                        Arroz branco + integral, feijão carioca com alho e louro.
+                    </p>
+
+                    <p>
+                        Bife de contrafilé acebolado, filé de frango grelhado
+                        com ervas e peixe empanado crocante.
+                    </p>
+
+                    <p>
+                        Batata frita, purê cremoso e legumes salteados na manteiga.
+                    </p>
+
+                </article>
+
+
+                <article class="dia-buffet">
+
+                    <h3>📅 Terça-feira</h3>
+
+                    <h4>Especial de Massas e Aves</h4>
+
+                    <p>
+                        Arroz branco + arroz de brócolis, feijão carioca + preto.
+                    </p>
+
+                    <p>
+                        Strogonoff de frango, frango assado com batatas
+                        e pernil fatiado ao molho de cebola.
+                    </p>
+
+                    <p>
+                        Batata palha, penne quatro queijos e cabotiá assada
+                        com alecrim.
+                    </p>
+
+                </article>
+
+
+                <article class="dia-buffet">
+
+                    <h3>📅 Quarta-feira</h3>
+
+                    <h4>Dia de Feijoada & Brasilidade</h4>
+
+                    <p>
+                        Arroz branco + biro-biro.
+                    </p>
+
+                    <p>
+                        Feijoada tradicional com carnes nobres + Feijão Magro.
+                    </p>
+
+                    <p>
+                        Torresmo crocante, calabresa acebolada, maminha grelhada,
+                        filé de peixe ao molho de camarão.
+                    </p>
+
+                    <p>
+                        Couve ao alho, farofa de bacon, banana empanada e mandioca frita.
+                    </p>
+
+                </article>
+
+
+                <article class="dia-buffet">
+
+                    <h3>📅 Quinta-feira</h3>
+
+                    <h4>Dia de Grelhados e Suculência</h4>
+
+                    <p>
+                        Arroz branco + arroz grego e feijão carioca.
+                    </p>
+
+                    <p>
+                        Bife à parmegiana, costela suína ao molho barbecue
+                        e sobrecoxa de frango desossada grelhada.
+                    </p>
+
+                    <p>
+                        Nhoque de batata à bolonhesa, polenta frita
+                        e gratinado de couve-flor com molho branco.
+                    </p>
+
+                </article>
+
+
+                <article class="dia-buffet">
+
+                    <h3>📅 Sexta-feira</h3>
+
+                    <h4>Peixes & Frutos do Mar</h4>
+
+                    <p>
+                        Arroz branco + arroz de coco.
+                    </p>
+
+                    <p>
+                        Feijão carioca + feijão-fradinho temperado.
+                    </p>
+
+                    <p>
+                        Moqueca de peixe, tilápia grelhada com alcaparras,
+                        bife de picanha suína e escalope de filé mignon ao molho madeira.
+                    </p>
+
+                    <p>
+                        Pirão de peixe, batata rústica com alecrim,
+                        lasanha de presunto e queijo e brócolis ao alho.
+                    </p>
+
+                </article>
+
+
+                <article class="dia-buffet">
+
+                    <h3>📅 Sábado e Domingo</h3>
+
+                    <h4>Buffet Especial de Fim de Semana</h4>
+
+                    <p>
+                        Arroz branco, arroz com açafrão e biro-biro.
+                    </p>
+
+                    <p>
+                        Feijoada completa + feijão tropeiro.
+                    </p>
+
+                    <p>
+                        Cupim assado na manteiga de garrafa,
+                        picanha fatiada no réchaud,
+                        bacalhau espiritual e pedaços crocantes de frango.
+                    </p>
+
+                    <p>
+                        Batatas gratinadas com bacon, rondelli de figo com peru,
+                        polenta frita e farofa rica de ovos.
+                    </p>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================
+             SOBREMESAS
+        ========================== -->
+
+        <section id="sobremesas" class="categoria">
+
+            <div class="titulo-categoria">
+
+                <h2>🍨 Sobremesas</h2>
+
+                <p>
+                    Confira as opções programadas para cada dia.
+                </p>
+
+            </div>
+
+
+            <div class="dias-sobremesas">
+
+
+                <article class="dia-sobremesa">
+
+                    <h3>📅 Segunda-feira</h3>
+
+                    <p>🍮 <strong>Tradição:</strong> Pudim de leite condensado com calda de caramelo</p>
+
+                    <p>🥭 <strong>Frutada:</strong> Mousse de maracujá</p>
+
+                    <p>🌿 <strong>Leve/Fit:</strong> Salada de frutas tropicais com hortelã</p>
+
+                    <p>🍓 <strong>Rápida:</strong> Gelatina de morango com creme de leite</p>
+
+                </article>
+
+
+                <article class="dia-sobremesa">
+
+                    <h3>📅 Terça-feira</h3>
+
+                    <p>🍫 <strong>Tradição:</strong> Brigadeiro de colher com granulado</p>
+
+                    <p>🍌 <strong>Frutada:</strong> Banana assada com canela e mel</p>
+
+                    <p>🍍 <strong>Leve/Fit:</strong> Abacaxi fatiado com raspas de limão siciliano</p>
+
+                    <p>🍈 <strong>Rápida:</strong> Creme de papaya com licor de cassis</p>
+
+                </article>
+
+
+                <article class="dia-sobremesa">
+
+                    <h3>📅 Quarta-feira</h3>
+
+                    <p>🍰 <strong>Tradição:</strong> Pavê de biscoito champagne e baunilha</p>
+
+                    <p>🍋 <strong>Frutada:</strong> Torta gelada de limão com biscoito</p>
+
+                    <p>🍓 <strong>Leve/Fit:</strong> Sorbet caseiro de morango congelado e banana</p>
+
+                    <p>🍓 <strong>Rápida:</strong> Morango fresco com leite condensado</p>
+
+                </article>
+
+
+                <article class="dia-sobremesa">
+
+                    <h3>📅 Quinta-feira</h3>
+
+                    <p>🍚 <strong>Tradição:</strong> Arroz doce cremoso com canela</p>
+
+                    <p>🫐 <strong>Frutada:</strong> Compota de ameixa com creme de baunilha</p>
+
+                    <p>🍎 <strong>Leve/Fit:</strong> Maçã assada no forno com nozes</p>
+
+                    <p>🥛 <strong>Rápida:</strong> Mousse rápida de doce de leite com chantilly</p>
+
+                </article>
+
+
+                <article class="dia-sobremesa">
+
+                    <h3>📅 Sexta-feira</h3>
+
+                    <p>🍫 <strong>Tradição:</strong> Petit gâteau de chocolate com sorvete de baunilha</p>
+
+                    <p>🍎 <strong>Frutada:</strong> Torta aberta de maçã com massa folhada</p>
+
+                    <p>🍓 <strong>Leve/Fit:</strong> Espetinho de frutas frescas com cacau em pó</p>
+
+                    <p>🍫 <strong>Rápida:</strong> Fondue rápido de chocolate com morangos e uvas</p>
+
+                </article>
+
+
+                <article class="dia-sobremesa">
+
+                    <h3>📅 Sábado</h3>
+
+                    <p>🍰 <strong>Tradição:</strong> Torta Holandesa tradicional</p>
+
+                    <p>🫐 <strong>Frutada:</strong> Cheesecake com calda de frutas vermelhas</p>
+
+                    <p>🥑 <strong>Leve/Fit:</strong> Mousse de cacau 70% com abacate e adoçante</p>
+
+                    <p>🍦 <strong>Rápida:</strong> Sorvete de creme com calda quente de brigadeiro</p>
+
+                </article>
+
+
+                <article class="dia-sobremesa">
+
+                    <h3>📅 Domingo</h3>
+
+                    <p>🍫 <strong>Tradição:</strong> Mousse aveludada de chocolate meio amargo</p>
+
+                    <p>🍑 <strong>Frutada:</strong> Pavê de pêssego em calda com creme branco</p>
+
+                    <p>🥭 <strong>Leve/Fit:</strong> Manga fatiada com raspas de coco queimado</p>
+
+                    <p>❤️ <strong>Rápida:</strong> Romeu e Julieta — queijo minas com goiabada cascão</p>
+
+                </article>
+
+            </div>
+
+        </section>
+
+
+    </main>
+
+
+    <!-- =========================
+         CARRINHO
+    ========================== -->
+
+    <div id="carrinho" class="carrinho">
+
+        <div class="carrinho-conteudo">
+
+            <button onclick="fecharCarrinho()" class="fechar">
+                ✖
+            </button>
+
+            <h2>🛒 Seu Pedido</h2>
+
+            <div id="listaCarrinho">
+
+                <p>
+                    Seu carrinho está vazio.
+                </p>
+
+            </div>
+
+            <div class="total-carrinho">
+
+                <span>Total:</span>
+
+                <strong id="totalCarrinho">
+                    R$ 0,00
+                </strong>
+
+            </div>
+
+            <button onclick="irParaCheckout()" class="botao-finalizar">
+                Continuar Pedido
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         CHECKOUT
+    ========================== -->
+
+    <section id="checkout" class="checkout">
+
+        <div class="checkout-conteudo">
+
+            <h2>📋 Finalizar Pedido</h2>
+
+            <label>
+                Nome
+                <input
+                    type="text"
+                    id="nomeCliente"
+                    placeholder="Digite seu nome">
+            </label>
+
+
+            <label>
+                Telefone
+                <input
+                    type="tel"
+                    id="telefoneCliente"
+                    placeholder="Digite seu telefone">
+            </label>
+
+
+            <div class="tipo-entrega">
+
+                <h3>Como deseja receber?</h3>
+
+                <label>
+                    <input
+                        type="radio"
+                        name="tipoEntrega"
+                        value="delivery"
+                        checked>
+
+                    🛵 Delivery
+                </label>
+
+                <label>
+                    <input
+                        type="radio"
+                        name="tipoEntrega"
+                        value="retirada">
+
+                    🏪 Retirar no balcão
+                </label>
+
+            </div>
+
+
+            <label id="campoEndereco">
+
+                Endereço de entrega
+
+                <textarea
+                    id="enderecoCliente"
+                    placeholder="Rua, número, bairro e complemento"></textarea>
+
+            </label>
+
+
+            <label>
+
+                Forma de pagamento
+
+                <select id="pagamento">
+
+                    <option value="">
+                        Selecione
+                    </option>
+
+                    <option value="Pix">
+                        Pix
+                    </option>
+
+                    <option value="Dinheiro">
+                        Dinheiro
+                    </option>
+
+                    <option value="Cartão de Débito">
+                        Cartão de Débito
+                    </option>
+
+                    <option value="Cartão de Crédito">
+                        Cartão de Crédito
+                    </option>
+
+                </select>
+
+            </label>
+
+
+            <label>
+
+                Observação
+
+                <textarea
+                    id="observacao"
+                    placeholder="Alguma observação para o pedido?"></textarea>
+
+            </label>
+
+
+            <div class="resumo-pedido">
+
+                <h3>💰 Resumo</h3>
+
+                <p>
+                    Subtotal:
+                    <strong id="subtotalCheckout">
+                        R$ 0,00
+                    </strong>
+                </p>
+
+                <p>
+                    Delivery:
+                    <strong id="taxaEntrega">
+                        R$ 0,00
+                    </strong>
+                </p>
+
+                <p class="total-final">
+
+                    Total:
+                    <strong id="totalCheckout">
+                        R$ 0,00
+                    </strong>
+
+                </p>
+
+            </div>
 
 
             <button
-                id="confirmarPedido"
-                type="submit">
+                onclick="enviarPedidoWhatsApp()"
+                class="botao-whatsapp">
 
-                ✅ Confirmar pedido
+                📱 Enviar Pedido pelo WhatsApp
 
             </button>
 
-        </form>
+
+            <button
+                onclick="voltarCardapio()"
+                class="botao-voltar">
+
+                ← Voltar ao cardápio
+
+            </button>
+
+        </div>
 
     </section>
 
 
-    <!-- ========================= -->
-    <!-- PEDIDO CONFIRMADO -->
-    <!-- ========================= -->
+    <!-- =========================
+         CONFIRMAÇÃO
+    ========================== -->
 
-    <section
-        id="pedidoConfirmado"
-        style="display:none; margin-top:30px;">
+    <section id="pedidoSucesso" class="pedido-sucesso">
 
-        <h2>✅ Pedido confirmado!</h2>
+        <div class="sucesso-conteudo">
 
-        <h3 id="numeroPedido"></h3>
+            <div class="icone-sucesso">
+                ✅
+            </div>
 
-        <div id="resumoPedido"></div>
+            <h2>
+                PEDIDO ENVIADO COM SUCESSO!
+            </h2>
 
-        <button
-            onclick="enviarPedidoWhatsApp()"
-            style="
-                width:100%;
-                min-height:70px;
-                margin-top:20px;
-                border:0;
-                border-radius:15px;
-                background:#25d366;
-                color:white;
-                font-size:22px;
-                font-weight:bold;
-                cursor:pointer;
-            ">
+            <p>
+                Restaurante Lanchonete MM
+            </p>
 
-            💬 Enviar pedido pelo WhatsApp
+            <div class="numero-pedido">
 
-        </button>
+                Pedido
+                <strong id="numeroPedido">
+                    #0000
+                </strong>
+
+            </div>
+
+            <p>
+                ⏱️ Seu pedido será entregue em aproximadamente
+                <strong>60 a 80 minutos.</strong>
+            </p>
+
+            <p>
+                💰 Total:
+                <strong id="totalSucesso">
+                    R$ 0,00
+                </strong>
+            </p>
+
+            <button onclick="voltarInicio()">
+                🏠 Voltar ao início
+            </button>
+
+        </div>
 
     </section>
 
-</main>
+
+    <!-- =========================
+         RODAPÉ
+    ========================== -->
+
+    <footer>
+
+        <h2>🍔 Restaurante Lanchonete MM</h2>
+
+        <p>
+            🍕 Pizzaria • 🍔 Lanchonete • 🥙 Esfiharia • 🍱 Self-Service
+        </p>
+
+        <p>
+            🛵 Delivery para toda a cidade — R$ 5,00
+        </p>
+
+        <p>
+            © 2026 Restaurante Lanchonete MM
+        </p>
+
+    </footer>
 
 
-<!-- BOTÃO APARÊNCIA -->
+    <!-- =========================
+         JAVASCRIPT
+    ========================== -->
 
-<button
-    id="btnAparencia"
-    onclick="alternarAparencia()">
-
-    🌙
-
-</button>
-
-
-<!-- WHATSAPP -->
-
-<a
-    class="whatsapp"
-    href="https://wa.me/5519981123401"
-    target="_blank">
-
-    💬
-
-</a>
-
-
-<script src="script.js"></script>
+    <script src="script.js"></script>
 
 </body>
+
 </html>
