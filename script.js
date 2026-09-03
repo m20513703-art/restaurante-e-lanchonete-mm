@@ -1,451 +1,130 @@
-// ========================================
+// ==========================================
 // RESTAURANTE LANCHONETE MM
-// SCRIPT.JS
-// ========================================
+// SCRIPT PRINCIPAL
+// ==========================================
+
+
+// ==========================================
+// VARIÁVEIS
+// ==========================================
 
 let carrinho = [];
+
 let pedidoAtual = null;
 
 
-// ========================================
-// ADICIONAR PRODUTO NORMAL
-// ========================================
+// ==========================================
+// FORMATAÇÃO DE DINHEIRO
+// ==========================================
 
-function adicionarCarrinho(nome, preco) {
+function formatarDinheiro(valor) {
 
-    let produto = carrinho.find(
+    return valor.toLocaleString("pt-BR", {
+        style: "currency",
+        currency: "BRL"
+    });
+
+}
+
+
+// ==========================================
+// ADICIONAR PRODUTO
+// ==========================================
+
+function adicionarProduto(nome, preco) {
+
+    const produtoExistente = carrinho.find(
         item => item.nome === nome
     );
 
-    if (produto) {
-        produto.quantidade++;
+
+    if (produtoExistente) {
+
+        produtoExistente.quantidade++;
+
     } else {
+
         carrinho.push({
+
             nome: nome,
-            preco: Number(preco),
+            preco: preco,
             quantidade: 1
-        });
-    }
 
-    atualizarCarrinho();
-}
-
-
-// ========================================
-// PERSONALIZAR PIZZA
-// ========================================
-
-function abrirPizza(nome, preco) {
-
-    let antigo = document.getElementById("modalPizza");
-
-    if (antigo) {
-        antigo.remove();
-    }
-
-    let modal = document.createElement("div");
-
-    modal.id = "modalPizza";
-
-    modal.style.position = "fixed";
-    modal.style.top = "0";
-    modal.style.left = "0";
-    modal.style.width = "100%";
-    modal.style.height = "100%";
-    modal.style.background = "rgba(0,0,0,0.75)";
-    modal.style.display = "flex";
-    modal.style.alignItems = "center";
-    modal.style.justifyContent = "center";
-    modal.style.padding = "20px";
-    modal.style.zIndex = "2000";
-
-    let caixa = document.createElement("div");
-
-    caixa.style.background = "white";
-    caixa.style.color = "#222";
-    caixa.style.width = "100%";
-    caixa.style.maxWidth = "500px";
-    caixa.style.maxHeight = "90vh";
-    caixa.style.overflowY = "auto";
-    caixa.style.borderRadius = "20px";
-    caixa.style.padding = "25px";
-    caixa.style.boxShadow =
-        "0 10px 30px rgba(0,0,0,0.4)";
-
-    caixa.innerHTML = `
-
-        <h2>🍕 ${nome}</h2>
-
-        <p>
-            Pizza:
-            <strong>
-                R$ ${Number(preco)
-                    .toFixed(2)
-                    .replace(".", ",")}
-            </strong>
-        </p>
-
-        <h3 style="margin-top:20px;">
-            🧀 Escolha a borda
-        </h3>
-
-        <select id="bordaPizza">
-
-            <option value="0|Sem borda">
-                Sem borda — R$ 0,00
-            </option>
-
-            <option value="8|Catupiry">
-                Catupiry — R$ 8,00
-            </option>
-
-            <option value="8|Cheddar">
-                Cheddar — R$ 8,00
-            </option>
-
-            <option value="7|Requeijão">
-                Requeijão — R$ 7,00
-            </option>
-
-            <option value="7|Requeijão Escala">
-                Requeijão Escala — R$ 7,00
-            </option>
-
-            <option value="10|Chocolate">
-                Chocolate — R$ 10,00
-            </option>
-
-        </select>
-
-        <h3 style="margin-top:20px;">
-            ➕ Acréscimos
-        </h3>
-
-        <label style="display:block;margin:12px 0;">
-            <input
-                type="checkbox"
-                class="extraPizza"
-                value="5|Bacon">
-            🥓 Bacon — R$ 5,00
-        </label>
-
-        <label style="display:block;margin:12px 0;">
-            <input
-                type="checkbox"
-                class="extraPizza"
-                value="4|Muçarela">
-            🧀 Muçarela — R$ 4,00
-        </label>
-
-        <label style="display:block;margin:12px 0;">
-            <input
-                type="checkbox"
-                class="extraPizza"
-                value="4|Catupiry">
-            🧀 Catupiry — R$ 4,00
-        </label>
-
-        <label style="display:block;margin:12px 0;">
-            <input
-                type="checkbox"
-                class="extraPizza"
-                value="4|Cheddar">
-            🧀 Cheddar — R$ 4,00
-        </label>
-
-        <div
-            id="totalPizzaModal"
-            style="
-                margin-top:20px;
-                font-size:25px;
-                font-weight:bold;
-                text-align:center;
-            ">
-
-            Total: R$ ${Number(preco)
-                .toFixed(2)
-                .replace(".", ",")}
-
-        </div>
-
-        <button
-            id="confirmarPizza"
-            style="
-                width:100%;
-                min-height:60px;
-                margin-top:18px;
-                border:0;
-                border-radius:14px;
-                background:#16803c;
-                color:white;
-                font-size:20px;
-                font-weight:bold;
-                cursor:pointer;
-            ">
-
-            🛒 Adicionar pizza
-
-        </button>
-
-        <button
-            id="cancelarPizza"
-            style="
-                width:100%;
-                min-height:55px;
-                margin-top:10px;
-                border:0;
-                border-radius:14px;
-                background:#d62828;
-                color:white;
-                font-size:19px;
-                font-weight:bold;
-                cursor:pointer;
-            ">
-
-            ❌ Cancelar
-
-        </button>
-    `;
-
-    modal.appendChild(caixa);
-    document.body.appendChild(modal);
-
-
-    let selectBorda =
-        document.getElementById("bordaPizza");
-
-    let extras =
-        document.querySelectorAll(".extraPizza");
-
-    let totalElemento =
-        document.getElementById("totalPizzaModal");
-
-
-    function calcularPizza() {
-
-        let total = Number(preco);
-
-        let borda =
-            selectBorda.value.split("|");
-
-        total += Number(borda[0]);
-
-        extras.forEach(function(extra) {
-
-            if (extra.checked) {
-
-                let partes =
-                    extra.value.split("|");
-
-                total += Number(partes[0]);
-            }
         });
 
-        totalElemento.innerText =
-            "Total: R$ " +
-            total.toFixed(2).replace(".", ",");
     }
 
-
-    selectBorda.addEventListener(
-        "change",
-        calcularPizza
-    );
-
-
-    extras.forEach(function(extra) {
-
-        extra.addEventListener(
-            "change",
-            calcularPizza
-        );
-
-    });
-
-
-    document
-        .getElementById("cancelarPizza")
-        .onclick = function() {
-
-            modal.remove();
-
-        };
-
-
-    document
-        .getElementById("confirmarPizza")
-        .onclick = function() {
-
-            let total = Number(preco);
-
-            let descricao = nome;
-
-
-            // BORDA
-
-            let borda =
-                selectBorda.value.split("|");
-
-            let valorBorda =
-                Number(borda[0]);
-
-            let nomeBorda =
-                borda[1];
-
-
-            if (valorBorda > 0) {
-
-                total += valorBorda;
-
-                descricao +=
-                    " | Borda " +
-                    nomeBorda;
-            }
-
-
-            // ACRÉSCIMOS
-
-            let listaExtras = [];
-
-
-            extras.forEach(function(extra) {
-
-                if (extra.checked) {
-
-                    let partes =
-                        extra.value.split("|");
-
-                    total +=
-                        Number(partes[0]);
-
-                    listaExtras.push(
-                        partes[1]
-                    );
-                }
-
-            });
-
-
-            if (listaExtras.length > 0) {
-
-                descricao +=
-                    " | Acréscimos: " +
-                    listaExtras.join(", ");
-
-            }
-
-
-            adicionarCarrinho(
-                descricao,
-                total
-            );
-
-
-            modal.remove();
-        };
-}
-
-
-// ========================================
-// CARDÁPIO DO DIA
-// ========================================
-
-function adicionarCardapioDia() {
-
-    let peso = prompt(
-        "🍽️ CARDÁPIO DO DIA\n\n" +
-        "Preço: R$ 35,00 por kg\n\n" +
-        "Digite o peso em kg.\n" +
-        "Exemplo: 0,500 para 500 gramas."
-    );
-
-    if (peso === null) {
-        return;
-    }
-
-    peso = peso.replace(",", ".");
-    peso = parseFloat(peso);
-
-    if (isNaN(peso) || peso <= 0) {
-
-        alert(
-            "⚠️ Digite um peso válido."
-        );
-
-        return;
-    }
-
-    let valor = peso * 35;
-
-    carrinho.push({
-
-        nome:
-            "Cardápio do Dia - " +
-            peso.toFixed(3) +
-            " kg",
-
-        preco: valor,
-
-        quantidade: 1
-    });
 
     atualizarCarrinho();
+
+    alert("✅ " + nome + " foi adicionado ao carrinho!");
+
 }
 
 
-// ========================================
+// ==========================================
 // ATUALIZAR CARRINHO
-// ========================================
+// ==========================================
 
 function atualizarCarrinho() {
 
-    let lista =
-        document.getElementById(
-            "listaCarrinho"
-        );
+    const lista = document.getElementById(
+        "listaCarrinho"
+    );
 
-    let totalElemento =
-        document.getElementById(
-            "total"
-        );
+    const contador = document.getElementById(
+        "contadorCarrinho"
+    );
+
+    const totalElemento = document.getElementById(
+        "totalCarrinho"
+    );
 
 
-    if (!lista || !totalElemento) {
-        return;
-    }
+    if (!lista) return;
 
 
     lista.innerHTML = "";
 
-    let total = 0;
-
 
     if (carrinho.length === 0) {
 
-        lista.innerHTML =
-            "<p>🛒 Seu carrinho está vazio.</p>";
+        lista.innerHTML = `
+            <p>
+                🛒 Seu carrinho está vazio.
+            </p>
+        `;
 
-        totalElemento.innerText =
-            "Total: R$ 0,00";
+        contador.textContent = "0";
+
+        totalElemento.textContent =
+            formatarDinheiro(0);
+
+        atualizarCheckout();
 
         return;
     }
 
 
-    carrinho.forEach(function(item, index) {
+    let total = 0;
 
-        let subtotal =
-            item.preco *
-            item.quantidade;
+    let quantidadeTotal = 0;
+
+
+    carrinho.forEach((item, index) => {
+
+        const subtotal =
+            item.preco * item.quantidade;
+
 
         total += subtotal;
 
+        quantidadeTotal += item.quantidade;
 
-        let div =
-            document.createElement("div");
 
-        div.className =
-            "item-carrinho";
+        const div = document.createElement("div");
+
+        div.className = "item-carrinho";
 
 
         div.innerHTML = `
@@ -453,292 +132,851 @@ function atualizarCarrinho() {
             <div>
 
                 <strong>
-                    ${item.quantidade}x
                     ${item.nome}
                 </strong>
 
-                <br>
-
-                R$ ${subtotal
-                    .toFixed(2)
-                    .replace(".", ",")}
+                <p>
+                    ${formatarDinheiro(item.preco)}
+                    cada
+                </p>
 
             </div>
 
-            <div>
+
+            <div class="controle-quantidade">
 
                 <button
-                    onclick="diminuirQuantidade(${index})"
-                    style="
-                        background:#d35400;
-                        margin-right:5px;
-                    ">
-
+                    onclick="diminuirQuantidade(${index})">
                     −
-
                 </button>
 
-                <button
-                    onclick="aumentarQuantidade(${index})"
-                    style="
-                        background:#16803c;
-                        margin-right:5px;
-                    ">
+                <span>
+                    ${item.quantidade}
+                </span>
 
+                <button
+                    onclick="aumentarQuantidade(${index})">
                     +
-
-                </button>
-
-                <button
-                    onclick="removerCarrinho(${index})">
-
-                    🗑️
-
                 </button>
 
             </div>
+
+
+            <strong>
+                ${formatarDinheiro(subtotal)}
+            </strong>
+
+
+            <button
+                class="remover-item"
+                onclick="removerProduto(${index})">
+
+                🗑️
+
+            </button>
+
         `;
+
 
         lista.appendChild(div);
 
     });
 
 
-    totalElemento.innerText =
-        "Total: R$ " +
-        total.toFixed(2).replace(".", ",");
+    contador.textContent =
+        quantidadeTotal;
+
+
+    totalElemento.textContent =
+        formatarDinheiro(total);
+
+
+    atualizarCheckout();
+
 }
 
 
-// ========================================
+// ==========================================
 // AUMENTAR QUANTIDADE
-// ========================================
+// ==========================================
 
 function aumentarQuantidade(index) {
-
-    if (!carrinho[index]) {
-        return;
-    }
 
     carrinho[index].quantidade++;
 
     atualizarCarrinho();
+
 }
 
 
-// ========================================
+// ==========================================
 // DIMINUIR QUANTIDADE
-// ========================================
+// ==========================================
 
 function diminuirQuantidade(index) {
 
-    if (!carrinho[index]) {
-        return;
-    }
+    if (carrinho[index].quantidade > 1) {
 
-    carrinho[index].quantidade--;
+        carrinho[index].quantidade--;
 
-    if (carrinho[index].quantidade <= 0) {
+    } else {
 
         carrinho.splice(index, 1);
+
     }
 
+
     atualizarCarrinho();
+
 }
 
 
-// ========================================
+// ==========================================
 // REMOVER PRODUTO
-// ========================================
+// ==========================================
 
-function removerCarrinho(index) {
+function removerProduto(index) {
 
     carrinho.splice(index, 1);
 
     atualizarCarrinho();
+
 }
 
 
-// ========================================
-// FILTRAR CATEGORIA
-// ========================================
+// ==========================================
+// ABRIR CARRINHO
+// ==========================================
 
-function filtrarCategoria(categoria) {
+function abrirCarrinho() {
 
-    let produtos =
-        document.querySelectorAll(
-            ".produto"
-        );
+    const carrinhoElemento =
+        document.getElementById("carrinho");
 
 
-    produtos.forEach(function(produto) {
+    if (carrinhoElemento) {
 
-        let categoriaProduto =
-            produto.getAttribute(
-                "data-categoria"
-            );
+        carrinhoElemento.classList.add("ativo");
 
+    }
 
-        if (
-            categoria === "todos" ||
-            categoriaProduto === categoria
-        ) {
-
-            produto.style.display = "";
-
-        } else {
-
-            produto.style.display = "none";
-
-        }
-
-    });
 }
 
 
-// ========================================
-// FINALIZAR PEDIDO
-// ========================================
+// ==========================================
+// FECHAR CARRINHO
+// ==========================================
 
-function finalizarPedido() {
+function fecharCarrinho() {
+
+    const carrinhoElemento =
+        document.getElementById("carrinho");
+
+
+    if (carrinhoElemento) {
+
+        carrinhoElemento.classList.remove("ativo");
+
+    }
+
+}
+
+
+// ==========================================
+// IR PARA CHECKOUT
+// ==========================================
+
+function irParaCheckout() {
 
     if (carrinho.length === 0) {
 
         alert(
-            "🛒 Seu carrinho está vazio!\n\n" +
-            "Adicione algum produto primeiro."
+            "🛒 Seu carrinho está vazio!"
         );
 
         return;
+
     }
 
 
-    let finalizacao =
-        document.getElementById(
-            "finalizacao"
-        );
+    fecharCarrinho();
 
 
-    if (!finalizacao) {
-        return;
-    }
+    const checkout =
+        document.getElementById("checkout");
 
 
-    finalizacao.style.display =
-        "block";
+    checkout.classList.add("ativo");
 
 
-    finalizacao.scrollIntoView({
+    checkout.scrollIntoView({
         behavior: "smooth"
     });
+
+
+    atualizarCheckout();
+
 }
 
 
-// ========================================
-// ENTREGA / RETIRADA
-// ========================================
+// ==========================================
+// VOLTAR AO CARDÁPIO
+// ==========================================
 
-function alternarEndereco() {
+function voltarCardapio() {
 
-    let tipo =
+    const checkout =
+        document.getElementById("checkout");
+
+
+    checkout.classList.remove("ativo");
+
+
+    window.scrollTo({
+
+        top: 0,
+
+        behavior: "smooth"
+
+    });
+
+}
+
+
+// ==========================================
+// ATUALIZAR CHECKOUT
+// ==========================================
+
+function atualizarCheckout() {
+
+    const subtotalElemento =
         document.getElementById(
-            "tipoEntrega"
+            "subtotalCheckout"
         );
 
-    let campo =
+
+    const taxaElemento =
         document.getElementById(
-            "campoEndereco"
+            "taxaEntrega"
         );
 
-    let endereco =
+
+    const totalElemento =
         document.getElementById(
-            "enderecoCliente"
+            "totalCheckout"
         );
+
+
+    if (!subtotalElemento) return;
+
+
+    let subtotal = 0;
+
+
+    carrinho.forEach(item => {
+
+        subtotal +=
+            item.preco *
+            item.quantidade;
+
+    });
+
+
+    const tipoEntrega =
+        document.querySelector(
+            'input[name="tipoEntrega"]:checked'
+        );
+
+
+    let taxaEntrega = 0;
 
 
     if (
-        !tipo ||
-        !campo ||
-        !endereco
+        tipoEntrega &&
+        tipoEntrega.value === "delivery"
     ) {
-        return;
+
+        taxaEntrega = 5;
+
     }
 
 
-    if (tipo.value === "delivery") {
+    const total =
+        subtotal + taxaEntrega;
 
-        campo.style.display =
-            "block";
 
-        endereco.required =
-            true;
+    subtotalElemento.textContent =
+        formatarDinheiro(subtotal);
 
-    } else {
 
-        campo.style.display =
-            "none";
+    taxaElemento.textContent =
+        formatarDinheiro(taxaEntrega);
 
-        endereco.required =
-            false;
 
-        endereco.value =
-            "";
-    }
+    totalElemento.textContent =
+        formatarDinheiro(total);
+
 }
 
 
-// ========================================
-// CONFIRMAR PEDIDO
-// ========================================
+// ==========================================
+// ALTERAR TIPO DE ENTREGA
+// ==========================================
 
-function confirmarPedido(event) {
+document.addEventListener(
+    "change",
+    function(event) {
 
-    event.preventDefault();
+        if (
+            event.target.name ===
+            "tipoEntrega"
+        ) {
 
+            const campoEndereco =
+                document.getElementById(
+                    "campoEndereco"
+                );
+
+
+            if (
+                event.target.value ===
+                "delivery"
+            ) {
+
+                campoEndereco.style.display =
+                    "block";
+
+            } else {
+
+                campoEndereco.style.display =
+                    "none";
+
+            }
+
+
+            atualizarCheckout();
+
+        }
+
+    }
+);
+
+
+// ==========================================
+// STATUS DO RESTAURANTE
+// ==========================================
+
+function verificarHorario() {
+
+    const agora = new Date();
+
+
+    const dia =
+        agora.getDay();
+
+
+    const hora =
+        agora.getHours();
+
+
+    const minuto =
+        agora.getMinutes();
+
+
+    const horarioAtual =
+        hora * 60 + minuto;
+
+
+    let aberto = false;
+
+    let mensagem = "";
+
+
+    // ======================================
+    // ALMOÇO
+    // ======================================
+
+    if (dia >= 1 && dia <= 5) {
+
+        const abertura =
+            11 * 60;
+
+        const fechamento =
+            15 * 60;
+
+
+        if (
+            horarioAtual >= abertura &&
+            horarioAtual <= fechamento
+        ) {
+
+            aberto = true;
+
+            mensagem =
+                "🟢 ABERTO • Almoço";
+
+        }
+
+    } else {
+
+        const abertura =
+            11 * 60 + 30;
+
+        const fechamento =
+            15 * 60 + 30;
+
+
+        if (
+            horarioAtual >= abertura &&
+            horarioAtual <= fechamento
+        ) {
+
+            aberto = true;
+
+            mensagem =
+                "🟢 ABERTO • Almoço";
+
+        }
+
+    }
+
+
+    // ======================================
+    // NOITE
+    // ======================================
+
+    if (dia >= 2 && dia <= 6) {
+
+        const abertura =
+            18 * 60;
+
+        const fechamento =
+            22 * 60 + 30;
+
+
+        if (
+            horarioAtual >= abertura &&
+            horarioAtual <= fechamento
+        ) {
+
+            aberto = true;
+
+            mensagem =
+                "🟢 ABERTO • Pizzaria / Lanchonete";
+
+        }
+
+    }
+
+
+    // ======================================
+    // DOMINGO
+    // ======================================
+
+    if (dia === 0) {
+
+        const abertura =
+            18 * 60;
+
+        const fechamento =
+            22 * 60 + 30;
+
+
+        if (
+            horarioAtual >= abertura &&
+            horarioAtual <= fechamento
+        ) {
+
+            aberto = true;
+
+            mensagem =
+                "🟢 ABERTO • Pizzaria / Lanchonete";
+
+        }
+
+    }
+
+
+    // ======================================
+    // FECHADO
+    // ======================================
+
+    if (!aberto) {
+
+        if (dia === 1) {
+
+            mensagem =
+                "🔴 FECHADO • Pizzaria fechada hoje";
+
+        } else {
+
+            mensagem =
+                "🔴 FECHADO no momento";
+
+        }
+
+    }
+
+
+    const status =
+        document.getElementById(
+            "statusRestaurante"
+        );
+
+
+    if (status) {
+
+        status.textContent =
+            mensagem;
+
+    }
+
+}
+
+
+// ==========================================
+// SOBREMESAS POR DIA
+// ==========================================
+
+const sobremesasPorDia = {
+
+    1: [
+
+        {
+            categoria: "Tradição",
+            nome:
+                "Pudim de leite condensado com calda de caramelo"
+        },
+
+        {
+            categoria: "Frutada",
+            nome:
+                "Mousse de maracujá"
+        },
+
+        {
+            categoria: "Leve/Fit",
+            nome:
+                "Salada de frutas tropicais com hortelã"
+        },
+
+        {
+            categoria: "Rápida",
+            nome:
+                "Gelatina de morango com creme de leite"
+        }
+
+    ],
+
+
+    2: [
+
+        {
+            categoria: "Tradição",
+            nome:
+                "Brigadeiro de colher com granulado"
+        },
+
+        {
+            categoria: "Frutada",
+            nome:
+                "Banana assada com canela e mel"
+        },
+
+        {
+            categoria: "Leve/Fit",
+            nome:
+                "Abacaxi fatiado com raspas de limão siciliano"
+        },
+
+        {
+            categoria: "Rápida",
+            nome:
+                "Creme de papaya com licor de cassis"
+        }
+
+    ],
+
+
+    3: [
+
+        {
+            categoria: "Tradição",
+            nome:
+                "Pavê de biscoito champagne e baunilha"
+        },
+
+        {
+            categoria: "Frutada",
+            nome:
+                "Torta gelada de limão com biscoito"
+        },
+
+        {
+            categoria: "Leve/Fit",
+            nome:
+                "Sorbet caseiro de morango congelado e banana"
+        },
+
+        {
+            categoria: "Rápida",
+            nome:
+                "Morango fresco com leite condensado"
+        }
+
+    ],
+
+
+    4: [
+
+        {
+            categoria: "Tradição",
+            nome:
+                "Arroz doce cremoso com canela"
+        },
+
+        {
+            categoria: "Frutada",
+            nome:
+                "Compota de ameixa com creme de baunilha"
+        },
+
+        {
+            categoria: "Leve/Fit",
+            nome:
+                "Maçã assada no forno com nozes"
+        },
+
+        {
+            categoria: "Rápida",
+            nome:
+                "Mousse rápida de doce de leite com chantilly"
+        }
+
+    ],
+
+
+    5: [
+
+        {
+            categoria: "Tradição",
+            nome:
+                "Petit gâteau de chocolate com sorvete de baunilha"
+        },
+
+        {
+            categoria: "Frutada",
+            nome:
+                "Torta aberta de maçã com massa folhada"
+        },
+
+        {
+            categoria: "Leve/Fit",
+            nome:
+                "Espetinho de frutas frescas com cacau em pó"
+        },
+
+        {
+            categoria: "Rápida",
+            nome:
+                "Fondue rápido de chocolate com morangos e uvas"
+        }
+
+    ],
+
+
+    6: [
+
+        {
+            categoria: "Tradição",
+            nome:
+                "Torta Holandesa tradicional"
+        },
+
+        {
+            categoria: "Frutada",
+            nome:
+                "Cheesecake com calda de frutas vermelhas"
+        },
+
+        {
+            categoria: "Leve/Fit",
+            nome:
+                "Mousse de cacau 70% com abacate e adoçante"
+        },
+
+        {
+            categoria: "Rápida",
+            nome:
+                "Sorvete de creme com calda quente de brigadeiro"
+        }
+
+    ],
+
+
+    0: [
+
+        {
+            categoria: "Tradição",
+            nome:
+                "Mousse aveludada de chocolate meio amargo"
+        },
+
+        {
+            categoria: "Frutada",
+            nome:
+                "Pavê de pêssego em calda com creme branco"
+        },
+
+        {
+            categoria: "Leve/Fit",
+            nome:
+                "Manga fatiada com raspas de coco queimado"
+        },
+
+        {
+            categoria: "Rápida",
+            nome:
+                "Romeu e Julieta — queijo minas com goiabada cascão"
+        }
+
+    ]
+
+};
+
+
+// ==========================================
+// MOSTRAR SOBREMESAS DE HOJE
+// ==========================================
+
+function mostrarSobremesasDoDia() {
+
+    const container =
+        document.getElementById(
+            "sobremesasDoDia"
+        );
+
+
+    if (!container) return;
+
+
+    const dia =
+        new Date().getDay();
+
+
+    const sobremesas =
+        sobremesasPorDia[dia];
+
+
+    container.innerHTML = "";
+
+
+    sobremesas.forEach(
+        sobremesa => {
+
+            const card =
+                document.createElement("article");
+
+
+            card.className =
+                "produto sobremesa-dia";
+
+
+            card.innerHTML = `
+
+                <h3>
+                    🍨 ${sobremesa.categoria}
+                </h3>
+
+                <p>
+                    ${sobremesa.nome}
+                </p>
+
+            `;
+
+
+            container.appendChild(card);
+
+        }
+    );
+
+}
+
+
+// ==========================================
+// NAVEGAÇÃO DAS CATEGORIAS
+// ==========================================
+
+function irPara(id) {
+
+    const elemento =
+        document.getElementById(id);
+
+
+    if (!elemento) return;
+
+
+    elemento.scrollIntoView({
+
+        behavior: "smooth",
+
+        block: "start"
+
+    });
+
+}
+
+
+// ==========================================
+// ENVIAR PEDIDO PARA WHATSAPP
+// ==========================================
+
+function enviarPedidoWhatsApp() {
 
     if (carrinho.length === 0) {
 
         alert(
-            "🛒 Carrinho vazio."
+            "🛒 Seu carrinho está vazio!"
         );
 
         return;
+
     }
 
 
-    let nome =
+    const nome =
         document.getElementById(
             "nomeCliente"
         ).value.trim();
 
 
-    let telefone =
+    const telefone =
         document.getElementById(
             "telefoneCliente"
         ).value.trim();
 
 
-    let tipoEntrega =
-        document.getElementById(
-            "tipoEntrega"
+    const tipoEntrega =
+        document.querySelector(
+            'input[name="tipoEntrega"]:checked'
         ).value;
 
 
-    let endereco =
+    const endereco =
         document.getElementById(
             "enderecoCliente"
         ).value.trim();
 
 
-    let pagamento =
+    const pagamento =
         document.getElementById(
-            "pagamentoCliente"
+            "pagamento"
         ).value;
 
 
-    let observacao =
+    const observacao =
         document.getElementById(
-            "observacaoCliente"
+            "observacao"
         ).value.trim();
 
 
@@ -749,6 +987,7 @@ function confirmarPedido(event) {
         );
 
         return;
+
     }
 
 
@@ -759,6 +998,7 @@ function confirmarPedido(event) {
         );
 
         return;
+
     }
 
 
@@ -768,36 +1008,49 @@ function confirmarPedido(event) {
     ) {
 
         alert(
-            "⚠️ Digite seu endereço."
+            "⚠️ Digite o endereço de entrega."
         );
 
         return;
+
     }
 
 
     if (pagamento === "") {
 
         alert(
-            "⚠️ Escolha uma forma de pagamento."
+            "⚠️ Escolha a forma de pagamento."
         );
 
         return;
+
     }
 
 
-    let total = 0;
+    let subtotal = 0;
 
 
-    carrinho.forEach(function(item) {
+    carrinho.forEach(item => {
 
-        total +=
+        subtotal +=
             item.preco *
             item.quantidade;
 
     });
 
 
-    let numeroPedido =
+    const taxaEntrega =
+        tipoEntrega === "delivery"
+            ? 5
+            : 0;
+
+
+    const total =
+        subtotal +
+        taxaEntrega;
+
+
+    const numeroPedido =
         Math.floor(
             1000 +
             Math.random() * 9000
@@ -806,264 +1059,97 @@ function confirmarPedido(event) {
 
     pedidoAtual = {
 
-        numero: numeroPedido,
+        numero:
+            numeroPedido,
 
-        nome: nome,
+        nome:
+            nome,
 
-        telefone: telefone,
+        telefone:
+            telefone,
 
-        tipoEntrega: tipoEntrega,
+        tipoEntrega:
+            tipoEntrega,
 
-        endereco: endereco,
+        endereco:
+            endereco,
 
-        pagamento: pagamento,
+        pagamento:
+            pagamento,
 
-        observacao: observacao,
+        observacao:
+            observacao,
 
-        itens: carrinho.map(function(item) {
+        itens:
+            [...carrinho],
 
-            return {
+        subtotal:
+            subtotal,
 
-                nome: item.nome,
+        taxaEntrega:
+            taxaEntrega,
 
-                preco: item.preco,
+        total:
+            total
 
-                quantidade:
-                    item.quantidade
-
-            };
-
-        }),
-
-        total: total
     };
-
-
-    mostrarPedidoConfirmado();
-}
-
-
-// ========================================
-// MOSTRAR PEDIDO CONFIRMADO
-// ========================================
-
-function mostrarPedidoConfirmado() {
-
-    let finalizacao =
-        document.getElementById(
-            "finalizacao"
-        );
-
-    let confirmado =
-        document.getElementById(
-            "pedidoConfirmado"
-        );
-
-    let numero =
-        document.getElementById(
-            "numeroPedido"
-        );
-
-    let resumo =
-        document.getElementById(
-            "resumoPedido"
-        );
-
-
-    if (
-        !finalizacao ||
-        !confirmado ||
-        !numero ||
-        !resumo
-    ) {
-        return;
-    }
-
-
-    numero.innerText =
-        "Pedido #" +
-        pedidoAtual.numero;
-
-
-    let html = "";
-
-
-    html +=
-        "<p><strong>👤 Cliente:</strong> " +
-        pedidoAtual.nome +
-        "</p>";
-
-
-    html +=
-        "<p><strong>📞 Telefone:</strong> " +
-        pedidoAtual.telefone +
-        "</p>";
-
-
-    if (
-        pedidoAtual.tipoEntrega ===
-        "delivery"
-    ) {
-
-        html +=
-            "<p><strong>🚴 Entrega</strong></p>";
-
-        html +=
-            "<p><strong>📍 Endereço:</strong><br>" +
-            pedidoAtual.endereco +
-            "</p>";
-
-    } else {
-
-        html +=
-            "<p><strong>🏪 Retirada no local</strong></p>";
-
-    }
-
-
-    html += "<hr>";
-
-
-    html +=
-        "<h3>🛒 Produtos</h3>";
-
-
-    pedidoAtual.itens.forEach(function(item) {
-
-        let subtotal =
-            item.preco *
-            item.quantidade;
-
-
-        html +=
-            "<p>" +
-            item.quantidade +
-            "x " +
-            item.nome +
-            " — R$ " +
-            subtotal
-                .toFixed(2)
-                .replace(".", ",") +
-            "</p>";
-
-    });
-
-
-    html += "<hr>";
-
-
-    html +=
-        "<p><strong>💳 Pagamento:</strong> " +
-        pedidoAtual.pagamento +
-        "</p>";
-
-
-    if (pedidoAtual.observacao !== "") {
-
-        html +=
-            "<p><strong>📝 Observação:</strong><br>" +
-            pedidoAtual.observacao +
-            "</p>";
-    }
-
-
-    html +=
-        "<h2>💰 Total: R$ " +
-        pedidoAtual.total
-            .toFixed(2)
-            .replace(".", ",") +
-        "</h2>";
-
-
-    resumo.innerHTML = html;
-
-
-    finalizacao.style.display =
-        "none";
-
-    confirmado.style.display =
-        "block";
-
-
-    confirmado.scrollIntoView({
-        behavior: "smooth"
-    });
-}
-
-
-// ========================================
-// ENVIAR PARA WHATSAPP
-// ========================================
-
-function enviarPedidoWhatsApp() {
-
-    if (!pedidoAtual) {
-
-        alert(
-            "⚠️ Pedido não encontrado."
-        );
-
-        return;
-    }
 
 
     let mensagem = "";
 
 
     mensagem +=
-        "🍔 *RESTAURANTE LANCHONETE MM*%0A";
+        "🍔 RESTAURANTE LANCHONETE MM\n";
 
     mensagem +=
-        "━━━━━━━━━━━━━━━━━━%0A";
+        "━━━━━━━━━━━━━━━━━━\n";
 
     mensagem +=
-        "📋 *PEDIDO #" +
-        pedidoAtual.numero +
-        "*%0A%0A";
-
-
-    mensagem +=
-        "👤 *Cliente:* " +
-        pedidoAtual.nome +
-        "%0A";
+        "📋 PEDIDO #" +
+        numeroPedido +
+        "\n\n";
 
 
     mensagem +=
-        "📞 *Telefone:* " +
-        pedidoAtual.telefone +
-        "%0A%0A";
+        "👤 Cliente: " +
+        nome +
+        "\n";
 
 
-    if (
-        pedidoAtual.tipoEntrega ===
-        "delivery"
-    ) {
+    mensagem +=
+        "📞 Telefone: " +
+        telefone +
+        "\n\n";
+
+
+    if (tipoEntrega === "delivery") {
 
         mensagem +=
-            "🚴 *ENTREGA*%0A";
+            "🛵 DELIVERY\n";
 
         mensagem +=
-            "📍 *Endereço:* " +
-            pedidoAtual.endereco +
-            "%0A%0A";
+            "📍 Endereço: " +
+            endereco +
+            "\n\n";
 
     } else {
 
         mensagem +=
-            "🏪 *RETIRADA NO LOCAL*%0A%0A";
+            "🏪 RETIRADA NO BALCÃO\n\n";
+
     }
 
 
     mensagem +=
-        "🛒 *PRODUTOS*%0A";
+        "🛒 PRODUTOS\n";
 
     mensagem +=
-        "━━━━━━━━━━━━━━━━━━%0A";
+        "━━━━━━━━━━━━━━━━━━\n";
 
 
-    pedidoAtual.itens.forEach(function(item) {
+    carrinho.forEach(item => {
 
-        let subtotal =
+        const subtotalItem =
             item.preco *
             item.quantidade;
 
@@ -1072,153 +1158,242 @@ function enviarPedidoWhatsApp() {
             item.quantidade +
             "x " +
             item.nome +
-            " - R$ " +
-            subtotal
-                .toFixed(2)
-                .replace(".", ",") +
-            "%0A";
+            " - " +
+            formatarDinheiro(
+                subtotalItem
+            ) +
+            "\n";
 
     });
 
 
-    mensagem += "%0A";
+    mensagem += "\n";
 
 
     mensagem +=
-        "💳 *Pagamento:* " +
-        pedidoAtual.pagamento +
-        "%0A";
+        "💳 Pagamento: " +
+        pagamento +
+        "\n";
 
 
-    if (pedidoAtual.observacao !== "") {
+    if (observacao !== "") {
 
         mensagem +=
-            "📝 *Observação:* " +
-            pedidoAtual.observacao +
-            "%0A";
+            "📝 Observação: " +
+            observacao +
+            "\n";
+
+    }
+
+
+    if (tipoEntrega === "delivery") {
+
+        mensagem +=
+            "🛵 Taxa de entrega: R$ 5,00\n";
+
     }
 
 
     mensagem +=
-        "%0A💰 *TOTAL: R$ " +
-        pedidoAtual.total
-            .toFixed(2)
-            .replace(".", ",") +
-        "*";
+        "\n💰 TOTAL: " +
+        formatarDinheiro(total);
 
 
-    let numeroWhatsApp =
+    const numeroWhatsApp =
         "5519981123401";
 
 
-    let url =
+    const url =
         "https://wa.me/" +
         numeroWhatsApp +
         "?text=" +
-        mensagem;
+        encodeURIComponent(mensagem);
 
+
+    // ======================================
+    // MOSTRAR CONFIRMAÇÃO
+    // ======================================
+
+    mostrarSucesso(
+        numeroPedido,
+        total,
+        tipoEntrega
+    );
+
+
+    // ======================================
+    // ABRIR WHATSAPP
+    // ======================================
 
     window.open(
         url,
         "_blank"
     );
+
 }
 
 
-// ========================================
-// MODO ESCURO
-// ========================================
+// ==========================================
+// TELA DE SUCESSO
+// ==========================================
 
-function alternarAparencia() {
+function mostrarSucesso(
+    numeroPedido,
+    total,
+    tipoEntrega
+) {
 
-    document.body.classList.toggle(
-        "dark"
+    const checkout =
+        document.getElementById(
+            "checkout"
+        );
+
+
+    const sucesso =
+        document.getElementById(
+            "pedidoSucesso"
+        );
+
+
+    const numeroElemento =
+        document.getElementById(
+            "numeroPedido"
+        );
+
+
+    const totalElemento =
+        document.getElementById(
+            "totalSucesso"
+        );
+
+
+    checkout.classList.remove(
+        "ativo"
     );
 
 
-    let escuro =
-        document.body.classList.contains(
-            "dark"
-        );
-
-
-    localStorage.setItem(
-        "temaMM",
-        escuro ? "dark" : "light"
+    sucesso.classList.add(
+        "ativo"
     );
 
 
-    let botao =
-        document.getElementById(
-            "btnAparencia"
-        );
+    numeroElemento.textContent =
+        "#" + numeroPedido;
 
 
-    if (botao) {
+    totalElemento.textContent =
+        formatarDinheiro(total);
 
-        botao.innerText =
-            escuro ? "☀️" : "🌙";
+
+    const texto =
+        sucesso.querySelector("p");
+
+
+    if (tipoEntrega === "retirada") {
+
+        const mensagens =
+            sucesso.querySelectorAll("p");
+
+
+        if (mensagens.length >= 2) {
+
+            mensagens[1].textContent =
+                "🏪 Seu pedido está sendo preparado para retirada no balcão.";
+
+        }
+
     }
+
+
+    sucesso.scrollIntoView({
+
+        behavior: "smooth"
+
+    });
+
 }
 
 
-// ========================================
-// CARREGAR TEMA
-// ========================================
+// ==========================================
+// VOLTAR AO INÍCIO
+// ==========================================
 
-function carregarTema() {
+function voltarInicio() {
 
-    let tema =
-        localStorage.getItem(
-            "temaMM"
-        );
-
-
-    if (tema === "dark") {
-
-        document.body.classList.add(
-            "dark"
-        );
-
-    } else {
-
-        document.body.classList.remove(
-            "dark"
-        );
-    }
-
-
-    let botao =
+    const sucesso =
         document.getElementById(
-            "btnAparencia"
+            "pedidoSucesso"
         );
 
 
-    if (botao) {
+    sucesso.classList.remove(
+        "ativo"
+    );
 
-        botao.innerText =
-            tema === "dark"
-                ? "☀️"
-                : "🌙";
-    }
+
+    carrinho = [];
+
+
+    pedidoAtual = null;
+
+
+    atualizarCarrinho();
+
+
+    document.getElementById(
+        "nomeCliente"
+    ).value = "";
+
+
+    document.getElementById(
+        "telefoneCliente"
+    ).value = "";
+
+
+    document.getElementById(
+        "enderecoCliente"
+    ).value = "";
+
+
+    document.getElementById(
+        "pagamento"
+    ).value = "";
+
+
+    document.getElementById(
+        "observacao"
+    ).value = "";
+
+
+    window.scrollTo({
+
+        top: 0,
+
+        behavior: "smooth"
+
+    });
+
 }
 
 
-// ========================================
-// INICIAR
-// ========================================
+// ==========================================
+// INICIALIZAÇÃO
+// ==========================================
 
 document.addEventListener(
     "DOMContentLoaded",
     function() {
 
-        carregarTema();
+        verificarHorario();
+
+        mostrarSobremesasDoDia();
 
         atualizarCarrinho();
 
-        alternarEndereco();
-
-        filtrarCategoria("todos");
+        setInterval(
+            verificarHorario,
+            60000
+        );
 
     }
 );
