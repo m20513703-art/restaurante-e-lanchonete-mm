@@ -16,39 +16,485 @@ function dinheiro(valor) {
 }
 
 
+function obterPeriodoAtual() {
+
+    const agora = new Date();
+
+    const dia = agora.getDay();
+
+    const horario =
+        agora.getHours() * 60 +
+        agora.getMinutes();
+
+
+    let inicioAlmoco = 11 * 60;
+    let fimAlmoco = 15 * 60;
+
+
+    /* SÁBADO E DOMINGO */
+
+    if (dia === 0 || dia === 6) {
+
+        inicioAlmoco = 11 * 60 + 30;
+
+        fimAlmoco = 15 * 60 + 30;
+    }
+
+
+    /* ALMOÇO */
+
+    if (
+        horario >= inicioAlmoco &&
+        horario <= fimAlmoco
+    ) {
+
+        return "almoco";
+    }
+
+
+    /* NOITE - TERÇA A DOMINGO */
+
+    if (
+        dia >= 2 &&
+        dia <= 6 &&
+        horario >= 18 * 60 &&
+        horario <= 22 * 60 + 30
+    ) {
+
+        return "noite";
+    }
+
+
+    return "fechado";
+}
+
+
+/* =====================================================
+   CONTROLE DO CARDÁPIO POR HORÁRIO
+===================================================== */
+
+function atualizarCardapioPorHorario() {
+
+    const periodo =
+        obterPeriodoAtual();
+
+
+    /*
+       BOTÕES DAS CATEGORIAS
+    */
+
+    const botoesCategorias =
+        document.querySelectorAll(
+            "button[onclick]"
+        );
+
+
+    botoesCategorias.forEach(botao => {
+
+        const acao =
+            botao.getAttribute("onclick") || "";
+
+
+        let categoria = null;
+
+
+        if (acao.includes("'almoco'")) {
+            categoria = "almoco";
+        }
+
+        if (acao.includes('"almoco"')) {
+            categoria = "almoco";
+        }
+
+
+        if (acao.includes("'marmitas'")) {
+            categoria = "marmitas";
+        }
+
+        if (acao.includes('"marmitas"')) {
+            categoria = "marmitas";
+        }
+
+
+        if (acao.includes("'pizzas'")) {
+            categoria = "noite";
+        }
+
+        if (acao.includes('"pizzas"')) {
+            categoria = "noite";
+        }
+
+
+        if (acao.includes("'lanches'")) {
+            categoria = "noite";
+        }
+
+        if (acao.includes('"lanches"')) {
+            categoria = "noite";
+        }
+
+
+        if (acao.includes("'esfirras'")) {
+            categoria = "noite";
+        }
+
+        if (acao.includes('"esfirras"')) {
+            categoria = "noite";
+        }
+
+
+        if (acao.includes("'hotdogs'")) {
+            categoria = "noite";
+        }
+
+        if (acao.includes('"hotdogs"')) {
+            categoria = "noite";
+        }
+
+
+        if (acao.includes("'porcoes'")) {
+            categoria = "noite";
+        }
+
+        if (acao.includes('"porcoes"')) {
+            categoria = "noite";
+        }
+
+
+        if (acao.includes("'bebidas'")) {
+            categoria = "noite";
+        }
+
+        if (acao.includes('"bebidas"')) {
+            categoria = "noite";
+        }
+
+
+        if (!categoria) return;
+
+
+        if (periodo === "almoco") {
+
+            if (
+                categoria === "almoco" ||
+                categoria === "marmitas"
+            ) {
+
+                botao.style.display = "";
+
+            } else {
+
+                botao.style.display = "none";
+            }
+
+        }
+
+
+        else if (periodo === "noite") {
+
+            if (categoria === "noite") {
+
+                botao.style.display = "";
+
+            } else {
+
+                botao.style.display = "none";
+            }
+
+        }
+
+
+        else {
+
+            botao.style.display = "none";
+        }
+
+    });
+
+
+    /*
+       SEÇÕES DO CARDÁPIO
+    */
+
+    const almoco =
+        document.getElementById("almoco");
+
+    const marmitas =
+        document.getElementById("marmitas");
+
+    const pizzasPagina =
+        document.getElementById("pizzas");
+
+    const lanchesPagina =
+        document.getElementById("lanches");
+
+    const esfirrasPagina =
+        document.getElementById("esfirras");
+
+    const hotdogsPagina =
+        document.getElementById("hotdogs");
+
+    const porcoesPagina =
+        document.getElementById("porcoes");
+
+    const bebidasPagina =
+        document.getElementById("bebidas");
+
+
+    if (periodo === "almoco") {
+
+        if (almoco) {
+            almoco.style.display = "";
+        }
+
+        if (marmitas) {
+            marmitas.style.display = "";
+        }
+
+        if (pizzasPagina) {
+            pizzasPagina.style.display = "none";
+        }
+
+        if (lanchesPagina) {
+            lanchesPagina.style.display = "none";
+        }
+
+        if (esfirrasPagina) {
+            esfirrasPagina.style.display = "none";
+        }
+
+        if (hotdogsPagina) {
+            hotdogsPagina.style.display = "none";
+        }
+
+        if (porcoesPagina) {
+            porcoesPagina.style.display = "none";
+        }
+
+        if (bebidasPagina) {
+            bebidasPagina.style.display = "none";
+        }
+
+    }
+
+
+    else if (periodo === "noite") {
+
+        if (almoco) {
+            almoco.style.display = "none";
+        }
+
+        if (marmitas) {
+            marmitas.style.display = "none";
+        }
+
+        if (pizzasPagina) {
+            pizzasPagina.style.display = "";
+        }
+
+        if (lanchesPagina) {
+            lanchesPagina.style.display = "";
+        }
+
+        if (esfirrasPagina) {
+            esfirrasPagina.style.display = "";
+        }
+
+        if (hotdogsPagina) {
+            hotdogsPagina.style.display = "";
+        }
+
+        if (porcoesPagina) {
+            porcoesPagina.style.display = "";
+        }
+
+        if (bebidasPagina) {
+            bebidasPagina.style.display = "";
+        }
+
+    }
+
+
+    else {
+
+        if (almoco) {
+            almoco.style.display = "none";
+        }
+
+        if (marmitas) {
+            marmitas.style.display = "none";
+        }
+
+        if (pizzasPagina) {
+            pizzasPagina.style.display = "none";
+        }
+
+        if (lanchesPagina) {
+            lanchesPagina.style.display = "none";
+        }
+
+        if (esfirrasPagina) {
+            esfirrasPagina.style.display = "none";
+        }
+
+        if (hotdogsPagina) {
+            hotdogsPagina.style.display = "none";
+        }
+
+        if (porcoesPagina) {
+            porcoesPagina.style.display = "none";
+        }
+
+        if (bebidasPagina) {
+            bebidasPagina.style.display = "none";
+        }
+
+    }
+
+
+    /*
+       CARDÁPIO DO ALMOÇO NA PÁGINA INICIAL
+    */
+
+    const cardapioInicio =
+        document.getElementById(
+            "cardapioInicio"
+        );
+
+
+    if (cardapioInicio) {
+
+        if (periodo === "almoco") {
+
+            cardapioInicio.style.display =
+                "";
+
+        } else {
+
+            cardapioInicio.style.display =
+                "none";
+        }
+    }
+
+}
+
+
+/* =====================================================
+   NAVEGAÇÃO
+===================================================== */
+
 function abrirPagina(id) {
+
+    const periodo =
+        obterPeriodoAtual();
+
+
+    /*
+       BLOQUEIA ACESSO A CARDÁPIOS
+       FORA DO HORÁRIO
+    */
+
+    if (
+        periodo === "almoco" &&
+        (
+            id === "pizzas" ||
+            id === "lanches" ||
+            id === "esfirras" ||
+            id === "hotdogs" ||
+            id === "porcoes" ||
+            id === "bebidas"
+        )
+    ) {
+
+        alert(
+            "🍱 Estamos no horário do almoço. O cardápio da noite estará disponível a partir das 18:00."
+        );
+
+        return;
+    }
+
+
+    if (
+        periodo === "noite" &&
+        (
+            id === "almoco" ||
+            id === "marmitas"
+        )
+    ) {
+
+        alert(
+            "🌙 O almoço e as marmitas funcionam durante o dia."
+        );
+
+        return;
+    }
+
+
+    if (
+        periodo === "fechado" &&
+        (
+            id === "almoco" ||
+            id === "marmitas" ||
+            id === "pizzas" ||
+            id === "lanches" ||
+            id === "esfirras" ||
+            id === "hotdogs" ||
+            id === "porcoes" ||
+            id === "bebidas"
+        )
+    ) {
+
+        alert(
+            "🔴 Estamos fechados no momento. Consulte nossos horários na página inicial."
+        );
+
+        return;
+    }
+
 
     document.querySelectorAll(".pagina").forEach(pagina => {
         pagina.classList.remove("ativa");
     });
 
-    const pagina = document.getElementById(id);
+
+    const pagina =
+        document.getElementById(id);
+
 
     if (pagina) {
+
         pagina.classList.add("ativa");
+
     }
 
+
     window.scrollTo(0, 0);
+
 
     if (id === "pizzas") {
         iniciarPizza();
     }
 
+
     if (id === "esfirras") {
         iniciarEsfirra();
     }
+
 
     if (id === "marmitas") {
         criarMarmitas();
     }
 
+
     if (id === "almoco") {
         mostrarCardapioAlmoco();
     }
 
+
     if (id === "carrinho") {
         atualizarCarrinho();
     }
+
 }
 
 
@@ -76,7 +522,8 @@ function verificarFuncionamento() {
 
     const minutos = agora.getMinutes();
 
-    const tempoAtual = hora * 60 + minutos;
+    const tempoAtual =
+        hora * 60 + minutos;
 
     let aberto = false;
 
@@ -89,8 +536,11 @@ function verificarFuncionamento() {
             tempoAtual >= 660 &&
             tempoAtual <= 900
         ) {
+
             aberto = true;
+
         }
+
     }
 
 
@@ -102,8 +552,11 @@ function verificarFuncionamento() {
             tempoAtual >= 690 &&
             tempoAtual <= 930
         ) {
+
             aberto = true;
+
         }
+
     }
 
 
@@ -115,13 +568,18 @@ function verificarFuncionamento() {
             tempoAtual >= 1080 &&
             tempoAtual <= 1350
         ) {
+
             aberto = true;
+
         }
+
     }
 
 
     const status =
-        document.getElementById("statusFuncionamento");
+        document.getElementById(
+            "statusFuncionamento"
+        );
 
 
     if (!status) return;
@@ -142,7 +600,9 @@ function verificarFuncionamento() {
 
         status.className =
             "status fechado";
+
     }
+
 }
 
 
@@ -419,6 +879,7 @@ function montarLista(lista) {
     return lista
         .map(item => `<p>• ${item}</p>`)
         .join("");
+
 }
 
 
@@ -522,15 +983,23 @@ function mostrarCardapioAlmoco() {
 
 
     const area =
-        document.getElementById("cardapioAlmoco");
+        document.getElementById(
+            "cardapioAlmoco"
+        );
+
 
     if (area) {
+
         area.innerHTML = html;
+
     }
 
 
     const inicio =
-        document.getElementById("cardapioInicio");
+        document.getElementById(
+            "cardapioInicio"
+        );
+
 
     if (inicio) {
 
@@ -569,7 +1038,9 @@ function mostrarCardapioAlmoco() {
             </p>
 
         `;
+
     }
+
 }
 
 
@@ -1476,6 +1947,7 @@ function obterCarnesDoDia() {
         new Date().getDay();
 
     return cardapioSemana[dia].carnes;
+
 }
 
 
@@ -1577,6 +2049,7 @@ function criarMarmitas() {
         area.appendChild(div);
 
     });
+
 }
 
 
@@ -3133,6 +3606,9 @@ document.addEventListener(
         verificarFuncionamento();
 
 
+        atualizarCardapioPorHorario();
+
+
         setInterval(
             verificarFuncionamento,
             60000
@@ -3144,5 +3620,242 @@ document.addEventListener(
             60000
         );
 
+
+        setInterval(
+            atualizarCardapioPorHorario,
+            60000
+        );
+
     }
+);
+
+/* =====================================================
+   BLOQUEIO DE PEDIDOS FORA DO HORÁRIO
+===================================================== */
+
+function pedidoEstaLiberado() {
+
+    const agora = new Date();
+
+    const dia = agora.getDay();
+
+    const horario =
+        agora.getHours() * 60 +
+        agora.getMinutes();
+
+    /* ALMOÇO */
+
+    let inicioAlmoco = 660; // 11:00
+    let fimAlmoco = 900;    // 15:00
+
+    /* SÁBADO E DOMINGO */
+
+    if (dia === 0 || dia === 6) {
+
+        inicioAlmoco = 690; // 11:30
+        fimAlmoco = 930;    // 15:30
+
+    }
+
+    /* TERÇA A DOMINGO À NOITE */
+
+    const inicioNoite = 1080; // 18:00
+    const fimNoite = 1350;    // 22:30
+
+
+    /* ALMOÇO */
+
+    if (
+        horario >= inicioAlmoco &&
+        horario <= fimAlmoco
+    ) {
+
+        return true;
+
+    }
+
+
+    /* NOITE */
+
+    if (
+        dia >= 2 &&
+        dia <= 6 &&
+        horario >= inicioNoite &&
+        horario <= fimNoite
+    ) {
+
+        return true;
+
+    }
+
+
+    return false;
+
+}
+
+
+/* =====================================================
+   AVISO DE LOJA FECHADA
+===================================================== */
+
+function verificarPedidoLiberado() {
+
+    if (pedidoEstaLiberado()) {
+
+        return true;
+
+    }
+
+
+    alert(
+        "🔴 Estamos fechados no momento.\n\n" +
+        "Os pedidos estão disponíveis somente durante nosso horário de funcionamento."
+    );
+
+
+    return false;
+
+}
+
+
+/* =====================================================
+   BLOQUEAR ADIÇÃO DE PRODUTOS
+===================================================== */
+
+const adicionarProdutoOriginal = adicionarProduto;
+
+adicionarProduto = function(
+    nome,
+    preco,
+    descricao
+) {
+
+    if (!verificarPedidoLiberado()) {
+
+        return;
+
+    }
+
+
+    adicionarProdutoOriginal(
+        nome,
+        preco,
+        descricao
+    );
+
+};
+
+
+/* =====================================================
+   BLOQUEAR PIZZA
+===================================================== */
+
+const adicionarPizzaCarrinhoOriginal =
+    adicionarPizzaCarrinho;
+
+adicionarPizzaCarrinho = function() {
+
+    if (!verificarPedidoLiberado()) {
+
+        return;
+
+    }
+
+
+    adicionarPizzaCarrinhoOriginal();
+
+};
+
+
+/* =====================================================
+   BLOQUEAR MARMITA
+===================================================== */
+
+const adicionarMarmitaCarrinhoOriginal =
+    adicionarMarmitaCarrinho;
+
+adicionarMarmitaCarrinho = function() {
+
+    if (!verificarPedidoLiberado()) {
+
+        return;
+
+    }
+
+
+    adicionarMarmitaCarrinhoOriginal();
+
+};
+
+
+/* =====================================================
+   BLOQUEAR ESFIRRA
+===================================================== */
+
+const adicionarEsfirraCarrinhoOriginal =
+    adicionarEsfirraCarrinho;
+
+adicionarEsfirraCarrinho = function() {
+
+    if (!verificarPedidoLiberado()) {
+
+        return;
+
+    }
+
+
+    adicionarEsfirraCarrinhoOriginal();
+
+};
+
+
+/* =====================================================
+   BLOQUEAR CHECKOUT
+===================================================== */
+
+const abrirCheckoutOriginal =
+    abrirCheckout;
+
+abrirCheckout = function() {
+
+    if (!verificarPedidoLiberado()) {
+
+        return;
+
+    }
+
+
+    abrirCheckoutOriginal();
+
+};
+
+
+/* =====================================================
+   BLOQUEAR WHATSAPP
+===================================================== */
+
+const enviarWhatsAppOriginal =
+    enviarWhatsApp;
+
+enviarWhatsApp = function() {
+
+    if (!verificarPedidoLiberado()) {
+
+        return;
+
+    }
+
+
+    enviarWhatsAppOriginal();
+
+};
+
+
+/* =====================================================
+   VERIFICAÇÃO AUTOMÁTICA
+===================================================== */
+
+setInterval(
+    verificarFuncionamento,
+    60000
 );
