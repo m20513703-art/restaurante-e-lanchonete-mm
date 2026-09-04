@@ -1,1149 +1,632 @@
+// ==========================================
+// RESTAURANTE LANCHONETE MM
+// JAVASCRIPT PRINCIPAL
+// ==========================================
+
 const WHATSAPP = "5519981123401";
 const TAXA_ENTREGA = 5;
 
 let carrinho = [];
+let desconto = 0;
+let cupomAplicado = "";
 
 
-/* =====================================================
-   FUNÇÕES GERAIS
-===================================================== */
+// ==========================================
+// UTILIDADES
+// ==========================================
 
 function dinheiro(valor) {
-    return valor.toLocaleString("pt-BR", {
+    return Number(valor).toLocaleString("pt-BR", {
         style: "currency",
         currency: "BRL"
     });
 }
 
+function salvarDados() {
+    localStorage.setItem("carrinhoMM", JSON.stringify(carrinho));
+}
 
-function obterPeriodoAtual() {
+function carregarDados() {
+    const dados = localStorage.getItem("carrinhoMM");
 
-    const agora = new Date();
-
-    const dia = agora.getDay();
-
-    const horario =
-        agora.getHours() * 60 +
-        agora.getMinutes();
-
-
-    let inicioAlmoco = 11 * 60;
-    let fimAlmoco = 15 * 60;
-
-
-    /* SÁBADO E DOMINGO */
-
-    if (dia === 0 || dia === 6) {
-
-        inicioAlmoco = 11 * 60 + 30;
-
-        fimAlmoco = 15 * 60 + 30;
+    if (dados) {
+        try {
+            carrinho = JSON.parse(dados);
+        } catch {
+            carrinho = [];
+        }
     }
-
-
-    /* ALMOÇO */
-
-    if (
-        horario >= inicioAlmoco &&
-        horario <= fimAlmoco
-    ) {
-
-        return "almoco";
-    }
-
-
-    /* NOITE - TERÇA A DOMINGO */
-
-    if (
-        dia >= 2 &&
-        dia <= 6 &&
-        horario >= 18 * 60 &&
-        horario <= 22 * 60 + 30
-    ) {
-
-        return "noite";
-    }
-
-
-    return "fechado";
 }
 
 
-/* =====================================================
-   CONTROLE DO CARDÁPIO POR HORÁRIO
-===================================================== */
-
-function atualizarCardapioPorHorario() {
-
-    const periodo =
-        obterPeriodoAtual();
-
-
-    /*
-       BOTÕES DAS CATEGORIAS
-    */
-
-    const botoesCategorias =
-        document.querySelectorAll(
-            "button[onclick]"
-        );
-
-
-    botoesCategorias.forEach(botao => {
-
-        const acao =
-            botao.getAttribute("onclick") || "";
-
-
-        let categoria = null;
-
-
-        if (acao.includes("'almoco'")) {
-            categoria = "almoco";
-        }
-
-        if (acao.includes('"almoco"')) {
-            categoria = "almoco";
-        }
-
-
-        if (acao.includes("'marmitas'")) {
-            categoria = "marmitas";
-        }
-
-        if (acao.includes('"marmitas"')) {
-            categoria = "marmitas";
-        }
-
-
-        if (acao.includes("'pizzas'")) {
-            categoria = "noite";
-        }
-
-        if (acao.includes('"pizzas"')) {
-            categoria = "noite";
-        }
-
-
-        if (acao.includes("'lanches'")) {
-            categoria = "noite";
-        }
-
-        if (acao.includes('"lanches"')) {
-            categoria = "noite";
-        }
-
-
-        if (acao.includes("'esfirras'")) {
-            categoria = "noite";
-        }
-
-        if (acao.includes('"esfirras"')) {
-            categoria = "noite";
-        }
-
-
-        if (acao.includes("'hotdogs'")) {
-            categoria = "noite";
-        }
-
-        if (acao.includes('"hotdogs"')) {
-            categoria = "noite";
-        }
-
-
-        if (acao.includes("'porcoes'")) {
-            categoria = "noite";
-        }
-
-        if (acao.includes('"porcoes"')) {
-            categoria = "noite";
-        }
-
-
-        if (acao.includes("'bebidas'")) {
-            categoria = "noite";
-        }
-
-        if (acao.includes('"bebidas"')) {
-            categoria = "noite";
-        }
-
-
-        if (!categoria) return;
-
-
-        if (periodo === "almoco") {
-
-            if (
-                categoria === "almoco" ||
-                categoria === "marmitas"
-            ) {
-
-                botao.style.display = "";
-
-            } else {
-
-                botao.style.display = "none";
-            }
-
-        }
-
-
-        else if (periodo === "noite") {
-
-            if (categoria === "noite") {
-
-                botao.style.display = "";
-
-            } else {
-
-                botao.style.display = "none";
-            }
-
-        }
-
-
-        else {
-
-            botao.style.display = "none";
-        }
-
-    });
-
-
-    /*
-       SEÇÕES DO CARDÁPIO
-    */
-
-    const almoco =
-        document.getElementById("almoco");
-
-    const marmitas =
-        document.getElementById("marmitas");
-
-    const pizzasPagina =
-        document.getElementById("pizzas");
-
-    const lanchesPagina =
-        document.getElementById("lanches");
-
-    const esfirrasPagina =
-        document.getElementById("esfirras");
-
-    const hotdogsPagina =
-        document.getElementById("hotdogs");
-
-    const porcoesPagina =
-        document.getElementById("porcoes");
-
-    const bebidasPagina =
-        document.getElementById("bebidas");
-
-
-    if (periodo === "almoco") {
-
-        if (almoco) {
-            almoco.style.display = "";
-        }
-
-        if (marmitas) {
-            marmitas.style.display = "";
-        }
-
-        if (pizzasPagina) {
-            pizzasPagina.style.display = "none";
-        }
-
-        if (lanchesPagina) {
-            lanchesPagina.style.display = "none";
-        }
-
-        if (esfirrasPagina) {
-            esfirrasPagina.style.display = "none";
-        }
-
-        if (hotdogsPagina) {
-            hotdogsPagina.style.display = "none";
-        }
-
-        if (porcoesPagina) {
-            porcoesPagina.style.display = "none";
-        }
-
-        if (bebidasPagina) {
-            bebidasPagina.style.display = "none";
-        }
-
-    }
-
-
-    else if (periodo === "noite") {
-
-        if (almoco) {
-            almoco.style.display = "none";
-        }
-
-        if (marmitas) {
-            marmitas.style.display = "none";
-        }
-
-        if (pizzasPagina) {
-            pizzasPagina.style.display = "";
-        }
-
-        if (lanchesPagina) {
-            lanchesPagina.style.display = "";
-        }
-
-        if (esfirrasPagina) {
-            esfirrasPagina.style.display = "";
-        }
-
-        if (hotdogsPagina) {
-            hotdogsPagina.style.display = "";
-        }
-
-        if (porcoesPagina) {
-            porcoesPagina.style.display = "";
-        }
-
-        if (bebidasPagina) {
-            bebidasPagina.style.display = "";
-        }
-
-    }
-
-
-    else {
-
-        if (almoco) {
-            almoco.style.display = "none";
-        }
-
-        if (marmitas) {
-            marmitas.style.display = "none";
-        }
-
-        if (pizzasPagina) {
-            pizzasPagina.style.display = "none";
-        }
-
-        if (lanchesPagina) {
-            lanchesPagina.style.display = "none";
-        }
-
-        if (esfirrasPagina) {
-            esfirrasPagina.style.display = "none";
-        }
-
-        if (hotdogsPagina) {
-            hotdogsPagina.style.display = "none";
-        }
-
-        if (porcoesPagina) {
-            porcoesPagina.style.display = "none";
-        }
-
-        if (bebidasPagina) {
-            bebidasPagina.style.display = "none";
-        }
-
-    }
-
-
-    /*
-       CARDÁPIO DO ALMOÇO NA PÁGINA INICIAL
-    */
-
-    const cardapioInicio =
-        document.getElementById(
-            "cardapioInicio"
-        );
-
-
-    if (cardapioInicio) {
-
-        if (periodo === "almoco") {
-
-            cardapioInicio.style.display =
-                "";
-
-        } else {
-
-            cardapioInicio.style.display =
-                "none";
-        }
-    }
-
-}
-
-
-/* =====================================================
-   NAVEGAÇÃO
-===================================================== */
+// ==========================================
+// NAVEGAÇÃO
+// ==========================================
 
 function abrirPagina(id) {
 
-    const periodo =
-        obterPeriodoAtual();
-
-
-    /*
-       BLOQUEIA ACESSO A CARDÁPIOS
-       FORA DO HORÁRIO
-    */
-
-    if (
-        periodo === "almoco" &&
-        (
-            id === "pizzas" ||
-            id === "lanches" ||
-            id === "esfirras" ||
-            id === "hotdogs" ||
-            id === "porcoes" ||
-            id === "bebidas"
-        )
-    ) {
-
-        alert(
-            "🍱 Estamos no horário do almoço. O cardápio da noite estará disponível a partir das 18:00."
-        );
-
-        return;
-    }
-
-
-    if (
-        periodo === "noite" &&
-        (
-            id === "almoco" ||
-            id === "marmitas"
-        )
-    ) {
-
-        alert(
-            "🌙 O almoço e as marmitas funcionam durante o dia."
-        );
-
-        return;
-    }
-
-
-    if (
-        periodo === "fechado" &&
-        (
-            id === "almoco" ||
-            id === "marmitas" ||
-            id === "pizzas" ||
-            id === "lanches" ||
-            id === "esfirras" ||
-            id === "hotdogs" ||
-            id === "porcoes" ||
-            id === "bebidas"
-        )
-    ) {
-
-        alert(
-            "🔴 Estamos fechados no momento. Consulte nossos horários na página inicial."
-        );
-
-        return;
-    }
-
-
     document.querySelectorAll(".pagina").forEach(pagina => {
-        pagina.classList.remove("ativa");
+        pagina.style.display = "none";
     });
 
+    const pagina = document.getElementById(id);
 
-    const pagina =
-        document.getElementById(id);
-
-
-    if (pagina) {
-
-        pagina.classList.add("ativa");
-
+    if (!pagina) {
+        console.error("Página não encontrada:", id);
+        return;
     }
 
+    pagina.style.display = "block";
 
-    window.scrollTo(0, 0);
-
-
-    if (id === "pizzas") {
-        iniciarPizza();
-    }
-
-
-    if (id === "esfirras") {
-        iniciarEsfirra();
-    }
-
-
-    if (id === "marmitas") {
-        criarMarmitas();
-    }
-
+    window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
 
     if (id === "almoco") {
         mostrarCardapioAlmoco();
     }
 
+    if (id === "pizzas") {
+        criarPizzas();
+    }
+
+    if (id === "lanches") {
+        criarProdutos("listaLanches", lanches);
+    }
+
+    if (id === "esfirras") {
+        criarEsfirras();
+    }
+
+    if (id === "hotdogs") {
+        criarProdutos("listaHotdogs", hotdogs);
+    }
+
+    if (id === "porcoes") {
+        criarProdutos("listaPorcoes", porcoes);
+    }
+
+    if (id === "bebidas") {
+        criarProdutos("listaBebidas", bebidas);
+    }
+
+    if (id === "marmitas") {
+        criarMarmitas();
+    }
 
     if (id === "carrinho") {
         atualizarCarrinho();
     }
 
+    if (id === "checkout") {
+        atualizarResumoCheckout();
+    }
 }
-
 
 function voltarInicio() {
     abrirPagina("inicio");
 }
-
 
 function abrirCarrinho() {
     abrirPagina("carrinho");
 }
 
 
-/* =====================================================
-   HORÁRIO DE FUNCIONAMENTO
-===================================================== */
+// ==========================================
+// HORÁRIO DE FUNCIONAMENTO
+// ==========================================
 
-function verificarFuncionamento() {
+function pedidoEstaLiberado() {
 
     const agora = new Date();
 
     const dia = agora.getDay();
+    const minutos =
+        agora.getHours() * 60 +
+        agora.getMinutes();
 
-    const hora = agora.getHours();
+    // Domingo = 0
+    // Segunda = 1
+    // Terça = 2
+    // Quarta = 3
+    // Quinta = 4
+    // Sexta = 5
+    // Sábado = 6
 
-    const minutos = agora.getMinutes();
-
-    const tempoAtual =
-        hora * 60 + minutos;
-
-    let aberto = false;
-
-
-    /* ALMOÇO */
-
+    // ALMOÇO
     if (dia >= 1 && dia <= 5) {
-
-        if (
-            tempoAtual >= 660 &&
-            tempoAtual <= 900
-        ) {
-
-            aberto = true;
-
+        if (minutos >= 660 && minutos <= 900) {
+            return true;
         }
-
     }
-
-
-    /* SÁBADO E DOMINGO */
 
     if (dia === 0 || dia === 6) {
-
-        if (
-            tempoAtual >= 690 &&
-            tempoAtual <= 930
-        ) {
-
-            aberto = true;
-
+        if (minutos >= 690 && minutos <= 930) {
+            return true;
         }
-
     }
 
-
-    /* NOITE - TERÇA A DOMINGO */
-
+    // NOITE
     if (dia >= 2 && dia <= 6) {
-
-        if (
-            tempoAtual >= 1080 &&
-            tempoAtual <= 1350
-        ) {
-
-            aberto = true;
-
+        if (minutos >= 1080 && minutos <= 1350) {
+            return true;
         }
-
     }
 
-
-    const status =
-        document.getElementById(
-            "statusFuncionamento"
-        );
-
-
-    if (!status) return;
-
-
-    if (aberto) {
-
-        status.innerHTML =
-            "🟢 ESTAMOS ABERTOS";
-
-        status.className =
-            "status aberto";
-
-    } else {
-
-        status.innerHTML =
-            "🔴 ESTAMOS FECHADOS";
-
-        status.className =
-            "status fechado";
-
-    }
-
+    return false;
 }
 
 
-/* =====================================================
-   CARDÁPIO DO ALMOÇO
-===================================================== */
+function verificarFuncionamento() {
+
+    const status =
+        document.getElementById("statusFuncionamento");
+
+    if (!status) return;
+
+    if (pedidoEstaLiberado()) {
+
+        status.textContent =
+            "🟢 Estamos abertos!";
+
+    } else {
+
+        status.textContent =
+            "🔴 Estamos fechados para novos pedidos. Você pode montar seu carrinho.";
+    }
+}
+
+
+// ==========================================
+// CARDÁPIO DO ALMOÇO
+// ==========================================
 
 const buffetFrio = [
-
-    "Alface crespa",
-    "Alface americana",
-    "Rúcula",
-    "Agrião",
-    "Tomate fatiado",
+    "Salada verde",
+    "Tomate",
     "Cenoura ralada",
     "Beterraba",
-    "Palmito",
-    "Pepino",
-    "Salada maionese caseira",
-    "Salpicão de frango",
-    "Tabule"
-
+    "Maionese",
+    "Salada de repolho"
 ];
 
 
 const cardapioSemana = {
 
     0: {
-
-        dia: "Domingo",
-
         arroz: [
             "Arroz branco",
             "Arroz biro-biro"
         ],
-
         feijao: [
             "Feijão tropeiro",
             "Feijão carioca"
         ],
-
         carnes: [
             "Cupim assado",
             "Bacalhau espiritual",
             "Contrafilé na chapa"
         ],
-
         acompanhamentos: [
             "Rondelli de peru e queijo",
             "Mandioca frita",
             "Legumes na manteiga"
         ],
-
         sobremesas: [
             "Manjar de coco com ameixa",
-            "Pudim de leite condensado",
+            "Pudim",
             "Pavê de morango"
         ]
-
     },
 
-
     1: {
-
-        dia: "Segunda-feira",
-
         arroz: [
             "Arroz branco soltinho",
             "Arroz integral"
         ],
-
         feijao: [
             "Feijão carioca temperado"
         ],
-
         carnes: [
             "Contrafilé acebolado",
             "Filé de frango grelhado",
             "Peixe empanado crocante"
         ],
-
         acompanhamentos: [
             "Batata frita",
             "Purê de batata cremoso",
             "Legumes salteados"
         ],
-
         sobremesas: [
-            "Pudim de leite condensado",
+            "Pudim",
             "Frutas fatiadas: abacaxi e melancia"
         ]
-
     },
 
-
     2: {
-
-        dia: "Terça-feira",
-
         arroz: [
             "Arroz branco",
             "Arroz com brócolis"
         ],
-
         feijao: [
             "Feijão carioca",
             "Feijão preto"
         ],
-
         carnes: [
             "Strogonoff de frango",
             "Frango assado de televisão",
             "Pernil acebolado"
         ],
-
         acompanhamentos: [
             "Batata palha",
-            "Penne ao molho quatro queijos",
+            "Penne quatro queijos",
             "Abóbora assada"
         ],
-
         sobremesas: [
             "Mousse de maracujá",
             "Gelatina colorida"
         ]
-
     },
 
-
     3: {
-
-        dia: "Quarta-feira",
-
         arroz: [
             "Arroz branco",
             "Arroz biro-biro"
         ],
-
         feijao: [
             "Feijoada tradicional",
             "Feijão carioca"
         ],
-
         carnes: [
             "Torresmo crocante",
             "Calabresa acebolada",
             "Maminha grelhada"
         ],
-
         acompanhamentos: [
-            "Couve refogada no alho",
-            "Farofa de bacon",
+            "Couve refogada",
+            "Farofa com bacon",
             "Banana empanada"
         ],
-
         sobremesas: [
             "Mousse de chocolate",
-            "Pudim de leite condensado"
+            "Pudim"
         ]
-
     },
 
-
     4: {
-
-        dia: "Quinta-feira",
-
         arroz: [
             "Arroz branco",
             "Arroz à grega"
         ],
-
         feijao: [
-            "Feijão carioca temperado"
+            "Feijão carioca"
         ],
-
         carnes: [
             "Parmegiana de carne",
             "Costelinha barbecue",
             "Sobrecoxa desossada"
         ],
-
         acompanhamentos: [
             "Nhoque à bolonhesa",
             "Polenta frita",
             "Couve-flor gratinada"
         ],
-
         sobremesas: [
-            "Pavê tradicional de morango",
+            "Pavê de morango",
             "Frutas fatiadas"
         ]
-
     },
 
-
     5: {
-
-        dia: "Sexta-feira",
-
         arroz: [
             "Arroz branco",
             "Arroz de coco"
         ],
-
         feijao: [
             "Feijão carioca",
             "Feijão fradinho"
         ],
-
         carnes: [
             "Moqueca de peixe",
             "Filé de tilápia com alcaparras",
             "Escalope de mignon"
         ],
-
         acompanhamentos: [
             "Pirão de peixe",
             "Batata rústica com alecrim",
             "Brócolis ao alho"
         ],
-
         sobremesas: [
-            "Pudim de leite condensado",
+            "Pudim",
             "Mousse de limão"
         ]
-
     },
 
-
     6: {
-
-        dia: "Sábado",
-
         arroz: [
             "Arroz branco",
             "Arroz com açafrão"
         ],
-
         feijao: [
             "Feijoada completa",
             "Feijão tropeiro"
         ],
-
         carnes: [
-            "Picanha fatiada no réchaud",
+            "Picanha fatiada",
             "Cupim na manteiga",
             "Frango a passarinho"
         ],
-
         acompanhamentos: [
             "Batata gratinada com bacon",
             "Polenta frita",
             "Farofa de ovos"
         ],
-
         sobremesas: [
             "Pavê de chocolate",
             "Mousse de maracujá",
             "Frutas fatiadas"
         ]
-
     }
-
 };
 
 
-/* =====================================================
-   MOSTRAR CARDÁPIO DO DIA
-===================================================== */
+function montarLista(titulo, itens) {
 
-function montarLista(lista) {
+    let html = `
+        <div class="listaAlmoco">
+            <h3>${titulo}</h3>
+    `;
 
-    return lista
-        .map(item => `<p>• ${item}</p>`)
-        .join("");
+    itens.forEach(item => {
+        html += `<p>• ${item}</p>`;
+    });
 
+    html += `</div>`;
+
+    return html;
 }
 
 
 function mostrarCardapioAlmoco() {
 
-    const hoje = new Date();
+    const area =
+        document.getElementById("cardapioAlmoco");
 
-    const dia = hoje.getDay();
+    if (!area) return;
 
-    const cardapio =
-        cardapioSemana[dia];
+    const dia = new Date().getDay();
+    const menu = cardapioSemana[dia];
 
-    if (!cardapio) return;
+    area.innerHTML = `
+        <div class="almocoHoje">
 
+            ${montarLista("🍚 Arroz", menu.arroz)}
 
-    const html = `
+            ${montarLista("🫘 Feijão", menu.feijao)}
 
-        <div class="resumo">
+            ${montarLista("🥩 Carnes", menu.carnes)}
 
-            <h2>
-                🍱 Cardápio do Almoço
-            </h2>
+            ${montarLista("🍽️ Acompanhamentos", menu.acompanhamentos)}
 
-            <h3>
-                📅 ${cardapio.dia}
-            </h3>
+            ${montarLista("🥗 Buffet frio", buffetFrio)}
 
-            <p>
-                <strong>
-                    💰 Self-Service: R$ 35,50/kg
-                </strong>
-            </p>
-
-            <hr>
-
-            <h3>
-                🥗 Buffet Frio
-            </h3>
-
-            ${montarLista(buffetFrio)}
-
-            <hr>
-
-            <h3>
-                🍚 Arroz
-            </h3>
-
-            ${montarLista(cardapio.arroz)}
-
-            <h3>
-                🫘 Feijão
-            </h3>
-
-            ${montarLista(cardapio.feijao)}
-
-            <h3>
-                🥩 Carnes
-            </h3>
-
-            ${montarLista(cardapio.carnes)}
-
-            <h3>
-                🍽️ Acompanhamentos
-            </h3>
-
-            ${montarLista(cardapio.acompanhamentos)}
-
-            <hr>
-
-            <h3>
-                🍨 Sobremesas
-            </h3>
-
-            ${montarLista(cardapio.sobremesas)}
-
-            <hr>
-
-            <p>
-                🕒 Almoço presencial:
-                11:00 às 15:00
-            </p>
-
-            <p>
-                🕒 Sábado e domingo:
-                até 15:30
-            </p>
-
-            <p>
-                ⏰ Pedidos de Marmitex / Delivery:
-                até 14:00
-            </p>
-
-            <p>
-                🚚 Taxa de entrega:
-                R$ 5,00
-            </p>
+            ${montarLista("🍰 Sobremesas", menu.sobremesas)}
 
         </div>
-
     `;
-
-
-    const area =
-        document.getElementById(
-            "cardapioAlmoco"
-        );
-
-
-    if (area) {
-
-        area.innerHTML = html;
-
-    }
-
-
-    const inicio =
-        document.getElementById(
-            "cardapioInicio"
-        );
-
-
-    if (inicio) {
-
-        inicio.innerHTML = `
-
-            <h3>
-                🍱 Cardápio do Almoço
-            </h3>
-
-            <p>
-                <strong>
-                    ${cardapio.dia}
-                </strong>
-            </p>
-
-            <p>
-                💰 Self-Service:
-                R$ 35,50/kg
-            </p>
-
-            <p>
-                🥩 ${cardapio.carnes.join(" • ")}
-            </p>
-
-            <p>
-                🍽️ ${cardapio.acompanhamentos.join(" • ")}
-            </p>
-
-            <p>
-                🍨 ${cardapio.sobremesas.join(" • ")}
-            </p>
-
-            <p>
-                Confira o cardápio completo
-                no botão abaixo.
-            </p>
-
-        `;
-
-    }
-
 }
 
 
-/* =====================================================
-   PIZZAS
-===================================================== */
+// ==========================================
+// PIZZAS
+// ==========================================
 
 const pizzas = [
 
-    ["Atum", 52,
-        "Molho de tomate, atum sólido e cebola fatiada."],
+    {
+        nome: "Atum",
+        preco: 52,
+        ingredientes: "Molho de tomate, mussarela, atum, cebola e orégano."
+    },
 
-    ["Bacon", 50,
-        "Molho de tomate, mussarela, bacon crocante e cebola."],
+    {
+        nome: "Bacon",
+        preco: 50,
+        ingredientes: "Molho de tomate, mussarela, bacon e orégano."
+    },
 
-    ["Baiana", 52,
-        "Molho de tomate, mussarela, calabresa moída, ovo, pimenta calabresa e cebola."],
+    {
+        nome: "Baiana",
+        preco: 52,
+        ingredientes: "Molho de tomate, mussarela, calabresa, cebola, pimenta e ovos."
+    },
 
-    ["Calabresa", 48,
-        "Molho de tomate, mussarela, calabresa fatiada e cebola."],
+    {
+        nome: "Calabresa",
+        preco: 48,
+        ingredientes: "Molho de tomate, mussarela, calabresa, cebola e orégano."
+    },
 
-    ["Calabresa com Catupiry", 52,
-        "Molho de tomate, mussarela, calabresa fatiada e requeijão cremoso."],
+    {
+        nome: "Calabresa com Catupiry",
+        preco: 52,
+        ingredientes: "Molho de tomate, mussarela, calabresa, Catupiry e orégano."
+    },
 
-    ["Churrasco", 62,
-        "Molho de tomate, mussarela, tiras de carne grelhada, alho frito e chimichurri."],
+    {
+        nome: "Churrasco",
+        preco: 62,
+        ingredientes: "Molho de tomate, mussarela, carne de churrasco, cebola e molho especial."
+    },
 
-    ["Frango com Catupiry", 52,
-        "Molho de tomate, mussarela, frango desfiado e requeijão cremoso."],
+    {
+        nome: "Frango com Catupiry",
+        preco: 52,
+        ingredientes: "Molho de tomate, mussarela, frango desfiado e Catupiry."
+    },
 
-    ["Lombo com Catupiry", 54,
-        "Molho de tomate, mussarela, lombo canadense e requeijão cremoso."],
+    {
+        nome: "Lombo com Catupiry",
+        preco: 54,
+        ingredientes: "Molho de tomate, mussarela, lombo, cebola e Catupiry."
+    },
 
-    ["Marguerita", 48,
-        "Molho de tomate, mussarela, tomate e manjericão fresco."],
+    {
+        nome: "Marguerita",
+        preco: 48,
+        ingredientes: "Molho de tomate, mussarela, tomate, manjericão e parmesão."
+    },
 
-    ["Milho com Bacon", 50,
-        "Molho de tomate, mussarela, milho verde e bacon."],
+    {
+        nome: "Milho com Bacon",
+        preco: 50,
+        ingredientes: "Molho de tomate, mussarela, milho e bacon."
+    },
 
-    ["Moda da Casa", 65,
-        "Molho de tomate, mussarela, contrafilé, presunto, calabresa, ovos, milho, catupiry, cebola e azeitonas."],
+    {
+        nome: "Moda da Casa",
+        preco: 65,
+        ingredientes: "Molho de tomate, mussarela, presunto, calabresa, bacon, milho, cebola e ovos."
+    },
 
-    ["Mussarela", 45,
-        "Molho de tomate, mussarela, tomate e orégano."],
+    {
+        nome: "Mussarela",
+        preco: 45,
+        ingredientes: "Molho de tomate, mussarela e orégano."
+    },
 
-    ["Napolitana", 48,
-        "Molho de tomate, mussarela, tomate, parmesão e alho frito."],
+    {
+        nome: "Napolitana",
+        preco: 48,
+        ingredientes: "Molho de tomate, mussarela, tomate, parmesão e orégano."
+    },
 
-    ["Palmito", 54,
-        "Molho de tomate, mussarela e palmito fatiado."],
+    {
+        nome: "Palmito",
+        preco: 54,
+        ingredientes: "Molho de tomate, mussarela, palmito, tomate e orégano."
+    },
 
-    ["Portuguesa", 52,
-        "Molho de tomate, mussarela, presunto, ovo, cebola, ervilha e azeitona."],
+    {
+        nome: "Portuguesa",
+        preco: 52,
+        ingredientes: "Molho de tomate, mussarela, presunto, ovos, cebola, milho e ervilha."
+    },
 
-    ["Presunto e Queijo", 48,
-        "Molho de tomate, mussarela, presunto e orégano."],
+    {
+        nome: "Presunto e Queijo",
+        preco: 48,
+        ingredientes: "Molho de tomate, mussarela, presunto e orégano."
+    },
 
-    ["Quatro Queijos", 55,
-        "Molho de tomate, mussarela, provolone, parmesão e catupiry."],
+    {
+        nome: "Quatro Queijos",
+        preco: 55,
+        ingredientes: "Molho de tomate, mussarela, Catupiry, provolone e parmesão."
+    },
 
-    ["Strogonoff de Carne", 60,
-        "Molho de tomate, mussarela, strogonoff de carne e batata palha."],
+    {
+        nome: "Strogonoff de Carne",
+        preco: 60,
+        ingredientes: "Molho de tomate, mussarela, strogonoff de carne, champignon e batata palha."
+    },
 
-    ["Tilápia", 58,
-        "Molho de tomate, mussarela, tilápia empanada e molho tártaro."],
+    {
+        nome: "Tilápia",
+        preco: 58,
+        ingredientes: "Molho de tomate, mussarela, tilápia, tomate e cebola."
+    },
 
-    ["Vegetariana", 52,
-        "Molho de tomate, mussarela, escarola, milho, ervilha, palmito e tomate."],
+    {
+        nome: "Vegetariana",
+        preco: 52,
+        ingredientes: "Molho de tomate, mussarela, milho, palmito, tomate, cebola e pimentão."
+    },
 
-    ["Banana com Canela", 45,
-        "Banana, açúcar, canela e cobertura doce."],
+    {
+        nome: "Banana com Canela",
+        preco: 45,
+        ingredientes: "Banana, açúcar, canela e leite condensado."
+    },
 
-    ["Beijinho", 48,
-        "Creme de coco, leite condensado e coco ralado."],
+    {
+        nome: "Beijinho",
+        preco: 48,
+        ingredientes: "Chocolate branco, coco ralado e leite condensado."
+    },
 
-    ["Brigadeiro", 45,
-        "Chocolate cremoso e granulado de chocolate."],
+    {
+        nome: "Brigadeiro",
+        preco: 45,
+        ingredientes: "Chocolate e brigadeiro cremoso."
+    },
 
-    ["Chocoloco", 50,
-        "Chocolate cremoso e cobertura de chocolate."],
+    {
+        nome: "Chocoloco",
+        preco: 50,
+        ingredientes: "Chocolate ao leite e coco ralado."
+    },
 
-    ["Confeti", 48,
-        "Chocolate cremoso e confeitos coloridos."],
+    {
+        nome: "Confeti",
+        preco: 48,
+        ingredientes: "Chocolate ao leite e confetes de chocolate."
+    },
 
-    ["Doce de Leite", 45,
-        "Doce de leite cremoso."],
+    {
+        nome: "Doce de Leite",
+        preco: 45,
+        ingredientes: "Doce de leite cremoso."
+    },
 
-    ["Paçoca", 48,
-        "Creme doce e paçoca triturada."],
+    {
+        nome: "Paçoca",
+        preco: 48,
+        ingredientes: "Chocolate branco, paçoca e leite condensado."
+    },
 
-    ["Prestígio", 48,
-        "Chocolate cremoso e coco ralado."],
+    {
+        nome: "Prestígio",
+        preco: 48,
+        ingredientes: "Chocolate ao leite e coco."
+    },
 
-    ["Romeu e Julieta", 45,
-        "Queijo e goiabada."],
+    {
+        nome: "Romeu e Julieta",
+        preco: 45,
+        ingredientes: "Mussarela e goiabada."
+    },
 
-    ["Sensação", 52,
-        "Chocolate cremoso e morango."]
+    {
+        nome: "Sensação",
+        preco: 52,
+        ingredientes: "Chocolate ao leite, morango e leite condensado."
+    }
+
+];
+
+
+const tamanhosPizza = [
+    {
+        nome: "Pequena",
+        pedaços: 4,
+        sabores: 1
+    },
+    {
+        nome: "Média",
+        pedaços: 8,
+        sabores: 2
+    },
+    {
+        nome: "Grande",
+        pedaços: 12,
+        sabores: 3
+    }
 ];
 
 
 const bordasPizza = [
-
     ["Sem Borda", 0],
     ["Catupiry Original", 10],
     ["Cheddar", 10],
@@ -1155,12 +638,10 @@ const bordasPizza = [
     ["Chocolate Branco", 12],
     ["Doce de Leite", 10],
     ["Goiabada", 10]
-
 ];
 
 
-const complementosPizza = [
-
+const complementosPizzaLista = [
     ["Azeite Trufado", 8],
     ["Bacon Crocante Extra", 7],
     ["Catupiry Extra", 8],
@@ -1171,774 +652,946 @@ const complementosPizza = [
     ["Ovo Cozido Extra", 4],
     ["Parmesão Ralado", 6],
     ["Pimenta Biquinho", 5]
-
 ];
 
 
-let pizza = {
-
-    tamanho: "",
-    pedacos: 0,
-    limite: 0,
-    sabores: [],
-    borda: ["Sem Borda", 0],
-    complementos: []
-
-};
+let pizzaSelecionada = null;
+let tamanhoPizzaSelecionado = null;
+let saboresPizza = [];
+let bordaPizzaSelecionada = ["Sem Borda", 0];
+let complementosPizza = [];
 
 
-function iniciarPizza() {
-
-    pizza = {
-
-        tamanho: "",
-        pedacos: 0,
-        limite: 0,
-        sabores: [],
-        borda: ["Sem Borda", 0],
-        complementos: []
-
-    };
-
-
-    document
-        .getElementById("pizzaTamanho")
-        .classList.remove("escondido");
-
-    document
-        .getElementById("pizzaSabores")
-        .classList.add("escondido");
-
-    document
-        .getElementById("pizzaBorda")
-        .classList.add("escondido");
-
-    document
-        .getElementById("pizzaComplementos")
-        .classList.add("escondido");
-
-    document
-        .getElementById("pizzaResumo")
-        .classList.add("escondido");
-
-
-    criarTamanhos();
-}
-
-
-function criarTamanhos() {
+function criarPizzas() {
 
     const area =
-        document.getElementById("listaTamanhos");
+        document.getElementById("listaPizzas");
 
-    area.innerHTML = "";
+    if (!area) return;
 
+    area.innerHTML = `
+        <div class="listaPizzas">
 
-    const tamanhos = [
+            <h3>🍕 Escolha sua pizza</h3>
 
-        ["Pequena", 4, 1],
-        ["Média", 8, 2],
-        ["Grande", 12, 3]
-
-    ];
-
-
-    tamanhos.forEach(item => {
-
-        const botao =
-            document.createElement("button");
-
-        botao.className = "opcao";
-
-
-        botao.innerHTML = `
-
-            <strong>
-                🍕 ${item[0]}
-            </strong>
-
-            <br>
-
-            ${item[1]} pedaços
-
-            <br>
-
-            Até ${item[2]} sabor(es)
-
-        `;
-
-
-        botao.onclick = function() {
-
-            pizza.tamanho = item[0];
-
-            pizza.pedacos = item[1];
-
-            pizza.limite = item[2];
-
-            pizza.sabores = [];
-
-
-            document
-                .getElementById("pizzaTamanho")
-                .classList.add("escondido");
-
-            document
-                .getElementById("pizzaSabores")
-                .classList.remove("escondido");
-
-
-            criarSabores();
-
-        };
-
-
-        area.appendChild(botao);
-
-    });
-}
-
-
-function criarSabores() {
-
-    const area =
-        document.getElementById("listaSabores");
-
-    area.innerHTML = "";
-
-
-    document.getElementById(
-        "limiteSabores"
-    ).innerText =
-        `Escolha até ${pizza.limite} sabor(es).`;
-
-
-    pizzas.forEach(item => {
-
-        const botao =
-            document.createElement("button");
-
-        botao.className = "opcao";
-
-
-        botao.innerHTML = `
-
-            <strong>
-                ${item[0]}
-            </strong>
-
-            <p class="produto-descricao">
-                ${item[2]}
+            <p>
+                Primeiro escolha o tamanho e depois os sabores.
             </p>
 
-            <strong>
-                ${dinheiro(item[1])}
-            </strong>
+            <div id="tamanhosPizza"></div>
 
+            <div id="saboresPizza"></div>
+
+            <div id="ingredientesPizza"></div>
+
+            <div id="bordasPizza"></div>
+
+            <div id="complementosPizza"></div>
+
+        </div>
+    `;
+
+    criarTamanhosPizza();
+}
+
+
+function criarTamanhosPizza() {
+
+    const area =
+        document.getElementById("tamanhosPizza");
+
+    if (!area) return;
+
+    area.innerHTML = `
+        <h3>1️⃣ Escolha o tamanho</h3>
+    `;
+
+    tamanhosPizza.forEach((tamanho, index) => {
+
+        area.innerHTML += `
+            <button
+                onclick="selecionarTamanhoPizza(${index})">
+
+                🍕 ${tamanho.nome}<br>
+                ${tamanho.pedaços} pedaços<br>
+                Até ${tamanho.sabores} sabor${tamanho.sabores > 1 ? "es" : ""}
+
+            </button>
         `;
-
-
-        botao.onclick = function() {
-
-            const existe =
-                pizza.sabores.some(
-                    sabor =>
-                        sabor[0] === item[0]
-                );
-
-
-            if (existe) {
-
-                pizza.sabores =
-                    pizza.sabores.filter(
-                        sabor =>
-                            sabor[0] !== item[0]
-                    );
-
-            } else {
-
-                if (
-                    pizza.sabores.length >=
-                    pizza.limite
-                ) {
-
-                    alert(
-                        `Essa pizza permite no máximo ${pizza.limite} sabor(es).`
-                    );
-
-                    return;
-                }
-
-
-                pizza.sabores.push(item);
-            }
-
-
-            atualizarSabores();
-
-        };
-
-
-        area.appendChild(botao);
-
     });
 }
 
 
-function atualizarSabores() {
+function selecionarTamanhoPizza(index) {
 
-    const botoes =
-        document.querySelectorAll(
-            "#listaSabores .opcao"
-        );
+    tamanhoPizzaSelecionado = tamanhosPizza[index];
+
+    saboresPizza = [];
+    bordaPizzaSelecionada = ["Sem Borda", 0];
+    complementosPizza = [];
+
+    criarSaboresPizza();
+
+    const ingredientes =
+        document.getElementById("ingredientesPizza");
+
+    if (ingredientes) {
+        ingredientes.innerHTML = "";
+    }
+
+    const bordas =
+        document.getElementById("bordasPizza");
+
+    if (bordas) {
+        bordas.innerHTML = "";
+    }
+
+    const complementos =
+        document.getElementById("complementosPizza");
+
+    if (complementos) {
+        complementos.innerHTML = "";
+    }
+}
 
 
-    botoes.forEach(botao => {
+function criarSaboresPizza() {
 
-        const nome =
-            botao.querySelector("strong").innerText;
+    const area =
+        document.getElementById("saboresPizza");
 
+    if (!area) return;
 
-        const selecionado =
-            pizza.sabores.some(
-                sabor =>
-                    sabor[0] === nome
-            );
+    area.innerHTML = `
+        <h3>2️⃣ Escolha o sabor</h3>
 
+        <p>
+            Você pode escolher até
+            ${tamanhoPizzaSelecionado.sabores}
+            sabor${tamanhoPizzaSelecionado.sabores > 1 ? "es" : ""}.
+        </p>
+    `;
 
-        botao.classList.toggle(
-            "selecionado",
-            selecionado
-        );
+    pizzas.forEach((pizza, index) => {
 
-    });
+        const selecionada =
+            saboresPizza.some(s => s.nome === pizza.nome);
 
+        area.innerHTML += `
+            <div class="pizzaItem">
 
-    document.getElementById(
-        "saboresEscolhidos"
-    ).innerHTML =
+                <button
+                    onclick="selecionarSaborPizza(${index})">
 
-        pizza.sabores.length
+                    ${selecionada ? "✅" : "🍕"}
+                    ${pizza.nome}
+                    - ${dinheiro(pizza.preco)}
 
-        ? `
+                </button>
 
-            <div class="resumo">
-
-                <strong>
-                    Sabores escolhidos:
-                </strong>
-
-                ${pizza.sabores.map(s => `
-                    <p>
-                        🍕 ${s[0]}
-                    </p>
-                `).join("")}
+                <p>
+                    <strong>Ingredientes:</strong>
+                    ${pizza.ingredientes}
+                </p>
 
             </div>
-
-        `
-
-        : "";
+        `;
+    });
 }
 
 
-function irParaBordaPizza() {
+function selecionarSaborPizza(index) {
 
-    if (
-        pizza.sabores.length === 0
-    ) {
+    if (!tamanhoPizzaSelecionado) {
 
-        alert(
-            "Escolha pelo menos 1 sabor."
-        );
-
+        alert("Escolha primeiro o tamanho da pizza.");
         return;
     }
 
+    const pizza = pizzas[index];
 
-    document
-        .getElementById("pizzaSabores")
-        .classList.add("escondido");
-
-    document
-        .getElementById("pizzaBorda")
-        .classList.remove("escondido");
-
-
-    criarBordasPizza();
-}
-
-
-function criarBordasPizza() {
-
-    const area =
-        document.getElementById(
-            "listaBordasPizza"
+    const existente =
+        saboresPizza.findIndex(
+            sabor => sabor.nome === pizza.nome
         );
 
-    area.innerHTML = "";
+    if (existente >= 0) {
 
+        saboresPizza.splice(existente, 1);
 
-    bordasPizza.forEach(item => {
+    } else {
 
-        const botao =
-            document.createElement("button");
+        if (
+            saboresPizza.length >=
+            tamanhoPizzaSelecionado.sabores
+        ) {
 
-        botao.className = "opcao";
-
-
-        botao.innerHTML = `
-
-            <strong>
-                🧀 ${item[0]}
-            </strong>
-
-            <br>
-
-            ${dinheiro(item[1])}
-
-        `;
-
-
-        botao.onclick = function() {
-
-            pizza.borda = item;
-
-
-            document
-                .querySelectorAll(
-                    "#listaBordasPizza .opcao"
-                )
-                .forEach(
-                    b =>
-                        b.classList.remove(
-                            "selecionado"
-                        )
-                );
-
-
-            botao.classList.add(
-                "selecionado"
+            alert(
+                `Essa pizza permite até ${tamanhoPizzaSelecionado.sabores} sabor${tamanhoPizzaSelecionado.sabores > 1 ? "es" : ""}.`
             );
 
-        };
+            return;
+        }
 
-
-        area.appendChild(botao);
-
-    });
-}
-
-
-function irParaComplementosPizza() {
-
-    document
-        .getElementById("pizzaBorda")
-        .classList.add("escondido");
-
-    document
-        .getElementById("pizzaComplementos")
-        .classList.remove("escondido");
-
-
-    criarComplementosPizza();
-}
-
-
-function criarComplementosPizza() {
-
-    const area =
-        document.getElementById(
-            "listaComplementosPizza"
-        );
-
-    area.innerHTML = "";
-
-
-    complementosPizza.forEach(item => {
-
-        const botao =
-            document.createElement("button");
-
-        botao.className = "opcao";
-
-
-        botao.innerHTML = `
-
-            <strong>
-                ➕ ${item[0]}
-            </strong>
-
-            <br>
-
-            ${dinheiro(item[1])}
-
-        `;
-
-
-        botao.onclick = function() {
-
-            const existe =
-                pizza.complementos.some(
-                    c =>
-                        c[0] === item[0]
-                );
-
-
-            if (existe) {
-
-                pizza.complementos =
-                    pizza.complementos.filter(
-                        c =>
-                            c[0] !== item[0]
-                    );
-
-                botao.classList.remove(
-                    "selecionado"
-                );
-
-            } else {
-
-                pizza.complementos.push(item);
-
-                botao.classList.add(
-                    "selecionado"
-                );
-
-            }
-
-        };
-
-
-        area.appendChild(botao);
-
-    });
-}
-
-
-function calcularPizza() {
-
-    if (
-        pizza.sabores.length === 0
-    ) {
-        return 0;
+        saboresPizza.push(pizza);
     }
 
+    criarSaboresPizza();
 
-    let maior =
-        Math.max(
-            ...pizza.sabores.map(
-                s => s[1]
-            )
-        );
-
-
-    let total = maior;
-
-
-    total += pizza.borda[1];
-
-
-    pizza.complementos.forEach(
-        item => {
-            total += item[1];
-        }
-    );
-
-
-    return total;
+    mostrarBordasPizza();
 }
 
 
-function mostrarResumoPizza() {
+function mostrarBordasPizza() {
 
-    const total =
-        calcularPizza();
+    if (saboresPizza.length === 0) return;
 
+    const area =
+        document.getElementById("bordasPizza");
 
-    document.getElementById(
-        "resumoPizza"
-    ).innerHTML = `
+    if (!area) return;
 
-        <p>
-            <strong>Tamanho:</strong>
-            ${pizza.tamanho}
-        </p>
-
-        <p>
-            <strong>Pedaços:</strong>
-            ${pizza.pedacos}
-        </p>
-
-        <p>
-            <strong>Sabores:</strong>
-        </p>
-
-        ${pizza.sabores.map(s => `
-
-            <p>
-                🍕 ${s[0]}
-            </p>
-
-            <p class="produto-descricao">
-                ${s[2]}
-            </p>
-
-        `).join("")}
-
-
-        <p>
-            <strong>Borda:</strong>
-            ${pizza.borda[0]}
-            -
-            ${dinheiro(pizza.borda[1])}
-        </p>
-
-
-        <p>
-            <strong>Complementos:</strong>
-        </p>
-
-
-        ${
-            pizza.complementos.length
-
-            ? pizza.complementos.map(c => `
-                <p>
-                    ➕ ${c[0]} -
-                    ${dinheiro(c[1])}
-                </p>
-            `).join("")
-
-            : "<p>Nenhum</p>"
-        }
-
-
-        <hr>
-
-
-        <h3>
-            Total:
-            ${dinheiro(total)}
-        </h3>
-
+    area.innerHTML = `
+        <h3>3️⃣ Escolha a borda</h3>
     `;
 
+    bordasPizza.forEach((borda, index) => {
 
-    document
-        .getElementById("pizzaComplementos")
-        .classList.add("escondido");
+        const selecionada =
+            bordaPizzaSelecionada[0] === borda[0];
+
+        area.innerHTML += `
+            <button
+                onclick="selecionarBordaPizza(${index})">
+
+                ${selecionada ? "✅" : "⭕"}
+                ${borda[0]}
+                ${borda[1] > 0 ? "- " + dinheiro(borda[1]) : ""}
+
+            </button>
+        `;
+    });
+
+    mostrarComplementosPizza();
+}
 
 
-    document
-        .getElementById("pizzaResumo")
-        .classList.remove("escondido");
+function selecionarBordaPizza(index) {
+
+    bordaPizzaSelecionada =
+        bordasPizza[index];
+
+    mostrarBordasPizza();
+}
+
+
+function mostrarComplementosPizza() {
+
+    const area =
+        document.getElementById("complementosPizza");
+
+    if (!area) return;
+
+    area.innerHTML = `
+        <h3>4️⃣ Adicionais</h3>
+
+        <p>
+            Escolha os adicionais que quiser.
+        </p>
+    `;
+
+    complementosPizzaLista.forEach((item, index) => {
+
+        const selecionado =
+            complementosPizza.some(
+                complemento =>
+                    complemento[0] === item[0]
+            );
+
+        area.innerHTML += `
+            <button
+                onclick="selecionarComplementoPizza(${index})">
+
+                ${selecionado ? "✅" : "➕"}
+                ${item[0]}
+                - ${dinheiro(item[1])}
+
+            </button>
+        `;
+    });
+
+    area.innerHTML += `
+        <button
+            onclick="adicionarPizzaCarrinho()"
+            class="botaoAdicionar">
+
+            🛒 ADICIONAR PIZZA AO CARRINHO
+
+        </button>
+    `;
+}
+
+
+function selecionarComplementoPizza(index) {
+
+    const item =
+        complementosPizzaLista[index];
+
+    const existente =
+        complementosPizza.findIndex(
+            complemento =>
+                complemento[0] === item[0]
+        );
+
+    if (existente >= 0) {
+
+        complementosPizza.splice(existente, 1);
+
+    } else {
+
+        complementosPizza.push(item);
+    }
+
+    mostrarComplementosPizza();
 }
 
 
 function adicionarPizzaCarrinho() {
 
-    const total =
-        calcularPizza();
+    if (!tamanhoPizzaSelecionado) {
 
-
-    const sabores =
-        pizza.sabores
-            .map(s => s[0])
-            .join(" + ");
-
-
-    let detalhes =
-
-        `Tamanho: ${pizza.tamanho}<br>
-         ${pizza.pedacos} pedaços<br>
-         Sabores: ${sabores}<br>
-         Borda: ${pizza.borda[0]}`;
-
-
-    if (
-        pizza.complementos.length
-    ) {
-
-        detalhes +=
-            `<br>Complementos: ${
-                pizza.complementos
-                    .map(c => c[0])
-                    .join(", ")
-            }`;
+        alert("Escolha o tamanho da pizza.");
+        return;
     }
 
+    if (saboresPizza.length === 0) {
+
+        alert("Escolha pelo menos um sabor.");
+        return;
+    }
+
+    const maiorPreco =
+        Math.max(
+            ...saboresPizza.map(
+                pizza => pizza.preco
+            )
+        );
+
+    const precoBorda =
+        Number(bordaPizzaSelecionada[1] || 0);
+
+    const precoComplementos =
+        complementosPizza.reduce(
+            (total, item) =>
+                total + Number(item[1]),
+            0
+        );
+
+    const precoFinal =
+        maiorPreco +
+        precoBorda +
+        precoComplementos;
+
+    const nomeSabores =
+        saboresPizza
+            .map(pizza => pizza.nome)
+            .join(" / ");
+
+    const ingredientes =
+        saboresPizza
+            .map(pizza => pizza.ingredientes)
+            .join(" | ");
 
     carrinho.push({
 
+        id: Date.now(),
+
+        tipo: "pizza",
+
         nome:
-            `Pizza ${pizza.tamanho}`,
+            `Pizza ${tamanhoPizzaSelecionado.nome} - ${nomeSabores}`,
 
         detalhes:
-            detalhes,
+            `${tamanhoPizzaSelecionado.pedaços} pedaços | Borda: ${bordaPizzaSelecionada[0]} | Adicionais: ${
+                complementosPizza.length
+                    ? complementosPizza.map(c => c[0]).join(", ")
+                    : "Nenhum"
+            }`,
 
-        preco:
-            total,
+        ingredientes,
 
-        quantidade:
-            1
+        preco: precoFinal,
 
+        quantidade: 1
     });
 
-
+    salvarDados();
     atualizarCarrinho();
 
+    alert("🍕 Pizza adicionada ao carrinho!");
 
-    alert(
-        "🍕 Pizza adicionada ao carrinho!"
-    );
+    saboresPizza = [];
+    complementosPizza = [];
+    bordaPizzaSelecionada = ["Sem Borda", 0];
 
-
-    abrirPagina("cardapio");
+    criarPizzas();
 }
 
 
-/* =====================================================
-   PRODUTOS
-===================================================== */
+// ==========================================
+// LANCHES
+// ==========================================
 
 const lanches = [
 
-    ["X-Burguer", 20,
-        "Pão de brioche, hambúrguer e queijo."],
+    {
+        nome: "X-Burguer",
+        preco: 20,
+        ingredientes: "Pão, hambúrguer, queijo, alface, tomate e molho especial."
+    },
 
-    ["X-Salada", 22,
-        "Pão de brioche, hambúrguer, queijo, alface, tomate e molho."],
+    {
+        nome: "X-Salada",
+        preco: 22,
+        ingredientes: "Pão, hambúrguer, queijo, alface, tomate, milho e molho especial."
+    },
 
-    ["X-Bacon", 26,
-        "Pão de brioche, hambúrguer, queijo, bacon e molho."],
+    {
+        nome: "X-Bacon",
+        preco: 26,
+        ingredientes: "Pão, hambúrguer, queijo, bacon, alface, tomate e molho especial."
+    },
 
-    ["X-Egg", 24,
-        "Pão de brioche, hambúrguer, queijo, ovo e molho."],
+    {
+        nome: "X-Egg",
+        preco: 24,
+        ingredientes: "Pão, hambúrguer, queijo, ovo, alface, tomate e molho especial."
+    },
 
-    ["X-Frango", 22,
-        "Pão de brioche, frango desfiado, queijo e molho."],
+    {
+        nome: "X-Frango",
+        preco: 22,
+        ingredientes: "Pão, frango desfiado, queijo, alface, tomate e molho especial."
+    },
 
-    ["X-Tudo", 32,
-        "Pão de brioche, hambúrguer, queijo, presunto, bacon, ovo, alface, tomate e molho."],
+    {
+        nome: "X-Tudo",
+        preco: 32,
+        ingredientes: "Pão, hambúrguer, queijo, presunto, bacon, ovo, calabresa, alface, tomate e molho."
+    },
 
-    ["X-Calabresa", 23,
-        "Pão de brioche, calabresa, queijo, cebola e molho."],
+    {
+        nome: "X-Calabresa",
+        preco: 23,
+        ingredientes: "Pão, calabresa, queijo, cebola, alface, tomate e molho."
+    },
 
-    ["X-Duplo Cheddar", 34,
-        "Pão de brioche, dois hambúrgueres, cheddar e molho."],
+    {
+        nome: "X-Duplo Cheddar",
+        preco: 34,
+        ingredientes: "Pão, dois hambúrgueres, cheddar, cebola e molho especial."
+    },
 
-    ["X-Contrafilé", 30,
-        "Pão de brioche, contrafilé, queijo, cebola e molho."],
+    {
+        nome: "X-Contrafilé",
+        preco: 30,
+        ingredientes: "Pão, contrafilé, queijo, alface, tomate e molho especial."
+    },
 
-    ["X-Vegetariano", 25,
-        "Pão de brioche, queijo, alface, tomate, milho, ervilha e molho."]
+    {
+        nome: "X-Vegetariano",
+        preco: 25,
+        ingredientes: "Pão, queijo, alface, tomate, milho, palmito, cebola e molho especial."
+    }
+
 ];
 
+
+const adicionaisLanche = [
+    ["Bacon Extra", 6],
+    ["Queijo Extra", 5],
+    ["Cheddar Extra", 5],
+    ["Ovo Extra", 3],
+    ["Hambúrguer Extra", 8],
+    ["Catupiry", 5]
+];
+
+
+function criarProdutos(id, lista) {
+
+    const area =
+        document.getElementById(id);
+
+    if (!area) return;
+
+    area.innerHTML = "";
+
+    lista.forEach((produto, index) => {
+
+        const div =
+            document.createElement("div");
+
+        div.className = "produto";
+
+        div.innerHTML = `
+
+            <h3>${produto.nome}</h3>
+
+            <p>
+                <strong>Ingredientes:</strong>
+                ${produto.ingredientes || "Produto da casa."}
+            </p>
+
+            <strong>${dinheiro(produto.preco)}</strong>
+
+            <button
+                onclick="adicionarProduto('${produto.nome}', ${produto.preco}, '${id}', ${index})">
+
+                ➕ Adicionar
+
+            </button>
+
+        `;
+
+        area.appendChild(div);
+    });
+}
+
+
+function adicionarProduto(nome, preco, origem, index) {
+
+    let ingredientes = "";
+
+    if (origem === "listaLanches") {
+        ingredientes =
+            lanches[index]?.ingredientes || "";
+    }
+
+    if (origem === "listaHotdogs") {
+        ingredientes =
+            hotdogs[index]?.ingredientes || "";
+    }
+
+    if (origem === "listaPorcoes") {
+        ingredientes =
+            porcoes[index]?.ingredientes || "";
+    }
+
+    if (origem === "listaBebidas") {
+        ingredientes =
+            bebidas[index]?.ingredientes || "";
+    }
+
+    carrinho.push({
+
+        id: Date.now() + Math.random(),
+
+        tipo: origem,
+
+        nome,
+
+        ingredientes,
+
+        preco: Number(preco),
+
+        quantidade: 1
+
+    });
+
+    salvarDados();
+    atualizarCarrinho();
+
+    alert(`${nome} foi adicionado ao carrinho!`);
+}
+
+
+// ==========================================
+// HOT DOG
+// ==========================================
 
 const hotdogs = [
 
-    ["Dog Simples", 14,
-        "Pão de hot dog, salsicha, molho e batata palha."],
+    {
+        nome: "Dog Simples",
+        preco: 14,
+        ingredientes: "Pão, salsicha, molho, milho, ervilha, batata palha e ketchup."
+    },
 
-    ["Dog Duplo", 18,
-        "Pão de hot dog, duas salsichas, molho e batata palha."],
+    {
+        nome: "Dog Duplo",
+        preco: 18,
+        ingredientes: "Pão, duas salsichas, molho, milho, ervilha, batata palha e ketchup."
+    },
 
-    ["Dog Frango", 20,
-        "Pão de hot dog, salsicha, frango desfiado, molho e batata palha."],
+    {
+        nome: "Dog Frango",
+        preco: 20,
+        ingredientes: "Pão, salsicha, frango desfiado, molho, milho, ervilha e batata palha."
+    },
 
-    ["Dog Bacon", 22,
-        "Pão de hot dog, salsicha, bacon, molho e batata palha."],
+    {
+        nome: "Dog Bacon",
+        preco: 22,
+        ingredientes: "Pão, salsicha, bacon, queijo, molho, milho e batata palha."
+    },
 
-    ["Dog Tudo", 26,
-        "Pão de hot dog, salsicha, frango, bacon, queijo, molho e batata palha."]
+    {
+        nome: "Dog Tudo",
+        preco: 26,
+        ingredientes: "Pão, salsicha, bacon, queijo, frango, milho, ervilha, purê e batata palha."
+    }
+
 ];
 
+
+// ==========================================
+// PORÇÕES
+// ==========================================
 
 const porcoes = [
 
-    ["Batata Frita Tradicional - 500g", 28,
-        "Batata frita crocante, 500g."],
+    {
+        nome: "Batata Frita Tradicional 500g",
+        preco: 28,
+        ingredientes: "Batata frita crocante e sal."
+    },
 
-    ["Batata Frita com Cheddar e Bacon - 600g", 38,
-        "Batata frita, cheddar cremoso e bacon crocante, 600g."],
+    {
+        nome: "Batata com Cheddar e Bacon 600g",
+        preco: 38,
+        ingredientes: "Batata frita, cheddar cremoso e bacon crocante."
+    },
 
-    ["Calabresa Acebolada - 500g", 35,
-        "Calabresa fatiada acebolada, 500g."],
+    {
+        nome: "Calabresa Acebolada 500g",
+        preco: 35,
+        ingredientes: "Calabresa fatiada, cebola e temperos."
+    },
 
-    ["Frango a Passarinho - 700g", 42,
-        "Pedaços de frango temperados e fritos, 700g."],
+    {
+        nome: "Frango a Passarinho 700g",
+        preco: 42,
+        ingredientes: "Pedaços de frango temperados e fritos."
+    },
 
-    ["Isca de Tilápia - 500g", 48,
-        "Iscas de filé de tilápia empanadas, 500g."],
+    {
+        nome: "Isca de Tilápia 500g",
+        preco: 48,
+        ingredientes: "Iscas de tilápia empanadas."
+    },
 
-    ["Contrafilé Acebolado na Chapa - 500g", 55,
-        "Tiras de contrafilé aceboladas preparadas na chapa, 500g."]
+    {
+        nome: "Contrafilé Acebolado 500g",
+        preco: 55,
+        ingredientes: "Contrafilé fatiado, cebola e temperos."
+    }
+
 ];
 
+
+// ==========================================
+// BEBIDAS
+// ==========================================
 
 const bebidas = [
 
-    ["Coca-Cola Lata 350ml", 6.5,
-        "Refrigerante Coca-Cola, lata de 350ml."],
+    {
+        nome: "Coca-Cola Lata",
+        preco: 6.50,
+        ingredientes: "Refrigerante Coca-Cola lata."
+    },
 
-    ["Coca-Cola Zero Lata 350ml", 6.5,
-        "Refrigerante Coca-Cola Zero, lata de 350ml."],
+    {
+        nome: "Coca-Cola Zero",
+        preco: 6.50,
+        ingredientes: "Refrigerante Coca-Cola Zero lata."
+    },
 
-    ["Guaraná Lata 350ml", 6.5,
-        "Refrigerante sabor guaraná, lata de 350ml."],
+    {
+        nome: "Guaraná Lata",
+        preco: 6.50,
+        ingredientes: "Refrigerante Guaraná lata."
+    },
 
-    ["Fanta Lata 350ml", 6.5,
-        "Refrigerante Fanta, lata de 350ml."],
+    {
+        nome: "Fanta Lata",
+        preco: 6.50,
+        ingredientes: "Refrigerante Fanta lata."
+    },
 
-    ["Sprite Lata 350ml", 6.5,
-        "Refrigerante Sprite, lata de 350ml."],
+    {
+        nome: "Sprite Lata",
+        preco: 6.50,
+        ingredientes: "Refrigerante Sprite lata."
+    },
 
-    ["Coca-Cola 2L", 14,
-        "Refrigerante Coca-Cola, garrafa de 2 litros."],
+    {
+        nome: "Coca-Cola 2L",
+        preco: 14,
+        ingredientes: "Refrigerante Coca-Cola 2 litros."
+    },
 
-    ["Guaraná Antarctica 2L", 14,
-        "Refrigerante Guaraná Antarctica, garrafa de 2 litros."],
+    {
+        nome: "Guaraná Antarctica 2L",
+        preco: 14,
+        ingredientes: "Refrigerante Guaraná Antarctica 2 litros."
+    },
 
-    ["Fanta 2L", 14,
-        "Refrigerante Fanta, garrafa de 2 litros."],
+    {
+        nome: "Fanta 2L",
+        preco: 14,
+        ingredientes: "Refrigerante Fanta 2 litros."
+    },
 
-    ["Água sem gás 500ml", 4,
-        "Água mineral sem gás, 500ml."],
+    {
+        nome: "Água sem gás",
+        preco: 4,
+        ingredientes: "Água mineral sem gás."
+    },
 
-    ["Água com gás 500ml", 4.5,
-        "Água mineral com gás, 500ml."]
+    {
+        nome: "Água com gás",
+        preco: 4.50,
+        ingredientes: "Água mineral com gás."
+    }
+
 ];
 
 
-/* =====================================================
-   MARMITAS AUTOMÁTICAS
-===================================================== */
+// ==========================================
+// ESFIRRAS
+// ==========================================
 
-const marmitas = [
+const esfirras = [
 
-    ["Marmita Pequena", 20, 1],
+    {
+        nome: "Carne",
+        preco: 8,
+        ingredientes: "Massa, carne temperada, cebola, tomate e temperos."
+    },
 
-    ["Marmita Média", 25, 2],
+    {
+        nome: "Frango",
+        preco: 8.50,
+        ingredientes: "Massa, frango desfiado, cebola, tomate e temperos."
+    },
 
-    ["Marmita Grande", 28, 3],
+    {
+        nome: "Queijo",
+        preco: 9,
+        ingredientes: "Massa, mussarela e orégano."
+    },
 
-    ["Marmita Comercial", 50, 4]
+    {
+        nome: "Calabresa",
+        preco: 9,
+        ingredientes: "Massa, calabresa, cebola e temperos."
+    },
+
+    {
+        nome: "Presunto e Queijo",
+        preco: 9.50,
+        ingredientes: "Massa, presunto, mussarela e orégano."
+    },
+
+    {
+        nome: "Frango com Catupiry",
+        preco: 10,
+        ingredientes: "Massa, frango desfiado e Catupiry."
+    },
+
+    {
+        nome: "Carne com Queijo",
+        preco: 10,
+        ingredientes: "Massa, carne temperada e mussarela."
+    },
+
+    {
+        nome: "Bacon com Queijo",
+        preco: 11,
+        ingredientes: "Massa, bacon crocante e mussarela."
+    },
+
+    {
+        nome: "Quatro Queijos",
+        preco: 11.50,
+        ingredientes: "Massa, mussarela, Catupiry, provolone e parmesão."
+    },
+
+    {
+        nome: "Especial da Casa",
+        preco: 12,
+        ingredientes: "Massa, carne, queijo, bacon, milho, cebola e temperos especiais."
+    }
 
 ];
 
 
-let marmitaSelecionada = {
+let esfirraSelecionada = null;
 
-    nome: "",
 
-    preco: 0,
+function criarEsfirras() {
 
-    limite: 0,
+    const area =
+        document.getElementById("listaEsfirras");
 
-    misturas: []
+    if (!area) return;
 
-};
+    area.innerHTML = `
+        <h3>🥙 Escolha sua esfirra</h3>
+    `;
+
+    esfirras.forEach((esfirra, index) => {
+
+        area.innerHTML += `
+
+            <div class="produto">
+
+                <h3>${esfirra.nome}</h3>
+
+                <p>
+                    <strong>Ingredientes:</strong>
+                    ${esfirra.ingredientes}
+                </p>
+
+                <strong>${dinheiro(esfirra.preco)}</strong>
+
+                <button
+                    onclick="selecionarEsfirra(${index})">
+
+                    ➕ Escolher
+
+                </button>
+
+            </div>
+
+        `;
+    });
+}
+
+
+function selecionarEsfirra(index) {
+
+    esfirraSelecionada =
+        esfirras[index];
+
+    const area =
+        document.getElementById("montagemEsfirra");
+
+    if (!area) return;
+
+    area.innerHTML = `
+
+        <h3>🥙 ${esfirraSelecionada.nome}</h3>
+
+        <p>
+            <strong>Ingredientes:</strong><br>
+            ${esfirraSelecionada.ingredientes}
+        </p>
+
+        <p>
+            ${dinheiro(esfirraSelecionada.preco)}
+        </p>
+
+        <label>Quantidade</label>
+
+        <input
+            type="number"
+            id="quantidadeEsfirra"
+            min="1"
+            value="1">
+
+        <button onclick="adicionarEsfirraCarrinho()">
+
+            🛒 Adicionar ao Carrinho
+
+        </button>
+
+    `;
+}
+
+
+function adicionarEsfirraCarrinho() {
+
+    if (!esfirraSelecionada) {
+
+        alert("Escolha uma esfirra.");
+        return;
+    }
+
+    const quantidade =
+        Number(
+            document.getElementById(
+                "quantidadeEsfirra"
+            )?.value || 1
+        );
+
+    carrinho.push({
+
+        id: Date.now() + Math.random(),
+
+        tipo: "esfirra",
+
+        nome: esfirraSelecionada.nome,
+
+        ingredientes:
+            esfirraSelecionada.ingredientes,
+
+        preco:
+            esfirraSelecionada.preco,
+
+        quantidade:
+            quantidade > 0 ? quantidade : 1
+
+    });
+
+    salvarDados();
+    atualizarCarrinho();
+
+    alert("🥙 Esfirra adicionada ao carrinho!");
+
+    esfirraSelecionada = null;
+
+    criarEsfirras();
+}
+
+
+// ==========================================
+// MARMITAS
+// ==========================================
+
+const tamanhosMarmita = [
+
+    {
+        nome: "Pequena",
+        preco: 20,
+        carnes: 1
+    },
+
+    {
+        nome: "Média",
+        preco: 25,
+        carnes: 2
+    },
+
+    {
+        nome: "Grande",
+        preco: 28,
+        carnes: 3
+    },
+
+    {
+        nome: "Comercial",
+        preco: 50,
+        carnes: 4
+    }
+
+];
+
+
+let marmitaSelecionada = null;
+let tamanhoMarmitaSelecionado = null;
+let carnesMarmita = [];
 
 
 function obterCarnesDoDia() {
@@ -1947,1158 +1600,336 @@ function obterCarnesDoDia() {
         new Date().getDay();
 
     return cardapioSemana[dia].carnes;
-
 }
 
 
 function criarMarmitas() {
 
     const area =
-        document.getElementById(
-            "listaMarmitas"
-        );
+        document.getElementById("listaMarmitas");
 
     if (!area) return;
 
+    area.innerHTML = `
+        <h3>🍱 Monte sua marmita</h3>
 
-    const cardapio =
-        cardapioSemana[
-            new Date().getDay()
-        ];
+        <p>
+            Escolha o tamanho.
+        </p>
 
+        <div id="tamanhosMarmita"></div>
 
-    const titulo =
+        <div id="carnesMarmita"></div>
+    `;
+
+    const tamanhos =
         document.getElementById(
-            "tituloMarmitaDia"
+            "tamanhosMarmita"
         );
 
+    tamanhosMarmita.forEach((marmita, index) => {
 
-    if (titulo) {
+        tamanhos.innerHTML += `
 
-        titulo.innerHTML = `
+            <button
+                onclick="abrirMontagemMarmita(${index})">
 
-            <div class="resumo">
+                🍱 ${marmita.nome}<br>
+                ${dinheiro(marmita.preco)}<br>
+                Até ${marmita.carnes} mistura${marmita.carnes > 1 ? "s" : ""}
 
-                <h3>
-                    🍱 Marmitas de hoje
-                </h3>
-
-                <p>
-                    📅 ${cardapio.dia}
-                </p>
-
-                <p>
-                    Escolha sua marmita
-                    e selecione as misturas
-                    disponíveis hoje.
-                </p>
-
-            </div>
-
-        `;
-    }
-
-
-    area.innerHTML = "";
-
-
-    marmitas.forEach(item => {
-
-        const div =
-            document.createElement("div");
-
-
-        div.className =
-            "produto";
-
-
-        div.innerHTML = `
-
-            <h3>
-                ${item[0]}
-            </h3>
-
-            <p class="produto-descricao">
-
-                Escolha até
-                ${item[2]}
-                mistura(s) do dia.
-
-            </p>
-
-            <div class="preco">
-                ${dinheiro(item[1])}
-            </div>
-
-            <button>
-                🥩 Escolher mistura
             </button>
 
         `;
-
-
-        div.querySelector(
-            "button"
-        ).onclick = function() {
-
-            abrirMontagemMarmita(item);
-
-        };
-
-
-        area.appendChild(div);
-
     });
-
 }
 
 
-function abrirMontagemMarmita(item) {
+function abrirMontagemMarmita(index) {
 
-    marmitaSelecionada = {
+    tamanhoMarmitaSelecionado =
+        tamanhosMarmita[index];
 
-        nome: item[0],
-
-        preco: item[1],
-
-        limite: item[2],
-
-        misturas: []
-
-    };
-
-
-    const cardapio =
-        cardapioSemana[
-            new Date().getDay()
-        ];
-
-
-    document.getElementById(
-        "infoMarmita"
-    ).innerHTML = `
-
-        <p>
-            <strong>
-                ${item[0]}
-            </strong>
-        </p>
-
-        <p>
-            Valor:
-            ${dinheiro(item[1])}
-        </p>
-
-        <p>
-            📅 ${cardapio.dia}
-        </p>
-
-        <p>
-            Escolha até
-            <strong>
-                ${item[2]} mistura(s)
-            </strong>
-            disponíveis hoje.
-        </p>
-
-    `;
-
-
-    document.getElementById(
-        "limiteMisturas"
-    ).innerText =
-
-        `Você pode escolher até ${item[2]} mistura(s).`;
-
-
-    criarMisturas();
-
-
-    abrirPagina("montarMarmita");
-}
-
-
-function criarMisturas() {
+    carnesMarmita = [];
 
     const area =
-        document.getElementById(
-            "listaMisturas"
-        );
+        document.getElementById("carnesMarmita");
 
-    area.innerHTML = "";
-
+    if (!area) return;
 
     const carnes =
         obterCarnesDoDia();
 
+    area.innerHTML = `
 
-    carnes.forEach(nome => {
+        <h3>
+            1️⃣ Escolha até
+            ${tamanhoMarmitaSelecionado.carnes}
+            mistura${tamanhoMarmitaSelecionado.carnes > 1 ? "s" : ""}
+        </h3>
 
-        const botao =
-            document.createElement("button");
+    `;
 
+    carnes.forEach((carne, indexCarne) => {
 
-        botao.className =
-            "opcao";
+        area.innerHTML += `
 
+            <button
+                onclick="selecionarMisturaMarmita(${indexCarne})">
 
-        botao.innerHTML = `
+                🍖 ${carne}
 
-            <strong>
-                🥩 ${nome}
-            </strong>
+            </button>
 
         `;
-
-
-        botao.onclick = function() {
-
-            const existe =
-                marmitaSelecionada.misturas
-                    .includes(nome);
-
-
-            if (existe) {
-
-                marmitaSelecionada.misturas =
-                    marmitaSelecionada.misturas
-                        .filter(
-                            item =>
-                                item !== nome
-                        );
-
-
-                botao.classList.remove(
-                    "selecionado"
-                );
-
-
-                atualizarMisturas();
-
-                return;
-            }
-
-
-            if (
-                marmitaSelecionada.misturas
-                    .length >=
-                marmitaSelecionada.limite
-            ) {
-
-                alert(
-                    `Essa marmita permite no máximo ${marmitaSelecionada.limite} mistura(s).`
-                );
-
-                return;
-            }
-
-
-            marmitaSelecionada.misturas.push(
-                nome
-            );
-
-
-            botao.classList.add(
-                "selecionado"
-            );
-
-
-            atualizarMisturas();
-
-        };
-
-
-        area.appendChild(botao);
-
     });
 
+    area.innerHTML += `
 
-    atualizarMisturas();
+        <button
+            onclick="adicionarMarmitaCarrinho()">
+
+            🛒 Adicionar Marmita ao Carrinho
+
+        </button>
+
+    `;
 }
 
 
-function atualizarMisturas() {
+function selecionarMisturaMarmita(index) {
 
-    const area =
-        document.getElementById(
-            "misturasEscolhidas"
-        );
+    const carnes =
+        obterCarnesDoDia();
 
+    const carne =
+        carnes[index];
 
-    if (
-        marmitaSelecionada.misturas
-            .length === 0
-    ) {
+    const existente =
+        carnesMarmita.indexOf(carne);
 
-        area.innerHTML = "";
+    if (existente >= 0) {
 
-        return;
+        carnesMarmita.splice(existente, 1);
+
+    } else {
+
+        if (
+            carnesMarmita.length >=
+            tamanhoMarmitaSelecionado.carnes
+        ) {
+
+            alert(
+                `Essa marmita permite até ${tamanhoMarmitaSelecionado.carnes} mistura${tamanhoMarmitaSelecionado.carnes > 1 ? "s" : ""}.`
+            );
+
+            return;
+        }
+
+        carnesMarmita.push(carne);
     }
 
+    abrirMontagemMarmita(
+        tamanhosMarmita.indexOf(
+            tamanhoMarmitaSelecionado
+        )
+    );
 
-    area.innerHTML = `
+    const area =
+        document.getElementById("carnesMarmita");
 
-        <div class="resumo">
+    area.innerHTML += `
+        <p>
+            <strong>Selecionadas:</strong>
+            ${carnesMarmita.join(", ") || "Nenhuma"}
+        </p>
 
-            <strong>
-                🥩 Misturas escolhidas:
-            </strong>
-
-            ${marmitaSelecionada.misturas
-                .map(nome => `
-                    <p>
-                        ✓ ${nome}
-                    </p>
-                `)
-                .join("")}
-
-        </div>
-
+        <button onclick="adicionarMarmitaCarrinho()">
+            🛒 Adicionar Marmita ao Carrinho
+        </button>
     `;
 }
 
 
 function adicionarMarmitaCarrinho() {
 
-    if (
-        marmitaSelecionada.misturas
-            .length === 0
-    ) {
+    if (!tamanhoMarmitaSelecionado) {
 
-        alert(
-            "Escolha pelo menos 1 mistura para a marmita."
-        );
-
+        alert("Escolha o tamanho da marmita.");
         return;
     }
 
+    if (carnesMarmita.length === 0) {
 
-    const detalhes =
-
-        `Misturas: ${
-            marmitaSelecionada.misturas
-                .join(", ")
-        }`;
-
-
-    carrinho.push({
-
-        nome:
-            marmitaSelecionada.nome,
-
-        detalhes:
-            detalhes,
-
-        preco:
-            marmitaSelecionada.preco,
-
-        quantidade:
-            1
-
-    });
-
-
-    atualizarCarrinho();
-
-
-    alert(
-        "🍱 Marmita adicionada ao carrinho!"
-    );
-
-
-    abrirPagina("cardapio");
-}
-
-
-/* =====================================================
-   ESFIRRAS
-===================================================== */
-
-const esfirras = [
-
-    ["Carne", 8,
-        "Massa artesanal e carne moída temperada."],
-
-    ["Frango", 8.5,
-        "Massa artesanal e frango desfiado temperado."],
-
-    ["Queijo", 9,
-        "Massa artesanal e queijo."],
-
-    ["Calabresa", 9,
-        "Massa artesanal, calabresa e temperos."],
-
-    ["Presunto e Queijo", 9.5,
-        "Massa artesanal, presunto e queijo."],
-
-    ["Frango com Catupiry", 10,
-        "Massa artesanal, frango desfiado e requeijão cremoso."],
-
-    ["Carne com Queijo", 10,
-        "Massa artesanal, carne moída temperada e queijo."],
-
-    ["Bacon com Queijo", 11,
-        "Massa artesanal, bacon e queijo."],
-
-    ["Quatro Queijos", 11.5,
-        "Massa artesanal, mussarela, provolone, parmesão e requeijão."],
-
-    ["Especial da Casa", 12,
-        "Massa artesanal com recheio especial da casa."]
-
-];
-
-
-const bordasEsfirra = [
-
-    ["Sem Borda", 0],
-
-    ["Catupiry", 5],
-
-    ["Cheddar", 5],
-
-    ["Mussarela", 5],
-
-    ["Provolone", 6],
-
-    ["Requeijão com Alho Frito", 6]
-
-];
-
-
-const complementosEsfirra = [
-
-    ["Bacon Extra", 5],
-
-    ["Catupiry Extra", 5],
-
-    ["Cheddar Extra", 5],
-
-    ["Mussarela Extra", 5],
-
-    ["Calabresa Extra", 5],
-
-    ["Cebola Crispy", 4],
-
-    ["Ovo", 3],
-
-    ["Parmesão", 4],
-
-    ["Pimenta", 2]
-
-];
-
-
-let esfirra = {
-
-    produto: null,
-
-    borda: ["Sem Borda", 0],
-
-    complementos: []
-
-};
-
-
-function iniciarEsfirra() {
-
-    esfirra = {
-
-        produto: null,
-
-        borda: ["Sem Borda", 0],
-
-        complementos: []
-
-    };
-
-
-    document
-        .getElementById("esfirraEscolha")
-        .classList.remove("escondido");
-
-
-    document
-        .getElementById("esfirraBorda")
-        .classList.add("escondido");
-
-
-    document
-        .getElementById("esfirraComplementos")
-        .classList.add("escondido");
-
-
-    document
-        .getElementById("esfirraResumo")
-        .classList.add("escondido");
-
-
-    criarEsfirras();
-}
-
-
-function criarEsfirras() {
-
-    const area =
-        document.getElementById(
-            "listaEsfirras"
-        );
-
-
-    area.innerHTML = "";
-
-
-    esfirras.forEach(item => {
-
-        const div =
-            document.createElement("div");
-
-
-        div.className =
-            "produto";
-
-
-        div.innerHTML = `
-
-            <h3>
-                ${item[0]}
-            </h3>
-
-            <p class="produto-descricao">
-                ${item[2]}
-            </p>
-
-            <div class="preco">
-                ${dinheiro(item[1])}
-            </div>
-
-            <button>
-                🥟 Escolher
-            </button>
-
-        `;
-
-
-        div.querySelector(
-            "button"
-        ).onclick = function() {
-
-            selecionarEsfirra(item);
-
-        };
-
-
-        area.appendChild(div);
-
-    });
-}
-
-
-function selecionarEsfirra(item) {
-
-    esfirra.produto = item;
-
-    esfirra.borda =
-        ["Sem Borda", 0];
-
-    esfirra.complementos = [];
-
-
-    document
-        .getElementById("esfirraEscolha")
-        .classList.add("escondido");
-
-
-    document
-        .getElementById("esfirraBorda")
-        .classList.remove("escondido");
-
-
-    criarBordasEsfirra();
-}
-
-
-function criarBordasEsfirra() {
-
-    const area =
-        document.getElementById(
-            "listaBordasEsfirra"
-        );
-
-
-    area.innerHTML = "";
-
-
-    bordasEsfirra.forEach(item => {
-
-        const botao =
-            document.createElement("button");
-
-
-        botao.className =
-            "opcao";
-
-
-        botao.innerHTML = `
-
-            <strong>
-                🧀 ${item[0]}
-            </strong>
-
-            <br>
-
-            ${dinheiro(item[1])}
-
-        `;
-
-
-        botao.onclick = function() {
-
-            esfirra.borda = item;
-
-
-            document
-                .querySelectorAll(
-                    "#listaBordasEsfirra .opcao"
-                )
-                .forEach(
-                    b =>
-                        b.classList.remove(
-                            "selecionado"
-                        )
-                );
-
-
-            botao.classList.add(
-                "selecionado"
-            );
-
-        };
-
-
-        area.appendChild(botao);
-
-    });
-}
-
-
-function irParaComplementosEsfirra() {
-
-    document
-        .getElementById("esfirraBorda")
-        .classList.add("escondido");
-
-
-    document
-        .getElementById("esfirraComplementos")
-        .classList.remove("escondido");
-
-
-    criarComplementosEsfirra();
-}
-
-
-function criarComplementosEsfirra() {
-
-    const area =
-        document.getElementById(
-            "listaComplementosEsfirra"
-        );
-
-
-    area.innerHTML = "";
-
-
-    complementosEsfirra.forEach(item => {
-
-        const botao =
-            document.createElement("button");
-
-
-        botao.className =
-            "opcao";
-
-
-        botao.innerHTML = `
-
-            <strong>
-                ➕ ${item[0]}
-            </strong>
-
-            <br>
-
-            ${dinheiro(item[1])}
-
-        `;
-
-
-        botao.onclick = function() {
-
-            const existe =
-                esfirra.complementos.some(
-                    c =>
-                        c[0] === item[0]
-                );
-
-
-            if (existe) {
-
-                esfirra.complementos =
-                    esfirra.complementos.filter(
-                        c =>
-                            c[0] !== item[0]
-                    );
-
-
-                botao.classList.remove(
-                    "selecionado"
-                );
-
-            } else {
-
-                esfirra.complementos.push(item);
-
-
-                botao.classList.add(
-                    "selecionado"
-                );
-
-            }
-
-        };
-
-
-        area.appendChild(botao);
-
-    });
-}
-
-
-function calcularEsfirra() {
-
-    if (!esfirra.produto) {
-        return 0;
-    }
-
-
-    let total =
-        esfirra.produto[1];
-
-
-    total +=
-        esfirra.borda[1];
-
-
-    esfirra.complementos.forEach(
-        item => {
-
-            total += item[1];
-
-        }
-    );
-
-
-    return total;
-}
-
-
-function mostrarResumoEsfirra() {
-
-    if (!esfirra.produto) {
-
-        alert(
-            "Escolha uma esfirra."
-        );
-
+        alert("Escolha pelo menos uma mistura.");
         return;
     }
 
-
-    const total =
-        calcularEsfirra();
-
-
-    document.getElementById(
-        "resumoEsfirra"
-    ).innerHTML = `
-
-        <p>
-            <strong>
-                Esfirra:
-            </strong>
-
-            ${esfirra.produto[0]}
-        </p>
-
-
-        <p class="produto-descricao">
-            ${esfirra.produto[2]}
-        </p>
-
-
-        <p>
-            <strong>
-                Borda:
-            </strong>
-
-            ${esfirra.borda[0]}
-
-            -
-
-            ${dinheiro(esfirra.borda[1])}
-        </p>
-
-
-        <p>
-            <strong>
-                Complementos:
-            </strong>
-        </p>
-
-
-        ${
-            esfirra.complementos.length
-
-            ? esfirra.complementos.map(c => `
-
-                <p>
-                    ➕ ${c[0]} -
-                    ${dinheiro(c[1])}
-                </p>
-
-            `).join("")
-
-            : "<p>Nenhum</p>"
-        }
-
-
-        <hr>
-
-
-        <h3>
-            Total:
-            ${dinheiro(total)}
-        </h3>
-
-    `;
-
-
-    document
-        .getElementById("esfirraComplementos")
-        .classList.add("escondido");
-
-
-    document
-        .getElementById("esfirraResumo")
-        .classList.remove("escondido");
-}
-
-
-function adicionarEsfirraCarrinho() {
-
-    const total =
-        calcularEsfirra();
-
-
-    let detalhes =
-
-        `Borda: ${esfirra.borda[0]}`;
-
-
-    if (
-        esfirra.complementos.length
-    ) {
-
-        detalhes +=
-
-            `<br>Complementos: ${
-                esfirra.complementos
-                    .map(c => c[0])
-                    .join(", ")
-            }`;
-    }
-
-
     carrinho.push({
 
+        id: Date.now(),
+
+        tipo: "marmita",
+
         nome:
-            `Esfirra ${esfirra.produto[0]}`,
+            `Marmita ${tamanhoMarmitaSelecionado.nome}`,
 
         detalhes:
-            detalhes,
+            `Misturas: ${carnesMarmita.join(", ")}`,
 
         preco:
-            total,
+            tamanhoMarmitaSelecionado.preco,
 
-        quantidade:
-            1
+        quantidade: 1
 
     });
 
-
+    salvarDados();
     atualizarCarrinho();
 
+    alert("🍱 Marmita adicionada ao carrinho!");
 
-    alert(
-        "🥟 Esfirra adicionada ao carrinho!"
-    );
+    tamanhoMarmitaSelecionado = null;
+    carnesMarmita = [];
 
-
-    abrirPagina("cardapio");
+    criarMarmitas();
 }
 
 
-/* =====================================================
-   PRODUTOS NORMAIS
-===================================================== */
+// ==========================================
+// CARRINHO
+// ==========================================
 
-function criarProdutos(lista, id) {
+function subtotal() {
 
-    const area =
-        document.getElementById(id);
-
-
-    if (!area) return;
-
-
-    area.innerHTML = "";
-
-
-    lista.forEach(item => {
-
-        const div =
-            document.createElement("div");
-
-
-        div.className =
-            "produto";
-
-
-        div.innerHTML = `
-
-            <h3>
-                ${item[0]}
-            </h3>
-
-            <p class="produto-descricao">
-                ${item[2]}
-            </p>
-
-            <div class="preco">
-                ${dinheiro(item[1])}
-            </div>
-
-            <button>
-                ➕ Adicionar
-            </button>
-
-        `;
-
-
-        div.querySelector(
-            "button"
-        ).onclick = function() {
-
-            adicionarProduto(
-                item[0],
-                item[1],
-                item[2]
-            );
-
-        };
-
-
-        area.appendChild(div);
-
-    });
-}
-
-
-function adicionarProduto(
-    nome,
-    preco,
-    descricao
-) {
-
-    const existente =
-        carrinho.find(
-            item =>
-                item.nome === nome
-        );
-
-
-    if (existente) {
-
-        existente.quantidade++;
-
-    } else {
-
-        carrinho.push({
-
-            nome: nome,
-
-            detalhes: descricao,
-
-            preco: preco,
-
-            quantidade: 1
-
-        });
-
-    }
-
-
-    atualizarCarrinho();
-
-
-    alert(
-        `${nome} adicionado ao carrinho!`
+    return carrinho.reduce(
+        (total, item) =>
+            total +
+            Number(item.preco) *
+            Number(item.quantidade),
+        0
     );
 }
 
-
-/* =====================================================
-   CARRINHO
-===================================================== */
 
 function atualizarCarrinho() {
 
+    const lista =
+        document.getElementById("listaCarrinho");
+
+    const total =
+        document.getElementById("totalCarrinho");
+
     const contador =
-        carrinho.reduce(
-            (total, item) =>
-                total + item.quantidade,
-            0
-        );
+        document.getElementById("contadorCarrinho");
 
-
-    const contadorElemento =
+    const contadorAlmoco =
         document.getElementById(
-            "contadorCarrinho"
+            "contadorCarrinhoAlmoco"
         );
 
+    if (contador) {
 
-    if (contadorElemento) {
-
-        contadorElemento.innerText =
-            contador;
-
+        contador.textContent =
+            carrinho.reduce(
+                (soma, item) =>
+                    soma + Number(item.quantidade),
+                0
+            );
     }
 
+    if (contadorAlmoco) {
 
-    const area =
-        document.getElementById(
-            "listaCarrinho"
-        );
+        contadorAlmoco.textContent =
+            carrinho.reduce(
+                (soma, item) =>
+                    soma + Number(item.quantidade),
+                0
+            );
+    }
 
+    if (!lista) return;
 
-    if (!area) return;
+    if (carrinho.length === 0) {
 
-
-    if (
-        carrinho.length === 0
-    ) {
-
-        area.innerHTML = `
-
-            <div class="resumo">
-
+        lista.innerHTML = `
+            <p>
                 🛒 Seu carrinho está vazio.
+            </p>
+        `;
+
+        if (total) {
+            total.innerHTML = "";
+        }
+
+        return;
+    }
+
+    lista.innerHTML = "";
+
+    carrinho.forEach((item, index) => {
+
+        const div =
+            document.createElement("div");
+
+        div.className = "itemCarrinho";
+
+        div.innerHTML = `
+
+            <h3>${item.nome}</h3>
+
+            ${
+                item.detalhes
+                    ? `<p>${item.detalhes}</p>`
+                    : ""
+            }
+
+            ${
+                item.ingredientes
+                    ? `<small>${item.ingredientes}</small>`
+                    : ""
+            }
+
+            <p>
+                ${dinheiro(item.preco)}
+            </p>
+
+            <div>
+
+                <button onclick="diminuir(${index})">
+                    −
+                </button>
+
+                <strong>
+                    ${item.quantidade}
+                </strong>
+
+                <button onclick="aumentar(${index})">
+                    +
+                </button>
+
+                <button onclick="remover(${index})">
+                    🗑️
+                </button>
 
             </div>
 
         `;
 
+        lista.appendChild(div);
+    });
 
-        document.getElementById(
-            "totalCarrinho"
-        ).innerHTML = "";
+    if (total) {
 
+        total.innerHTML = `
 
-        return;
+            <h3>
+                Subtotal:
+                ${dinheiro(subtotal())}
+            </h3>
+
+        `;
     }
-
-
-    area.innerHTML = "";
-
-
-    carrinho.forEach(
-        (item, index) => {
-
-            const div =
-                document.createElement(
-                    "div"
-                );
-
-
-            div.className =
-                "item-carrinho";
-
-
-            div.innerHTML = `
-
-                <h3>
-                    ${item.nome}
-                </h3>
-
-                ${
-                    item.detalhes
-                    ? `
-                        <p>
-                            ${item.detalhes}
-                        </p>
-                    `
-                    : ""
-                }
-
-
-                <p>
-                    ${dinheiro(item.preco)}
-                    cada
-                </p>
-
-
-                <div class="controles">
-
-                    <button
-                        onclick="diminuir(${index})">
-
-                        −
-
-                    </button>
-
-
-                    <strong>
-                        ${item.quantidade}
-                    </strong>
-
-
-                    <button
-                        onclick="aumentar(${index})">
-
-                        +
-
-                    </button>
-
-
-                    <button
-                        onclick="remover(${index})">
-
-                        🗑️
-
-                    </button>
-
-                </div>
-
-            `;
-
-
-            area.appendChild(div);
-
-        }
-    );
-
-
-    atualizarTotal();
 }
 
 
@@ -3106,25 +1937,23 @@ function aumentar(index) {
 
     carrinho[index].quantidade++;
 
+    salvarDados();
     atualizarCarrinho();
 }
 
 
 function diminuir(index) {
 
-    if (
-        carrinho[index].quantidade > 1
-    ) {
+    if (carrinho[index].quantidade > 1) {
 
         carrinho[index].quantidade--;
 
     } else {
 
         carrinho.splice(index, 1);
-
     }
 
-
+    salvarDados();
     atualizarCarrinho();
 }
 
@@ -3133,62 +1962,22 @@ function remover(index) {
 
     carrinho.splice(index, 1);
 
+    salvarDados();
     atualizarCarrinho();
 }
 
 
-function subtotal() {
-
-    return carrinho.reduce(
-        (total, item) =>
-            total +
-            item.preco *
-            item.quantidade,
-        0
-    );
-}
-
-
-function atualizarTotal() {
-
-    const area =
-        document.getElementById(
-            "totalCarrinho"
-        );
-
-
-    if (!area) return;
-
-
-    area.innerText =
-
-        `Subtotal: ${dinheiro(
-            subtotal()
-        )}`;
-}
-
-
-/* =====================================================
-   CHECKOUT
-===================================================== */
+// ==========================================
+// CHECKOUT
+// ==========================================
 
 function abrirCheckout() {
 
-    if (
-        carrinho.length === 0
-    ) {
+    if (carrinho.length === 0) {
 
-        alert(
-            "Seu carrinho está vazio!"
-        );
-
+        alert("Seu carrinho está vazio.");
         return;
     }
-
-
-    mostrarEndereco();
-
-    atualizarResumoCheckout();
 
     abrirPagina("checkout");
 }
@@ -3199,35 +1988,50 @@ function mostrarEndereco() {
     const recebimento =
         document.getElementById(
             "recebimento"
-        );
-
+        )?.value;
 
     const area =
         document.getElementById(
             "enderecoArea"
         );
 
+    if (!area) return;
 
-    if (!recebimento || !area) {
-        return;
-    }
+    if (recebimento === "entrega") {
 
-
-    if (
-        recebimento.value === "entrega"
-    ) {
-
-        area.style.display =
-            "block";
+        area.style.display = "block";
 
     } else {
 
-        area.style.display =
-            "none";
+        area.style.display = "none";
     }
 
-
     atualizarResumoCheckout();
+}
+
+
+function mostrarTroco() {
+
+    const pagamento =
+        document.getElementById(
+            "pagamento"
+        )?.value;
+
+    const area =
+        document.getElementById(
+            "areaTroco"
+        );
+
+    if (!area) return;
+
+    if (pagamento === "dinheiro") {
+
+        area.style.display = "block";
+
+    } else {
+
+        area.style.display = "none";
+    }
 }
 
 
@@ -3238,50 +2042,54 @@ function atualizarResumoCheckout() {
             "resumoCheckout"
         );
 
-
     if (!area) return;
 
-
-    const sub =
+    let subtotalAtual =
         subtotal();
 
+    let taxa = 0;
 
     const recebimento =
         document.getElementById(
             "recebimento"
-        );
+        )?.value;
 
+    if (recebimento === "entrega") {
+        taxa = TAXA_ENTREGA;
+    }
 
-    const entrega =
-        recebimento &&
-        recebimento.value === "entrega"
-            ? TAXA_ENTREGA
-            : 0;
-
+    const valorDesconto =
+        subtotalAtual * desconto;
 
     const total =
-        sub + entrega;
-
+        subtotalAtual +
+        taxa -
+        valorDesconto;
 
     area.innerHTML = `
 
         <p>
-            <strong>
-                Subtotal:
-            </strong>
-
-            ${dinheiro(sub)}
+            Subtotal:
+            <strong>${dinheiro(subtotalAtual)}</strong>
         </p>
-
 
         <p>
-            <strong>
-                Entrega:
-            </strong>
-
-            ${dinheiro(entrega)}
+            Entrega:
+            <strong>${dinheiro(taxa)}</strong>
         </p>
 
+        ${
+            desconto > 0
+                ? `
+                    <p>
+                        Desconto:
+                        <strong>
+                            - ${dinheiro(valorDesconto)}
+                        </strong>
+                    </p>
+                `
+                : ""
+        }
 
         <h3>
             Total:
@@ -3292,468 +2100,722 @@ function atualizarResumoCheckout() {
 }
 
 
-/* =====================================================
-   WHATSAPP
-===================================================== */
+function aplicarCupom() {
+
+    const campo =
+        document.getElementById("cupom");
+
+    const resultado =
+        document.getElementById(
+            "resultadoCupom"
+        );
+
+    if (!campo || !resultado) return;
+
+    const cupom =
+        campo.value
+            .trim()
+            .toUpperCase();
+
+    if (cupom === "PRIMEIRACOMPRA") {
+
+        desconto = 0.10;
+        cupomAplicado = cupom;
+
+        resultado.innerHTML =
+            "✅ Cupom aplicado: 10% de desconto.";
+
+    } else if (cupom === "UNESP10") {
+
+        desconto = 0.10;
+        cupomAplicado = cupom;
+
+        resultado.innerHTML =
+            "✅ Cupom aplicado: 10% de desconto.";
+
+    } else {
+
+        desconto = 0;
+        cupomAplicado = "";
+
+        resultado.innerHTML =
+            "❌ Cupom inválido.";
+    }
+
+    atualizarResumoCheckout();
+}
+
+
+function validarCheckout() {
+
+    const nome =
+        document.getElementById(
+            "nomeCliente"
+        )?.value.trim();
+
+    const telefone =
+        document.getElementById(
+            "telefoneCliente"
+        )?.value.trim();
+
+    const recebimento =
+        document.getElementById(
+            "recebimento"
+        )?.value;
+
+    const pagamento =
+        document.getElementById(
+            "pagamento"
+        )?.value;
+
+    if (!nome) {
+
+        alert("Digite seu nome.");
+        return false;
+    }
+
+    if (!telefone) {
+
+        alert("Digite seu telefone.");
+        return false;
+    }
+
+    if (recebimento === "entrega") {
+
+        const rua =
+            document.getElementById(
+                "rua"
+            )?.value.trim();
+
+        const numero =
+            document.getElementById(
+                "numero"
+            )?.value.trim();
+
+        const bairro =
+            document.getElementById(
+                "bairro"
+            )?.value.trim();
+
+        if (!rua || !numero || !bairro) {
+
+            alert(
+                "Preencha rua, número e bairro."
+            );
+
+            return false;
+        }
+    }
+
+    if (pagamento === "dinheiro") {
+
+        const troco =
+            Number(
+                document.getElementById(
+                    "troco"
+                )?.value || 0
+            );
+
+        let taxa = 0;
+
+        if (recebimento === "entrega") {
+            taxa = TAXA_ENTREGA;
+        }
+
+        const total =
+            subtotal() +
+            taxa -
+            subtotal() * desconto;
+
+        if (troco < total) {
+
+            alert(
+                `O valor informado para troco deve ser igual ou maior que ${dinheiro(total)}.`
+            );
+
+            return false;
+        }
+    }
+
+    return true;
+}
+
+
+// ==========================================
+// WHATSAPP
+// ==========================================
 
 function gerarNumeroPedido() {
 
-    const agora =
-        new Date();
+    const numero =
+        Math.floor(
+            100000 +
+            Math.random() * 900000
+        );
 
-
-    return (
-
-        agora.getHours()
-            .toString()
-            .padStart(2, "0") +
-
-        agora.getMinutes()
-            .toString()
-            .padStart(2, "0") +
-
-        agora.getSeconds()
-            .toString()
-            .padStart(2, "0")
-
-    );
+    return numero;
 }
 
 
 function enviarWhatsApp() {
 
+    // IMPORTANTE:
+    // O cliente pode montar o carrinho
+    // mesmo quando o restaurante está fechado.
+    // Apenas o envio final é bloqueado.
+
+    if (!pedidoEstaLiberado()) {
+
+        alert(
+            "🔴 No momento estamos fechados para novos pedidos.\n\nVocê pode deixar seu carrinho montado e finalizar quando estivermos abertos."
+        );
+
+        return;
+    }
+
+    if (!validarCheckout()) {
+        return;
+    }
+
+    if (carrinho.length === 0) {
+
+        alert("Seu carrinho está vazio.");
+        return;
+    }
+
     const nome =
         document.getElementById(
-            "nome"
+            "nomeCliente"
         ).value.trim();
-
 
     const telefone =
         document.getElementById(
-            "telefone"
+            "telefoneCliente"
         ).value.trim();
-
 
     const recebimento =
         document.getElementById(
             "recebimento"
         ).value;
 
-
-    const endereco =
-        document.getElementById(
-            "endereco"
-        ).value.trim();
-
-
     const pagamento =
         document.getElementById(
             "pagamento"
         ).value;
 
+    let mensagem = "";
 
-    const observacao =
-        document.getElementById(
-            "observacao"
-        ).value.trim();
-
-
-    if (!nome) {
-
-        alert(
-            "Digite seu nome."
-        );
-
-        return;
-    }
-
-
-    if (
-        recebimento === "entrega" &&
-        !endereco
-    ) {
-
-        alert(
-            "Digite o endereço."
-        );
-
-        return;
-    }
-
-
-    const numero =
+    const numeroPedido =
         gerarNumeroPedido();
 
+    mensagem +=
+        `*🍔 RESTAURANTE LANCHONETE MM*\n`;
 
-    const sub =
+    mensagem +=
+        `*PEDIDO #${numeroPedido}*\n\n`;
+
+    mensagem +=
+        `👤 *Cliente:* ${nome}\n`;
+
+    mensagem +=
+        `📞 *Telefone:* ${telefone}\n\n`;
+
+    mensagem +=
+        `*🛒 PEDIDO:*\n`;
+
+    carrinho.forEach((item, index) => {
+
+        mensagem +=
+            `\n${index + 1}. ${item.nome}`;
+
+        mensagem +=
+            `\nQuantidade: ${item.quantidade}`;
+
+        mensagem +=
+            `\nValor: ${dinheiro(
+                item.preco *
+                item.quantidade
+            )}`;
+
+        if (item.detalhes) {
+
+            mensagem +=
+                `\n${item.detalhes}`;
+        }
+
+        if (item.ingredientes) {
+
+            mensagem +=
+                `\nIngredientes: ${item.ingredientes}`;
+        }
+
+        mensagem += "\n";
+    });
+
+    const subtotalAtual =
         subtotal();
-
 
     const taxa =
         recebimento === "entrega"
             ? TAXA_ENTREGA
             : 0;
 
+    const valorDesconto =
+        subtotalAtual * desconto;
 
     const total =
-        sub + taxa;
-
-
-    let mensagem =
-
-        "*🍔 RESTAURANTE LANCHONETE MM*%0A%0A";
-
+        subtotalAtual +
+        taxa -
+        valorDesconto;
 
     mensagem +=
+        `\n*💰 SUBTOTAL:* ${dinheiro(subtotalAtual)}\n`;
 
-        "*PEDIDO Nº:* " +
-        numero +
-        "%0A";
-
-
-    mensagem +=
-
-        "*Cliente:* " +
-        nome +
-        "%0A";
-
-
-    if (telefone) {
+    if (taxa > 0) {
 
         mensagem +=
+            `*🛵 ENTREGA:* ${dinheiro(taxa)}\n`;
 
-            "*Telefone:* " +
-            telefone +
-            "%0A";
+    } else {
+
+        mensagem +=
+            `*🏪 RETIRADA:* GRÁTIS\n`;
     }
 
-
-    mensagem +=
-
-        "%0A*🛒 PEDIDO:*%0A";
-
-
-    carrinho.forEach(item => {
+    if (valorDesconto > 0) {
 
         mensagem +=
+            `*🎟️ DESCONTO:* -${dinheiro(valorDesconto)}\n`;
 
-            "%0A• " +
-            item.nome +
-            " x" +
-            item.quantidade +
-            " - " +
-            dinheiro(
-                item.preco *
-                item.quantidade
-            );
+        mensagem +=
+            `*Cupom:* ${cupomAplicado}\n`;
+    }
 
+    mensagem +=
+        `*💵 TOTAL:* ${dinheiro(total)}\n\n`;
 
-        if (item.detalhes) {
+    if (recebimento === "entrega") {
 
-            let detalhes =
-                item.detalhes
-                    .replace(
-                        /<br>/g,
-                        " | "
-                    )
-                    .replace(
-                        /<[^>]*>/g,
-                        ""
-                    );
+        const rua =
+            document.getElementById(
+                "rua"
+            ).value.trim();
 
+        const numero =
+            document.getElementById(
+                "numero"
+            ).value.trim();
+
+        const bairro =
+            document.getElementById(
+                "bairro"
+            ).value.trim();
+
+        const complemento =
+            document.getElementById(
+                "complemento"
+            ).value.trim();
+
+        const referencia =
+            document.getElementById(
+                "referencia"
+            ).value.trim();
+
+        mensagem +=
+            `*📍 ENDEREÇO DE ENTREGA:*\n`;
+
+        mensagem +=
+            `${rua}, ${numero}\n`;
+
+        mensagem +=
+            `${bairro}\n`;
+
+        if (complemento) {
 
             mensagem +=
-
-                "%0A  " +
-                detalhes;
+                `Complemento: ${complemento}\n`;
         }
 
-    });
+        if (referencia) {
 
+            mensagem +=
+                `Referência: ${referencia}\n`;
+        }
 
-    mensagem +=
+        mensagem += "\n";
 
-        "%0A%0A*Subtotal:* " +
-        dinheiro(sub);
-
-
-    mensagem +=
-
-        "%0A*Entrega:* " +
-        dinheiro(taxa);
-
-
-    mensagem +=
-
-        "%0A*TOTAL:* " +
-        dinheiro(total);
-
-
-    mensagem +=
-
-        "%0A%0A*Recebimento:* " +
-
-        (
-            recebimento === "entrega"
-                ? "Entrega"
-                : "Retirada no balcão"
-        );
-
-
-    if (
-        recebimento === "entrega"
-    ) {
+    } else {
 
         mensagem +=
-
-            "%0A*Endereço:* " +
-            endereco;
+            `*🏪 RETIRADA NO BALCÃO*\n\n`;
     }
 
-
     mensagem +=
+        `*💳 PAGAMENTO:* ${pagamento.toUpperCase()}\n`;
 
-        "%0A*Pagamento:* " +
-        pagamento;
+    if (pagamento === "dinheiro") {
 
-
-    if (observacao) {
+        const troco =
+            document.getElementById(
+                "troco"
+            ).value;
 
         mensagem +=
-
-            "%0A*Observação:* " +
-            observacao;
+            `Troco para: ${dinheiro(troco)}\n`;
     }
 
-
     mensagem +=
+        `\nObrigado pela preferência! ❤️`;
 
-        "%0A%0A🧡 Obrigado!";
-
+    salvarHistorico(
+        numeroPedido,
+        nome,
+        total
+    );
 
     const url =
-
-        "https://wa.me/" +
-        WHATSAPP +
-        "?text=" +
-        mensagem;
-
+        `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(mensagem)}`;
 
     window.open(
         url,
         "_blank"
     );
 
-
-    document.getElementById(
-        "numeroPedido"
-    ).innerText = numero;
-
-
     carrinho = [];
+    desconto = 0;
+    cupomAplicado = "";
 
-
+    salvarDados();
     atualizarCarrinho();
 
+    const numeroArea =
+        document.getElementById(
+            "numeroPedido"
+        );
 
-    abrirPagina(
-        "sucesso"
+    if (numeroArea) {
+        numeroArea.textContent =
+            `#${numeroPedido}`;
+    }
+
+    const status =
+        document.getElementById(
+            "statusPedido"
+        );
+
+    if (status) {
+
+        status.textContent =
+            "Seu pedido foi enviado pelo WhatsApp.";
+    }
+
+    abrirPagina("sucesso");
+}
+
+
+// ==========================================
+// HISTÓRICO
+// ==========================================
+
+function salvarHistorico(
+    numero,
+    nome,
+    total
+) {
+
+    const historico =
+        JSON.parse(
+            localStorage.getItem(
+                "historicoMM"
+            ) || "[]"
+        );
+
+    historico.unshift({
+
+        numero,
+
+        nome,
+
+        total,
+
+        data:
+            new Date().toLocaleString(
+                "pt-BR"
+            )
+
+    });
+
+    localStorage.setItem(
+        "historicoMM",
+        JSON.stringify(
+            historico.slice(0, 20)
+        )
     );
 }
 
 
-/* =====================================================
-   INICIALIZAÇÃO
-===================================================== */
+function mostrarHistorico() {
+
+    const area =
+        document.getElementById(
+            "listaHistorico"
+        );
+
+    if (!area) return;
+
+    const historico =
+        JSON.parse(
+            localStorage.getItem(
+                "historicoMM"
+            ) || "[]"
+        );
+
+    if (historico.length === 0) {
+
+        area.innerHTML =
+            "<p>Nenhum pedido realizado ainda.</p>";
+
+        return;
+    }
+
+    area.innerHTML = "";
+
+    historico.forEach(pedido => {
+
+        area.innerHTML += `
+
+            <div class="pedidoHistorico">
+
+                <h3>
+                    Pedido #${pedido.numero}
+                </h3>
+
+                <p>
+                    Cliente:
+                    ${pedido.nome}
+                </p>
+
+                <p>
+                    Total:
+                    ${dinheiro(pedido.total)}
+                </p>
+
+                <small>
+                    ${pedido.data}
+                </small>
+
+            </div>
+
+        `;
+    });
+}
+
+
+function repetirPedido() {
+
+    alert(
+        "Para repetir um pedido, vamos selecionar os produtos novamente pelo cardápio."
+    );
+}
+
+
+// ==========================================
+// BUSCA
+// ==========================================
+
+function buscarProdutos() {
+
+    const campo =
+        document.getElementById(
+            "campoBusca"
+        );
+
+    const resultado =
+        document.getElementById(
+            "resultadoBusca"
+        );
+
+    if (!campo || !resultado) return;
+
+    const termo =
+        campo.value
+            .toLowerCase()
+            .trim();
+
+    if (!termo) {
+
+        resultado.innerHTML = "";
+        return;
+    }
+
+    const todos = [
+
+        ...lanches.map((p, i) => ({
+            ...p,
+            origem: "listaLanches",
+            index: i
+        })),
+
+        ...hotdogs.map((p, i) => ({
+            ...p,
+            origem: "listaHotdogs",
+            index: i
+        })),
+
+        ...porcoes.map((p, i) => ({
+            ...p,
+            origem: "listaPorcoes",
+            index: i
+        })),
+
+        ...bebidas.map((p, i) => ({
+            ...p,
+            origem: "listaBebidas",
+            index: i
+        })),
+
+        ...esfirras.map((p, i) => ({
+            ...p,
+            origem: "listaEsfirras",
+            index: i
+        })),
+
+        ...pizzas.map((p, i) => ({
+            ...p,
+            origem: "pizza",
+            index: i
+        }))
+
+    ];
+
+    const encontrados =
+        todos.filter(produto =>
+
+            produto.nome
+                .toLowerCase()
+                .includes(termo)
+
+            ||
+
+            (produto.ingredientes || "")
+                .toLowerCase()
+                .includes(termo)
+
+        );
+
+    if (encontrados.length === 0) {
+
+        resultado.innerHTML =
+            "<p>Nenhum produto encontrado.</p>";
+
+        return;
+    }
+
+    resultado.innerHTML = `
+        <h3>🔎 Resultados</h3>
+    `;
+
+    encontrados.forEach(produto => {
+
+        resultado.innerHTML += `
+
+            <div class="resultadoProduto">
+
+                <h3>
+                    ${produto.nome}
+                </h3>
+
+                <p>
+                    ${produto.ingredientes || ""}
+                </p>
+
+                <strong>
+                    ${dinheiro(produto.preco)}
+                </strong>
+
+                ${
+                    produto.origem === "pizza"
+
+                    ?
+
+                    `<button onclick="abrirPagina('pizzas')">
+                        🍕 Montar pizza
+                    </button>`
+
+                    :
+
+                    `<button onclick="adicionarProduto(
+                        '${produto.nome}',
+                        ${produto.preco},
+                        '${produto.origem}',
+                        ${produto.index}
+                    )">
+                        ➕ Adicionar
+                    </button>`
+                }
+
+            </div>
+
+        `;
+    });
+}
+
+
+// ==========================================
+// GOOGLE MAPS
+// ==========================================
+
+function abrirMapa() {
+
+    const endereco =
+        encodeURIComponent(
+            "Rua Guanabara, 26, Divinolândia - SP"
+        );
+
+    window.open(
+        `https://www.google.com/maps/search/?api=1&query=${endereco}`,
+        "_blank"
+    );
+}
+
+
+// ==========================================
+// INICIALIZAÇÃO
+// ==========================================
 
 document.addEventListener(
     "DOMContentLoaded",
-    function() {
+    function () {
 
-        criarProdutos(
-            lanches,
-            "listaLanches"
-        );
+        document
+            .querySelectorAll(".pagina")
+            .forEach(pagina => {
+                pagina.style.display = "none";
+            });
 
+        const inicio =
+            document.getElementById(
+                "inicio"
+            );
 
-        criarProdutos(
-            hotdogs,
-            "listaHotdogs"
-        );
+        if (inicio) {
+            inicio.style.display = "block";
+        }
 
-
-        criarProdutos(
-            porcoes,
-            "listaPorcoes"
-        );
-
-
-        criarProdutos(
-            bebidas,
-            "listaBebidas"
-        );
-
-
-        criarMarmitas();
-
-
-        mostrarCardapioAlmoco();
-
+        carregarDados();
 
         atualizarCarrinho();
 
-
         verificarFuncionamento();
-
-
-        atualizarCardapioPorHorario();
-
 
         setInterval(
             verificarFuncionamento,
             60000
         );
 
+        mostrarEndereco();
 
-        setInterval(
-            mostrarCardapioAlmoco,
-            60000
-        );
-
-
-        setInterval(
-            atualizarCardapioPorHorario,
-            60000
-        );
+        mostrarTroco();
 
     }
-);
-
-/* =====================================================
-   BLOQUEIO DE PEDIDOS FORA DO HORÁRIO
-===================================================== */
-
-function pedidoEstaLiberado() {
-
-    const agora = new Date();
-
-    const dia = agora.getDay();
-
-    const horario =
-        agora.getHours() * 60 +
-        agora.getMinutes();
-
-    /* ALMOÇO */
-
-    let inicioAlmoco = 660; // 11:00
-    let fimAlmoco = 900;    // 15:00
-
-    /* SÁBADO E DOMINGO */
-
-    if (dia === 0 || dia === 6) {
-
-        inicioAlmoco = 690; // 11:30
-        fimAlmoco = 930;    // 15:30
-
-    }
-
-    /* TERÇA A DOMINGO À NOITE */
-
-    const inicioNoite = 1080; // 18:00
-    const fimNoite = 1350;    // 22:30
-
-
-    /* ALMOÇO */
-
-    if (
-        horario >= inicioAlmoco &&
-        horario <= fimAlmoco
-    ) {
-
-        return true;
-
-    }
-
-
-    /* NOITE */
-
-    if (
-        dia >= 2 &&
-        dia <= 6 &&
-        horario >= inicioNoite &&
-        horario <= fimNoite
-    ) {
-
-        return true;
-
-    }
-
-
-    return false;
-
-}
-
-
-/* =====================================================
-   AVISO DE LOJA FECHADA
-===================================================== */
-
-function verificarPedidoLiberado() {
-
-    if (pedidoEstaLiberado()) {
-
-        return true;
-
-    }
-
-
-    alert(
-        "🔴 Estamos fechados no momento.\n\n" +
-        "Os pedidos estão disponíveis somente durante nosso horário de funcionamento."
-    );
-
-
-    return false;
-
-    /* =====================================================
-   BLOQUEAR CHECKOUT FORA DO HORÁRIO
-===================================================== */
-
-const abrirCheckoutOriginal = abrirCheckout;
-
-abrirCheckout = function() {
-
-    if (!verificarPedidoLiberado()) {
-        return;
-    }
-
-    abrirCheckoutOriginal();
-
-};
-
-
-/* =====================================================
-   BLOQUEAR WHATSAPP FORA DO HORÁRIO
-===================================================== */
-
-const enviarWhatsAppOriginal = enviarWhatsApp;
-
-enviarWhatsApp = function() {
-
-    if (!verificarPedidoLiberado()) {
-        return;
-    }
-
-    enviarWhatsAppOriginal();
-
-};
-
-
-/* =====================================================
-   VERIFICAÇÃO AUTOMÁTICA
-===================================================== */
-
-setInterval(
-    verificarFuncionamento,
-    60000
 );
