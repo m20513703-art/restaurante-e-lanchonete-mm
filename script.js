@@ -3715,115 +3715,17 @@ function verificarPedidoLiberado() {
 
     return false;
 
-}
-
-
-/* =====================================================
-   BLOQUEAR ADIÇÃO DE PRODUTOS
+    /* =====================================================
+   BLOQUEAR CHECKOUT FORA DO HORÁRIO
 ===================================================== */
 
-const adicionarProdutoOriginal = adicionarProduto;
-
-adicionarProduto = function(
-    nome,
-    preco,
-    descricao
-) {
-
-    if (!verificarPedidoLiberado()) {
-
-        return;
-
-    }
-
-
-    adicionarProdutoOriginal(
-        nome,
-        preco,
-        descricao
-    );
-
-};
-
-
-/* =====================================================
-   BLOQUEAR PIZZA
-===================================================== */
-
-const adicionarPizzaCarrinhoOriginal =
-    adicionarPizzaCarrinho;
-
-adicionarPizzaCarrinho = function() {
-
-    if (!verificarPedidoLiberado()) {
-
-        return;
-
-    }
-
-
-    adicionarPizzaCarrinhoOriginal();
-
-};
-
-
-/* =====================================================
-   BLOQUEAR MARMITA
-===================================================== */
-
-const adicionarMarmitaCarrinhoOriginal =
-    adicionarMarmitaCarrinho;
-
-adicionarMarmitaCarrinho = function() {
-
-    if (!verificarPedidoLiberado()) {
-
-        return;
-
-    }
-
-
-    adicionarMarmitaCarrinhoOriginal();
-
-};
-
-
-/* =====================================================
-   BLOQUEAR ESFIRRA
-===================================================== */
-
-const adicionarEsfirraCarrinhoOriginal =
-    adicionarEsfirraCarrinho;
-
-adicionarEsfirraCarrinho = function() {
-
-    if (!verificarPedidoLiberado()) {
-
-        return;
-
-    }
-
-
-    adicionarEsfirraCarrinhoOriginal();
-
-};
-
-
-/* =====================================================
-   BLOQUEAR CHECKOUT
-===================================================== */
-
-const abrirCheckoutOriginal =
-    abrirCheckout;
+const abrirCheckoutOriginal = abrirCheckout;
 
 abrirCheckout = function() {
 
     if (!verificarPedidoLiberado()) {
-
         return;
-
     }
-
 
     abrirCheckoutOriginal();
 
@@ -3831,20 +3733,16 @@ abrirCheckout = function() {
 
 
 /* =====================================================
-   BLOQUEAR WHATSAPP
+   BLOQUEAR WHATSAPP FORA DO HORÁRIO
 ===================================================== */
 
-const enviarWhatsAppOriginal =
-    enviarWhatsApp;
+const enviarWhatsAppOriginal = enviarWhatsApp;
 
 enviarWhatsApp = function() {
 
     if (!verificarPedidoLiberado()) {
-
         return;
-
     }
-
 
     enviarWhatsAppOriginal();
 
