@@ -12,389 +12,280 @@
 
 <body>
 
-<header class="topo">
+<header class="cabecalho">
+    <h1>🍔 Restaurante Lanchonete MM</h1>
+    <p>Sabor que dá vontade de voltar!</p>
 
-    <div>
-        <h1>🍔 Restaurante Lanchonete MM</h1>
-        <p>Sabor que dá vontade de voltar!</p>
+    <div id="statusFuncionamento">
+        Verificando...
     </div>
-
-    <button class="carrinho-topo" onclick="abrirCarrinho()">
-        🛒 <span id="contadorCarrinho">0</span>
-    </button>
-
 </header>
 
+<!-- =========================
+     INÍCIO
+========================= -->
 
 <main>
 
+<section id="inicio" class="pagina">
 
-<!-- =====================================================
-     INÍCIO
-===================================================== -->
+    <div class="blocoInicio">
 
-<section id="inicio" class="pagina ativa">
+        <h2>🍽️ Restaurante Lanchonete MM</h2>
 
-    <div class="inicio-card">
+        <p class="fraseInicio">
+            Sabor, qualidade e aquele atendimento especial!
+        </p>
 
-        <div class="logo">
-            MM
-        </div>
+        <!-- HORÁRIOS -->
 
-        <h2>
-            Restaurante Lanchonete MM
-        </h2>
-
-        <div id="statusFuncionamento" class="status">
-            Verificando...
-        </div>
-
-
-        <div class="horarios">
-
-            <h3>
-                🕐 Horário de funcionamento
-            </h3>
+        <div class="informacao">
+            <h3>🕐 Horário de funcionamento</h3>
 
             <p>
-                <strong>🍱 Almoço</strong>
+                <strong>🍛 Almoço</strong><br>
+                Segunda a sexta: 11:00 às 15:00<br>
+                Sábado e domingo: 11:30 às 15:30
             </p>
 
             <p>
-                Segunda a sexta: 11:00 às 15:00
-            </p>
-
-            <p>
-                Sábado, domingo e feriados:
-                11:30 às 15:30
-            </p>
-
-            <br>
-
-            <p>
-                <strong>🍕 Lanchonete / Pizzaria</strong>
-            </p>
-
-            <p>
-                Terça a domingo: 18:00 às 22:30
-            </p>
-
-            <p>
+                <strong>🍕 Pizzaria e Lanchonete</strong><br>
+                Terça a domingo: 18:00 às 22:30<br>
                 Segunda-feira à noite: fechado
             </p>
 
+            <p>
+                Marmitex e delivery do almoço até 14:00.
+            </p>
         </div>
 
+        <!-- ENTREGA -->
 
-        <!-- CARDÁPIO AUTOMÁTICO DO DIA -->
+        <div class="informacao">
+            <h3>🛵 Entrega</h3>
 
-        <div
-            id="cardapioInicio"
-            class="almoco-dia">
+            <p>
+                Taxa de entrega:
+                <strong>R$ 5,00</strong>
+            </p>
+
+            <p>
+                Retirada no balcão:
+                <strong>Grátis</strong>
+            </p>
         </div>
 
+        <!-- ENDEREÇO -->
 
-        <div class="taxa-inicio">
+        <div class="informacao">
+            <h3>📍 Onde estamos</h3>
 
-            🚚 Delivery:
-            <strong>R$ 5,00</strong>
+            <p>
+                Rua Guanabara, nº 26<br>
+                Divinolândia - SP
+            </p>
 
-            <br>
+            <button onclick="abrirMapa()" class="botaoMapa">
+                🗺️ COMO CHEGAR
+            </button>
+        </div>
 
-            🏪 Retirada no balcão:
-            <strong>Grátis</strong>
+        <!-- ALMOÇO -->
+
+        <div class="informacao destaqueAlmoco">
+
+            <h3>🍛 Almoço do Dia</h3>
+
+            <p>
+                Self-service
+            </p>
+
+            <div class="precoAlmoco">
+                R$ 35,50/kg
+            </div>
+
+            <button onclick="abrirPagina('almoco')" class="botaoSecundario">
+                🍛 VER ALMOÇO
+            </button>
 
         </div>
 
+        <!-- CARDÁPIO -->
 
-        <button
-            class="btn-principal"
-            onclick="abrirPagina('cardapio')">
+        <div class="blocoCardapioInicio">
 
-            📋 VER CARDÁPIO
+            <h2>🍽️ CARDÁPIO</h2>
 
-        </button>
+            <p>
+                Escolha seus pratos, lanches, pizzas e bebidas.
+            </p>
+
+            <button
+                onclick="abrirPagina('cardapio')"
+                class="botaoCardapio">
+                🍽️ ABRIR CARDÁPIO
+            </button>
+
+        </div>
 
     </div>
 
 </section>
 
 
-
-<!-- =====================================================
+<!-- =========================
      CARDÁPIO
-===================================================== -->
+========================= -->
 
 <section id="cardapio" class="pagina">
 
-    <button
-        class="btn-voltar"
-        onclick="voltarInicio()">
+    <div class="topoPagina">
 
-        ← Voltar
+        <button onclick="voltarInicio()" class="botaoVoltar">
+            ← Voltar
+        </button>
 
-    </button>
+        <button onclick="abrirCarrinho()" class="botaoCarrinhoTopo">
+            🛒 Carrinho
+            <span id="contadorCarrinho">0</span>
+        </button>
 
+    </div>
 
-    <h2>
-        📋 Cardápio
-    </h2>
-
+    <h2>🍽️ Cardápio</h2>
 
     <div class="categorias">
 
-
         <button onclick="abrirPagina('almoco')">
-
-            🍱
-
-            <span>
-                Almoço do Dia
-            </span>
-
+            🍛 Almoço
         </button>
-
 
         <button onclick="abrirPagina('pizzas')">
-
-            🍕
-
-            <span>
-                Pizza
-            </span>
-
+            🍕 Pizzas
         </button>
-
 
         <button onclick="abrirPagina('lanches')">
-
-            🍔
-
-            <span>
-                Lanches
-            </span>
-
+            🍔 Lanches
         </button>
-
 
         <button onclick="abrirPagina('esfirras')">
-
-            🥟
-
-            <span>
-                Esfirras
-            </span>
-
+            🥙 Esfirras
         </button>
-
 
         <button onclick="abrirPagina('hotdogs')">
-
-            🌭
-
-            <span>
-                Hot Dog
-            </span>
-
+            🌭 Hot Dog
         </button>
-
 
         <button onclick="abrirPagina('porcoes')">
-
-            🍟
-
-            <span>
-                Porções
-            </span>
-
+            🍟 Porções
         </button>
-
 
         <button onclick="abrirPagina('bebidas')">
-
-            🥤
-
-            <span>
-                Bebidas
-            </span>
-
+            🥤 Bebidas
         </button>
-
 
         <button onclick="abrirPagina('marmitas')">
-
-            🍱
-
-            <span>
-                Marmitas
-            </span>
-
+            🍱 Marmitas
         </button>
+
+    </div>
+
+    <div class="busca">
+
+        <input
+            type="text"
+            id="campoBusca"
+            placeholder="🔎 Procurar no cardápio..."
+            oninput="buscarProdutos()">
+
+        <div id="resultadoBusca"></div>
 
     </div>
 
 </section>
 
 
-
-<!-- =====================================================
-     ALMOÇO DO DIA
-===================================================== -->
+<!-- =========================
+     ALMOÇO
+========================= -->
 
 <section id="almoco" class="pagina">
 
-    <button
-        class="btn-voltar"
-        onclick="abrirPagina('cardapio')">
+    <div class="topoPagina">
 
-        ← Voltar
+        <button onclick="abrirPagina('cardapio')">
+            ← Cardápio
+        </button>
 
-    </button>
+        <button onclick="abrirCarrinho()">
+            🛒 Carrinho
+            <span id="contadorCarrinhoAlmoco">0</span>
+        </button>
 
-
-    <div
-        id="cardapioAlmoco">
     </div>
+
+    <h2>🍛 Almoço do Dia</h2>
+
+    <div class="precoAlmoco">
+        R$ 35,50/kg
+    </div>
+
+    <div id="cardapioAlmoco"></div>
 
 </section>
 
 
-
-<!-- =====================================================
+<!-- =========================
      PIZZAS
-===================================================== -->
+========================= -->
 
 <section id="pizzas" class="pagina">
 
-    <button
-        class="btn-voltar"
-        onclick="abrirPagina('cardapio')">
+    <div class="topoPagina">
 
-        ← Voltar
+        <button onclick="abrirPagina('cardapio')">
+            ← Cardápio
+        </button>
 
-    </button>
-
-
-    <h2>
-        🍕 Monte sua Pizza
-    </h2>
-
-
-    <!-- TAMANHO -->
-
-    <div id="pizzaTamanho">
-
-        <h3>
-            1. Escolha o tamanho
-        </h3>
-
-        <div id="listaTamanhos"></div>
-
-    </div>
-
-
-    <!-- SABORES -->
-
-    <div
-        id="pizzaSabores"
-        class="etapa escondido">
-
-        <h3>
-            2. Escolha os sabores
-        </h3>
-
-        <p id="limiteSabores"></p>
-
-        <div id="listaSabores"></div>
-
-        <div id="saboresEscolhidos"></div>
-
-
-        <button
-            class="btn-principal"
-            onclick="irParaBordaPizza()">
-
-            Continuar →
-
+        <button onclick="abrirCarrinho()">
+            🛒 Carrinho
+            <span>0</span>
         </button>
 
     </div>
 
+    <h2>🍕 Pizzas</h2>
 
-    <!-- BORDA -->
+    <div id="listaPizzas"></div>
 
-    <div
-        id="pizzaBorda"
-        class="etapa escondido">
+    <!-- ESCOLHA DA PIZZA -->
 
-        <h3>
-            3. Escolha a borda
-        </h3>
+    <div id="montagemPizza">
 
-        <div id="listaBordasPizza"></div>
+        <h3>🍕 Monte sua pizza</h3>
 
+        <!-- TAMANHO -->
 
-        <button
-            class="btn-principal"
-            onclick="irParaComplementosPizza()">
+        <div id="tamanhoPizza"></div>
 
-            Continuar →
+        <!-- SABORES -->
 
-        </button>
+        <div id="saboresPizza"></div>
 
-    </div>
+        <!-- INGREDIENTES -->
 
+        <div id="ingredientesPizza"></div>
 
-    <!-- COMPLEMENTOS -->
+        <!-- BORDA -->
 
-    <div
-        id="pizzaComplementos"
-        class="etapa escondido">
+        <div id="bordaPizza"></div>
 
-        <h3>
-            4. Complementos
-        </h3>
+        <!-- COMPLEMENTOS -->
 
-        <p>
-            Escolha os adicionais que quiser.
-        </p>
+        <div id="complementosPizza"></div>
 
-        <div id="listaComplementosPizza"></div>
-
-
-        <button
-            class="btn-principal"
-            onclick="mostrarResumoPizza()">
-
-            Ver resumo →
-
-        </button>
-
-    </div>
-
-
-    <!-- RESUMO -->
-
-    <div
-        id="pizzaResumo"
-        class="etapa escondido">
-
-        <h3>
-            5. Resumo
-        </h3>
-
-        <div
-            id="resumoPizza"
-            class="resumo">
-        </div>
-
-
-        <button
-            class="btn-principal"
-            onclick="adicionarPizzaCarrinho()">
-
-            🛒 Adicionar ao carrinho
-
+        <button onclick="adicionarPizzaCarrinho()">
+            🛒 Adicionar Pizza ao Carrinho
         </button>
 
     </div>
@@ -402,155 +293,63 @@
 </section>
 
 
-
-<!-- =====================================================
+<!-- =========================
      LANCHES
-===================================================== -->
+========================= -->
 
 <section id="lanches" class="pagina">
 
-    <button
-        class="btn-voltar"
-        onclick="abrirPagina('cardapio')">
+    <div class="topoPagina">
 
-        ← Voltar
+        <button onclick="abrirPagina('cardapio')">
+            ← Cardápio
+        </button>
 
-    </button>
+        <button onclick="abrirCarrinho()">
+            🛒 Carrinho
+        </button>
 
-
-    <h2>
-        🍔 Lanches
-    </h2>
-
-
-    <div
-        id="listaLanches"
-        class="produtos">
     </div>
+
+    <h2>🍔 Lanches</h2>
+
+    <div id="listaLanches"></div>
 
 </section>
 
 
-
-<!-- =====================================================
+<!-- =========================
      ESFIRRAS
-===================================================== -->
+========================= -->
 
 <section id="esfirras" class="pagina">
 
-    <button
-        class="btn-voltar"
-        onclick="abrirPagina('cardapio')">
+    <div class="topoPagina">
 
-        ← Voltar
+        <button onclick="abrirPagina('cardapio')">
+            ← Cardápio
+        </button>
 
-    </button>
-
-
-    <h2>
-        🥟 Monte sua Esfirra
-    </h2>
-
-
-    <!-- ESCOLHA DA ESFIRRA -->
-
-    <div id="esfirraEscolha">
-
-        <h3>
-            1. Escolha a esfirra
-        </h3>
-
-
-        <div
-            id="listaEsfirras"
-            class="produtos">
-        </div>
-
-    </div>
-
-
-    <!-- BORDA DA ESFIRRA -->
-
-    <div
-        id="esfirraBorda"
-        class="etapa escondido">
-
-        <h3>
-            2. Escolha a borda
-        </h3>
-
-
-        <div
-            id="listaBordasEsfirra">
-        </div>
-
-
-        <button
-            class="btn-principal"
-            onclick="irParaComplementosEsfirra()">
-
-            Continuar →
-
+        <button onclick="abrirCarrinho()">
+            🛒 Carrinho
         </button>
 
     </div>
 
+    <h2>🥙 Esfirras</h2>
 
-    <!-- COMPLEMENTOS DA ESFIRRA -->
+    <div id="listaEsfirras"></div>
 
-    <div
-        id="esfirraComplementos"
-        class="etapa escondido">
+    <div id="montagemEsfirra">
 
-        <h3>
-            3. Complementos
-        </h3>
+        <h3>🥙 Monte sua esfirra</h3>
 
+        <div id="ingredientesEsfirra"></div>
 
-        <p>
-            Escolha os adicionais que quiser.
-        </p>
+        <div id="opcoesEsfirra"></div>
 
-
-        <div
-            id="listaComplementosEsfirra">
-        </div>
-
-
-        <button
-            class="btn-principal"
-            onclick="mostrarResumoEsfirra()">
-
-            Ver resumo →
-
-        </button>
-
-    </div>
-
-
-    <!-- RESUMO DA ESFIRRA -->
-
-    <div
-        id="esfirraResumo"
-        class="etapa escondido">
-
-        <h3>
-            4. Resumo
-        </h3>
-
-
-        <div
-            id="resumoEsfirra"
-            class="resumo">
-        </div>
-
-
-        <button
-            class="btn-principal"
-            onclick="adicionarEsfirraCarrinho()">
-
-            🛒 Adicionar ao carrinho
-
+        <button onclick="adicionarEsfirraCarrinho()">
+            🛒 Adicionar ao Carrinho
         </button>
 
     </div>
@@ -558,425 +357,359 @@
 </section>
 
 
-
-<!-- =====================================================
+<!-- =========================
      HOT DOG
-===================================================== -->
+========================= -->
 
 <section id="hotdogs" class="pagina">
 
-    <button
-        class="btn-voltar"
-        onclick="abrirPagina('cardapio')">
+    <div class="topoPagina">
 
-        ← Voltar
+        <button onclick="abrirPagina('cardapio')">
+            ← Cardápio
+        </button>
 
-    </button>
+        <button onclick="abrirCarrinho()">
+            🛒 Carrinho
+        </button>
 
-
-    <h2>
-        🌭 Hot Dog
-    </h2>
-
-
-    <div
-        id="listaHotdogs"
-        class="produtos">
     </div>
+
+    <h2>🌭 Hot Dog</h2>
+
+    <div id="listaHotdogs"></div>
 
 </section>
 
 
-
-<!-- =====================================================
+<!-- =========================
      PORÇÕES
-===================================================== -->
+========================= -->
 
 <section id="porcoes" class="pagina">
 
-    <button
-        class="btn-voltar"
-        onclick="abrirPagina('cardapio')">
+    <div class="topoPagina">
 
-        ← Voltar
+        <button onclick="abrirPagina('cardapio')">
+            ← Cardápio
+        </button>
 
-    </button>
+        <button onclick="abrirCarrinho()">
+            🛒 Carrinho
+        </button>
 
-
-    <h2>
-        🍟 Porções
-    </h2>
-
-
-    <div
-        id="listaPorcoes"
-        class="produtos">
     </div>
+
+    <h2>🍟 Porções</h2>
+
+    <div id="listaPorcoes"></div>
 
 </section>
 
 
-
-<!-- =====================================================
+<!-- =========================
      BEBIDAS
-===================================================== -->
+========================= -->
 
 <section id="bebidas" class="pagina">
 
-    <button
-        class="btn-voltar"
-        onclick="abrirPagina('cardapio')">
+    <div class="topoPagina">
 
-        ← Voltar
+        <button onclick="abrirPagina('cardapio')">
+            ← Cardápio
+        </button>
 
-    </button>
+        <button onclick="abrirCarrinho()">
+            🛒 Carrinho
+        </button>
 
-
-    <h2>
-        🥤 Bebidas
-    </h2>
-
-
-    <div
-        id="listaBebidas"
-        class="produtos">
     </div>
+
+    <h2>🥤 Bebidas</h2>
+
+    <div id="listaBebidas"></div>
 
 </section>
 
 
-
-<!-- =====================================================
+<!-- =========================
      MARMITAS
-===================================================== -->
+========================= -->
 
 <section id="marmitas" class="pagina">
 
-    <button
-        class="btn-voltar"
-        onclick="abrirPagina('cardapio')">
+    <div class="topoPagina">
 
-        ← Voltar
+        <button onclick="abrirPagina('cardapio')">
+            ← Cardápio
+        </button>
 
-    </button>
+        <button onclick="abrirCarrinho()">
+            🛒 Carrinho
+        </button>
 
-
-    <h2>
-        🍱 Marmitas
-    </h2>
-
-
-    <div
-        id="tituloMarmitaDia">
     </div>
 
+    <h2>🍱 Marmitas</h2>
 
-    <div
-        id="listaMarmitas"
-        class="produtos">
+    <div id="listaMarmitas"></div>
+
+    <div id="montagemMarmita">
+
+        <h3>🍱 Monte sua marmita</h3>
+
+        <div id="ingredientesMarmita"></div>
+
+        <div id="opcoesMarmita"></div>
+
     </div>
 
 </section>
 
 
-
-<!-- =====================================================
-     MONTAGEM DA MARMITA
-===================================================== -->
-
-<section id="montarMarmita" class="pagina">
-
-    <button
-        class="btn-voltar"
-        onclick="abrirPagina('marmitas')">
-
-        ← Voltar
-
-    </button>
-
-
-    <h2>
-        🍱 Monte sua Marmita
-    </h2>
-
-
-    <div
-        id="infoMarmita"
-        class="resumo">
-    </div>
-
-
-    <h3>
-        🥩 Escolha suas misturas
-    </h3>
-
-
-    <p id="limiteMisturas"></p>
-
-
-    <div
-        id="listaMisturas">
-    </div>
-
-
-    <div
-        id="misturasEscolhidas">
-    </div>
-
-
-    <button
-        class="btn-principal"
-        onclick="adicionarMarmitaCarrinho()">
-
-        🛒 Adicionar ao carrinho
-
-    </button>
-
-</section>
-
-
-
-<!-- =====================================================
+<!-- =========================
      CARRINHO
-===================================================== -->
+========================= -->
 
 <section id="carrinho" class="pagina">
 
-    <button
-        class="btn-voltar"
-        onclick="abrirPagina('cardapio')">
+    <div class="topoPagina">
 
-        ← Continuar comprando
+        <button onclick="abrirPagina('cardapio')">
+            ← Cardápio
+        </button>
 
-    </button>
+        <button onclick="voltarInicio()">
+            🏠 Início
+        </button>
 
-
-    <h2>
-        🛒 Carrinho
-    </h2>
-
-
-    <div
-        id="listaCarrinho">
     </div>
 
+    <h2>🛒 Seu Carrinho</h2>
 
-    <div
-        id="totalCarrinho"
-        class="total">
-    </div>
+    <div id="listaCarrinho"></div>
 
+    <div id="totalCarrinho"></div>
 
-    <button
-        class="btn-principal"
-        onclick="abrirCheckout()">
-
-        Finalizar pedido →
-
+    <button onclick="abrirCheckout()" class="botaoFinalizar">
+        ✅ FINALIZAR PEDIDO
     </button>
 
 </section>
 
 
-
-<!-- =====================================================
+<!-- =========================
      CHECKOUT
-===================================================== -->
+========================= -->
 
 <section id="checkout" class="pagina">
 
-    <button
-        class="btn-voltar"
-        onclick="abrirCarrinho()">
+    <div class="topoPagina">
 
-        ← Voltar
+        <button onclick="abrirCarrinho()">
+            ← Carrinho
+        </button>
 
-    </button>
+    </div>
 
-
-    <h2>
-        📋 Finalizar pedido
-    </h2>
-
+    <h2>🧾 Finalizar Pedido</h2>
 
     <div class="formulario">
 
-
-        <label>
-            Nome
-        </label>
-
-
+        <label>Nome</label>
         <input
-            id="nome"
             type="text"
+            id="nomeCliente"
             placeholder="Seu nome">
 
-
-        <label>
-            Telefone
-        </label>
-
-
+        <label>Telefone</label>
         <input
-            id="telefone"
             type="tel"
+            id="telefoneCliente"
             placeholder="Seu telefone">
 
-
-        <label>
-            Recebimento
-        </label>
-
+        <label>Como deseja receber?</label>
 
         <select
             id="recebimento"
             onchange="mostrarEndereco()">
 
-            <option value="entrega">
-                🚚 Entrega - R$ 5,00
+            <option value="retirada">
+                Retirar no balcão
             </option>
 
-            <option value="retirada">
-                🏪 Retirada no balcão - Grátis
+            <option value="entrega">
+                Entrega
             </option>
 
         </select>
 
 
+        <!-- ENDEREÇO -->
+
         <div id="enderecoArea">
 
-
-            <label>
-                Endereço
-            </label>
-
-
+            <label>Rua</label>
             <input
-                id="endereco"
                 type="text"
-                placeholder="Rua, número e bairro">
+                id="rua"
+                placeholder="Rua">
 
+            <label>Número</label>
+            <input
+                type="text"
+                id="numero"
+                placeholder="Número">
+
+            <label>Bairro</label>
+            <input
+                type="text"
+                id="bairro"
+                placeholder="Bairro">
+
+            <label>Complemento</label>
+            <input
+                type="text"
+                id="complemento"
+                placeholder="Apartamento, casa etc.">
+
+            <label>Referência</label>
+            <input
+                type="text"
+                id="referencia"
+                placeholder="Perto de...">
 
         </div>
 
 
-        <label>
-            Pagamento
-        </label>
+        <!-- PAGAMENTO -->
 
+        <label>Forma de pagamento</label>
 
-        <select id="pagamento">
+        <select
+            id="pagamento"
+            onchange="mostrarTroco()">
 
-            <option>
+            <option value="pix">
                 Pix
             </option>
 
-            <option>
+            <option value="cartao">
+                Cartão
+            </option>
+
+            <option value="dinheiro">
                 Dinheiro
-            </option>
-
-            <option>
-                Cartão de Débito
-            </option>
-
-            <option>
-                Cartão de Crédito
             </option>
 
         </select>
 
 
-        <label>
-            Observação
-        </label>
+        <div id="areaTroco">
+
+            <label>Troco para quanto?</label>
+
+            <input
+                type="number"
+                id="troco"
+                placeholder="Ex.: 50">
+
+        </div>
 
 
-        <textarea
-            id="observacao"
-            placeholder="Alguma observação?">
-        </textarea>
+        <!-- CUPOM -->
 
+        <label>Cupom de desconto</label>
+
+        <div class="cupom">
+
+            <input
+                type="text"
+                id="cupom"
+                placeholder="Digite seu cupom">
+
+            <button onclick="aplicarCupom()">
+                Aplicar
+            </button>
+
+        </div>
+
+        <div id="resultadoCupom"></div>
+
+
+        <!-- RESUMO -->
+
+        <h3>📋 Resumo do pedido</h3>
+
+        <div id="resumoCheckout"></div>
+
+
+        <button
+            onclick="enviarWhatsApp()"
+            class="botaoWhatsApp">
+
+            📲 ENVIAR PEDIDO PELO WHATSAPP
+
+        </button>
 
     </div>
 
-
-    <div
-        id="resumoCheckout"
-        class="resumo">
-    </div>
+</section>
 
 
-    <button
-        class="btn-principal"
-        onclick="enviarWhatsApp()">
+<!-- =========================
+     PEDIDO ENVIADO
+========================= -->
 
-        📱 ENVIAR PEDIDO NO WHATSAPP
+<section id="sucesso" class="pagina">
 
+    <h2>✅ Pedido enviado!</h2>
+
+    <p>
+        Seu pedido foi enviado para o restaurante.
+    </p>
+
+    <p>
+        Número do pedido:
+    </p>
+
+    <h3 id="numeroPedido"></h3>
+
+    <p id="statusPedido"></p>
+
+    <button onclick="voltarInicio()">
+        🏠 Voltar ao início
     </button>
 
 </section>
 
 
+<!-- =========================
+     HISTÓRICO
+========================= -->
 
-<!-- =====================================================
-     SUCESSO
-===================================================== -->
+<section id="historico" class="pagina">
 
-<section
-    id="sucesso"
-    class="pagina sucesso">
+    <div class="topoPagina">
 
-
-    <div class="sucesso-card">
-
-
-        <div class="check">
-            ✓
-        </div>
-
-
-        <h2>
-            Pedido enviado! 🎉
-        </h2>
-
-
-        <p>
-            Confira o WhatsApp e confirme
-            o envio da mensagem.
-        </p>
-
-
-        <h3>
-
-            Pedido nº
-
-            <span id="numeroPedido"></span>
-
-        </h3>
-
-
-        <button
-            class="btn-principal"
-            onclick="voltarInicio()">
-
-            🏠 Voltar ao início
-
+        <button onclick="voltarInicio()">
+            ← Início
         </button>
-
 
     </div>
 
-</section>
+    <h2>📋 Meus Pedidos</h2>
 
+    <div id="listaHistorico"></div>
+
+</section>
 
 </main>
 
 
-
-<!-- =====================================================
+<!-- =========================
      RODAPÉ
-===================================================== -->
+========================= -->
 
 <footer>
 
@@ -985,15 +718,14 @@
     </p>
 
     <p>
-        🧡 Obrigado pela preferência!
+        📍 Rua Guanabara, nº 26 -
+        Divinolândia - SP
     </p>
 
 </footer>
 
 
-
 <script src="script.js"></script>
 
 </body>
-
 </html>
