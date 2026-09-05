@@ -13,13 +13,17 @@
 <body>
 
 <header class="cabecalho">
+
     <h1>🍔 Restaurante Lanchonete MM</h1>
+
     <p>Sabor que dá vontade de voltar!</p>
 
     <div id="statusFuncionamento">
         Verificando...
     </div>
+
 </header>
+
 
 <!-- =========================
      INÍCIO
@@ -37,80 +41,37 @@
             Sabor, qualidade e aquele atendimento especial!
         </p>
 
-        <!-- HORÁRIOS -->
 
-        <div class="informacao">
-            <h3>🕐 Horário de funcionamento</h3>
-
-            <p>
-                <strong>🍛 Almoço</strong><br>
-                Segunda a sexta: 11:00 às 15:00<br>
-                Sábado e domingo: 11:30 às 15:30
-            </p>
-
-            <p>
-                <strong>🍕 Pizzaria e Lanchonete</strong><br>
-                Terça a domingo: 18:00 às 22:30<br>
-                Segunda-feira à noite: fechado
-            </p>
-
-            <p>
-                Marmitex e delivery do almoço até 14:00.
-            </p>
-        </div>
-
-        <!-- ENTREGA -->
-
-        <div class="informacao">
-            <h3>🛵 Entrega</h3>
-
-            <p>
-                Taxa de entrega:
-                <strong>R$ 5,00</strong>
-            </p>
-
-            <p>
-                Retirada no balcão:
-                <strong>Grátis</strong>
-            </p>
-        </div>
-
-        <!-- ENDEREÇO -->
-
-        <div class="informacao">
-            <h3>📍 Onde estamos</h3>
-
-            <p>
-                Rua Guanabara, nº 26<br>
-                Divinolândia - SP
-            </p>
-
-            <button onclick="abrirMapa()" class="botaoMapa">
-                🗺️ COMO CHEGAR
-            </button>
-        </div>
-
-        <!-- ALMOÇO -->
+        <!-- =========================
+             ALMOÇO DESTAQUE
+        ========================= -->
 
         <div class="informacao destaqueAlmoco">
 
-            <h3>🍛 Almoço do Dia</h3>
+            <h3>🍛 ALMOÇO</h3>
 
             <p>
-                Self-service
+                <strong>R$ 35,50/KG</strong>
             </p>
 
-            <div class="precoAlmoco">
-                R$ 35,50/kg
-            </div>
+            <p>
+                🥗 <strong>Servido no buffet</strong>
+            </p>
 
-            <button onclick="abrirPagina('almoco')" class="botaoSecundario">
+            <button
+                onclick="abrirPagina('almoco')"
+                class="botaoSecundario">
+
                 🍛 VER ALMOÇO
+
             </button>
 
         </div>
 
-        <!-- CARDÁPIO -->
+
+        <!-- =========================
+             CARDÁPIO
+        ========================= -->
 
         <div class="blocoCardapioInicio">
 
@@ -123,7 +84,89 @@
             <button
                 onclick="abrirPagina('cardapio')"
                 class="botaoCardapio">
+
                 🍽️ ABRIR CARDÁPIO
+
+            </button>
+
+        </div>
+
+
+        <!-- =========================
+             HORÁRIOS
+        ========================= -->
+
+        <div class="informacao">
+
+            <h3>🕐 Horário de funcionamento</h3>
+
+            <p>
+                <strong>🍛 Almoço</strong><br>
+
+                Segunda a sexta:
+                11:00 às 15:00<br>
+
+                Sábado e domingo:
+                11:30 às 15:30
+            </p>
+
+            <p>
+                <strong>🍕 Pizzaria e Lanchonete</strong><br>
+
+                Terça a domingo:
+                18:00 às 22:30<br>
+
+                Segunda-feira à noite:
+                fechado
+            </p>
+
+            <p>
+                Marmitex e delivery do almoço até 14:00.
+            </p>
+
+        </div>
+
+
+        <!-- =========================
+             ENTREGA
+        ========================= -->
+
+        <div class="informacao">
+
+            <h3>🛵 Entrega</h3>
+
+            <p>
+                Taxa de entrega:
+                <strong>R$ 5,00</strong>
+            </p>
+
+            <p>
+                Retirada no balcão:
+                <strong>Grátis</strong>
+            </p>
+
+        </div>
+
+
+        <!-- =========================
+             ENDEREÇO
+        ========================= -->
+
+        <div class="informacao">
+
+            <h3>📍 Onde estamos</h3>
+
+            <p>
+                Rua Guanabara, nº 26<br>
+                Divinolândia - SP
+            </p>
+
+            <button
+                onclick="abrirMapa()"
+                class="botaoMapa">
+
+                🗺️ COMO CHEGAR
+
             </button>
 
         </div>
@@ -131,6 +174,7 @@
     </div>
 
 </section>
+
 
 
 <!-- =========================
@@ -141,54 +185,119 @@
 
     <div class="topoPagina">
 
-        <button onclick="voltarInicio()" class="botaoVoltar">
+        <button
+            onclick="voltarInicio()"
+            class="botaoVoltar">
+
             ← Voltar
+
         </button>
 
-        <button onclick="abrirCarrinho()" class="botaoCarrinhoTopo">
+        <button
+            onclick="abrirCarrinho()"
+            class="botaoCarrinhoTopo">
+
             🛒 Carrinho
-            <span id="contadorCarrinho">0</span>
+
+            <span id="contadorCarrinho">
+                0
+            </span>
+
         </button>
 
     </div>
+
 
     <h2>🍽️ Cardápio</h2>
 
+
     <div class="categorias">
 
+
+        <!-- ALMOÇO -->
+
         <button onclick="abrirPagina('almoco')">
+
             🍛 Almoço
+
         </button>
 
-        <button onclick="abrirPagina('pizzas')">
-            🍕 Pizzas
-        </button>
 
-        <button onclick="abrirPagina('lanches')">
-            🍔 Lanches
-        </button>
-
-        <button onclick="abrirPagina('esfirras')">
-            🥙 Esfirras
-        </button>
-
-        <button onclick="abrirPagina('hotdogs')">
-            🌭 Hot Dog
-        </button>
-
-        <button onclick="abrirPagina('porcoes')">
-            🍟 Porções
-        </button>
-
-        <button onclick="abrirPagina('bebidas')">
-            🥤 Bebidas
-        </button>
+        <!-- MARMITAS -->
 
         <button onclick="abrirPagina('marmitas')">
+
             🍱 Marmitas
+
+        </button>
+
+
+        <!-- PIZZAS -->
+
+        <button onclick="abrirPagina('pizzas')">
+
+            🍕 Pizzas
+
+        </button>
+
+
+        <!-- LANCHES -->
+
+        <button onclick="abrirPagina('lanches')">
+
+            🍔 Lanches
+
+        </button>
+
+
+        <!-- ESFIRRAS -->
+
+        <button onclick="abrirPagina('esfirras')">
+
+            🥙 Esfirras
+
+        </button>
+
+
+        <!-- HOT DOG -->
+
+        <button onclick="abrirPagina('hotdogs')">
+
+            🌭 Hot Dog
+
+        </button>
+
+
+        <!-- PORÇÕES -->
+
+        <button onclick="abrirPagina('porcoes')">
+
+            🍟 Porções
+
+        </button>
+
+
+        <!-- BEBIDAS -->
+
+        <button onclick="abrirPagina('bebidas')">
+
+            🥤 Bebidas
+
+        </button>
+
+
+        <!-- À LA CARTE -->
+
+        <button onclick="abrirPagina('alacarte')">
+
+            🍽️ À La Carte
+
         </button>
 
     </div>
+
+
+    <!-- BUSCA -->
 
     <div class="busca">
 
@@ -205,6 +314,7 @@
 </section>
 
 
+
 <!-- =========================
      ALMOÇO
 ========================= -->
@@ -214,25 +324,43 @@
     <div class="topoPagina">
 
         <button onclick="abrirPagina('cardapio')">
+
             ← Cardápio
+
         </button>
 
         <button onclick="abrirCarrinho()">
+
             🛒 Carrinho
-            <span id="contadorCarrinhoAlmoco">0</span>
+
+            <span id="contadorCarrinhoAlmoco">
+                0
+            </span>
+
         </button>
 
     </div>
 
+
     <h2>🍛 Almoço do Dia</h2>
 
+
     <div class="precoAlmoco">
+
         R$ 35,50/kg
+
     </div>
+
+
+    <p>
+        🥗 <strong>Servido no buffet</strong>
+    </p>
+
 
     <div id="cardapioAlmoco"></div>
 
 </section>
+
 
 
 <!-- =========================
@@ -244,53 +372,72 @@
     <div class="topoPagina">
 
         <button onclick="abrirPagina('cardapio')">
+
             ← Cardápio
+
         </button>
 
         <button onclick="abrirCarrinho()">
+
             🛒 Carrinho
-            <span>0</span>
+
+            <span id="contadorCarrinhoPizza">
+                0
+            </span>
+
         </button>
 
     </div>
 
+
     <h2>🍕 Pizzas</h2>
+
 
     <div id="listaPizzas"></div>
 
-    <!-- ESCOLHA DA PIZZA -->
+
+    <!-- MONTAGEM DA PIZZA -->
 
     <div id="montagemPizza">
 
         <h3>🍕 Monte sua pizza</h3>
 
+
         <!-- TAMANHO -->
 
         <div id="tamanhoPizza"></div>
+
 
         <!-- SABORES -->
 
         <div id="saboresPizza"></div>
 
+
         <!-- INGREDIENTES -->
 
         <div id="ingredientesPizza"></div>
+
 
         <!-- BORDA -->
 
         <div id="bordaPizza"></div>
 
+
         <!-- COMPLEMENTOS -->
 
         <div id="complementosPizza"></div>
 
+
         <button onclick="adicionarPizzaCarrinho()">
+
             🛒 Adicionar Pizza ao Carrinho
+
         </button>
 
     </div>
 
 </section>
+
 
 
 <!-- =========================
@@ -302,20 +449,31 @@
     <div class="topoPagina">
 
         <button onclick="abrirPagina('cardapio')">
+
             ← Cardápio
+
         </button>
 
         <button onclick="abrirCarrinho()">
+
             🛒 Carrinho
+
+            <span id="contadorCarrinhoLanches">
+                0
+            </span>
+
         </button>
 
     </div>
 
+
     <h2>🍔 Lanches</h2>
+
 
     <div id="listaLanches"></div>
 
 </section>
+
 
 
 <!-- =========================
@@ -327,34 +485,51 @@
     <div class="topoPagina">
 
         <button onclick="abrirPagina('cardapio')">
+
             ← Cardápio
+
         </button>
 
         <button onclick="abrirCarrinho()">
+
             🛒 Carrinho
+
+            <span id="contadorCarrinhoEsfirras">
+                0
+            </span>
+
         </button>
 
     </div>
 
+
     <h2>🥙 Esfirras</h2>
 
+
     <div id="listaEsfirras"></div>
+
 
     <div id="montagemEsfirra">
 
         <h3>🥙 Monte sua esfirra</h3>
 
+
         <div id="ingredientesEsfirra"></div>
+
 
         <div id="opcoesEsfirra"></div>
 
+
         <button onclick="adicionarEsfirraCarrinho()">
+
             🛒 Adicionar ao Carrinho
+
         </button>
 
     </div>
 
 </section>
+
 
 
 <!-- =========================
@@ -366,20 +541,31 @@
     <div class="topoPagina">
 
         <button onclick="abrirPagina('cardapio')">
+
             ← Cardápio
+
         </button>
 
         <button onclick="abrirCarrinho()">
+
             🛒 Carrinho
+
+            <span id="contadorCarrinhoHotdogs">
+                0
+            </span>
+
         </button>
 
     </div>
 
+
     <h2>🌭 Hot Dog</h2>
+
 
     <div id="listaHotdogs"></div>
 
 </section>
+
 
 
 <!-- =========================
@@ -391,20 +577,31 @@
     <div class="topoPagina">
 
         <button onclick="abrirPagina('cardapio')">
+
             ← Cardápio
+
         </button>
 
         <button onclick="abrirCarrinho()">
+
             🛒 Carrinho
+
+            <span id="contadorCarrinhoPorcoes">
+                0
+            </span>
+
         </button>
 
     </div>
 
+
     <h2>🍟 Porções</h2>
+
 
     <div id="listaPorcoes"></div>
 
 </section>
+
 
 
 <!-- =========================
@@ -416,20 +613,31 @@
     <div class="topoPagina">
 
         <button onclick="abrirPagina('cardapio')">
+
             ← Cardápio
+
         </button>
 
         <button onclick="abrirCarrinho()">
+
             🛒 Carrinho
+
+            <span id="contadorCarrinhoBebidas">
+                0
+            </span>
+
         </button>
 
     </div>
 
+
     <h2>🥤 Bebidas</h2>
+
 
     <div id="listaBebidas"></div>
 
 </section>
+
 
 
 <!-- =========================
@@ -441,30 +649,85 @@
     <div class="topoPagina">
 
         <button onclick="abrirPagina('cardapio')">
+
             ← Cardápio
+
         </button>
 
         <button onclick="abrirCarrinho()">
+
             🛒 Carrinho
+
+            <span id="contadorCarrinhoMarmitas">
+                0
+            </span>
+
         </button>
 
     </div>
 
+
     <h2>🍱 Marmitas</h2>
 
+
     <div id="listaMarmitas"></div>
+
 
     <div id="montagemMarmita">
 
         <h3>🍱 Monte sua marmita</h3>
 
+
         <div id="ingredientesMarmita"></div>
+
 
         <div id="opcoesMarmita"></div>
 
     </div>
 
 </section>
+
+
+
+<!-- =========================
+     À LA CARTE
+========================= -->
+
+<section id="alacarte" class="pagina">
+
+    <div class="topoPagina">
+
+        <button onclick="abrirPagina('cardapio')">
+
+            ← Cardápio
+
+        </button>
+
+        <button onclick="abrirCarrinho()">
+
+            🛒 Carrinho
+
+            <span id="contadorCarrinhoAlacarte">
+                0
+            </span>
+
+        </button>
+
+    </div>
+
+
+    <h2>🍽️ À La Carte</h2>
+
+
+    <p>
+        Pratos especiais preparados com carinho.
+    </p>
+
+
+    <div id="listaAlacarte"></div>
+
+</section>
+
 
 
 <!-- =========================
@@ -476,26 +739,40 @@
     <div class="topoPagina">
 
         <button onclick="abrirPagina('cardapio')">
+
             ← Cardápio
+
         </button>
 
+
         <button onclick="voltarInicio()">
+
             🏠 Início
+
         </button>
 
     </div>
 
+
     <h2>🛒 Seu Carrinho</h2>
+
 
     <div id="listaCarrinho"></div>
 
+
     <div id="totalCarrinho"></div>
 
-    <button onclick="abrirCheckout()" class="botaoFinalizar">
+
+    <button
+        onclick="abrirCheckout()"
+        class="botaoFinalizar">
+
         ✅ FINALIZAR PEDIDO
+
     </button>
 
 </section>
+
 
 
 <!-- =========================
@@ -507,26 +784,37 @@
     <div class="topoPagina">
 
         <button onclick="abrirCarrinho()">
+
             ← Carrinho
+
         </button>
 
     </div>
 
+
     <h2>🧾 Finalizar Pedido</h2>
+
 
     <div class="formulario">
 
+
         <label>Nome</label>
+
         <input
             type="text"
             id="nomeCliente"
             placeholder="Seu nome">
 
+
+
         <label>Telefone</label>
+
         <input
             type="tel"
             id="telefoneCliente"
             placeholder="Seu telefone">
+
+
 
         <label>Como deseja receber?</label>
 
@@ -535,14 +823,19 @@
             onchange="mostrarEndereco()">
 
             <option value="retirada">
+
                 Retirar no balcão
+
             </option>
 
             <option value="entrega">
+
                 Entrega
+
             </option>
 
         </select>
+
 
 
         <!-- ENDEREÇO -->
@@ -550,36 +843,46 @@
         <div id="enderecoArea">
 
             <label>Rua</label>
+
             <input
                 type="text"
                 id="rua"
                 placeholder="Rua">
 
+
             <label>Número</label>
+
             <input
                 type="text"
                 id="numero"
                 placeholder="Número">
 
+
             <label>Bairro</label>
+
             <input
                 type="text"
                 id="bairro"
                 placeholder="Bairro">
 
+
             <label>Complemento</label>
+
             <input
                 type="text"
                 id="complemento"
                 placeholder="Apartamento, casa etc.">
 
+
             <label>Referência</label>
+
             <input
                 type="text"
                 id="referencia"
                 placeholder="Perto de...">
 
         </div>
+
 
 
         <!-- PAGAMENTO -->
@@ -591,19 +894,28 @@
             onchange="mostrarTroco()">
 
             <option value="pix">
+
                 Pix
+
             </option>
 
             <option value="cartao">
+
                 Cartão
+
             </option>
 
             <option value="dinheiro">
+
                 Dinheiro
+
             </option>
 
         </select>
 
+
+
+        <!-- TROCO -->
 
         <div id="areaTroco">
 
@@ -617,9 +929,11 @@
         </div>
 
 
+
         <!-- CUPOM -->
 
         <label>Cupom de desconto</label>
+
 
         <div class="cupom">
 
@@ -628,21 +942,30 @@
                 id="cupom"
                 placeholder="Digite seu cupom">
 
+
             <button onclick="aplicarCupom()">
+
                 Aplicar
+
             </button>
 
         </div>
 
+
         <div id="resultadoCupom"></div>
+
 
 
         <!-- RESUMO -->
 
         <h3>📋 Resumo do pedido</h3>
 
+
         <div id="resumoCheckout"></div>
 
+
+
+        <!-- WHATSAPP -->
 
         <button
             onclick="enviarWhatsApp()"
@@ -657,6 +980,7 @@
 </section>
 
 
+
 <!-- =========================
      PEDIDO ENVIADO
 ========================= -->
@@ -665,23 +989,31 @@
 
     <h2>✅ Pedido enviado!</h2>
 
+
     <p>
         Seu pedido foi enviado para o restaurante.
     </p>
+
 
     <p>
         Número do pedido:
     </p>
 
+
     <h3 id="numeroPedido"></h3>
+
 
     <p id="statusPedido"></p>
 
+
     <button onclick="voltarInicio()">
+
         🏠 Voltar ao início
+
     </button>
 
 </section>
+
 
 
 <!-- =========================
@@ -693,18 +1025,24 @@
     <div class="topoPagina">
 
         <button onclick="voltarInicio()">
+
             ← Início
+
         </button>
 
     </div>
 
+
     <h2>📋 Meus Pedidos</h2>
+
 
     <div id="listaHistorico"></div>
 
 </section>
 
+
 </main>
+
 
 
 <!-- =========================
@@ -717,6 +1055,7 @@
         Restaurante Lanchonete MM
     </p>
 
+
     <p>
         📍 Rua Guanabara, nº 26 -
         Divinolândia - SP
@@ -725,7 +1064,14 @@
 </footer>
 
 
+
+<!-- =========================
+     JAVASCRIPT
+========================= -->
+
 <script src="script.js"></script>
 
+
 </body>
+
 </html>
