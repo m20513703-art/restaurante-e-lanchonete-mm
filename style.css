@@ -1,24 +1,12 @@
-/* ==========================================
+/* ==========================================================
    RESTAURANTE LANCHONETE MM
-   TEMA: LARANJA + PRETO
-========================================== */
-
-:root {
-    --laranja: #ff6b00;
-    --laranja-escuro: #e85d00;
-    --preto: #111111;
-    --preto-2: #1c1c1c;
-    --branco: #ffffff;
-    --cinza: #f4f4f4;
-    --cinza-texto: #666666;
-    --borda: #dddddd;
-    --verde: #16a34a;
-}
+   VISUAL DARK - PRETO + LARANJA
+   ========================================================== */
 
 * {
-    box-sizing: border-box;
     margin: 0;
     padding: 0;
+    box-sizing: border-box;
 }
 
 html {
@@ -27,477 +15,527 @@ html {
 
 body {
     font-family: Arial, Helvetica, sans-serif;
-    background: var(--cinza);
-    color: #222;
-    line-height: 1.5;
+    background: #0b0b0b;
+    color: #ffffff;
+    min-height: 100vh;
 }
 
-button,
-input,
-select {
-    font-family: inherit;
+/* ==========================================================
+   ESTRUTURA
+   ========================================================== */
+
+.pagina {
+    display: none;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 20px 15px 40px;
 }
 
-/* ==========================================
+#inicio {
+    display: block;
+}
+
+/* ==========================================================
    CABEÇALHO
-========================================== */
+   ========================================================== */
 
 .cabecalho {
-    background: var(--preto);
-    color: var(--branco);
+    position: relative;
     text-align: center;
-    padding: 20px 15px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
-    border-bottom: 4px solid var(--laranja);
+    padding: 30px 15px 25px;
+
+    background:
+        linear-gradient(
+            180deg,
+            #1d1d1d 0%,
+            #111111 100%
+        );
+
+    border-bottom: 3px solid #ff7200;
+    box-shadow: 0 5px 25px rgba(255, 102, 0, 0.20);
 }
 
 .cabecalho h1 {
-    font-size: 27px;
-    font-weight: 800;
-    margin-bottom: 5px;
+    font-size: 30px;
+    font-weight: 900;
+    color: #ff8500;
+    text-shadow: 0 2px 10px rgba(255, 117, 0, 0.35);
 }
 
 .cabecalho p {
+    margin-top: 6px;
+    color: #cccccc;
     font-size: 15px;
-    color: #eeeeee;
 }
 
 #statusFuncionamento {
     display: inline-block;
-    margin-top: 12px;
-    padding: 8px 15px;
-    border-radius: 20px;
-    background: var(--laranja);
-    color: white;
+    margin-top: 14px;
+    padding: 8px 18px;
+
+    background: #181818;
+    border: 1px solid #ff7200;
+    border-radius: 30px;
+
+    color: #ffffff;
     font-size: 14px;
     font-weight: bold;
 }
 
-/* ==========================================
-   ESTRUTURA
-========================================== */
+/* ==========================================================
+   TÍTULOS
+   ========================================================== */
 
-main {
-    width: 100%;
-    max-width: 700px;
-    margin: auto;
-}
-
-.pagina {
-    padding: 15px;
-}
-
-.pagina > h2 {
-    text-align: center;
+h2 {
+    color: #ff8500;
     font-size: 27px;
-    margin: 10px 0 20px;
-    color: var(--preto);
+    font-weight: 900;
+    text-align: center;
+    margin-bottom: 18px;
 }
 
-/* ==========================================
+h3 {
+    color: #ffffff;
+}
+
+/* ==========================================================
    INÍCIO
-========================================== */
+   ========================================================== */
 
-.blocoInicio {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.blocoInicio > h2 {
+#inicio {
     text-align: center;
-    font-size: 25px;
-    color: var(--preto);
 }
 
-.fraseInicio {
-    text-align: center;
-    color: var(--cinza-texto);
+#inicio > p {
+    color: #cccccc;
+    margin-bottom: 20px;
 }
 
-/* ==========================================
-   CARTÕES DE INFORMAÇÃO
-========================================== */
+.informacoes {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin: 20px 0;
+}
 
 .informacao {
-    background: var(--branco);
+    background: #151515;
+    border: 1px solid #292929;
     border-radius: 16px;
-    padding: 18px;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
-    border-left: 5px solid var(--laranja);
+
+    padding: 20px 15px;
+
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
 }
 
 .informacao h3 {
-    margin-bottom: 10px;
-    font-size: 19px;
-    color: var(--preto);
-}
-
-.informacao p {
+    color: #ff8500;
     margin-bottom: 8px;
 }
 
-/* ==========================================
-   DESTAQUE DO ALMOÇO
-========================================== */
+.informacao p {
+    color: #cccccc;
+}
+
+/* ==========================================================
+   DESTAQUE ALMOÇO
+   ========================================================== */
 
 .destaqueAlmoco {
-    text-align: center;
-    border: 2px solid var(--laranja);
-    border-left: 6px solid var(--laranja);
+    margin: 22px 0;
+
+    background:
+        linear-gradient(
+            135deg,
+            #241300,
+            #151515
+        );
+
+    border: 2px solid #ff7200;
+    border-radius: 20px;
+
+    padding: 25px 18px;
+
+    box-shadow:
+        0 8px 30px rgba(255, 102, 0, 0.18);
+}
+
+.destaqueAlmoco h3 {
+    font-size: 25px;
+    color: #ff9800;
+}
+
+.destaqueAlmoco p {
+    color: #dddddd;
+    margin: 5px 0;
 }
 
 .precoAlmoco {
-    color: var(--laranja);
-    font-size: 30px;
-    font-weight: 800;
-    margin: 10px 0;
+    font-size: 32px;
+    font-weight: 900;
+    color: #ffffff;
+    margin: 8px 0 18px;
 }
 
-/* ==========================================
-   BOTÃO ABRIR CARDÁPIO
-========================================== */
+/* ==========================================================
+   CARDÁPIO NA PÁGINA INICIAL
+   ========================================================== */
 
 .blocoCardapioInicio {
-    background: var(--branco);
-    border-radius: 18px;
-    padding: 25px 18px;
-    text-align: center;
-    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.12);
-    border-top: 5px solid var(--laranja);
+    margin-top: 25px;
+
+    padding: 30px 18px;
+
+    background:
+        linear-gradient(
+            145deg,
+            #191919,
+            #0f0f0f
+        );
+
+    border: 2px solid #ff7200;
+    border-radius: 22px;
+
+    box-shadow:
+        0 8px 30px rgba(255, 102, 0, 0.20);
 }
 
 .blocoCardapioInicio h2 {
-    font-size: 26px;
-    color: var(--preto);
+    font-size: 32px;
     margin-bottom: 8px;
 }
 
 .blocoCardapioInicio p {
-    color: var(--cinza-texto);
-    margin-bottom: 20px;
+    color: #bbbbbb;
+    margin-bottom: 22px;
 }
+
+/* ==========================================================
+   BOTÃO CARDÁPIO
+   ========================================================== */
 
 .botaoCardapio {
     width: 100%;
-    min-height: 68px;
+    max-width: 450px;
+
+    padding: 17px 20px;
+
     border: none;
-    border-radius: 15px;
-    background: var(--laranja);
-    color: white;
-    font-size: 20px;
-    font-weight: 800;
+    border-radius: 14px;
+
+    background:
+        linear-gradient(
+            135deg,
+            #ff9500,
+            #f05a00
+        );
+
+    color: #ffffff;
+
+    font-size: 19px;
+    font-weight: 900;
+
+    box-shadow:
+        0 7px 20px rgba(255, 90, 0, 0.30);
+
     cursor: pointer;
-    box-shadow: 0 5px 12px rgba(255, 107, 0, 0.3);
-}
 
-.botaoCardapio:hover {
-    background: var(--laranja-escuro);
-    transform: translateY(-2px);
-}
-
-/* ==========================================
-   BOTÕES
-========================================== */
-
-button {
-    border: none;
-    border-radius: 10px;
-    padding: 12px 15px;
-    background: var(--preto);
-    color: white;
-    font-size: 15px;
-    font-weight: bold;
-    cursor: pointer;
     transition: 0.2s;
 }
 
-button:hover {
-    opacity: 0.92;
-    transform: translateY(-1px);
+.botaoCardapio:hover {
+    transform: translateY(-2px);
+    filter: brightness(1.08);
 }
 
-.botaoMapa {
-    width: 100%;
-    margin-top: 10px;
-    background: var(--laranja);
+/* ==========================================================
+   BOTÕES GERAIS
+   ========================================================== */
+
+button {
+    font-family: Arial, Helvetica, sans-serif;
+    cursor: pointer;
 }
 
 .botaoSecundario {
-    width: 100%;
+    padding: 12px 18px;
+
+    background: #ff7200;
+    color: #ffffff;
+
+    border: none;
+    border-radius: 10px;
+
+    font-weight: 800;
+
+    transition: 0.2s;
 }
+
+.botaoSecundario:hover {
+    background: #ff8c00;
+}
+
+/* ==========================================================
+   BOTÃO VOLTAR
+   ========================================================== */
 
 .botaoVoltar {
-    background: var(--preto);
-}
-
-.botaoFinalizar {
     width: 100%;
-    margin-top: 20px;
-    min-height: 55px;
-    font-size: 17px;
-    background: var(--laranja);
+
+    padding: 12px;
+
+    margin-bottom: 18px;
+
+    background: #191919;
+    color: #ffffff;
+
+    border: 1px solid #333333;
+    border-radius: 10px;
+
+    font-weight: bold;
 }
 
-.botaoWhatsApp {
-    width: 100%;
-    min-height: 58px;
-    margin-top: 20px;
-    font-size: 17px;
-    background: var(--laranja);
+.botaoVoltar:hover {
+    border-color: #ff7200;
+    color: #ff8500;
 }
 
-.botaoAdicionar {
-    width: 100%;
-    margin-top: 15px;
-    background: var(--laranja);
-}
-
-/* ==========================================
-   TOPO DAS PÁGINAS
-========================================== */
-
-.topoPagina {
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    display: flex;
-    justify-content: space-between;
-    gap: 10px;
-    padding: 10px 0 15px;
-    background: var(--cinza);
-}
-
-.topoPagina button {
-    flex: 1;
-}
-
-.botaoCarrinhoTopo {
-    position: relative;
-    background: var(--laranja);
-}
-
-#contadorCarrinho,
-#contadorCarrinhoAlmoco {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 23px;
-    height: 23px;
-    margin-left: 5px;
-    padding: 2px 6px;
-    border-radius: 50%;
-    background: white;
-    color: var(--laranja);
-    font-size: 12px;
-    font-weight: 800;
-}
-
-/* ==========================================
+/* ==========================================================
    CATEGORIAS
-========================================== */
+   ========================================================== */
 
 .categorias {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+
+    margin-bottom: 20px;
 }
 
 .categorias button {
-    min-height: 68px;
-    font-size: 16px;
-    background: var(--preto);
-    border: 2px solid var(--laranja);
+    min-height: 52px;
+
+    background: #171717;
+    color: #ffffff;
+
+    border: 1px solid #333333;
+    border-radius: 12px;
+
+    font-weight: 800;
+
+    transition: 0.2s;
 }
 
 .categorias button:hover {
-    background: var(--laranja);
+    background: #ff7200;
+    border-color: #ff7200;
 }
 
-/* ==========================================
-   BUSCA
-========================================== */
-
-.busca {
-    margin-top: 20px;
+.categorias button:active {
+    background: #d95000;
 }
+
+/* ==========================================================
+   PESQUISA
+   ========================================================== */
 
 #campoBusca {
     width: 100%;
-    padding: 15px;
-    border: 2px solid var(--borda);
+
+    padding: 14px 16px;
+
+    margin-bottom: 20px;
+
+    background: #151515;
+    color: #ffffff;
+
+    border: 1px solid #333333;
     border-radius: 12px;
-    font-size: 16px;
+
     outline: none;
-    background: white;
+
+    font-size: 16px;
+}
+
+#campoBusca::placeholder {
+    color: #888888;
 }
 
 #campoBusca:focus {
-    border-color: var(--laranja);
+    border-color: #ff7200;
 }
 
-#resultadoBusca {
-    margin-top: 15px;
+/* ==========================================================
+   LISTAS DE PRODUTOS
+   ========================================================== */
+
+#listaPizzas,
+#listaLanches,
+#listaEsfirras,
+#listaHotdogs,
+#listaPorcoes,
+#listaBebidas,
+#listaMarmitas,
+#listaAlacarte,
+.listaProdutos {
+    display: grid;
+
+    grid-template-columns: repeat(2, 1fr);
+
+    gap: 15px;
 }
 
-/* ==========================================
-   PRODUTOS
-========================================== */
+/* ==========================================================
+   CARD DE PRODUTO
+   ========================================================== */
 
-.produto,
-.pizzaItem,
-.resultadoProduto {
-    background: var(--branco);
+.produto {
+    background:
+        linear-gradient(
+            145deg,
+            #1b1b1b,
+            #111111
+        );
+
+    border: 1px solid #303030;
     border-radius: 16px;
+
     padding: 17px;
-    margin-bottom: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    border-left: 4px solid var(--laranja);
+
+    box-shadow:
+        0 5px 18px rgba(0, 0, 0, 0.35);
+
+    transition: 0.2s;
 }
 
-.produto h3,
-.pizzaItem h3,
-.resultadoProduto h3 {
+.produto:hover {
+    border-color: #ff7200;
+    transform: translateY(-2px);
+}
+
+.produto h3 {
     font-size: 19px;
+    color: #ffffff;
     margin-bottom: 8px;
-    color: var(--preto);
 }
 
-.produto p,
-.pizzaItem p,
-.resultadoProduto p {
-    color: #555;
-    margin-bottom: 10px;
+.produto p {
+    color: #aaaaaa;
+    font-size: 14px;
+    margin-bottom: 12px;
 }
 
-.produto strong,
-.resultadoProduto strong {
+.produto .preco {
     display: block;
-    font-size: 20px;
-    color: var(--laranja);
+
+    color: #ff9800;
+
+    font-size: 22px;
+    font-weight: 900;
+
     margin-bottom: 12px;
 }
 
 .produto button {
     width: 100%;
-    background: var(--laranja);
+
+    padding: 11px;
+
+    background: #ff7200;
+    color: #ffffff;
+
+    border: none;
+    border-radius: 9px;
+
+    font-weight: 900;
+
+    transition: 0.2s;
 }
 
-/* ==========================================
-   PIZZAS
-========================================== */
-
-.listaPizzas {
-    width: 100%;
+.produto button:hover {
+    background: #ff8c00;
 }
 
-.listaPizzas > h3 {
-    font-size: 21px;
-    margin-bottom: 8px;
-    color: var(--preto);
-}
-
-#tamanhosPizza,
-#saboresPizza,
-#ingredientesPizza,
-#bordasPizza,
-#complementosPizza {
-    margin-top: 18px;
-}
-
-#tamanhosPizza button,
-#bordasPizza button,
-#complementosPizza button,
-#saboresPizza button {
-    width: 100%;
-    margin-bottom: 8px;
-    text-align: left;
-}
-
-#tamanhosPizza button:hover,
-#bordasPizza button:hover,
-#complementosPizza button:hover,
-#saboresPizza button:hover {
-    background: var(--laranja);
-}
-
-.pizzaItem button {
-    width: 100%;
-    background: var(--laranja);
-}
-
-.pizzaItem p {
-    margin-top: 8px;
-    font-size: 14px;
-}
-
-/* ==========================================
-   MONTAGEM
-========================================== */
+/* ==========================================================
+   MONTAGENS
+   ========================================================== */
 
 #montagemPizza,
 #montagemEsfirra,
 #montagemMarmita {
-    background: white;
+    margin-top: 20px;
+
+    background: #151515;
+
+    border: 1px solid #333333;
     border-radius: 16px;
+
     padding: 18px;
-    margin-top: 15px;
-    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
-    border-top: 4px solid var(--laranja);
 }
 
 #montagemPizza h3,
 #montagemEsfirra h3,
 #montagemMarmita h3 {
+    color: #ff8500;
     margin-bottom: 12px;
-    color: var(--preto);
 }
 
-/* ==========================================
-   ALMOÇO
-========================================== */
+/* ==========================================================
+   BOTÕES DE OPÇÕES
+   ========================================================== */
 
-.almocoHoje {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+#tamanhoPizza button,
+#saboresPizza button,
+#bordaPizza button,
+#complementosPizza button,
+#opcoesEsfirra button,
+#opcoesMarmita button {
+    margin: 4px;
+
+    padding: 10px 12px;
+
+    background: #222222;
+    color: #ffffff;
+
+    border: 1px solid #444444;
+    border-radius: 9px;
+
+    font-weight: bold;
 }
 
-.listaAlmoco {
-    background: white;
-    padding: 17px;
-    border-radius: 15px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
-    border-left: 4px solid var(--laranja);
+#tamanhoPizza button:hover,
+#saboresPizza button:hover,
+#bordaPizza button:hover,
+#complementosPizza button:hover,
+#opcoesEsfirra button:hover,
+#opcoesMarmita button:hover {
+    background: #ff7200;
+    border-color: #ff7200;
 }
 
-.listaAlmoco h3 {
-    margin-bottom: 8px;
-    color: var(--laranja);
+/* ==========================================================
+   INGREDIENTES
+   ========================================================== */
+
+#ingredientesPizza,
+#ingredientesEsfirra,
+#ingredientesMarmita {
+    margin: 12px 0;
+
+    padding: 13px;
+
+    background: #0e0e0e;
+
+    border-left: 4px solid #ff7200;
+    border-radius: 7px;
+
+    color: #bbbbbb;
 }
 
-.listaAlmoco p {
-    margin-bottom: 4px;
-}
-
-/* ==========================================
-   MARMITAS
-========================================== */
-
-#tamanhosMarmita button,
-#carnesMarmita button {
-    width: 100%;
-    margin-bottom: 8px;
-}
-
-#tamanhosMarmita button:hover,
-#carnesMarmita button:hover {
-    background: var(--laranja);
-}
-
-/* ==========================================
+/* ==========================================================
    CARRINHO
-========================================== */
+   ========================================================== */
 
 #listaCarrinho {
     display: flex;
@@ -506,287 +544,322 @@ button:hover {
 }
 
 .itemCarrinho {
-    background: white;
-    padding: 18px;
-    border-radius: 16px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    border-left: 5px solid var(--laranja);
+    background: #171717;
+
+    border: 1px solid #333333;
+    border-radius: 14px;
+
+    padding: 16px;
 }
 
 .itemCarrinho h3 {
-    margin-bottom: 8px;
-    color: var(--preto);
+    color: #ff8500;
+    margin-bottom: 6px;
 }
 
 .itemCarrinho p {
-    margin-bottom: 7px;
+    color: #cccccc;
 }
 
-.itemCarrinho small {
-    display: block;
-    color: #666;
-    margin-bottom: 10px;
+.itemCarrinho button {
+    margin: 5px 3px 0;
+
+    padding: 8px 11px;
+
+    background: #292929;
+    color: #ffffff;
+
+    border: 1px solid #444444;
+    border-radius: 8px;
 }
 
-.itemCarrinho div {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 12px;
+.itemCarrinho button:hover {
+    background: #ff7200;
 }
 
-.itemCarrinho div button {
-    min-width: 42px;
-    padding: 9px;
-}
+/* ==========================================================
+   TOTAL
+   ========================================================== */
 
 #totalCarrinho {
-    background: var(--preto);
-    color: white;
+    margin: 20px 0;
+
     padding: 18px;
-    margin-top: 15px;
+
+    text-align: center;
+
+    background:
+        linear-gradient(
+            135deg,
+            #241300,
+            #171717
+        );
+
+    border: 2px solid #ff7200;
     border-radius: 15px;
-    text-align: right;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+
+    color: #ff9800;
+
+    font-size: 25px;
+    font-weight: 900;
 }
 
-#totalCarrinho strong {
-    color: var(--laranja);
-}
-
-/* ==========================================
+/* ==========================================================
    CHECKOUT
-========================================== */
+   ========================================================== */
 
-.formulario {
-    background: white;
-    padding: 20px;
-    border-radius: 16px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-    border-top: 4px solid var(--laranja);
+#checkout {
+    text-align: left;
 }
 
-.formulario label {
-    display: block;
-    margin-top: 14px;
-    margin-bottom: 6px;
-    font-weight: bold;
-    color: var(--preto);
-}
-
-.formulario input,
-.formulario select {
+#checkout input,
+#checkout select,
+#checkout textarea {
     width: 100%;
+
     padding: 13px;
-    border: 2px solid var(--borda);
+
+    margin: 6px 0 12px;
+
+    background: #151515;
+    color: #ffffff;
+
+    border: 1px solid #333333;
     border-radius: 10px;
-    font-size: 16px;
-    background: white;
-}
 
-.formulario input:focus,
-.formulario select:focus {
     outline: none;
-    border-color: var(--laranja);
 }
 
-#enderecoArea,
-#areaTroco {
-    display: none;
+#checkout input:focus,
+#checkout select:focus,
+#checkout textarea:focus {
+    border-color: #ff7200;
 }
 
-.cupom {
-    display: flex;
-    gap: 8px;
-}
-
-.cupom input {
-    flex: 1;
-}
-
-.cupom button {
-    white-space: nowrap;
-    background: var(--laranja);
-}
-
-#resultadoCupom {
-    margin-top: 8px;
+#checkout label {
+    color: #dddddd;
     font-weight: bold;
-    color: var(--laranja);
 }
+
+/* ==========================================================
+   RESUMO
+   ========================================================== */
 
 #resumoCheckout {
-    background: #f4f4f4;
-    border-radius: 12px;
-    padding: 15px;
-    margin-top: 10px;
-    border-left: 4px solid var(--laranja);
+    margin-top: 18px;
+
+    padding: 17px;
+
+    background: #151515;
+
+    border: 1px solid #333333;
+    border-radius: 14px;
+
+    color: #dddddd;
 }
 
-#resumoCheckout p {
-    margin-bottom: 8px;
-}
-
-#resumoCheckout h3 {
-    margin-top: 12px;
-    font-size: 21px;
-    color: var(--laranja);
-}
-
-/* ==========================================
+/* ==========================================================
    SUCESSO
-========================================== */
+   ========================================================== */
 
 #sucesso {
     text-align: center;
-    padding-top: 50px;
 }
 
 #sucesso h2 {
-    font-size: 30px;
-    color: var(--laranja);
-    margin-bottom: 15px;
+    color: #38d66b;
 }
 
-#numeroPedido {
-    font-size: 30px;
-    color: var(--preto);
-    margin: 15px 0;
+#sucesso p {
+    color: #cccccc;
 }
 
-#statusPedido {
-    color: #555;
-}
-
-#sucesso button {
-    width: 100%;
-    margin-top: 25px;
-    background: var(--laranja);
-}
-
-/* ==========================================
+/* ==========================================================
    HISTÓRICO
-========================================== */
+   ========================================================== */
 
-.pedidoHistorico {
-    background: white;
-    padding: 17px;
-    border-radius: 15px;
-    margin-bottom: 12px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
-    border-left: 4px solid var(--laranja);
+#listaHistorico {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
 }
 
-.pedidoHistorico h3 {
-    margin-bottom: 8px;
-    color: var(--preto);
+.itemHistorico {
+    padding: 16px;
+
+    background: #171717;
+
+    border: 1px solid #333333;
+    border-radius: 14px;
 }
 
-.pedidoHistorico p {
-    margin-bottom: 5px;
-}
-
-/* ==========================================
+/* ==========================================================
    RODAPÉ
-========================================== */
+   ========================================================== */
 
 footer {
-    margin-top: 30px;
-    padding: 28px 15px;
-    background: var(--preto);
-    color: white;
-    text-align: center;
-    border-top: 4px solid var(--laranja);
-}
+    margin-top: 35px;
 
-footer p {
-    margin-bottom: 5px;
+    padding: 25px 15px;
+
+    text-align: center;
+
+    background: #070707;
+
+    border-top: 2px solid #ff7200;
+
+    color: #888888;
 }
 
 footer strong {
-    color: var(--laranja);
+    color: #ff8500;
 }
 
-/* ==========================================
-   EFEITO DE PRODUTOS
-========================================== */
+/* ==========================================================
+   TEMA CLARO
+   ========================================================== */
 
-.produto:hover,
-.pizzaItem:hover,
-.resultadoProduto:hover,
-.itemCarrinho:hover,
-.listaAlmoco:hover {
-    transform: translateY(-2px);
-    transition: 0.2s;
+.tema-claro {
+    background: #eeeeee;
+    color: #222222;
 }
 
-/* ==========================================
+.tema-claro .informacao,
+.tema-claro .produto,
+.tema-claro #montagemPizza,
+.tema-claro #montagemEsfirra,
+.tema-claro #montagemMarmita,
+.tema-claro .itemCarrinho,
+.tema-claro .itemHistorico {
+    background: #ffffff;
+    color: #222222;
+    border-color: #dddddd;
+}
+
+.tema-claro .produto h3,
+.tema-claro .itemCarrinho h3 {
+    color: #222222;
+}
+
+.tema-claro .produto p,
+.tema-claro .informacao p {
+    color: #555555;
+}
+
+.tema-claro #campoBusca,
+.tema-claro #checkout input,
+.tema-claro #checkout select,
+.tema-claro #checkout textarea {
+    background: #ffffff;
+    color: #222222;
+    border-color: #cccccc;
+}
+
+.tema-claro .categorias button {
+    background: #ffffff;
+    color: #222222;
+    border-color: #cccccc;
+}
+
+.tema-claro #ingredientesPizza,
+.tema-claro #ingredientesEsfirra,
+.tema-claro #ingredientesMarmita,
+.tema-claro #resumoCheckout {
+    background: #f5f5f5;
+    color: #333333;
+}
+
+/* ==========================================================
    CELULAR
-========================================== */
+   ========================================================== */
 
-@media (max-width: 480px) {
+@media (max-width: 700px) {
 
     .cabecalho {
-        padding: 18px 12px;
+        padding: 25px 12px 22px;
     }
 
     .cabecalho h1 {
-        font-size: 23px;
+        font-size: 24px;
+    }
+
+    .cabecalho p {
+        font-size: 14px;
     }
 
     .pagina {
-        padding: 12px;
+        padding: 17px 10px 30px;
     }
 
-    .pagina > h2 {
-        font-size: 23px;
+    h2 {
+        font-size: 24px;
     }
 
-    .categorias {
-        grid-template-columns: 1fr 1fr;
-        gap: 10px;
-    }
-
-    .categorias button {
-        min-height: 64px;
-        font-size: 14px;
-        padding: 10px;
-    }
-
-    button {
-        font-size: 14px;
+    .informacoes {
+        grid-template-columns: 1fr;
     }
 
     .blocoCardapioInicio {
-        padding: 22px 15px;
+        padding: 25px 15px;
+    }
+
+    .blocoCardapioInicio h2 {
+        font-size: 28px;
     }
 
     .botaoCardapio {
         font-size: 18px;
     }
 
-    .produto,
-    .pizzaItem,
-    .resultadoProduto {
-        padding: 15px;
+    .categorias {
+        grid-template-columns: repeat(2, 1fr);
     }
 
-    .formulario {
+    #listaPizzas,
+    #listaLanches,
+    #listaEsfirras,
+    #listaHotdogs,
+    #listaPorcoes,
+    #listaBebidas,
+    #listaMarmitas,
+    #listaAlacarte,
+    .listaProdutos {
+        grid-template-columns: 1fr;
+    }
+
+    .produto {
         padding: 16px;
+    }
+
+    .produto h3 {
+        font-size: 18px;
+    }
+
+    .precoAlmoco {
+        font-size: 28px;
     }
 }
 
-/* ==========================================
-   COMPUTADOR
-========================================== */
+/* ==========================================================
+   CELULARES PEQUENOS
+   ========================================================== */
 
-@media (min-width: 701px) {
+@media (max-width: 380px) {
 
-    main {
-        padding: 10px;
+    .cabecalho h1 {
+        font-size: 21px;
     }
 
     .categorias {
-        grid-template-columns: repeat(4, 1fr);
+        grid-template-columns: 1fr 1fr;
+        gap: 7px;
+    }
+
+    .categorias button {
+        font-size: 13px;
+    }
+
+    .precoAlmoco {
+        font-size: 25px;
     }
 }
