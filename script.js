@@ -1,19 +1,26 @@
-// ==========================================
-// RESTAURANTE LANCHONETE MM
-// JAVASCRIPT PRINCIPAL
-// ==========================================
+"use strict";
+
+/* =========================================================
+   RESTAURANTE LANCHONETE MM
+   SCRIPT PRINCIPAL
+========================================================= */
 
 const WHATSAPP = "5519981123401";
 const TAXA_ENTREGA = 5;
+
+const CHAVE_CARRINHO = "carrinhoMM";
+const CHAVE_PRODUTOS = "produtosMM";
+const CHAVE_HISTORICO = "historicoMM";
+const CHAVE_SEMENTE = "menuMMInicializadoV3";
 
 let carrinho = [];
 let desconto = 0;
 let cupomAplicado = "";
 
 
-// ==========================================
-// UTILIDADES
-// ==========================================
+/* =========================================================
+   FUNÇÕES BÁSICAS
+========================================================= */
 
 function dinheiro(valor) {
     return Number(valor || 0).toLocaleString("pt-BR", {
@@ -22,595 +29,2029 @@ function dinheiro(valor) {
     });
 }
 
-function salvarDados() {
-    localStorage.setItem("carrinhoMM", JSON.stringify(carrinho));
-    localStorage.setItem("descontoMM", desconto);
-    localStorage.setItem("cupomMM", cupomAplicado);
+
+function escaparHTML(texto) {
+    return String(texto ?? "")
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
 }
 
-function carregarDados() {
+
+function gerarId() {
+    return Date.now().toString(36) + Math.random()
+        .toString(36)
+        .substring(2, 9);
+}
+
+
+function slug(texto) {
+    return String(texto || "")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-+|-+$/g, "");
+}
+
+
+/* =========================================================
+   PIZZAS
+========================================================= */
+
+const PIZZAS_SALGADAS = [
+
+    {
+        nome: "Mussarela Suprema",
+        preco: 52,
+        descricao: "Molho rústico, muçarela, tomate fresco, azeitonas e orégano."
+    },
+
+    {
+        nome: "Calabresa Defumada com Cebola Roxa",
+        preco: 55,
+        descricao: "Molho, muçarela, linguiça calabresa defumada, cebola roxa caramelizada e manjericão."
+    },
+
+    {
+        nome: "Margherita D'Itália",
+        preco: 58,
+        descricao: "Tomates pelados, muçarela de búfala, tomates cereja confitados e manjericão fresco."
+    },
+
+    {
+        nome: "Frango Cremoso com Catupiry",
+        preco: 60,
+        descricao: "Molho, frango desfiado temperado, requeijão Catupiry original, milho e salsinha."
+    },
+
+    {
+        nome: "Portuguesa Tradicional",
+        preco: 62,
+        descricao: "Molho, muçarela, presunto artesanal, ovos cozidos, cebola roxa, ervilhas, azeitonas e pimentões."
+    },
+
+    {
+        nome: "Quatro Queijos Nobres",
+        preco: 65,
+        descricao: "Molho, muçarela, provolone, gorgonzola, Catupiry e grana padano."
+    },
+
+    {
+        nome: "Bacon Crocante com Milho",
+        preco: 58,
+        descricao: "Molho, muçarela, cubos de bacon defumado crocante e milho verde na manteiga."
+    },
+
+    {
+        nome: "Pepperoni com Mel Picante",
+        preco: 66,
+        descricao: "Molho, muçarela de búfala, pepperoni importado, pimenta dedo-de-moça e fio de mel com pimenta."
+    },
+
+    {
+        nome: "Napolitana Especial",
+        preco: 54,
+        descricao: "Molho rústico, muçarela, tomate fresco, alho frito dourado e parmesão maturado."
+    },
+
+    {
+        nome: "Margherita com Rúcula e Tomate Seco",
+        preco: 63,
+        descricao: "Molho, muçarela, rúcula selvagem, tomate seco artesanal e lascas de parmesão."
+    },
+
+    {
+        nome: "Alho com Parmesão Trufado",
+        preco: 56,
+        descricao: "Molho, muçarela, lâminas de alho na manteiga, parmesão gratinado e azeite trufado."
+    },
+
+    {
+        nome: "Palmito Pupunha com Catupiry",
+        preco: 64,
+        descricao: "Molho, muçarela, rodelas de palmito pupunha fresco e Catupiry."
+    },
+
+    {
+        nome: "Atum Sólido com Alcaparras",
+        preco: 65,
+        descricao: "Molho, muçarela, atum sólido em azeite, cebola roxa e alcaparras importadas."
+    },
+
+    {
+        nome: "Carne Seca com Cream Cheese",
+        preco: 68,
+        descricao: "Molho, muçarela, carne seca desfiada na manteiga de garrafa e cream cheese."
+    },
+
+    {
+        nome: "Escarola com Bacon",
+        preco: 59,
+        descricao: "Molho, muçarela, escarola fresca refogada, bacon em cubos crocantes e nozes picadas."
+    },
+
+    {
+        nome: "Brócolis com Bacon e Catupiry",
+        preco: 60,
+        descricao: "Molho, muçarela, brócolis ninja, bacon crocante, Catupiry e alho dourado."
+    },
+
+    {
+        nome: "Lombo Canadense com Abacaxi",
+        preco: 62,
+        descricao: "Molho, muçarela, lombo canadense defumado e pedaços de abacaxi caramelizados."
+    },
+
+    {
+        nome: "Moda da Casa Especial",
+        preco: 70,
+        descricao: "Molho, muçarela, carne moída temperada, bacon, champignon, cebola caramelizada e borda de Catupiry."
+    },
+
+    {
+        nome: "Mexicana Picante",
+        preco: 64,
+        descricao: "Molho, muçarela, carne moída com jalapeño, pimentões, cheddar cremoso e Doritos."
+    },
+
+    {
+        nome: "Caprese Suprema",
+        preco: 65,
+        descricao: "Molho, muçarela de búfala, tomates frescos, pesto de manjericão e balsâmico reduzido."
+    }
+
+];
+
+
+const PIZZAS_DOCES = [
+
+    {
+        nome: "Chocolate Belga com Morangos",
+        preco: 58,
+        descricao: "Chocolate belga cremoso e morangos frescos."
+    },
+
+    {
+        nome: "Prestígio Gourmet",
+        preco: 54,
+        descricao: "Chocolate cremoso, coco ralado e leite condensado."
+    },
+
+    {
+        nome: "Romeu e Julieta com Requeijão",
+        preco: 52,
+        descricao: "Goiabada cremosa, requeijão e queijo."
+    },
+
+    {
+        nome: "Banana Caramelizada com Doce de Leite",
+        preco: 55,
+        descricao: "Banana caramelizada, canela e doce de leite."
+    },
+
+    {
+        nome: "Sensação de Ninho com Morango",
+        preco: 60,
+        descricao: "Creme de leite Ninho, chocolate e morangos."
+    }
+
+];
+
+
+const BORDAS_PIZZA = [
+
+    {
+        nome: "Sem Borda",
+        preco: 0
+    },
+
+    {
+        nome: "Catupiry",
+        preco: 10
+    },
+
+    {
+        nome: "Cheddar",
+        preco: 10
+    },
+
+    {
+        nome: "Mussarela",
+        preco: 12
+    },
+
+    {
+        nome: "Provolone",
+        preco: 12
+    },
+
+    {
+        nome: "Requeijão com Alho Frito",
+        preco: 11
+    },
+
+    {
+        nome: "Vulcão/Pãozinho",
+        preco: 15
+    },
+
+    {
+        nome: "Chocolate ao Leite",
+        preco: 12
+    },
+
+    {
+        nome: "Chocolate Branco",
+        preco: 12
+    },
+
+    {
+        nome: "Doce de Leite",
+        preco: 10
+    },
+
+    {
+        nome: "Goiabada",
+        preco: 10
+    }
+
+];
+
+
+const COMPLEMENTOS_PIZZA = [
+
+    {
+        nome: "Azeite Trufado",
+        preco: 8
+    },
+
+    {
+        nome: "Bacon Crocante Extra",
+        preco: 7
+    },
+
+    {
+        nome: "Catupiry Extra",
+        preco: 8
+    },
+
+    {
+        nome: "Cheddar Extra",
+        preco: 7
+    },
+
+    {
+        nome: "Cebola Crispy",
+        preco: 5
+    },
+
+    {
+        nome: "Geleia de Pimenta",
+        preco: 6
+    },
+
+    {
+        nome: "Mussarela Extra",
+        preco: 8
+    },
+
+    {
+        nome: "Ovo Cozido Extra",
+        preco: 4
+    },
+
+    {
+        nome: "Parmesão Ralado",
+        preco: 6
+    },
+
+    {
+        nome: "Pimenta Biquinho",
+        preco: 5
+    }
+
+];
+
+
+/* =========================================================
+   LANCHES
+========================================================= */
+
+const LANCHES = [
+
+    {
+        nome: "Burger Clássico da Casa",
+        preco: 32,
+        descricao: "Pão brioche, hambúrguer artesanal, queijo muçarela, alface, tomate, cebola roxa e molho especial."
+    },
+
+    {
+        nome: "Burger Bacon Crispy",
+        preco: 38,
+        descricao: "Pão brioche, hambúrguer artesanal, cheddar, bacon crocante, alface, tomate e molho especial."
+    },
+
+    {
+        nome: "X-Tudo Especial",
+        preco: 42,
+        descricao: "Pão, hambúrguer, presunto, queijo, bacon, calabresa, ovo, alface, tomate e molho especial."
+    },
+
+    {
+        nome: "Burger de Frango Grelhado Fit",
+        preco: 30,
+        descricao: "Pão integral, frango grelhado, queijo branco, alface, tomate e molho de iogurte."
+    },
+
+    {
+        nome: "Burger Gorgonzola com Pera",
+        preco: 40,
+        descricao: "Pão brioche, hambúrguer artesanal, gorgonzola cremoso, pera caramelizada e rúcula."
+    },
+
+    {
+        nome: "Burger Costela Barbecue",
+        preco: 42,
+        descricao: "Pão brioche, hambúrguer de costela, cheddar, cebola crispy e molho barbecue."
+    },
+
+    {
+        nome: "Burger Picanha com Alho",
+        preco: 45,
+        descricao: "Pão brioche, hambúrguer de picanha, queijo, alho crocante, cebola caramelizada e molho especial."
+    },
+
+    {
+        nome: "Burger Vegetariano de Grão-de-Bico",
+        preco: 32,
+        descricao: "Pão brioche, hambúrguer de grão-de-bico, queijo, alface, tomate, cebola e molho especial."
+    },
+
+    {
+        nome: "Burger Cheddar Melt",
+        preco: 36,
+        descricao: "Pão brioche, hambúrguer artesanal, cheddar cremoso, cebola caramelizada e molho especial."
+    },
+
+    {
+        nome: "X-Salada Tradicional",
+        preco: 28,
+        descricao: "Pão, hambúrguer, queijo, alface, tomate, milho, ervilha e molho especial."
+    },
+
+    {
+        nome: "X-Bacon Simples",
+        preco: 30,
+        descricao: "Pão, hambúrguer artesanal, queijo, bacon crocante e molho especial."
+    },
+
+    {
+        nome: "X-Egg Burger",
+        preco: 29,
+        descricao: "Pão, hambúrguer artesanal, queijo, ovo, alface, tomate e molho especial."
+    },
+
+    {
+        nome: "Burger Duplo Smash",
+        preco: 38,
+        descricao: "Pão brioche, dois hambúrgueres smash, cheddar, cebola e molho especial."
+    },
+
+    {
+        nome: "Burger com Cream Cheese",
+        preco: 37,
+        descricao: "Pão brioche, hambúrguer artesanal, cream cheese, queijo, tomate e rúcula."
+    },
+
+    {
+        nome: "Burger de Frango Empanado (Chicken)",
+        preco: 34,
+        descricao: "Pão brioche, filé de frango empanado crocante, queijo, alface, tomate e molho especial."
+    },
+
+    {
+        nome: "X-Calabresa Lanche",
+        preco: 31,
+        descricao: "Pão, calabresa acebolada, queijo, alface, tomate e molho especial."
+    },
+
+    {
+        nome: "Burger Salada com Ovo",
+        preco: 35,
+        descricao: "Pão brioche, hambúrguer artesanal, queijo, ovo, alface, tomate e molho da casa."
+    },
+
+    {
+        nome: "Burger Poivre (Pimenta do Reino)",
+        preco: 39,
+        descricao: "Pão brioche, hambúrguer artesanal, molho cremoso de pimenta-do-reino e queijo."
+    },
+
+    {
+        nome: "Burger Trufado",
+        preco: 44,
+        descricao: "Pão brioche, hambúrguer artesanal, queijo, creme trufado, cebola caramelizada e rúcula."
+    },
+
+    {
+        nome: "Burger Mini Trio",
+        preco: 48,
+        descricao: "Três mini burgers artesanais com sabores variados da casa."
+    }
+
+];
+
+
+/* =========================================================
+   HOT DOGS
+========================================================= */
+
+const HOTDOGS = [
+
+    {
+        nome: "Hot Dog Tradicional",
+        preco: 22,
+        descricao: "Pão macio, salsicha, molho de tomate, milho, ervilha, batata palha e ketchup."
+    },
+
+    {
+        nome: "Hot Dog de Frango",
+        preco: 26,
+        descricao: "Pão, salsicha, frango desfiado temperado, queijo, milho, batata palha e molho especial."
+    },
+
+    {
+        nome: "Hot Dog Duplo Bacon",
+        preco: 28,
+        descricao: "Pão, duas salsichas, queijo, bacon crocante, milho, batata palha e molho especial."
+    },
+
+    {
+        nome: "Hot Dog Mexicano",
+        preco: 27,
+        descricao: "Pão, salsicha, carne moída temperada, cheddar, jalapeño, milho e molho picante."
+    },
+
+    {
+        nome: "Hot Dog Forno Gratinado",
+        preco: 30,
+        descricao: "Pão, salsicha, molho especial, presunto, queijo, catupiry e gratinado no forno."
+    },
+
+    {
+        nome: "Hot Dog Vegetariano",
+        preco: 24,
+        descricao: "Pão, legumes grelhados, milho, ervilha, queijo e molho especial."
+    },
+
+    {
+        nome: "Hot Dog Quatro Queijos",
+        preco: 29,
+        descricao: "Pão, salsicha, muçarela, cheddar, provolone, catupiry e batata palha."
+    },
+
+    {
+        nome: "Hot Dog Calabresa Acebolada",
+        preco: 26,
+        descricao: "Pão, salsicha, calabresa acebolada, queijo, milho e batata palha."
+    },
+
+    {
+        nome: "Hot Dog Cheddar e Crispy",
+        preco: 27,
+        descricao: "Pão, salsicha, cheddar cremoso, cebola crispy, milho e batata palha."
+    },
+
+    {
+        nome: "Hot Dog Especial da Casa",
+        preco: 32,
+        descricao: "Pão, salsicha, frango, bacon, queijo, cheddar, milho, ervilha, batata palha e molho especial."
+    }
+
+];
+
+
+/* =========================================================
+   ESFIRRAS
+========================================================= */
+
+const ESFIRRAS_SALGADAS = [
+
+    {
+        nome: "Carne com Hortelã",
+        preco: 8,
+        descricao: "Carne temperada, cebola, tomate e hortelã."
+    },
+
+    {
+        nome: "Frango com Catupiry",
+        preco: 8.5,
+        descricao: "Frango desfiado temperado e Catupiry."
+    },
+
+    {
+        nome: "Queijo Muçarela",
+        preco: 8,
+        descricao: "Muçarela derretida e orégano."
+    },
+
+    {
+        nome: "Calabresa com Queijo",
+        preco: 8.5,
+        descricao: "Calabresa fatiada, muçarela e cebola."
+    },
+
+    {
+        nome: "Quatro Queijos",
+        preco: 9,
+        descricao: "Muçarela, provolone, Catupiry e parmesão."
+    },
+
+    {
+        nome: "Carne Seca com Cream Cheese",
+        preco: 10,
+        descricao: "Carne seca desfiada e cream cheese."
+    },
+
+    {
+        nome: "Espinafre com Ricota",
+        preco: 8.5,
+        descricao: "Espinafre refogado, ricota e temperos."
+    },
+
+    {
+        nome: "Escarola com Bacon",
+        preco: 8.5,
+        descricao: "Escarola refogada, bacon e muçarela."
+    },
+
+    {
+        nome: "Palmito com Catupiry",
+        preco: 9,
+        descricao: "Palmito pupunha e Catupiry."
+    },
+
+    {
+        nome: "Pepperoni com Muçarela",
+        preco: 9.5,
+        descricao: "Pepperoni, muçarela e orégano."
+    },
+
+    {
+        nome: "Bacon com Milho e Catupiry",
+        preco: 9,
+        descricao: "Bacon crocante, milho e Catupiry."
+    },
+
+    {
+        nome: "Atum com Cebola",
+        preco: 9.5,
+        descricao: "Atum, cebola roxa e muçarela."
+    },
+
+    {
+        nome: "Lombo Canadense com Queijo",
+        preco: 9,
+        descricao: "Lombo canadense, muçarela e orégano."
+    },
+
+    {
+        nome: "Brócolis com Bacon",
+        preco: 8.5,
+        descricao: "Brócolis, bacon e muçarela."
+    },
+
+    {
+        nome: "Alho-Poró com Queijo",
+        preco: 8.5,
+        descricao: "Alho-poró refogado e muçarela."
+    },
+
+    {
+        nome: "Strogonoff de Frango",
+        preco: 9,
+        descricao: "Frango cremoso ao molho de strogonoff."
+    },
+
+    {
+        nome: "Mexicana (Picante)",
+        preco: 9.5,
+        descricao: "Carne temperada, pimentões, jalapeño e queijo."
+    },
+
+    {
+        nome: "Marguerita",
+        preco: 8.5,
+        descricao: "Muçarela, tomate, manjericão e orégano."
+    },
+
+    {
+        nome: "Catupiry com Alho Frito",
+        preco: 8.5,
+        descricao: "Catupiry cremoso e alho frito crocante."
+    },
+
+    {
+        nome: "Moda do Chef",
+        preco: 10.5,
+        descricao: "Carne, bacon, queijo, cebola caramelizada e tempero especial."
+    }
+
+];
+
+
+const ESFIRRAS_DOCES = [
+
+    {
+        nome: "Chocolate com Morango",
+        preco: 10,
+        descricao: "Chocolate cremoso e morangos."
+    },
+
+    {
+        nome: "Banana com Doce de Leite",
+        preco: 9.5,
+        descricao: "Banana, canela e doce de leite."
+    },
+
+    {
+        nome: "Prestígio",
+        preco: 9.5,
+        descricao: "Chocolate e coco."
+    },
+
+    {
+        nome: "Romeu e Julieta",
+        preco: 9,
+        descricao: "Goiabada e queijo."
+    },
+
+    {
+        nome: "Sensação de Ninho",
+        preco: 10.5,
+        descricao: "Creme de leite Ninho, chocolate e morango."
+    }
+
+];
+
+
+/* =========================================================
+   PORÇÕES
+========================================================= */
+
+const PORCOES = [
+
+    {
+        nome: "Batata Frita Rústica com Cheddar e Bacon",
+        preco: 38,
+        descricao: "Batatas rústicas crocantes, cheddar cremoso e bacon."
+    },
+
+    {
+        nome: "Frango à Passarinho Crocante",
+        preco: 45,
+        descricao: "Pedaços de frango temperados e fritos até ficarem crocantes."
+    },
+
+    {
+        nome: "Filé Mignon Acebolado com Fritas",
+        preco: 75,
+        descricao: "Tiras de filé mignon, cebola grelhada e batatas fritas."
+    },
+
+    {
+        nome: "Mandioca Frita com Carne de Sol",
+        preco: 58,
+        descricao: "Mandioca frita crocante acompanhada de carne de sol."
+    },
+
+    {
+        nome: "Anéis de Cebola Empanados",
+        preco: 28,
+        descricao: "Anéis de cebola empanados e crocantes."
+    },
+
+    {
+        nome: "Polenta Frita com Parmesão",
+        preco: 26,
+        descricao: "Polenta frita crocante com parmesão ralado."
+    },
+
+    {
+        nome: "Calabresa Acebolada com Fritas",
+        preco: 42,
+        descricao: "Calabresa fatiada acebolada acompanhada de fritas."
+    },
+
+    {
+        nome: "Iscas de Frango Empanadas",
+        preco: 44,
+        descricao: "Iscas de frango empanadas e crocantes."
+    },
+
+    {
+        nome: "Tábua de Frios Completa",
+        preco: 52,
+        descricao: "Seleção de frios, queijos, azeitonas e acompanhamentos."
+    },
+
+    {
+        nome: "Camarão à Milanesa com Molho Tártaro",
+        preco: 85,
+        descricao: "Camarões empanados e crocantes acompanhados de molho tártaro."
+    }
+
+];
+
+
+/* =========================================================
+   À LA CARTE
+========================================================= */
+
+const ALACARTE = [
+
+    {
+        nome: "Picanha na Chapa Completa",
+        preco: 110,
+        descricao: "Picanha grelhada, arroz, feijão, farofa, fritas e salada."
+    },
+
+    {
+        nome: "Strogonoff de Frango Gratinado",
+        preco: 52,
+        descricao: "Frango em molho cremoso, queijo gratinado, arroz e batata palha."
+    },
+
+    {
+        nome: "Peixe Grelhado ao Molho de Alcaparras",
+        preco: 62,
+        descricao: "Filé de peixe grelhado com molho de alcaparras, arroz e legumes."
+    },
+
+    {
+        nome: "Filé Mignon ao Molho Madeira",
+        preco: 72,
+        descricao: "Filé mignon grelhado ao molho madeira e acompanhamentos."
+    },
+
+    {
+        nome: "Frango Grelhado Fit",
+        preco: 46,
+        descricao: "Filé de frango grelhado, arroz integral e legumes."
+    },
+
+    {
+        nome: "Costela Bovina Assada na Brasa",
+        preco: 85,
+        descricao: "Costela bovina assada lentamente e acompanhamentos."
+    },
+
+    {
+        nome: "Salmão Grelhado com Molho de Maracujá",
+        preco: 78,
+        descricao: "Salmão grelhado, molho de maracujá e acompanhamentos."
+    },
+
+    {
+        nome: "Spaghetti à Carbonara",
+        preco: 54,
+        descricao: "Massa, bacon, ovos, parmesão e molho cremoso."
+    },
+
+    {
+        nome: "Bife de Ancho com Batatas Rústicas",
+        preco: 82,
+        descricao: "Bife de ancho grelhado acompanhado de batatas rústicas."
+    },
+
+    {
+        nome: "Risoto de Camarão Cremoso",
+        preco: 76,
+        descricao: "Arroz arbóreo, camarões, parmesão e molho cremoso."
+    },
+
+    {
+        nome: "Medalhão de Frango ao Bacon",
+        preco: 52,
+        descricao: "Medalhões de frango envolvidos em bacon e acompanhamentos."
+    },
+
+    {
+        nome: "Moqueca de Peixe com Camarão",
+        preco: 95,
+        descricao: "Peixe e camarões ao molho de coco, tomate, pimentão e azeite de dendê."
+    },
+
+    {
+        nome: "Lombo Suíno ao Molho Barbecue",
+        preco: 56,
+        descricao: "Lombo suíno grelhado com molho barbecue e acompanhamentos."
+    },
+
+    {
+        nome: "Arroz de Carreteiro Tradicional",
+        preco: 50,
+        descricao: "Arroz preparado com carne seca, linguiça e temperos."
+    },
+
+    {
+        nome: "Strogonoff de Carne Bovina",
+        preco: 60,
+        descricao: "Carne bovina ao molho cremoso de strogonoff, arroz e batata palha."
+    },
+
+    {
+        nome: "Filé de Peixe à Dorê",
+        preco: 58,
+        descricao: "Filé de peixe empanado e frito, acompanhado de arroz e salada."
+    },
+
+    {
+        nome: "Bife à Cavalo Completo",
+        preco: 64,
+        descricao: "Bife grelhado com ovos, arroz, feijão, fritas e salada."
+    },
+
+    {
+        nome: "Risoto de Funghi Secchi",
+        preco: 65,
+        descricao: "Arroz arbóreo cremoso com funghi secchi e parmesão."
+    }
+
+];
+
+
+/* =========================================================
+   PARMEGIANAS
+========================================================= */
+
+const PARMEGIANAS = [
+
+    {
+        id: "parmegiana-frango",
+        nome: "Parmegiana de Frango",
+        preco: 58,
+        descricao: "Filé de frango empanado, molho de tomate, muçarela gratinada e acompanhamentos."
+    },
+
+    {
+        id: "parmegiana-peixe",
+        nome: "Parmegiana de Peixe",
+        preco: 62,
+        descricao: "Filé de peixe empanado, molho especial, muçarela gratinada e acompanhamentos."
+    }
+
+];
+
+
+/*
+ * Para a parmegiana de carne o cliente escolhe
+ * Mignon ou Alcatra.
+ *
+ * O preço base será R$ 68,00 até que o restaurante
+ * defina preços diferentes para cada corte.
+ */
+const PARMEGIANA_CARNE_PRECO = 68;
+
+
+/* =========================================================
+   BEBIDAS
+========================================================= */
+
+const BEBIDAS = [
+
+    {
+        nome: "Coca-Cola Lata 350ml",
+        preco: 7,
+        descricao: "Refrigerante Coca-Cola lata 350ml."
+    },
+
+    {
+        nome: "Guaraná Antarctica Lata 350ml",
+        preco: 7,
+        descricao: "Refrigerante Guaraná Antarctica lata 350ml."
+    },
+
+    {
+        nome: "Sprite Lata 350ml",
+        preco: 7,
+        descricao: "Refrigerante Sprite lata 350ml."
+    },
+
+    {
+        nome: "Fanta Laranja Lata 350ml",
+        preco: 7,
+        descricao: "Refrigerante Fanta Laranja lata 350ml."
+    },
+
+    {
+        nome: "Fanta Uva Lata 350ml",
+        preco: 7,
+        descricao: "Refrigerante Fanta Uva lata 350ml."
+    },
+
+    {
+        nome: "Coca-Cola 2L",
+        preco: 14,
+        descricao: "Refrigerante Coca-Cola 2 litros."
+    },
+
+    {
+        nome: "Guaraná Antarctica 2L",
+        preco: 14,
+        descricao: "Refrigerante Guaraná Antarctica 2 litros."
+    },
+
+    {
+        nome: "Suco Natural de Laranja 400ml",
+        preco: 9,
+        descricao: "Suco natural de laranja."
+    },
+
+    {
+        nome: "Suco Natural de Limão 400ml",
+        preco: 9,
+        descricao: "Suco natural de limão."
+    },
+
+    {
+        nome: "Suco Natural de Maracujá 400ml",
+        preco: 9,
+        descricao: "Suco natural de maracujá."
+    },
+
+    {
+        nome: "Cerveja Heineken Long Neck",
+        preco: 10,
+        descricao: "Cerveja Heineken long neck."
+    },
+
+    {
+        nome: "Cerveja Stella Artois Long Neck",
+        preco: 10,
+        descricao: "Cerveja Stella Artois long neck."
+    },
+
+    {
+        nome: "Cerveja Amstel Long Neck",
+        preco: 10,
+        descricao: "Cerveja Amstel long neck."
+    },
+
+    {
+        nome: "Cerveja Original 600ml",
+        preco: 16,
+        descricao: "Cerveja Original 600ml."
+    },
+
+    {
+        nome: "Cerveja Heineken 600ml",
+        preco: 16,
+        descricao: "Cerveja Heineken 600ml."
+    },
+
+    {
+        nome: "Água Mineral 500ml com Gás",
+        preco: 5,
+        descricao: "Água mineral 500ml com gás."
+    },
+
+    {
+        nome: "Água Mineral 500ml sem Gás",
+        preco: 5,
+        descricao: "Água mineral 500ml sem gás."
+    }
+
+];
+
+
+/* =========================================================
+   CARDÁPIO DE ALMOÇO
+========================================================= */
+
+const CARDAPIO_ALMOCO = {
+
+    1: {
+        titulo: "Segunda-feira",
+        tema: "Almoço Caseiro de Segunda",
+        misturas: [
+            "Frango à milanesa",
+            "Bife acebolado",
+            "Carne de panela com legumes",
+            "Linguiça toscana grelhada"
+        ],
+        guarnicoes: [
+            "Arroz branco",
+            "Arroz integral",
+            "Feijão carioca",
+            "Macarrão ao sugo",
+            "Purê de batatas"
+        ],
+        saladas: [
+            "Alface americana",
+            "Tomate caipira",
+            "Salada de maionese de batata",
+            "Cenoura ralada com passas"
+        ],
+        complementos: [
+            "Bacon em cubos crocantes",
+            "Calabresa fatiada acebolada",
+            "Milho verde na manteiga"
+        ],
+        pizzas: [
+            "Mussarela Suprema",
+            "Calabresa Defumada com Cebola Roxa",
+            "Frango Cremoso com Catupiry",
+            "Margherita D'Itália",
+            "Chocolate Belga com Morangos",
+            "Prestígio Gourmet"
+        ],
+        sobremesas: [
+            "Pudim de leite condensado",
+            "Gelatina colorida"
+        ]
+    },
+
+    2: {
+        titulo: "Terça-feira",
+        tema: "Almoço Especial de Terça",
+        misturas: [
+            "Sobrecoxa assada ao forno",
+            "Carne moída com batata",
+            "Frango xadrez",
+            "Costelinha suína"
+        ],
+        guarnicoes: [
+            "Arroz branco",
+            "Feijão preto",
+            "Farofa de bacon",
+            "Polenta frita",
+            "Espaguete à bolonhesa"
+        ],
+        saladas: [
+            "Alface crespa",
+            "Tomate cereja com rúcula",
+            "Beterraba cozida em cubos",
+            "Repolho roxo com abacaxi"
+        ],
+        complementos: [
+            "Catupiry original",
+            "Cheddar cremoso",
+            "Ovos cozidos fatiados"
+        ],
+        pizzas: [
+            "Margherita D'Itália",
+            "Portuguesa Tradicional",
+            "Bacon Crocante com Milho",
+            "Napolitana Especial",
+            "Romeu e Julieta com Requeijão",
+            "Banana Caramelizada com Doce de Leite"
+        ],
+        sobremesas: [
+            "Mousse de maracujá",
+            "Pavê de chocolate"
+        ]
+    },
+
+    3: {
+        titulo: "Quarta-feira",
+        tema: "Quarta da Feijoada",
+        misturas: [
+            "Feijoada completa",
+            "Strogonoff de frango",
+            "Filé de peixe à dorê",
+            "Bife de gado acebolado"
+        ],
+        guarnicoes: [
+            "Arroz branco",
+            "Farofa de ovos",
+            "Couve à mineira",
+            "Mandioca cozida",
+            "Batata frita"
+        ],
+        saladas: [
+            "Mix de folhas nobres",
+            "Salada tropical com manga",
+            "Vinagrete fresco",
+            "Tomate em rodelas"
+        ],
+        complementos: [
+            "Bacon crocante",
+            "Palmito pupunha",
+            "Champignon fresco fatiado"
+        ],
+        pizzas: [
+            "Quatro Queijos Nobres",
+            "Pepperoni com Mel Picante",
+            "Margherita com Rúcula e Tomate Seco",
+            "Alho com Parmesão Trufado",
+            "Chocolate Branco",
+            "Sensação de Ninho"
+        ],
+        sobremesas: [
+            "Torta de limão",
+            "Manjar branco com calda de ameixa"
+        ]
+    },
+
+    4: {
+        titulo: "Quinta-feira",
+        tema: "Almoço Especial de Quinta",
+        misturas: [
+            "Frango à parmegiana",
+            "Carne de panela com mandioca",
+            "Sobrecoxa ao forno",
+            "Linguiça calabresa acebolada"
+        ],
+        guarnicoes: [
+            "Arroz branco",
+            "Arroz com brócolis",
+            "Feijão carioca",
+            "Macarrão ao alho e óleo",
+            "Batata rústica"
+        ],
+        saladas: [
+            "Alface americana",
+            "Salada grega",
+            "Cenoura ralada",
+            "Maionese de legumes"
+        ],
+        complementos: [
+            "Catupiry",
+            "Cheddar",
+            "Milho verde",
+            "Bacon crocante"
+        ],
+        pizzas: [
+            "Palmito Pupunha com Catupiry",
+            "Atum Sólido com Alcaparras",
+            "Carne Seca com Cream Cheese",
+            "Escarola com Bacon",
+            "Chocolate Belga com Morangos",
+            "Sensação de Ninho com Morango"
+        ],
+        sobremesas: [
+            "Pudim de leite condensado",
+            "Mousse de maracujá"
+        ]
+    },
+
+    5: {
+        titulo: "Sexta-feira",
+        tema: "Sexta Especial",
+        misturas: [
+            "Peixe à milanesa",
+            "Picanha suína grelhada",
+            "Frango xadrez",
+            "Costelinha de porco frita"
+        ],
+        guarnicoes: [
+            "Arroz branco",
+            "Feijão preto",
+            "Farofa panko",
+            "Espaguete à carbonara",
+            "Polenta cremosa"
+        ],
+        saladas: [
+            "Mix de folhas",
+            "Tomate com muçarela de búfala",
+            "Salada tropical com manga",
+            "Beterraba"
+        ],
+        complementos: [
+            "Calabresa fatiada",
+            "Ovos cozidos",
+            "Champignon",
+            "Bacon"
+        ],
+        pizzas: [
+            "Brócolis com Bacon e Catupiry",
+            "Lombo Canadense com Abacaxi",
+            "Moda da Casa Especial",
+            "Mexicana Picante",
+            "Prestígio Gourmet",
+            "Romeu e Julieta com Requeijão"
+        ],
+        sobremesas: [
+            "Pavê de chocolate",
+            "Torta de limão"
+        ]
+    },
+
+    6: {
+        titulo: "Sábado",
+        tema: "Sábado Especial",
+        misturas: [
+            "Feijoada da casa",
+            "Frango caipira com quiabo",
+            "Lagarto fatiado ao molho madeira",
+            "Picanha suína grelhada"
+        ],
+        guarnicoes: [
+            "Arroz branco",
+            "Feijão preto",
+            "Couve refogada",
+            "Mandioca frita",
+            "Pirão",
+            "Farofa da casa"
+        ],
+        saladas: [
+            "Salada caesar com croutons",
+            "Tomate cereja com rúcula",
+            "Vinagrete",
+            "Alface crespa"
+        ],
+        complementos: [
+            "Bacon em cubos",
+            "Catupiry",
+            "Cheddar",
+            "Milho verde",
+            "Palmito"
+        ],
+        pizzas: [
+            "Caprese Suprema",
+            "Mussarela Suprema",
+            "Margherita D'Itália",
+            "Pepperoni com Mel Picante",
+            "Banana Caramelizada com Doce de Leite",
+            "Chocolate Branco"
+        ],
+        sobremesas: [
+            "Manjar branco",
+            "Gelatina colorida",
+            "Pudim de leite"
+        ]
+    },
+
+    0: {
+        titulo: "Domingo",
+        tema: "Domingo Especial em Família",
+        misturas: [
+            "Frango assado inteiro",
+            "Lagarto recheado",
+            "Costela bovina assada",
+            "Filé de frango à milanesa"
+        ],
+        guarnicoes: [
+            "Arroz branco",
+            "Arroz com passas",
+            "Feijão carioca",
+            "Batata souté com ervas",
+            "Espaguete à bolonhesa"
+        ],
+        saladas: [
+            "Salada tropical completa",
+            "Salada de maionese cremosa",
+            "Tomate recheado com atum",
+            "Mix de folhas"
+        ],
+        complementos: [
+            "Bacon crocante",
+            "Calabresa acebolada",
+            "Catupiry",
+            "Cheddar",
+            "Ovos cozidos"
+        ],
+        pizzas: [
+            "Quatro Queijos Nobres",
+            "Frango Cremoso com Catupiry",
+            "Portuguesa Tradicional",
+            "Moda da Casa Especial",
+            "Sensação de Ninho com Morango",
+            "Chocolate Belga com Morangos"
+        ],
+        sobremesas: [
+            "Pavê de chocolate",
+            "Pudim de leite condensado",
+            "Torta de limão"
+        ]
+    }
+
+};
+
+
+/* =========================================================
+   CARDÁPIO DE JANTAR
+========================================================= */
+
+const CARDAPIO_JANTAR = {
+
+    1: {
+        titulo: "Segunda-feira",
+        tema: "Noite Leve e Reconfortante",
+
+        entradas: [
+            "Mix de folhas verdes com cenoura ralada, gomos de laranja e molho cítrico",
+            "Caldo verde tradicional"
+        ],
+
+        principais: [
+            "Filé de frango grelhado com ervas finas e molho de mostarda suave",
+            "Filé de tilápia assado com crosta de ervas e limão siciliano"
+        ],
+
+        guarnicoes: [
+            "Arroz branco",
+            "Arroz integral com castanhas",
+            "Purê de batata-doce",
+            "Legumes ao vapor (brócolis e cenoura)"
+        ],
+
+        sobremesas: [
+            "Salada de frutas da estação com hortelã",
+            "Manjar branco com calda de ameixa"
+        ]
+    },
+
+    2: {
+        titulo: "Terça-feira",
+        tema: "Noite Italiana",
+
+        entradas: [
+            "Salada Caprese (tomate, muçarela de búfala e manjericão)",
+            "Sopa de legumes com massinha"
+        ],
+
+        principais: [
+            "Escalopes de carne ao molho madeira com champignon",
+            "Rondelli recheado com presunto e queijo ao molho pomodoro rústico"
+        ],
+
+        guarnicoes: [
+            "Arroz branco",
+            "Polenta cremosa com parmesão",
+            "Mix de legumes salteados na manteiga"
+        ],
+
+        sobremesas: [
+            "Pavê de chocolate",
+            "Torta de limão"
+        ]
+    },
+
+    3: {
+        titulo: "Quarta-feira",
+        tema: "Noite Brasileira / Confort Food",
+
+        entradas: [
+            "Salada de repolho com abacaxi e maionese leve",
+            "Caldinho de feijão com bacon crocante"
+        ],
+
+        principais: [
+            "Picadinho de carne com legumes e ovos pochê",
+            "Filé de frango à parmegiana (em porções menores)"
+        ],
+
+        guarnicoes: [
+            "Arroz branco",
+            "Farofa de banana-da-terra",
+            "Couve à mineira refogada com alho",
+            "Fatias de laranja"
+        ],
+
+        sobremesas: [
+            "Pudim de leite condensado",
+            "Cocada cremosa"
+        ]
+    },
+
+    4: {
+        titulo: "Quinta-feira",
+        tema: "Noite do Chef (Carnes Nobres)",
+
+        entradas: [
+            "Carpaccio de carne com alcaparras, parmesão e molho de mostarda e mel",
+            "Creme de palmito"
+        ],
+
+        principais: [
+            "Medalhões de filé mignon ao molho de vinho tinto",
+            "Salmão grelhado ao molho de alcaparras e manteiga noisette"
+        ],
+
+        guarnicoes: [
+            "Arroz branco",
+            "Arroz de amêndoas",
+            "Batatas rústicas ao alecrim",
+            "Aspargos salteados"
+        ],
+
+        sobremesas: [
+            "Petit Gâteau de chocolate com calda de frutas vermelhas",
+            "Cheesecake de frutas vermelhas"
+        ]
+    },
+
+    5: {
+        titulo: "Sexta-feira",
+        tema: "Início de Fim de Semana (Descontraído)",
+
+        entradas: [
+            "Tábua de frios, castanhas e torradas aromatizadas",
+            "Creme de mandioquinha com carne-seca"
+        ],
+
+        principais: [
+            "Picanha fatiada ao ponto com molho à campanha",
+            "Bacalhau à Gomes de Sá (batatas, cebolas, azeitonas e lascas de bacalhau)"
+        ],
+
+        guarnicoes: [
+            "Arroz branco",
+            "Arroz bi-bi (com ovos mexidos e bacon)",
+            "Batata frita rústica",
+            "Farofa rica"
+        ],
+
+        sobremesas: [
+            "Torta holandesa",
+            "Mousse de maracujá"
+        ]
+    },
+
+    6: {
+        titulo: "Sábado",
+        tema: "Noite Festiva e Sofisticada",
+
+        entradas: [
+            "Salada Waldorf (maçã, aipo, nozes e maionese leve)",
+            "Sopa de cebola gratinada"
+        ],
+
+        principais: [
+            "Rosbife de carne com molho roastbeef e cogumelos",
+            "Risoto de camarão cremoso",
+            "Lasanha à bolonhesa tradicional"
+        ],
+
+        guarnicoes: [
+            "Arroz branco",
+            "Arroz com brócolis e alho dourado",
+            "Purê de mandioquinha",
+            "Legumes grelhados na brasa (abobrinha, berinjela e pimentões)"
+        ],
+
+        sobremesas: [
+            "Tiramisu tradicional",
+            "Torta três chocolates"
+        ]
+    },
+
+    0: {
+        titulo: "Domingo",
+        tema: "Jantar Afetivo e Confortável",
+
+        entradas: [
+            "Mix de folhas com tomate-cereja, palmito e croutons",
+            "Sopa de tomates assados com manjericão"
+        ],
+
+        principais: [
+            "Pernil suíno assado com molho agridoce de abacaxi",
+            "Sobrecoxas de frango assadas com ervas",
+            "Escondidinho de carne-seca com requeijão"
+        ],
+
+        guarnicoes: [
+            "Arroz branco",
+            "Arroz grego (com ervilhas, cenoura e passas)",
+            "Batatas sautées na manteiga",
+            "Farofa de ovos"
+        ],
+
+        sobremesas: [
+            "Bolo de cenoura com cobertura de chocolate",
+            "Pudim"
+        ]
+    }
+
+};
+
+
+/* =========================================================
+   MENU ESPECIAL DE FERIADOS
+========================================================= */
+
+const CARDAPIO_FERIADO = {
+
+    titulo: "Menu Especial de Celebração",
+    tema: "Menu Especial de Celebração",
+
+    entradas: [
+        "Bruschettas variadas (tomate com manjericão e pasta de cogumelos com trufas)",
+        "Salada de folhas nobres com figos frescos, queijo brie e nozes ao molho de romã"
+    ],
+
+    principais: [
+        "Paleta de cordeiro assada lentamente ao molho de hortelã e vinho",
+        "Robalo assado ao forno com molho de camarão e alho-poró",
+        "Nhoque artesanal de mandioquinha com molho de tomate rústico"
+    ],
+
+    guarnicoes: [
+        "Arroz de amêndoas douradas",
+        "Arroz branco",
+        "Batatas hasselback assadas com azeite e tomilho",
+        "Aspargos frescos confitados"
+    ],
+
+    sobremesas: [
+        "Mil-folhas de creme pâtissier e frutas vermelhas",
+        "Petit gâteau com sorvete de baunilha",
+        "Torta mousse de chocolate belga"
+    ]
+
+};
+
+
+/* =========================================================
+   FERIADOS FIXOS
+========================================================= */
+
+const FERIADOS_FIXOS = [
+    "01-01",
+    "04-21",
+    "05-01",
+    "09-07",
+    "10-12",
+    "11-02",
+    "11-15",
+    "11-20",
+    "12-25"
+];
+
+
+function ehFeriado() {
+
+    const hoje = new Date();
+
+    const mes = String(hoje.getMonth() + 1).padStart(2, "0");
+    const dia = String(hoje.getDate()).padStart(2, "0");
+
+    return FERIADOS_FIXOS.includes(`${mes}-${dia}`);
+}
+
+
+/* =========================================================
+   PRODUTOS DO PDV
+========================================================= */
+
+function obterProdutosPDV() {
+
     try {
-        carrinho = JSON.parse(localStorage.getItem("carrinhoMM")) || [];
-    } catch {
-        carrinho = [];
+
+        const dados = localStorage.getItem(CHAVE_PRODUTOS);
+
+        if (!dados) {
+            return [];
+        }
+
+        const produtos = JSON.parse(dados);
+
+        return Array.isArray(produtos)
+            ? produtos
+            : [];
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao carregar produtos do PDV:",
+            erro
+        );
+
+        return [];
     }
-
-    desconto = Number(localStorage.getItem("descontoMM")) || 0;
-    cupomAplicado = localStorage.getItem("cupomMM") || "";
 }
 
 
-// ==========================================
-// TEMA
-// ==========================================
+/* =========================================================
+   DISPONIBILIDADE
+========================================================= */
 
-function alternarTema() {
+function produtoDisponivel(nome, categoria) {
 
-    const claro = document.body.classList.toggle("tema-claro");
+    const produtos = obterProdutosPDV();
 
-    localStorage.setItem(
-        "temaMM",
-        claro ? "claro" : "escuro"
-    );
+    const encontrado = produtos.find(produto => {
 
-    atualizarBotaoTema();
-}
+        const mesmoNome =
+            slug(produto.nome) === slug(nome);
 
-function carregarTema() {
+        if (!categoria) {
+            return mesmoNome;
+        }
 
-    const tema =
-        localStorage.getItem("temaMM") || "escuro";
+        return (
+            mesmoNome &&
+            slug(produto.categoria) === slug(categoria)
+        );
 
-    document.body.classList.toggle(
-        "tema-claro",
-        tema === "claro"
-    );
-
-    atualizarBotaoTema();
-}
-
-function atualizarBotaoTema() {
-
-    const botao =
-        document.getElementById("botaoTema");
-
-    if (!botao) return;
-
-    botao.textContent =
-        document.body.classList.contains("tema-claro")
-            ? "🌙 Modo escuro"
-            : "☀️ Modo claro";
-}
+    });
 
 
-// ==========================================
-// HORÁRIO DE FUNCIONAMENTO
-// ==========================================
-
-function obterPeriodoFuncionamento() {
-
-    const agora = new Date();
-
-    const dia = agora.getDay();
-
-    const minutos =
-        agora.getHours() * 60 +
-        agora.getMinutes();
-
-
-    // ==============================
-    // ALMOÇO
-    // ==============================
-
-    // Segunda a sexta
-    if (
-        dia >= 1 &&
-        dia <= 5 &&
-        minutos >= 660 &&
-        minutos <= 900
-    ) {
-        return "almoco";
+    if (!encontrado) {
+        return true;
     }
 
 
-    // Sábado e domingo
-    if (
-        (dia === 0 || dia === 6) &&
-        minutos >= 690 &&
-        minutos <= 930
-    ) {
-        return "almoco";
-    }
-
-
-    // ==============================
-    // NOITE
-    // ==============================
-
-    // Terça a sábado + domingo
-    // Domingo também funciona à noite
-    if (
-        (dia === 0 || (dia >= 2 && dia <= 6)) &&
-        minutos >= 1080 &&
-        minutos <= 1350
-    ) {
-        return "noite";
-    }
-
-
-    return "fechado";
+    return encontrado.disponivel !== false;
 }
 
 
-function pedidoEstaLiberado() {
+/* =========================================================
+   INICIALIZAÇÃO DO CATÁLOGO
+========================================================= */
 
-    return obterPeriodoFuncionamento() !== "fechado";
-}
+function inicializarCatalogo() {
+
+    let produtos = obterProdutosPDV();
 
 
-// ==========================================
-// CATEGORIAS PERMITIDAS
-// ==========================================
+    const bases = [
 
-function categoriaPermitidaMM(id) {
+        ...LANCHES.map(item => ({
+            nome: item.nome,
+            categoria: "Lanches",
+            preco: item.preco,
+            descricao: item.descricao
+        })),
 
-    const paginasLivres = [
-        "inicio",
-        "cardapio",
-        "carrinho",
-        "checkout",
-        "sucesso",
-        "historico"
+        ...HOTDOGS.map(item => ({
+            nome: item.nome,
+            categoria: "Hot Dogs",
+            preco: item.preco,
+            descricao: item.descricao
+        })),
+
+        ...ESFIRRAS_SALGADAS.map(item => ({
+            nome: item.nome,
+            categoria: "Esfirras",
+            preco: item.preco,
+            descricao: item.descricao
+        })),
+
+        ...ESFIRRAS_DOCES.map(item => ({
+            nome: item.nome,
+            categoria: "Esfirras",
+            preco: item.preco,
+            descricao: item.descricao
+        })),
+
+        ...PORCOES.map(item => ({
+            nome: item.nome,
+            categoria: "Porções",
+            preco: item.preco,
+            descricao: item.descricao
+        })),
+
+        ...ALACARTE.map(item => ({
+            nome: item.nome,
+            categoria: "À La Carte",
+            preco: item.preco,
+            descricao: item.descricao
+        })),
+
+        ...PARMEGIANAS.map(item => ({
+            nome: item.nome,
+            categoria: "Parmegianas",
+            preco: item.preco,
+            descricao: item.descricao
+        })),
+
+        ...BEBIDAS.map(item => ({
+            nome: item.nome,
+            categoria: "Bebidas",
+            preco: item.preco,
+            descricao: item.descricao
+        })),
+
+        ...PIZZAS_SALGADAS.map(item => ({
+            nome: item.nome,
+            categoria: "Pizzas",
+            preco: item.preco,
+            descricao: item.descricao
+        })),
+
+        ...PIZZAS_DOCES.map(item => ({
+            nome: item.nome,
+            categoria: "Pizzas",
+            preco: item.preco,
+            descricao: item.descricao
+        }))
+
     ];
 
-    if (paginasLivres.includes(id)) {
-        return true;
-    }
+
+    let alterou = false;
 
 
-    const periodo =
-        obterPeriodoFuncionamento();
+    bases.forEach(base => {
+
+        const existente = produtos.find(produto =>
+            slug(produto.nome) === slug(base.nome) &&
+            slug(produto.categoria) === slug(base.categoria)
+        );
 
 
-    // Fechado:
-    // pode navegar e montar carrinho
-    if (periodo === "fechado") {
-        return true;
-    }
+        if (!existente) {
 
+            produtos.push({
+                id: gerarId(),
+                nome: base.nome,
+                categoria: base.categoria,
+                preco: Number(base.preco),
+                descricao: base.descricao || "",
+                disponivel: true
+            });
 
-    // ALMOÇO
-    if (periodo === "almoco") {
+            alterou = true;
 
-        return [
-            "almoco",
-            "marmitas",
-            "bebidas"
-        ].includes(id);
+        } else {
 
-    }
+            if (existente.preco === undefined) {
+                existente.preco = base.preco;
+                alterou = true;
+            }
 
+            if (existente.descricao === undefined) {
+                existente.descricao = base.descricao || "";
+                alterou = true;
+            }
 
-    // NOITE
-    if (periodo === "noite") {
-
-        return [
-            "pizzas",
-            "lanches",
-            "hotdogs",
-            "esfirras",
-            "porcoes",
-            "bebidas",
-            "alacarte"
-        ].includes(id);
-
-    }
-
-
-    return true;
-}
-
-
-// ==========================================
-// STATUS
-// ==========================================
-
-function verificarFuncionamento() {
-
-    const elemento =
-        document.getElementById("statusFuncionamento");
-
-    if (!elemento) return;
-
-
-    const periodo =
-        obterPeriodoFuncionamento();
-
-
-    if (periodo === "almoco") {
-
-        elemento.innerHTML =
-            "🟢 Estamos abertos para o almoço!";
-
-    } else if (periodo === "noite") {
-
-        elemento.innerHTML =
-            "🟢 Estamos abertos!";
-
-    } else {
-
-        elemento.innerHTML =
-            "🔴 Estamos fechados para novos pedidos. Você pode montar seu carrinho.";
-
-    }
-}
-
-
-// ==========================================
-// NAVEGAÇÃO
-// ==========================================
-
-function abrirPagina(id) {
-
-    if (!document.getElementById(id)) {
-        return;
-    }
-
-
-    // Bloqueia categoria somente quando
-    // estiver aberto em outro período.
-    if (!categoriaPermitidaMM(id)) {
-
-        const periodo =
-            obterPeriodoFuncionamento();
-
-        if (periodo === "almoco") {
-
-            alert(
-                "🍛 Neste momento estamos atendendo somente o almoço, marmitas e bebidas."
-            );
-
-        } else if (periodo === "noite") {
-
-            alert(
-                "🌙 Neste momento estamos atendendo somente o cardápio da noite."
-            );
+            if (existente.disponivel === undefined) {
+                existente.disponivel = true;
+                alterou = true;
+            }
 
         }
 
+    });
+
+
+    if (alterou || !localStorage.getItem(CHAVE_SEMENTE)) {
+
+        localStorage.setItem(
+            CHAVE_PRODUTOS,
+            JSON.stringify(produtos)
+        );
+
+        localStorage.setItem(
+            CHAVE_SEMENTE,
+            "true"
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   NAVEGAÇÃO
+========================================================= */
+
+function abrirPagina(id) {
+
+    const paginas =
+        document.querySelectorAll(".pagina");
+
+
+    paginas.forEach(pagina => {
+
+        pagina.classList.remove("ativa");
+
+    });
+
+
+    const destino =
+        document.getElementById(id);
+
+
+    if (!destino) {
+        console.warn(
+            "Página não encontrada:",
+            id
+        );
         return;
     }
 
 
-    document
-        .querySelectorAll(".pagina")
-        .forEach(pagina => {
-            pagina.style.display = "none";
-        });
-
-
-    const pagina =
-        document.getElementById(id);
-
-    pagina.style.display = "block";
-
-
-    if (id === "almoco") {
-        mostrarCardapioAlmoco();
-    }
-
-    if (id === "pizzas") {
-        criarPizzas();
-        criarTamanhosPizza();
-        criarSaboresPizza();
-        mostrarBordasPizza();
-        mostrarComplementosPizza();
-    }
-
-    if (id === "lanches") {
-        criarLanches();
-    }
-
-    if (id === "esfirras") {
-        criarEsfirras();
-    }
-
-    if (id === "hotdogs") {
-        criarHotdogs();
-    }
-
-    if (id === "porcoes") {
-        criarPorcoes();
-    }
-
-    if (id === "bebidas") {
-        criarBebidas();
-    }
-
-    if (id === "marmitas") {
-        criarMarmitas();
-    }
-
-    if (id === "alacarte") {
-        criarAlacarte();
-    }
-
-    if (id === "carrinho") {
-        atualizarCarrinho();
-    }
-
-    if (id === "checkout") {
-        atualizarResumoCheckout();
-    }
-
-    if (id === "historico") {
-        mostrarHistorico();
-    }
+    destino.classList.add("ativa");
 
 
     window.scrollTo({
         top: 0,
         behavior: "smooth"
     });
-}
 
 
-function voltarInicio() {
-
-    abrirPagina("inicio");
-}
-
-
-function abrirCarrinho() {
-
-    atualizarCarrinho();
-
-    abrirPagina("carrinho");
-}
-
-
-// ==========================================
-// ALMOÇO
-// ==========================================
-
-const buffetFrio = [
-    "Salada verde",
-    "Tomate",
-    "Cenoura ralada",
-    "Beterraba",
-    "Maionese",
-    "Salada de macarrão"
-];
-
-
-const cardapioSemana = {
-
-    0: {
-        arroz: [
-            "Arroz branco",
-            "Arroz biro-biro"
-        ],
-
-        feijao: [
-            "Feijão tropeiro",
-            "Feijão carioca"
-        ],
-
-        carnes: [
-            "Cupim assado",
-            "Bacalhau espiritual",
-            "Contrafilé na chapa"
-        ],
-
-        acompanhamentos: [
-            "Rondelli de peru e queijo",
-            "Mandioca frita",
-            "Legumes na manteiga"
-        ],
-
-        sobremesas: [
-            "Manjar de coco com ameixa",
-            "Pudim",
-            "Pavê de morango"
-        ]
-    },
-
-
-    1: {
-        arroz: [
-            "Arroz branco soltinho",
-            "Arroz integral"
-        ],
-
-        feijao: [
-            "Feijão carioca temperado"
-        ],
-
-        carnes: [
-            "Contrafilé acebolado",
-            "Filé de frango grelhado",
-            "Peixe empanado crocante"
-        ],
-
-        acompanhamentos: [
-            "Batata frita",
-            "Purê de batata cremoso",
-            "Legumes salteados"
-        ],
-
-        sobremesas: [
-            "Pudim",
-            "Frutas fatiadas: abacaxi e melancia"
-        ]
-    },
-
-
-    2: {
-        arroz: [
-            "Arroz branco",
-            "Arroz com brócolis"
-        ],
-
-        feijao: [
-            "Feijão carioca",
-            "Feijão preto"
-        ],
-
-        carnes: [
-            "Strogonoff de frango",
-            "Frango assado de televisão",
-            "Pernil acebolado"
-        ],
-
-        acompanhamentos: [
-            "Batata palha",
-            "Penne quatro queijos",
-            "Abóbora assada"
-        ],
-
-        sobremesas: [
-            "Mousse de maracujá",
-            "Gelatina colorida"
-        ]
-    },
-
-
-    3: {
-        arroz: [
-            "Arroz branco",
-            "Arroz biro-biro"
-        ],
-
-        feijao: [
-            "Feijoada tradicional",
-            "Feijão carioca"
-        ],
-
-        carnes: [
-            "Torresmo crocante",
-            "Calabresa acebolada",
-            "Maminha grelhada"
-        ],
-
-        acompanhamentos: [
-            "Couve refogada",
-            "Farofa com bacon",
-            "Banana empanada"
-        ],
-
-        sobremesas: [
-            "Mousse de chocolate",
-            "Pudim"
-        ]
-    },
-
-
-    4: {
-        arroz: [
-            "Arroz branco",
-            "Arroz à grega"
-        ],
-
-        feijao: [
-            "Feijão carioca"
-        ],
-
-        carnes: [
-            "Parmegiana de carne",
-            "Costelinha barbecue",
-            "Sobrecoxa desossada"
-        ],
-
-        acompanhamentos: [
-            "Nhoque à bolonhesa",
-            "Polenta frita",
-            "Couve-flor gratinada"
-        ],
-
-        sobremesas: [
-            "Pavê de morango",
-            "Frutas fatiadas"
-        ]
-    },
-
-
-    5: {
-        arroz: [
-            "Arroz branco",
-            "Arroz de coco"
-        ],
-
-        feijao: [
-            "Feijão carioca",
-            "Feijão fradinho"
-        ],
-
-        carnes: [
-            "Moqueca de peixe",
-            "Filé de tilápia com alcaparras",
-            "Escalope de mignon"
-        ],
-
-        acompanhamentos: [
-            "Pirão de peixe",
-            "Batata rústica com alecrim",
-            "Brócolis ao alho"
-        ],
-
-        sobremesas: [
-            "Pudim",
-            "Mousse de limão"
-        ]
-    },
-
-
-    6: {
-        arroz: [
-            "Arroz branco",
-            "Arroz com açafrão"
-        ],
-
-        feijao: [
-            "Feijoada completa",
-            "Feijão tropeiro"
-        ],
-
-        carnes: [
-            "Picanha fatiada",
-            "Cupim na manteiga",
-            "Frango a passarinho"
-        ],
-
-        acompanhamentos: [
-            "Batata gratinada com bacon",
-            "Polenta frita",
-            "Farofa de ovos"
-        ],
-
-        sobremesas: [
-            "Pavê de chocolate",
-            "Mousse de maracujá",
-            "Frutas fatiadas"
-        ]
+    if (id === "carrinho") {
+        renderizarCarrinho();
     }
-};
 
 
-function montarLista(titulo, lista) {
+    if (id === "checkout") {
+        renderizarCheckout();
+    }
 
-    if (!lista || lista.length === 0) {
+
+    if (id === "almoco") {
+        mostrarCardapioAlmoco();
+    }
+
+
+    if (id === "jantar") {
+        mostrarCardapioJantar();
+    }
+
+
+    if (id === "marmitas") {
+        renderizarMarmitas();
+    }
+
+
+    if (id === "pizzas") {
+        prepararPizza();
+    }
+
+
+    if (id === "lanches") {
+        renderizarCategoria(
+            "Lanches",
+            "listaLanches",
+            LANCHES
+        );
+    }
+
+
+    if (id === "hotdogs") {
+        renderizarCategoria(
+            "Hot Dogs",
+            "listaHotdogs",
+            HOTDOGS
+        );
+    }
+
+
+    if (id === "esfirras") {
+
+        renderizarCategoria(
+            "Esfirras",
+            "listaEsfirrasSalgadas",
+            ESFIRRAS_SALGADAS
+        );
+
+        renderizarCategoria(
+            "Esfirras",
+            "listaEsfirrasDoces",
+            ESFIRRAS_DOCES
+        );
+
+    }
+
+
+    if (id === "porcoes") {
+        renderizarCategoria(
+            "Porções",
+            "listaPorcoes",
+            PORCOES
+        );
+    }
+
+
+    if (id === "alacarte") {
+
+        renderizarCategoria(
+            "À La Carte",
+            "listaAlacarte",
+            ALACARTE
+        );
+
+        renderizarParmegianas();
+
+    }
+
+
+    if (id === "bebidas") {
+
+        renderizarCategoria(
+            "Bebidas",
+            "listaBebidas",
+            BEBIDAS
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   HORÁRIO DE FUNCIONAMENTO
+========================================================= */
+
+function verificarFuncionamento() {
+
+    const agora = new Date();
+
+    const horas =
+        agora.getHours() +
+        agora.getMinutes() / 60;
+
+
+    const almoco =
+        horas >= 10.5 &&
+        horas < 14;
+
+
+    const jantar =
+        horas >= 18.5 &&
+        horas < 23;
+
+
+    const aberto =
+        almoco || jantar;
+
+
+    const status =
+        document.getElementById(
+            "statusFuncionamento"
+        );
+
+
+    if (!status) {
+        return;
+    }
+
+
+    if (aberto) {
+
+        if (almoco) {
+
+            status.innerHTML =
+                "🟢 ABERTO • Almoço até 14:00";
+
+        } else {
+
+            status.innerHTML =
+                "🟢 ABERTO • Jantar até 23:00";
+
+        }
+
+        status.classList.add("aberto");
+        status.classList.remove("fechado");
+
+    } else {
+
+        status.innerHTML =
+            "🔴 FECHADO • Almoço 10:30–14:00 • Jantar 18:30–23:00";
+
+        status.classList.add("fechado");
+        status.classList.remove("aberto");
+
+    }
+
+}
+
+
+/* =========================================================
+   CARDÁPIO DE ALMOÇO
+========================================================= */
+
+function obterCardapioAlmocoAtual() {
+
+    const dia =
+        new Date().getDay();
+
+    return CARDAPIO_ALMOCO[dia];
+
+}
+
+
+function criarListaCardapio(titulo, itens) {
+
+    if (!Array.isArray(itens) || itens.length === 0) {
         return "";
     }
 
+
     return `
-        <div class="listaBuffet">
-            <h3>${titulo}</h3>
+        <div class="bloco-cardapio">
+
+            <h3>${escaparHTML(titulo)}</h3>
 
             <ul>
-                ${lista
-                    .map(item => `<li>${item}</li>`)
-                    .join("")}
+
+                ${itens.map(item => `
+                    <li>
+                        ${escaparHTML(item)}
+                    </li>
+                `).join("")}
+
             </ul>
+
         </div>
     `;
 }
@@ -618,1052 +2059,202 @@ function montarLista(titulo, lista) {
 
 function mostrarCardapioAlmoco() {
 
-    const elemento =
-        document.getElementById("cardapioAlmoco");
+    const container =
+        document.getElementById(
+            "cardapioDoDia"
+        );
 
-    if (!elemento) return;
 
+    if (!container) {
+        return;
+    }
+
+
+    const cardapio =
+        obterCardapioAlmocoAtual();
+
+
+    if (!cardapio) {
+
+        container.innerHTML = `
+            <div class="aviso-vazio">
+                Cardápio de almoço indisponível.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    let html = "";
+
+
+    html += `
+        <div class="cardapio-cabecalho">
+
+            <span>
+                ☀️ ALMOÇO DE HOJE
+            </span>
+
+            <h3>
+                ${escaparHTML(cardapio.titulo)}
+            </h3>
+
+            <strong>
+                ${escaparHTML(cardapio.tema)}
+            </strong>
+
+        </div>
+    `;
+
+
+    if (ehFeriado()) {
+
+        html += `
+            <div class="aviso-feriado">
+
+                🎉 Hoje é feriado!
+
+                <strong>
+                    Confira também nosso Menu Especial de Celebração.
+                </strong>
+
+            </div>
+        `;
+
+    }
+
+
+    html += criarListaCardapio(
+        "🥩 Misturas",
+        cardapio.misturas
+    );
+
+
+    html += criarListaCardapio(
+        "🍚 Guarnições",
+        cardapio.guarnicoes
+    );
+
+
+    html += criarListaCardapio(
+        "🥗 Saladas",
+        cardapio.saladas
+    );
+
+
+    html += criarListaCardapio(
+        "➕ Complementos",
+        cardapio.complementos
+    );
+
+
+    html += criarListaCardapio(
+        "🍕 Pizzas disponíveis",
+        cardapio.pizzas
+    );
+
+
+    html += criarListaCardapio(
+        "🍰 Sobremesas",
+        cardapio.sobremesas
+    );
+
+
+    html += `
+        <div class="cardapio-preco">
+
+            <strong>
+                Buffet serve-serve
+            </strong>
+
+            <span>
+                R$ 50,00 por pessoa
+            </span>
+
+        </div>
+    `;
+
+
+    container.innerHTML = html;
+
+}
+
+
+/* =========================================================
+   CARDÁPIO DE JANTAR
+========================================================= */
+
+function obterCardapioJantarAtual() {
 
     const dia =
         new Date().getDay();
 
+    return CARDAPIO_JANTAR[dia];
+
+}
+
+
+function mostrarCardapioJantar() {
+
+    const container =
+        document.getElementById(
+            "cardapioJantar"
+        );
+
+
+    if (!container) {
+        return;
+    }
+
+
     const cardapio =
-        cardapioSemana[dia];
+        obterCardapioJantarAtual();
 
 
     if (!cardapio) {
-        elemento.innerHTML =
-            "<p>Cardápio não disponível.</p>";
+
+        container.innerHTML = `
+            <div class="aviso-vazio">
+                Cardápio de jantar indisponível.
+            </div>
+        `;
+
         return;
     }
 
 
-    elemento.innerHTML = `
+    let html = `
 
-        ${montarLista(
-            "🥗 Buffet de saladas",
-            buffetFrio
-        )}
+        <div class="cardapio-cabecalho jantar">
 
-        ${montarLista(
-            "🍚 Arroz",
-            cardapio.arroz
-        )}
+            <span>
+                🌙 JANTAR DE HOJE
+            </span>
 
-        ${montarLista(
-            "🫘 Feijão",
-            cardapio.feijao
-        )}
+            <h3>
+                ${escaparHTML(cardapio.titulo)}
+            </h3>
 
-        ${montarLista(
-            "🥩 Carnes",
-            cardapio.carnes
-        )}
-
-        ${montarLista(
-            "🍽️ Acompanhamentos",
-            cardapio.acompanhamentos
-        )}
-
-        ${montarLista(
-            "🍰 Sobremesas",
-            cardapio.sobremesas
-        )}
-
-    `;
-}
-
-
-// ==========================================
-// PIZZAS
-// ==========================================
-
-const pizzas = [
-
-    { nome:"Atum", preco:52, ingredientes:"Molho de tomate, mussarela, atum, cebola e orégano." },
-    { nome:"Bacon", preco:50, ingredientes:"Molho de tomate, mussarela, bacon e orégano." },
-    { nome:"Baiana", preco:52, ingredientes:"Molho de tomate, mussarela, calabresa, cebola, pimenta e ovos." },
-    { nome:"Calabresa", preco:48, ingredientes:"Molho de tomate, mussarela, calabresa, cebola e orégano." },
-    { nome:"Calabresa com Catupiry", preco:52, ingredientes:"Molho de tomate, mussarela, calabresa, Catupiry e orégano." },
-    { nome:"Churrasco", preco:62, ingredientes:"Molho de tomate, mussarela, carne de churrasco, cebola e molho especial." },
-    { nome:"Frango com Catupiry", preco:52, ingredientes:"Molho de tomate, mussarela, frango desfiado e Catupiry." },
-    { nome:"Lombo com Catupiry", preco:54, ingredientes:"Molho de tomate, mussarela, lombo, cebola e Catupiry." },
-    { nome:"Marguerita", preco:48, ingredientes:"Molho de tomate, mussarela, tomate, manjericão e parmesão." },
-    { nome:"Milho com Bacon", preco:50, ingredientes:"Molho de tomate, mussarela, milho e bacon." },
-    { nome:"Moda da Casa", preco:65, ingredientes:"Molho de tomate, mussarela, presunto, calabresa, bacon, milho, cebola e ovos." },
-    { nome:"Mussarela", preco:45, ingredientes:"Molho de tomate, mussarela e orégano." },
-    { nome:"Napolitana", preco:48, ingredientes:"Molho de tomate, mussarela, tomate, parmesão e orégano." },
-    { nome:"Palmito", preco:54, ingredientes:"Molho de tomate, mussarela, palmito, tomate e orégano." },
-    { nome:"Portuguesa", preco:52, ingredientes:"Molho de tomate, mussarela, presunto, ovos, cebola, milho e ervilha." },
-    { nome:"Presunto e Queijo", preco:48, ingredientes:"Molho de tomate, mussarela, presunto e orégano." },
-    { nome:"Quatro Queijos", preco:55, ingredientes:"Molho de tomate, mussarela, Catupiry, provolone e parmesão." },
-    { nome:"Strogonoff de Carne", preco:60, ingredientes:"Molho de tomate, mussarela, strogonoff de carne, champignon e batata palha." },
-    { nome:"Tilápia", preco:58, ingredientes:"Molho de tomate, mussarela, tilápia, tomate e cebola." },
-    { nome:"Vegetariana", preco:52, ingredientes:"Molho de tomate, mussarela, milho, palmito, tomate, cebola e pimentão." },
-
-    { nome:"Banana com Canela", preco:45, ingredientes:"Banana, açúcar, canela e leite condensado." },
-    { nome:"Beijinho", preco:48, ingredientes:"Chocolate branco, coco ralado e leite condensado." },
-    { nome:"Brigadeiro", preco:45, ingredientes:"Chocolate e brigadeiro cremoso." },
-    { nome:"Chocoloco", preco:50, ingredientes:"Chocolate ao leite e coco ralado." },
-    { nome:"Confeti", preco:48, ingredientes:"Chocolate ao leite e confetes de chocolate." },
-    { nome:"Doce de Leite", preco:45, ingredientes:"Doce de leite cremoso." },
-    { nome:"Paçoca", preco:48, ingredientes:"Chocolate branco, paçoca e leite condensado." },
-    { nome:"Prestígio", preco:48, ingredientes:"Chocolate ao leite e coco." },
-    { nome:"Romeu e Julieta", preco:45, ingredientes:"Mussarela e goiabada." },
-    { nome:"Sensação", preco:52, ingredientes:"Chocolate ao leite, morango e leite condensado." }
-
-];
-
-
-const tamanhosPizza = [
-
-    {
-        nome:"Pequena",
-        descricao:"4 pedaços • 1 sabor",
-        sabores:1
-    },
-
-    {
-        nome:"Média",
-        descricao:"8 pedaços • até 2 sabores",
-        sabores:2
-    },
-
-    {
-        nome:"Grande",
-        descricao:"12 pedaços • até 3 sabores",
-        sabores:3
-    }
-
-];
-
-
-const bordasPizza = [
-
-    { nome:"Sem Borda", preco:0 },
-    { nome:"Catupiry Original", preco:10 },
-    { nome:"Cheddar", preco:10 },
-    { nome:"Mussarela", preco:12 },
-    { nome:"Provolone", preco:12 },
-    { nome:"Requeijão com Alho Frito", preco:11 },
-    { nome:"Vulcão / Pãozinho", preco:15 },
-    { nome:"Chocolate ao Leite", preco:12 },
-    { nome:"Chocolate Branco", preco:12 },
-    { nome:"Doce de Leite", preco:10 },
-    { nome:"Goiabada", preco:10 }
-
-];
-
-
-const complementosPizzaLista = [
-
-    { nome:"Azeite Trufado", preco:8 },
-    { nome:"Bacon Crocante Extra", preco:7 },
-    { nome:"Catupiry Extra", preco:8 },
-    { nome:"Cheddar Extra", preco:7 },
-    { nome:"Cebola Crispy", preco:5 },
-    { nome:"Geleia de Pimenta", preco:6 },
-    { nome:"Mussarela Extra", preco:8 },
-    { nome:"Ovo Cozido Extra", preco:4 },
-    { nome:"Parmesão Ralado", preco:6 },
-    { nome:"Pimenta Biquinho", preco:5 }
-
-];
-
-
-let pizzaSelecionada = null;
-let tamanhoPizzaSelecionado = null;
-let saboresPizza = [];
-let bordaPizzaSelecionada = bordasPizza[0];
-let complementosPizza = [];
-
-
-function criarPizzas() {
-
-    const elemento =
-        document.getElementById("listaPizzas");
-
-    if (!elemento) return;
-
-
-    elemento.innerHTML = `
-
-        <div class="produtosPizza">
-
-            ${pizzas.map((pizza, index) => `
-
-                <div class="produto">
-
-                    <h3>${pizza.nome}</h3>
-
-                    <p>${pizza.ingredientes}</p>
-
-                    <strong>
-                        A partir de ${dinheiro(pizza.preco)}
-                    </strong>
-
-                    <button
-                        onclick="selecionarPizza(${index})">
-
-                        🍕 Escolher
-
-                    </button>
-
-                </div>
-
-            `).join("")}
+            <strong>
+                ${escaparHTML(cardapio.tema)}
+            </strong>
 
         </div>
 
     `;
-}
 
 
-function criarTamanhosPizza() {
+    if (ehFeriado()) {
 
-    const elemento =
-        document.getElementById("tamanhoPizza");
+        html += `
 
-    if (!elemento) return;
+            <div class="aviso-feriado">
 
-
-    elemento.innerHTML = `
-
-        <h3>1️⃣ Escolha o tamanho</h3>
-
-        ${tamanhosPizza.map((item, index) => `
-
-            <button
-                onclick="selecionarTamanhoPizza(${index})">
-
-                ${item.nome}<br>
-                <small>${item.descricao}</small>
-
-            </button>
-
-        `).join("")}
-
-    `;
-}
-
-
-function selecionarTamanhoPizza(index) {
-
-    tamanhoPizzaSelecionado =
-        tamanhosPizza[index];
-
-    saboresPizza = [];
-
-    criarSaboresPizza();
-}
-
-
-function criarSaboresPizza() {
-
-    const elemento =
-        document.getElementById("saboresPizza");
-
-    if (!elemento) return;
-
-
-    if (!tamanhoPizzaSelecionado) {
-
-        elemento.innerHTML =
-            "<p>Escolha primeiro o tamanho da pizza.</p>";
-
-        return;
-    }
-
-
-    elemento.innerHTML = `
-
-        <h3>
-            2️⃣ Escolha até
-            ${tamanhoPizzaSelecionado.sabores}
-            sabor(es)
-        </h3>
-
-        ${pizzas.map((pizza, index) => `
-
-            <button
-                onclick="selecionarSaborPizza(${index})">
-
-                ${pizza.nome}
-                -
-                ${dinheiro(pizza.preco)}
-
-            </button>
-
-        `).join("")}
-
-        <div id="saboresEscolhidosPizza">
-
-            ${
-                saboresPizza.length
-                    ? `<p><strong>Escolhidos:</strong> ${saboresPizza.map(i => pizzas[i].nome).join(", ")}</p>`
-                    : "<p>Nenhum sabor escolhido.</p>"
-            }
-
-        </div>
-
-    `;
-}
-
-
-function selecionarSaborPizza(index) {
-
-    if (!tamanhoPizzaSelecionado) {
-
-        alert("Escolha primeiro o tamanho.");
-
-        return;
-    }
-
-
-    const posicao =
-        saboresPizza.indexOf(index);
-
-
-    if (posicao >= 0) {
-
-        saboresPizza.splice(posicao, 1);
-
-    } else {
-
-        if (
-            saboresPizza.length >=
-            tamanhoPizzaSelecionado.sabores
-        ) {
-
-            alert(
-                `Você pode escolher até ${tamanhoPizzaSelecionado.sabores} sabor(es).`
-            );
-
-            return;
-        }
-
-        saboresPizza.push(index);
-    }
-
-
-    criarSaboresPizza();
-}
-
-
-function selecionarPizza(index) {
-
-    pizzaSelecionada =
-        pizzas[index];
-
-    tamanhoPizzaSelecionado =
-        null;
-
-    saboresPizza = [];
-
-    bordaPizzaSelecionada =
-        bordasPizza[0];
-
-    complementosPizza = [];
-
-    criarTamanhosPizza();
-    criarSaboresPizza();
-    mostrarBordasPizza();
-    mostrarComplementosPizza();
-
-
-    document
-        .getElementById("montagemPizza")
-        ?.scrollIntoView({
-            behavior:"smooth"
-        });
-}
-
-
-function mostrarBordasPizza() {
-
-    const elemento =
-        document.getElementById("bordaPizza");
-
-    if (!elemento) return;
-
-
-    elemento.innerHTML = `
-
-        <h3>3️⃣ Escolha a borda</h3>
-
-        ${bordasPizza.map((borda, index) => `
-
-            <button
-                onclick="selecionarBordaPizza(${index})">
-
-                ${borda.nome}
-
-                ${
-                    borda.preco > 0
-                        ? `+ ${dinheiro(borda.preco)}`
-                        : "Grátis"
-                }
-
-            </button>
-
-        `).join("")}
-
-    `;
-}
-
-
-function selecionarBordaPizza(index) {
-
-    bordaPizzaSelecionada =
-        bordasPizza[index];
-}
-
-
-function mostrarComplementosPizza() {
-
-    const elemento =
-        document.getElementById("complementosPizza");
-
-    if (!elemento) return;
-
-
-    elemento.innerHTML = `
-
-        <h3>4️⃣ Complementos</h3>
-
-        ${complementosPizzaLista.map((item, index) => `
-
-            <button
-                onclick="selecionarComplementoPizza(${index})">
-
-                ${item.nome}
-                + ${dinheiro(item.preco)}
-
-            </button>
-
-        `).join("")}
-
-        <p>
-            ${
-                complementosPizza.length
-                    ? "Extras: " +
-                      complementosPizza
-                        .map(i => complementosPizzaLista[i].nome)
-                        .join(", ")
-                    : "Nenhum complemento."
-            }
-        </p>
-
-    `;
-}
-
-
-function selecionarComplementoPizza(index) {
-
-    const posicao =
-        complementosPizza.indexOf(index);
-
-
-    if (posicao >= 0) {
-
-        complementosPizza.splice(posicao, 1);
-
-    } else {
-
-        complementosPizza.push(index);
-
-    }
-
-
-    mostrarComplementosPizza();
-}
-
-
-function adicionarPizzaCarrinho() {
-
-    if (!tamanhoPizzaSelecionado) {
-
-        alert("Escolha o tamanho da pizza.");
-
-        return;
-    }
-
-
-    if (saboresPizza.length === 0) {
-
-        alert("Escolha pelo menos um sabor.");
-
-        return;
-    }
-
-
-    const maiorPreco =
-        Math.max(
-            ...saboresPizza.map(
-                index => pizzas[index].preco
-            )
-        );
-
-
-    const totalComplementos =
-        complementosPizza.reduce(
-            (total, index) =>
-                total +
-                complementosPizzaLista[index].preco,
-            0
-        );
-
-
-    const preco =
-        maiorPreco +
-        bordaPizzaSelecionada.preco +
-        totalComplementos;
-
-
-    const nomeSabores =
-        saboresPizza
-            .map(index => pizzas[index].nome)
-            .join(" / ");
-
-
-    const detalhes = [
-
-        `Tamanho: ${tamanhoPizzaSelecionado.nome}`,
-
-        `Sabores: ${nomeSabores}`,
-
-        `Borda: ${bordaPizzaSelecionada.nome}`,
-
-        complementosPizza.length
-            ? `Complementos: ${
-                complementosPizza
-                    .map(i => complementosPizzaLista[i].nome)
-                    .join(", ")
-              }`
-            : ""
-
-    ]
-    .filter(Boolean)
-    .join(" | ");
-
-
-    carrinho.push({
-
-        nome:
-            `Pizza ${tamanhoPizzaSelecionado.nome} - ${nomeSabores}`,
-
-        preco,
-
-        ingredientes:
-            detalhes,
-
-        quantidade:1
-
-    });
-
-
-    salvarDados();
-
-    atualizarCarrinho();
-
-
-    alert("🍕 Pizza adicionada ao carrinho!");
-
-    abrirCarrinho();
-}
-
-
-// ==========================================
-// LANCHES
-// ==========================================
-
-const lanches = [
-
-    {
-        nome:"X-Burguer",
-        preco:20,
-        ingredientes:"Pão, hambúrguer, queijo, alface, tomate e molho especial."
-    },
-
-    {
-        nome:"X-Salada",
-        preco:22,
-        ingredientes:"Pão, hambúrguer, queijo, alface, tomate, milho e molho especial."
-    },
-
-    {
-        nome:"X-Bacon",
-        preco:26,
-        ingredientes:"Pão, hambúrguer, queijo, bacon, alface, tomate e molho especial."
-    },
-
-    {
-        nome:"X-Egg",
-        preco:24,
-        ingredientes:"Pão, hambúrguer, queijo, ovo, alface, tomate e molho especial."
-    },
-
-    {
-        nome:"X-Frango",
-        preco:22,
-        ingredientes:"Pão, frango desfiado, queijo, alface, tomate e molho especial."
-    },
-
-    {
-        nome:"X-Tudo",
-        preco:32,
-        ingredientes:"Pão, hambúrguer, queijo, presunto, bacon, ovo, calabresa, alface, tomate e molho."
-    },
-
-    {
-        nome:"X-Calabresa",
-        preco:23,
-        ingredientes:"Pão, calabresa, queijo, cebola, alface, tomate e molho."
-    },
-
-    {
-        nome:"X-Duplo Cheddar",
-        preco:34,
-        ingredientes:"Pão, dois hambúrgueres, cheddar, cebola e molho especial."
-    },
-
-    {
-        nome:"X-Contrafilé",
-        preco:30,
-        ingredientes:"Pão, contrafilé, queijo, alface, tomate e molho especial."
-    },
-
-    {
-        nome:"X-Vegetariano",
-        preco:25,
-        ingredientes:"Pão, queijo, alface, tomate, milho, palmito, cebola e molho especial."
-    }
-
-];
-
-
-const adicionaisLanche = [
-
-    { nome:"Bacon Extra", preco:6 },
-    { nome:"Queijo Extra", preco:5 },
-    { nome:"Cheddar Extra", preco:5 },
-    { nome:"Ovo Extra", preco:3 },
-    { nome:"Hambúrguer Extra", preco:8 },
-    { nome:"Catupiry", preco:5 }
-
-];
-
-
-function criarProdutos(lista, elementoId, tipo) {
-
-    const elemento =
-        document.getElementById(elementoId);
-
-    if (!elemento) return;
-
-
-    elemento.innerHTML =
-        lista.map((produto, index) => `
-
-            <div class="produto">
-
-                <h3>${produto.nome}</h3>
-
-                <p>${produto.ingredientes || ""}</p>
+                🎉 Hoje é feriado!
 
                 <strong>
-                    ${dinheiro(produto.preco)}
-                </strong>
-
-                <button
-                    onclick="adicionarProduto('${tipo}', ${index})">
-
-                    🛒 Adicionar
-
-                </button>
-
-            </div>
-
-        `).join("");
-}
-
-
-function adicionarProduto(tipo, index) {
-
-    let produto;
-
-
-    if (tipo === "lanches") {
-        produto = lanches[index];
-    }
-
-    if (tipo === "hotdogs") {
-        produto = hotdogs[index];
-    }
-
-    if (tipo === "porcoes") {
-        produto = porcoes[index];
-    }
-
-    if (tipo === "bebidas") {
-        produto = bebidas[index];
-    }
-
-    if (tipo === "esfirras") {
-        produto = esfirras[index];
-    }
-
-    if (!produto) return;
-
-
-    carrinho.push({
-
-        nome: produto.nome,
-
-        preco: produto.preco,
-
-        ingredientes:
-            produto.ingredientes || "",
-
-        quantidade:1
-
-    });
-
-
-    salvarDados();
-
-    atualizarCarrinho();
-
-
-    alert(
-        `${produto.nome} foi adicionado ao carrinho!`
-    );
-}
-
-
-function criarLanches() {
-
-    criarProdutos(
-        lanches,
-        "listaLanches",
-        "lanches"
-    );
-}
-
-
-// ==========================================
-// HOT DOG
-// ==========================================
-
-const hotdogs = [
-
-    {
-        nome:"Dog Simples",
-        preco:14,
-        ingredientes:"Pão, salsicha, molho, milho, batata palha e ketchup."
-    },
-
-    {
-        nome:"Dog Duplo",
-        preco:18,
-        ingredientes:"Pão, duas salsichas, molho, milho, batata palha e ketchup."
-    },
-
-    {
-        nome:"Dog Frango",
-        preco:20,
-        ingredientes:"Pão, salsicha, frango desfiado, molho, milho e batata palha."
-    },
-
-    {
-        nome:"Dog Bacon",
-        preco:22,
-        ingredientes:"Pão, salsicha, bacon, molho, milho e batata palha."
-    },
-
-    {
-        nome:"Dog Tudo",
-        preco:26,
-        ingredientes:"Pão, salsicha, frango, bacon, queijo, milho, molho e batata palha."
-    }
-
-];
-
-
-function criarHotdogs() {
-
-    criarProdutos(
-        hotdogs,
-        "listaHotdogs",
-        "hotdogs"
-    );
-}
-
-
-// ==========================================
-// PORÇÕES
-// ==========================================
-
-const porcoes = [
-
-    {
-        nome:"Batata Frita Tradicional 500g",
-        preco:28,
-        ingredientes:"Batata frita crocante."
-    },
-
-    {
-        nome:"Batata com Cheddar e Bacon 600g",
-        preco:38,
-        ingredientes:"Batata frita, cheddar cremoso e bacon crocante."
-    },
-
-    {
-        nome:"Calabresa Acebolada 500g",
-        preco:35,
-        ingredientes:"Calabresa fatiada acebolada."
-    },
-
-    {
-        nome:"Frango a Passarinho 700g",
-        preco:42,
-        ingredientes:"Frango a passarinho temperado e frito."
-    },
-
-    {
-        nome:"Isca de Tilápia 500g",
-        preco:48,
-        ingredientes:"Iscas de tilápia empanadas."
-    },
-
-    {
-        nome:"Contrafilé Acebolado 500g",
-        preco:55,
-        ingredientes:"Contrafilé acebolado."
-    }
-
-];
-
-
-function criarPorcoes() {
-
-    criarProdutos(
-        porcoes,
-        "listaPorcoes",
-        "porcoes"
-    );
-}
-
-
-// ==========================================
-// BEBIDAS
-// ==========================================
-
-const bebidas = [
-
-    {
-        nome:"Coca-Cola Lata",
-        preco:6.50,
-        ingredientes:"Refrigerante Coca-Cola lata."
-    },
-
-    {
-        nome:"Coca-Cola Zero",
-        preco:6.50,
-        ingredientes:"Refrigerante Coca-Cola Zero lata."
-    },
-
-    {
-        nome:"Guaraná Lata",
-        preco:6.50,
-        ingredientes:"Refrigerante Guaraná lata."
-    },
-
-    {
-        nome:"Fanta Lata",
-        preco:6.50,
-        ingredientes:"Refrigerante Fanta lata."
-    },
-
-    {
-        nome:"Sprite Lata",
-        preco:6.50,
-        ingredientes:"Refrigerante Sprite lata."
-    },
-
-    {
-        nome:"Coca-Cola 2L",
-        preco:14,
-        ingredientes:"Refrigerante Coca-Cola 2 litros."
-    },
-
-    {
-        nome:"Guaraná Antarctica 2L",
-        preco:14,
-        ingredientes:"Refrigerante Guaraná Antarctica 2 litros."
-    },
-
-    {
-        nome:"Fanta 2L",
-        preco:14,
-        ingredientes:"Refrigerante Fanta 2 litros."
-    },
-
-    {
-        nome:"Água sem gás",
-        preco:4,
-        ingredientes:"Água mineral sem gás."
-    },
-
-    {
-        nome:"Água com gás",
-        preco:4.50,
-        ingredientes:"Água mineral com gás."
-    }
-
-];
-
-
-function criarBebidas() {
-
-    criarProdutos(
-        bebidas,
-        "listaBebidas",
-        "bebidas"
-    );
-}
-
-
-// ==========================================
-// ESFIRRAS
-// ==========================================
-
-const esfirras = [
-
-    {
-        nome:"Carne",
-        preco:8,
-        ingredientes:"Carne temperada, cebola, tomate e temperos."
-    },
-
-    {
-        nome:"Frango",
-        preco:8.50,
-        ingredientes:"Frango desfiado temperado."
-    },
-
-    {
-        nome:"Queijo",
-        preco:9,
-        ingredientes:"Queijo mussarela."
-    },
-
-    {
-        nome:"Calabresa",
-        preco:9,
-        ingredientes:"Calabresa, cebola e temperos."
-    },
-
-    {
-        nome:"Presunto e Queijo",
-        preco:9.50,
-        ingredientes:"Presunto e queijo."
-    },
-
-    {
-        nome:"Frango com Catupiry",
-        preco:10,
-        ingredientes:"Frango desfiado e Catupiry."
-    },
-
-    {
-        nome:"Carne com Queijo",
-        preco:10,
-        ingredientes:"Carne temperada e queijo."
-    },
-
-    {
-        nome:"Bacon com Queijo",
-        preco:11,
-        ingredientes:"Bacon e queijo."
-    },
-
-    {
-        nome:"Quatro Queijos",
-        preco:11.50,
-        ingredientes:"Mussarela, Catupiry, provolone e parmesão."
-    },
-
-    {
-        nome:"Especial da Casa",
-        preco:12,
-        ingredientes:"Recheio especial da casa."
-    }
-
-];
-
-
-let esfirraSelecionada = null;
-
-
-function criarEsfirras() {
-
-    const elemento =
-        document.getElementById("listaEsfirras");
-
-    if (!elemento) return;
-
-
-    elemento.innerHTML =
-        esfirras.map((produto, index) => `
-
-            <div class="produto">
-
-                <h3>${produto.nome}</h3>
-
-                <p>${produto.ingredientes}</p>
-
-                <strong>
-                    ${dinheiro(produto.preco)}
-                </strong>
-
-                <button
-                    onclick="selecionarEsfirra(${index})">
-
-                    🥙 Escolher
-
-                </button>
-
-            </div>
-
-        `).join("");
-}
-
-
-function selecionarEsfirra(index) {
-
-    esfirraSelecionada =
-        esfirras[index];
-
-
-    const ingredientes =
-        document.getElementById("ingredientesEsfirra");
-
-
-    if (ingredientes) {
-
-        ingredientes.innerHTML = `
-
-            <div class="produto">
-
-                <h3>${esfirraSelecionada.nome}</h3>
-
-                <p>
-                    ${esfirraSelecionada.ingredientes}
-                </p>
-
-                <strong>
-                    ${dinheiro(esfirraSelecionada.preco)}
+                    Menu Especial de Celebração disponível.
                 </strong>
 
             </div>
@@ -1673,1725 +2264,2884 @@ function selecionarEsfirra(index) {
     }
 
 
-    document
-        .getElementById("montagemEsfirra")
-        ?.scrollIntoView({
-            behavior:"smooth"
-        });
-}
+    html += criarListaCardapio(
+        "🥗 Entradas",
+        cardapio.entradas
+    );
 
 
-function adicionarEsfirraCarrinho() {
+    html += criarListaCardapio(
+        "🍽️ Pratos Principais",
+        cardapio.principais
+    );
 
-    if (!esfirraSelecionada) {
 
-        alert("Escolha uma esfirra primeiro.");
+    html += criarListaCardapio(
+        "🍚 Guarnições",
+        cardapio.guarnicoes
+    );
 
-        return;
-    }
 
+    html += criarListaCardapio(
+        "🍰 Sobremesas",
+        cardapio.sobremesas
+    );
 
-    carrinho.push({
 
-        nome:
-            `Esfirra ${esfirraSelecionada.nome}`,
+    html += `
 
-        preco:
-            esfirraSelecionada.preco,
+        <div class="cardapio-preco">
 
-        ingredientes:
-            esfirraSelecionada.ingredientes,
+            <strong>
+                Buffet especial de jantar
+            </strong>
 
-        quantidade:1
-
-    });
-
-
-    salvarDados();
-
-    atualizarCarrinho();
-
-
-    alert("🥙 Esfirra adicionada ao carrinho!");
-
-    abrirCarrinho();
-}
-
-
-// ==========================================
-// MARMITAS
-// ==========================================
-
-const tamanhosMarmita = [
-
-    {
-        nome:"Pequena",
-        preco:20,
-        carnes:1
-    },
-
-    {
-        nome:"Média",
-        preco:25,
-        carnes:2
-    },
-
-    {
-        nome:"Grande",
-        preco:28,
-        carnes:3
-    },
-
-    {
-        nome:"Comercial",
-        preco:50,
-        carnes:4
-    }
-
-];
-
-
-const carnesMarmitaLista = [
-
-    "Bife acebolado",
-    "Frango grelhado",
-    "Frango empanado",
-    "Carne de panela",
-    "Linguiça acebolada",
-    "Calabresa acebolada",
-    "Bife à parmegiana",
-    "Peixe frito",
-    "Strogonoff de frango",
-    "Strogonoff de carne",
-    "Pernil assado",
-    "Costelinha barbecue"
-
-];
-
-
-let tamanhoMarmitaSelecionado = null;
-let carnesMarmita = [];
-
-
-function criarMarmitas() {
-
-    const elemento =
-        document.getElementById("listaMarmitas");
-
-    if (!elemento) return;
-
-
-    elemento.innerHTML =
-        tamanhosMarmita.map((item, index) => `
-
-            <div class="produto">
-
-                <h3>
-                    Marmita ${item.nome}
-                </h3>
-
-                <p>
-                    Escolha até ${item.carnes}
-                    carne(s).
-                </p>
-
-                <strong>
-                    ${dinheiro(item.preco)}
-                </strong>
-
-                <button
-                    onclick="abrirMontagemMarmita(${index})">
-
-                    🍱 Montar Marmita
-
-                </button>
-
-            </div>
-
-        `).join("");
-}
-
-
-function abrirMontagemMarmita(
-    index,
-    manterSelecao = false
-) {
-
-    tamanhoMarmitaSelecionado =
-        tamanhosMarmita[index];
-
-
-    if (!manterSelecao) {
-
-        carnesMarmita = [];
-
-    }
-
-
-    const elemento =
-        document.getElementById("opcoesMarmita");
-
-    if (!elemento) return;
-
-
-    elemento.innerHTML = `
-
-        <h3>
-            🍖 Escolha até
-            ${tamanhoMarmitaSelecionado.carnes}
-            carne(s)
-        </h3>
-
-        ${carnesMarmitaLista.map((carne, i) => `
-
-            <button
-                onclick="selecionarMisturaMarmita(${i})">
-
-                ${carne}
-
-            </button>
-
-        `).join("")}
-
-        <div>
-
-            <h4>
-                Carnes escolhidas:
-            </h4>
-
-            ${
-                carnesMarmita.length
-                    ? carnesMarmita
-                        .map(i => carnesMarmitaLista[i])
-                        .join(", ")
-                    : "Nenhuma carne escolhida."
-            }
+            <span>
+                R$ 50,00 por pessoa
+            </span>
 
         </div>
-
-        <br>
-
-        <button
-            onclick="adicionarMarmitaCarrinho()">
-
-            🛒 Adicionar Marmita
-
-        </button>
 
     `;
 
 
-    document
-        .getElementById("montagemMarmita")
-        ?.scrollIntoView({
-            behavior:"smooth"
-        });
+    container.innerHTML = html;
+
 }
 
 
-function selecionarMisturaMarmita(index) {
+/* =========================================================
+   MENU DE FERIADO
+========================================================= */
 
-    if (!tamanhoMarmitaSelecionado) {
+function mostrarMenuFeriado() {
 
-        alert("Escolha primeiro o tamanho da marmita.");
-
-        return;
-    }
-
-
-    const posicao =
-        carnesMarmita.indexOf(index);
+    const cardapio =
+        CARDAPIO_FERIADO;
 
 
-    if (posicao >= 0) {
+    const html = `
 
-        carnesMarmita.splice(posicao, 1);
+        <div class="cardapio-cabecalho feriado">
 
-    } else {
+            <span>
+                🎉 MENU ESPECIAL
+            </span>
 
-        if (
-            carnesMarmita.length >=
-            tamanhoMarmitaSelecionado.carnes
-        ) {
+            <h3>
+                ${escaparHTML(cardapio.titulo)}
+            </h3>
 
-            alert(
-                `Essa marmita permite até ${tamanhoMarmitaSelecionado.carnes} carne(s).`
-            );
+            <strong>
+                ${escaparHTML(cardapio.tema)}
+            </strong>
 
-            return;
-        }
+        </div>
 
-        carnesMarmita.push(index);
-    }
+        ${criarListaCardapio(
+            "🥗 Entradas",
+            cardapio.entradas
+        )}
+
+        ${criarListaCardapio(
+            "🍽️ Pratos Principais",
+            cardapio.principais
+        )}
+
+        ${criarListaCardapio(
+            "🍚 Guarnições",
+            cardapio.guarnicoes
+        )}
+
+        ${criarListaCardapio(
+            "🍰 Sobremesas",
+            cardapio.sobremesas
+        )}
+
+    `;
 
 
-    abrirMontagemMarmita(
-        tamanhosMarmita.indexOf(
-            tamanhoMarmitaSelecionado
-        ),
-        true
-    );
+    return html;
+
 }
 
 
-function adicionarMarmitaCarrinho() {
+/* =========================================================
+   MARMITAS
+========================================================= */
 
-    if (!tamanhoMarmitaSelecionado) {
-
-        alert("Escolha o tamanho da marmita.");
-
-        return;
-    }
-
-
-    if (carnesMarmita.length === 0) {
-
-        alert("Escolha pelo menos uma carne.");
-
-        return;
-    }
-
-
-    const nomesCarnes =
-        carnesMarmita
-            .map(i => carnesMarmitaLista[i])
-            .join(", ");
-
-
-    carrinho.push({
-
-        nome:
-            `Marmita ${tamanhoMarmitaSelecionado.nome}`,
-
-        preco:
-            tamanhoMarmitaSelecionado.preco,
-
-        ingredientes:
-            `Carnes: ${nomesCarnes}`,
-
-        quantidade:1
-
-    });
-
-
-    salvarDados();
-
-    atualizarCarrinho();
-
-
-    alert("🍱 Marmita adicionada ao carrinho!");
-
-    abrirCarrinho();
-}
-
-
-// ==========================================
-// À LA CARTE
-// ==========================================
-
-const alacarte = [
+const MARMITAS = [
 
     {
-        nome:"À Parmegiana - Frango",
-        categoria:"À Parmegiana",
-        preco:38,
-        ingredientes:"Molho de tomate artesanal, queijo derretido, arroz e batata frita."
+        id: "marmita-pequena",
+        nome: "Marmita Pequena",
+        preco: 20,
+        carnes: 1,
+        descricao: "Arroz, feijão, acompanhamentos e escolha de 1 mistura."
     },
 
     {
-        nome:"À Parmegiana - Carne",
-        categoria:"À Parmegiana",
-        preco:44,
-        ingredientes:"Molho de tomate artesanal, queijo derretido, arroz e batata frita. Carne: contrafilé ou alcatra."
+        id: "marmita-media",
+        nome: "Marmita Média",
+        preco: 25,
+        carnes: 2,
+        descricao: "Arroz, feijão, acompanhamentos e escolha de 2 misturas."
     },
 
     {
-        nome:"À Parmegiana - Peixe",
-        categoria:"À Parmegiana",
-        preco:46,
-        ingredientes:"Molho de tomate artesanal, queijo derretido, arroz e batata frita. Peixe filet empanado."
+        id: "marmita-grande",
+        nome: "Marmita Grande",
+        preco: 28,
+        carnes: 3,
+        descricao: "Arroz, feijão, acompanhamentos e escolha de 3 misturas."
     },
 
     {
-        nome:"À Parmegiana - Filé Mignon",
-        categoria:"À Parmegiana",
-        preco:58,
-        ingredientes:"Molho de tomate artesanal, queijo derretido, arroz e batata frita. Filé mignon."
-    },
-
-    {
-        nome:"Strogonoff Cremoso - Frango",
-        categoria:"Strogonoff Cremoso",
-        preco:32,
-        ingredientes:"Molho cremoso com cogumelos, arroz e batata palha."
-    },
-
-    {
-        nome:"Strogonoff Cremoso - Carne",
-        categoria:"Strogonoff Cremoso",
-        preco:42,
-        ingredientes:"Molho cremoso com cogumelos, arroz e batata palha. Iscas de alcatra ou mignon."
-    },
-
-    {
-        nome:"Strogonoff Cremoso - Camarão ou Peixe",
-        categoria:"Strogonoff Cremoso",
-        preco:48,
-        ingredientes:"Molho cremoso com cogumelos, arroz e batata palha. Camarão ou peixe."
-    },
-
-    {
-        nome:"Escondidinho Gratinado - Frango",
-        categoria:"Escondidinho Gratinado",
-        preco:32,
-        ingredientes:"Purê de mandioca cremoso gratinado com queijo no forno. Frango desfiado."
-    },
-
-    {
-        nome:"Escondidinho Gratinado - Carne Seca",
-        categoria:"Escondidinho Gratinado",
-        preco:38,
-        ingredientes:"Purê de mandioca cremoso gratinado com queijo no forno. Carne seca."
-    },
-
-    {
-        nome:"Escondidinho Gratinado - Peixe ou Bacalhau",
-        categoria:"Escondidinho Gratinado",
-        preco:42,
-        ingredientes:"Purê de mandioca cremoso gratinado com queijo no forno. Peixe ou bacalhau desfiado."
-    },
-
-    {
-        nome:"Grelhado Clássico - Frango",
-        categoria:"Grelhado Clássico",
-        preco:28,
-        ingredientes:"Proteína grelhada na chapa, arroz, feijão, farofa e salada. Frango."
-    },
-
-    {
-        nome:"Grelhado Clássico - Bisteca Suína",
-        categoria:"Grelhado Clássico",
-        preco:32,
-        ingredientes:"Proteína grelhada na chapa, arroz, feijão, farofa e salada. Bisteca suína."
-    },
-
-    {
-        nome:"Grelhado Clássico - Contrafilé",
-        categoria:"Grelhado Clássico",
-        preco:36,
-        ingredientes:"Proteína grelhada na chapa, arroz, feijão, farofa e salada. Contrafilé."
-    },
-
-    {
-        nome:"Grelhado Clássico - Tilápia",
-        categoria:"Grelhado Clássico",
-        preco:38,
-        ingredientes:"Proteína grelhada na chapa, arroz, feijão, farofa e salada. Filé de peixe (tilápia)."
-    },
-
-    {
-        nome:"Ao Molho Quatro Queijos - Frango",
-        categoria:"Ao Molho Quatro Queijos",
-        preco:36,
-        ingredientes:"Coberto com molho de queijos caseiro, servido com arroz e batata sautée. Filé de frango."
-    },
-
-    {
-        nome:"Ao Molho Quatro Queijos - Peixe",
-        categoria:"Ao Molho Quatro Queijos",
-        preco:42,
-        ingredientes:"Coberto com molho de queijos caseiro, servido com arroz e batata sautée. Filé de peixe grelhado."
-    },
-
-    {
-        nome:"Ao Molho Quatro Queijos - Medalhão",
-        categoria:"Ao Molho Quatro Queijos",
-        preco:48,
-        ingredientes:"Coberto com molho de queijos caseiro, servido com arroz e batata sautée. Medalhão de carne."
-    },
-
-    {
-        nome:"Ao Molho de Camarão ou Ervas Finas - Peixe",
-        categoria:"Ao Molho de Camarão ou Ervas Finas",
-        preco:45,
-        ingredientes:"Servido com arroz branco e purê de batata ou legumes. Filé de peixe grelhado."
-    },
-
-    {
-        nome:"Ao Molho de Camarão ou Ervas Finas - Mignon",
-        categoria:"Ao Molho de Camarão ou Ervas Finas",
-        preco:52,
-        ingredientes:"Servido com arroz branco e purê de batata ou legumes. Medalhão de mignon."
-    },
-
-    {
-        nome:"Massa com Iscas - Frango",
-        categoria:"Massa com Iscas ou Filé Grelhado",
-        preco:34,
-        ingredientes:"Fettuccine ou penne ao molho pomodoro ou branco, com iscas de frango."
-    },
-
-    {
-        nome:"Massa com Filé de Peixe",
-        categoria:"Massa com Iscas ou Filé Grelhado",
-        preco:40,
-        ingredientes:"Fettuccine ou penne ao molho pomodoro ou branco, com filé de peixe."
-    },
-
-    {
-        nome:"Massa com Iscas de Filé Mignon",
-        categoria:"Massa com Iscas ou Filé Grelhado",
-        preco:46,
-        ingredientes:"Fettuccine ou penne ao molho pomodoro ou branco, com iscas de filé mignon."
+        id: "marmita-comercial",
+        nome: "Marmita Comercial",
+        preco: 50,
+        carnes: 4,
+        descricao: "Marmita completa com escolha de até 4 misturas."
     }
 
 ];
 
 
-function criarAlacarte() {
+function obterMisturasMarmita() {
 
-    const elemento =
-        document.getElementById("listaAlacarte");
-
-    if (!elemento) return;
+    const almoco =
+        obterCardapioAlmocoAtual();
 
 
-    elemento.innerHTML =
-        alacarte.map((produto, index) => `
+    const jantar =
+        obterCardapioJantarAtual();
 
-            <div class="produto">
 
-                <h3>
-                    ${produto.nome}
-                </h3>
+    const lista = [];
 
-                <p>
-                    ${produto.ingredientes}
-                </p>
 
-                <strong>
-                    ${dinheiro(produto.preco)}
-                </strong>
+    if (almoco && Array.isArray(almoco.misturas)) {
 
-                <button
-                    onclick="adicionarAlacarte(${index})">
+        almoco.misturas.forEach(item => {
 
-                    🛒 Adicionar
+            if (!lista.includes(item)) {
+                lista.push(item);
+            }
 
-                </button>
+        });
 
-            </div>
+    }
 
-        `).join("");
+
+    if (jantar && Array.isArray(jantar.principais)) {
+
+        jantar.principais.forEach(item => {
+
+            if (!lista.includes(item)) {
+                lista.push(item);
+            }
+
+        });
+
+    }
+
+
+    return lista;
+
 }
 
 
-function adicionarAlacarte(index) {
+function renderizarMarmitas() {
 
-    const produto =
-        alacarte[index];
+    const container =
+        document.getElementById(
+            "listaMarmitas"
+        );
 
-    if (!produto) return;
+
+    if (!container) {
+        return;
+    }
 
 
-    carrinho.push({
+    const carnes =
+        obterMisturasMarmita();
 
-        nome:produto.nome,
 
-        preco:produto.preco,
+    container.innerHTML =
+        MARMITAS.map(marmita => {
 
-        ingredientes:produto.ingredientes,
+            const opcoes = carnes.length
+                ? carnes.map((carne, index) => `
 
-        quantidade:1
+                    <label class="opcao-marmita">
+
+                        <input
+                            type="checkbox"
+                            name="${marmita.id}-carne"
+                            value="${escaparHTML(carne)}"
+                            onchange="limitarMisturasMarmita('${marmita.id}', ${marmita.carnes})"
+                        >
+
+                        <span>
+                            ${escaparHTML(carne)}
+                        </span>
+
+                    </label>
+
+                `).join("")
+                : `
+                    <p>
+                        Consulte as opções disponíveis.
+                    </p>
+                `;
+
+
+            return `
+
+                <article class="produto-card marmita-card">
+
+                    <div class="produto-info">
+
+                        <span class="categoria-tag">
+                            MARMITA
+                        </span>
+
+                        <h3>
+                            ${escaparHTML(marmita.nome)}
+                        </h3>
+
+                        <p>
+                            ${escaparHTML(marmita.descricao)}
+                        </p>
+
+                    </div>
+
+
+                    <div class="produto-preco">
+                        ${dinheiro(marmita.preco)}
+                    </div>
+
+
+                    <div class="marmita-opcoes">
+
+                        <strong>
+                            Escolha até ${marmita.carnes} mistura(s):
+                        </strong>
+
+                        ${opcoes}
+
+                    </div>
+
+
+                    <button
+                        type="button"
+                        class="botao-adicionar"
+                        onclick="adicionarMarmita('${marmita.id}')"
+                    >
+                        ➕ ADICIONAR MARMITA
+                    </button>
+
+                </article>
+
+            `;
+
+        }).join("");
+
+}
+
+
+function limitarMisturasMarmita(id, limite) {
+
+    const marcados =
+        document.querySelectorAll(
+            `input[name="${id}-carne"]:checked`
+        );
+
+
+    if (marcados.length > limite) {
+
+        marcados[marcados.length - 1].checked =
+            false;
+
+        alert(
+            `Esta marmita permite escolher no máximo ${limite} mistura(s).`
+        );
+
+    }
+
+}
+
+
+function adicionarMarmita(id) {
+
+    const marmita =
+        MARMITAS.find(item =>
+            item.id === id
+        );
+
+
+    if (!marmita) {
+        return;
+    }
+
+
+    const selecionados =
+        Array.from(
+            document.querySelectorAll(
+                `input[name="${id}-carne"]:checked`
+            )
+        ).map(input => input.value);
+
+
+    if (selecionados.length !== marmita.carnes) {
+
+        alert(
+            `Escolha exatamente ${marmita.carnes} mistura(s).`
+        );
+
+        return;
+
+    }
+
+
+    const detalhes =
+        `Misturas: ${selecionados.join(", ")}`;
+
+
+    adicionarAoCarrinho({
+
+        id: id,
+
+        nome: marmita.nome,
+
+        preco: marmita.preco,
+
+        categoria: "Marmitas",
+
+        descricao: marmita.descricao,
+
+        detalhes: detalhes
 
     });
 
 
-    salvarDados();
-
-    atualizarCarrinho();
-
-
     alert(
-        `${produto.nome} foi adicionado ao carrinho!`
+        `${marmita.nome} adicionada ao carrinho!`
     );
+
 }
 
 
-// ==========================================
-// CARRINHO
-// ==========================================
+/* =========================================================
+   RENDERIZAÇÃO DE CATEGORIAS
+========================================================= */
 
-function subtotal() {
+function obterCatalogoCategoria(
+    categoria,
+    fallback
+) {
 
-    return carrinho.reduce(
-        (total, item) =>
-            total +
-            Number(item.preco || 0) *
-            Number(item.quantidade || 1),
-        0
-    );
+    const produtosPDV =
+        obterProdutosPDV()
+            .filter(produto =>
+                slug(produto.categoria) ===
+                slug(categoria)
+            );
+
+
+    if (!produtosPDV.length) {
+
+        return fallback.map(item => ({
+            id: slug(item.nome),
+            nome: item.nome,
+            preco: item.preco,
+            descricao: item.descricao || "",
+            disponivel: true
+        }));
+
+    }
+
+
+    return produtosPDV;
+
 }
 
 
-function atualizarCarrinho() {
+function renderizarCategoria(
+    categoria,
+    idContainer,
+    dadosFallback
+) {
 
-    const lista =
-        document.getElementById("listaCarrinho");
-
-    const total =
-        document.getElementById("totalCarrinho");
-
-
-    const contadores =
-        document.querySelectorAll(
-            '[id^="contadorCarrinho"]'
+    const container =
+        document.getElementById(
+            idContainer
         );
 
 
-    const quantidade =
-        carrinho.reduce(
-            (soma, item) =>
-                soma + Number(item.quantidade || 1),
+    if (!container) {
+        return;
+    }
+
+
+    const produtos =
+        obterCatalogoCategoria(
+            categoria,
+            dadosFallback
+        );
+
+
+    if (!produtos.length) {
+
+        container.innerHTML = `
+            <div class="aviso-vazio">
+                Nenhum produto disponível nesta categoria.
+            </div>
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML =
+        produtos.map(produto => {
+
+            const disponivel =
+                produto.disponivel !== false &&
+                produtoDisponivel(
+                    produto.nome,
+                    categoria
+                );
+
+
+            return `
+
+                <article
+                    class="produto-card ${disponivel ? "" : "indisponivel"}"
+                >
+
+                    <div class="produto-info">
+
+                        <span class="categoria-tag">
+                            ${escaparHTML(categoria)}
+                        </span>
+
+                        <h3>
+                            ${escaparHTML(produto.nome)}
+                        </h3>
+
+                        <p>
+                            ${escaparHTML(produto.descricao || "")}
+                        </p>
+
+                    </div>
+
+
+                    <div class="produto-footer">
+
+                        <strong class="produto-preco">
+                            ${dinheiro(produto.preco)}
+                        </strong>
+
+
+                        ${
+                            disponivel
+                            ? `
+                                <button
+                                    type="button"
+                                    class="botao-adicionar"
+                                    onclick="adicionarProdutoSimples(
+                                        '${escaparHTML(produto.id || slug(produto.nome))}',
+                                        '${escaparHTML(produto.nome)}',
+                                        ${Number(produto.preco)},
+                                        '${escaparHTML(categoria)}',
+                                        '${escaparHTML(produto.descricao || "")}'
+                                    )"
+                                >
+                                    ➕ ADICIONAR
+                                </button>
+                            `
+                            : `
+                                <span class="produto-indisponivel">
+                                    Indisponível
+                                </span>
+                            `
+                        }
+
+                    </div>
+
+                </article>
+
+            `;
+
+        }).join("");
+
+}
+
+
+/* =========================================================
+   PRODUTOS SIMPLES
+========================================================= */
+
+function adicionarProdutoSimples(
+    id,
+    nome,
+    preco,
+    categoria,
+    descricao
+) {
+
+    if (!produtoDisponivel(nome, categoria)) {
+
+        alert(
+            "Este produto está indisponível no momento."
+        );
+
+        return;
+
+    }
+
+
+    adicionarAoCarrinho({
+
+        id: id,
+
+        nome: nome,
+
+        preco: Number(preco),
+
+        categoria: categoria,
+
+        descricao: descricao,
+
+        detalhes: ""
+
+    });
+
+
+    alert(
+        `${nome} foi adicionado ao carrinho!`
+    );
+
+}
+
+
+/* =========================================================
+   PARMEGIANAS
+========================================================= */
+
+function renderizarParmegianas() {
+
+    const container =
+        document.getElementById(
+            "listaParmegianas"
+        );
+
+
+    if (!container) {
+        return;
+    }
+
+
+    container.innerHTML =
+        PARMEGIANAS.map(produto => {
+
+            const disponivel =
+                produtoDisponivel(
+                    produto.nome,
+                    "Parmegianas"
+                );
+
+
+            return `
+
+                <article
+                    class="produto-card parmegiana-card ${disponivel ? "" : "indisponivel"}"
+                >
+
+                    <div class="produto-info">
+
+                        <span class="categoria-tag">
+                            PARMEGIANA
+                        </span>
+
+                        <h3>
+                            ${escaparHTML(produto.nome)}
+                        </h3>
+
+                        <p>
+                            ${escaparHTML(produto.descricao)}
+                        </p>
+
+                    </div>
+
+
+                    <div class="produto-footer">
+
+                        <strong class="produto-preco">
+                            ${dinheiro(produto.preco)}
+                        </strong>
+
+
+                        ${
+                            disponivel
+                            ? `
+                                <button
+                                    type="button"
+                                    class="botao-adicionar"
+                                    onclick="adicionarParmegiana(
+                                        '${produto.id}'
+                                    )"
+                                >
+                                    ➕ ADICIONAR
+                                </button>
+                            `
+                            : `
+                                <span class="produto-indisponivel">
+                                    Indisponível
+                                </span>
+                            `
+                        }
+
+                    </div>
+
+                </article>
+
+            `;
+
+        }).join("");
+
+}
+
+
+function adicionarParmegiana(id) {
+
+    const produto =
+        PARMEGIANAS.find(item =>
+            item.id === id
+        );
+
+
+    if (!produto) {
+        return;
+    }
+
+
+    if (!produtoDisponivel(
+        produto.nome,
+        "Parmegianas"
+    )) {
+
+        alert(
+            "Esta parmegiana está indisponível."
+        );
+
+        return;
+
+    }
+
+
+    adicionarAoCarrinho({
+
+        id: produto.id,
+
+        nome: produto.nome,
+
+        preco: produto.preco,
+
+        categoria: "Parmegianas",
+
+        descricao: produto.descricao,
+
+        detalhes: ""
+
+    });
+
+
+    alert(
+        `${produto.nome} adicionada ao carrinho!`
+    );
+
+}
+
+
+function adicionarParmegianaCarne() {
+
+    const select =
+        document.getElementById(
+            "tipoCarneParmegiana"
+        );
+
+
+    const tipo =
+        select
+            ? select.value
+            : "Mignon";
+
+
+    const nome =
+        `Parmegiana de Carne - ${tipo}`;
+
+
+    if (!produtoDisponivel(
+        "Parmegiana de Carne",
+        "Parmegianas"
+    )) {
+
+        alert(
+            "A parmegiana de carne está indisponível."
+        );
+
+        return;
+
+    }
+
+
+    adicionarAoCarrinho({
+
+        id: `parmegiana-carne-${slug(tipo)}`,
+
+        nome: nome,
+
+        preco: PARMEGIANA_CARNE_PRECO,
+
+        categoria: "Parmegianas",
+
+        descricao:
+            `Parmegiana de carne com filé ${tipo.toLowerCase()}, molho de tomate, muçarela gratinada e acompanhamentos.`,
+
+        detalhes:
+            `Corte escolhido: ${tipo}`
+
+    });
+
+
+    alert(
+        `${nome} adicionada ao carrinho!`
+    );
+
+}
+
+
+/* =========================================================
+   PIZZA
+========================================================= */
+
+function obterTamanhoPizza() {
+
+    const select =
+        document.getElementById(
+            "tamanhoPizza"
+        );
+
+
+    return select
+        ? select.value
+        : "";
+
+}
+
+
+function limiteSaboresPizza(tamanho) {
+
+    if (tamanho === "Pequena") {
+        return 1;
+    }
+
+
+    if (tamanho === "Média") {
+        return 2;
+    }
+
+
+    if (tamanho === "Grande") {
+        return 2;
+    }
+
+
+    return 0;
+
+}
+
+
+function prepararPizza() {
+
+    renderizarPizzas();
+
+    renderizarBordas();
+
+    renderizarComplementos();
+
+    atualizarPizza();
+
+}
+
+
+function renderizarPizzas() {
+
+    const container =
+        document.getElementById(
+            "saboresPizza"
+        );
+
+
+    if (!container) {
+        return;
+    }
+
+
+    const todos = [
+
+        ...PIZZAS_SALGADAS.map(item => ({
+            ...item,
+            tipo: "Salgada"
+        })),
+
+        ...PIZZAS_DOCES.map(item => ({
+            ...item,
+            tipo: "Doce"
+        }))
+
+    ];
+
+
+    container.innerHTML =
+        todos.map(pizza => {
+
+            const disponivel =
+                produtoDisponivel(
+                    pizza.nome,
+                    "Pizzas"
+                );
+
+
+            return `
+
+                <label
+                    class="opcao-pizza ${disponivel ? "" : "indisponivel"}"
+                >
+
+                    <input
+                        type="checkbox"
+                        class="sabor-pizza"
+                        value="${escaparHTML(pizza.nome)}"
+                        data-preco="${Number(pizza.preco)}"
+                        data-tipo="${escaparHTML(pizza.tipo)}"
+                        ${disponivel ? "" : "disabled"}
+                        onchange="atualizarPizza()"
+                    >
+
+                    <span>
+
+                        <strong>
+                            ${escaparHTML(pizza.nome)}
+                        </strong>
+
+                        <small>
+                            ${escaparHTML(pizza.descricao)}
+                        </small>
+
+                        <em>
+                            ${dinheiro(pizza.preco)}
+                        </em>
+
+                    </span>
+
+                </label>
+
+            `;
+
+        }).join("");
+
+}
+
+
+function renderizarBordas() {
+
+    const container =
+        document.getElementById(
+            "bordasPizza"
+        );
+
+
+    if (!container) {
+        return;
+    }
+
+
+    container.innerHTML =
+        BORDAS_PIZZA.map((borda, index) => {
+
+            return `
+
+                <label class="opcao-borda">
+
+                    <input
+                        type="radio"
+                        name="bordaPizza"
+                        value="${escaparHTML(borda.nome)}"
+                        data-preco="${Number(borda.preco)}"
+                        ${index === 0 ? "checked" : ""}
+                        onchange="atualizarPizza()"
+                    >
+
+                    <span>
+
+                        ${escaparHTML(borda.nome)}
+
+                        <strong>
+                            ${
+                                borda.preco > 0
+                                ? "+ " + dinheiro(borda.preco)
+                                : "Grátis"
+                            }
+                        </strong>
+
+                    </span>
+
+                </label>
+
+            `;
+
+        }).join("");
+
+}
+
+
+function renderizarComplementos() {
+
+    const container =
+        document.getElementById(
+            "complementosPizza"
+        );
+
+
+    if (!container) {
+        return;
+    }
+
+
+    container.innerHTML =
+        COMPLEMENTOS_PIZZA.map(complemento => {
+
+            return `
+
+                <label class="opcao-complemento">
+
+                    <input
+                        type="checkbox"
+                        name="complementoPizza"
+                        value="${escaparHTML(complemento.nome)}"
+                        data-preco="${Number(complemento.preco)}"
+                        onchange="atualizarPizza()"
+                    >
+
+                    <span>
+
+                        ${escaparHTML(complemento.nome)}
+
+                        <strong>
+                            + ${dinheiro(complemento.preco)}
+                        </strong>
+
+                    </span>
+
+                </label>
+
+            `;
+
+        }).join("");
+
+}
+
+
+function atualizarPizza() {
+
+    const tamanho =
+        obterTamanhoPizza();
+
+
+    const aviso =
+        document.getElementById(
+            "avisoSaboresPizza"
+        );
+
+
+    const sabores =
+        document.querySelectorAll(
+            ".sabor-pizza:checked"
+        );
+
+
+    const limite =
+        limiteSaboresPizza(tamanho);
+
+
+    if (aviso) {
+
+        if (!tamanho) {
+
+            aviso.textContent =
+                "Primeiro escolha o tamanho.";
+
+        } else {
+
+            aviso.textContent =
+                `Escolha até ${limite} sabor(es).`;
+
+        }
+
+    }
+
+
+    if (tamanho && sabores.length > limite) {
+
+        sabores[sabores.length - 1].checked =
+            false;
+
+        alert(
+            `A pizza ${tamanho} permite até ${limite} sabor(es).`
+        );
+
+    }
+
+
+    const saboresSelecionados =
+        Array.from(
+            document.querySelectorAll(
+                ".sabor-pizza:checked"
+            )
+        );
+
+
+    let precoBase = 0;
+
+
+    saboresSelecionados.forEach(input => {
+
+        const preco =
+            Number(input.dataset.preco || 0);
+
+
+        precoBase =
+            Math.max(
+                precoBase,
+                preco
+            );
+
+    });
+
+
+    const bordaSelecionada =
+        document.querySelector(
+            'input[name="bordaPizza"]:checked'
+        );
+
+
+    const precoBorda =
+        bordaSelecionada
+            ? Number(bordaSelecionada.dataset.preco || 0)
+            : 0;
+
+
+    const complementos =
+        Array.from(
+            document.querySelectorAll(
+                'input[name="complementoPizza"]:checked'
+            )
+        );
+
+
+    const precoComplementos =
+        complementos.reduce(
+            (total, input) =>
+                total +
+                Number(input.dataset.preco || 0),
             0
         );
 
 
-    contadores.forEach(elemento => {
+    const total =
+        precoBase +
+        precoBorda +
+        precoComplementos;
 
-        elemento.textContent =
-            quantidade;
+
+    const resumo =
+        document.getElementById(
+            "resumoPizza"
+        );
+
+
+    const preco =
+        document.getElementById(
+            "precoPizza"
+        );
+
+
+    if (resumo) {
+
+        if (!tamanho) {
+
+            resumo.innerHTML =
+                "Escolha o tamanho da pizza.";
+
+        } else if (!saboresSelecionados.length) {
+
+            resumo.innerHTML =
+                "Escolha pelo menos um sabor.";
+
+        } else {
+
+            const nomes =
+                saboresSelecionados.map(
+                    input => input.value
+                );
+
+
+            const borda =
+                bordaSelecionada
+                    ? bordaSelecionada.value
+                    : "Sem Borda";
+
+
+            const adicionais =
+                complementos.map(
+                    input => input.value
+                );
+
+
+            resumo.innerHTML = `
+
+                <div>
+                    <strong>Tamanho:</strong>
+                    ${escaparHTML(tamanho)}
+                </div>
+
+                <div>
+                    <strong>Sabores:</strong>
+                    ${nomes.map(
+                        nome =>
+                            `<span>${escaparHTML(nome)}</span>`
+                    ).join(", ")}
+                </div>
+
+                <div>
+                    <strong>Borda:</strong>
+                    ${escaparHTML(borda)}
+                </div>
+
+                ${
+                    adicionais.length
+                    ? `
+                        <div>
+                            <strong>Complementos:</strong>
+                            ${adicionais.map(
+                                item =>
+                                    `<span>${escaparHTML(item)}</span>`
+                            ).join(", ")}
+                        </div>
+                    `
+                    : ""
+                }
+
+            `;
+
+        }
+
+    }
+
+
+    if (preco) {
+        preco.textContent =
+            dinheiro(total);
+    }
+
+}
+
+
+function adicionarPizzaCarrinho() {
+
+    const tamanho =
+        obterTamanhoPizza();
+
+
+    if (!tamanho) {
+
+        alert(
+            "Escolha o tamanho da pizza."
+        );
+
+        return;
+
+    }
+
+
+    const limite =
+        limiteSaboresPizza(tamanho);
+
+
+    const sabores =
+        Array.from(
+            document.querySelectorAll(
+                ".sabor-pizza:checked"
+            )
+        );
+
+
+    if (!sabores.length) {
+
+        alert(
+            "Escolha pelo menos um sabor."
+        );
+
+        return;
+
+    }
+
+
+    if (sabores.length > limite) {
+
+        alert(
+            `Escolha no máximo ${limite} sabor(es).`
+        );
+
+        return;
+
+    }
+
+
+    const borda =
+        document.querySelector(
+            'input[name="bordaPizza"]:checked'
+        );
+
+
+    const complementos =
+        Array.from(
+            document.querySelectorAll(
+                'input[name="complementoPizza"]:checked'
+            )
+        );
+
+
+    let precoBase = 0;
+
+
+    sabores.forEach(input => {
+
+        precoBase =
+            Math.max(
+                precoBase,
+                Number(input.dataset.preco || 0)
+            );
 
     });
 
 
-    if (!lista || !total) return;
+    const precoBorda =
+        borda
+            ? Number(borda.dataset.preco || 0)
+            : 0;
 
 
-    if (carrinho.length === 0) {
+    const precoComplementos =
+        complementos.reduce(
+            (total, input) =>
+                total +
+                Number(input.dataset.preco || 0),
+            0
+        );
 
-        lista.innerHTML =
-            "<p>🛒 Seu carrinho está vazio.</p>";
 
-        total.innerHTML = "";
+    const precoFinal =
+        precoBase +
+        precoBorda +
+        precoComplementos;
 
-        salvarDados();
 
-        return;
+    const nomesSabores =
+        sabores.map(
+            input => input.value
+        );
+
+
+    const nome =
+        `Pizza ${tamanho}`;
+
+
+    const detalhes = [
+
+        `Tamanho: ${tamanho}`,
+
+        `Sabores: ${nomesSabores.join(" / ")}`,
+
+        `Borda: ${
+            borda
+                ? borda.value
+                : "Sem Borda"
+        }`,
+
+        complementos.length
+            ? `Complementos: ${
+                complementos
+                    .map(input => input.value)
+                    .join(", ")
+              }`
+            : ""
+
+    ].filter(Boolean).join(" | ");
+
+
+    adicionarAoCarrinho({
+
+        id:
+            `pizza-${slug(tamanho)}-${Date.now()}`,
+
+        nome: nome,
+
+        preco: precoFinal,
+
+        categoria: "Pizzas",
+
+        descricao:
+            "Pizza personalizada",
+
+        detalhes: detalhes
+
+    });
+
+
+    alert(
+        "Pizza adicionada ao carrinho!"
+    );
+
+
+    limparMontadorPizza();
+
+}
+
+
+function limparMontadorPizza() {
+
+    const tamanho =
+        document.getElementById(
+            "tamanhoPizza"
+        );
+
+
+    if (tamanho) {
+        tamanho.value = "";
     }
 
 
-    lista.innerHTML =
-        carrinho.map((item, index) => `
-
-            <div class="itemCarrinho">
-
-                <h3>
-                    ${item.nome}
-                </h3>
-
-                ${
-                    item.ingredientes
-                        ? `<p>${item.ingredientes}</p>`
-                        : ""
-                }
-
-                <strong>
-                    ${dinheiro(
-                        Number(item.preco) *
-                        Number(item.quantidade)
-                    )}
-                </strong>
+    document
+        .querySelectorAll(
+            ".sabor-pizza"
+        )
+        .forEach(input => {
+            input.checked = false;
+        });
 
 
-                <div class="controlesCarrinho">
-
-                    <button
-                        onclick="diminuir(${index})">
-
-                        −
-
-                    </button>
-
-
-                    <span>
-                        ${item.quantidade}
-                    </span>
+    document
+        .querySelectorAll(
+            'input[name="complementoPizza"]'
+        )
+        .forEach(input => {
+            input.checked = false;
+        });
 
 
-                    <button
-                        onclick="aumentar(${index})">
-
-                        +
-
-                    </button>
+    const primeiraBorda =
+        document.querySelector(
+            'input[name="bordaPizza"]'
+        );
 
 
-                    <button
-                        onclick="remover(${index})">
-
-                        🗑️
-
-                    </button>
-
-                </div>
-
-            </div>
-
-        `).join("");
+    if (primeiraBorda) {
+        primeiraBorda.checked = true;
+    }
 
 
-    const valorSubtotal =
-        subtotal();
+    atualizarPizza();
+
+}
 
 
-    const valorDesconto =
-        valorSubtotal *
-        (desconto / 100);
+/* =========================================================
+   CARRINHO
+========================================================= */
+
+function carregarCarrinho() {
+
+    try {
+
+        const dados =
+            localStorage.getItem(
+                CHAVE_CARRINHO
+            );
 
 
-    total.innerHTML = `
+        if (!dados) {
 
-        <p>
-            Subtotal:
-            <strong>
-                ${dinheiro(valorSubtotal)}
-            </strong>
-        </p>
+            carrinho = [];
 
-        ${
-            desconto > 0
-                ? `
-                    <p>
-                        Desconto (${desconto}%):
-                        <strong>
-                            -${dinheiro(valorDesconto)}
-                        </strong>
-                    </p>
-                `
-                : ""
+            return;
+
         }
 
-        <p>
-            Total dos produtos:
-            <strong>
-                ${dinheiro(
-                    valorSubtotal -
-                    valorDesconto
-                )}
-            </strong>
-        </p>
 
-    `;
+        const convertido =
+            JSON.parse(dados);
 
 
-    salvarDados();
+        carrinho =
+            Array.isArray(convertido)
+                ? convertido
+                : [];
+
+    } catch (erro) {
+
+        console.error(
+            "Erro ao carregar carrinho:",
+            erro
+        );
+
+        carrinho = [];
+
+    }
+
 }
 
 
-function aumentar(index) {
+function salvarCarrinho() {
 
-    if (!carrinho[index]) return;
+    localStorage.setItem(
+        CHAVE_CARRINHO,
+        JSON.stringify(carrinho)
+    );
 
-    carrinho[index].quantidade++;
+    atualizarContadorCarrinho();
 
-    atualizarCarrinho();
 }
 
 
-function diminuir(index) {
+function adicionarAoCarrinho(produto) {
 
-    if (!carrinho[index]) return;
+    const detalhes =
+        produto.detalhes || "";
 
 
-    if (carrinho[index].quantidade > 1) {
+    const existente =
+        carrinho.find(item =>
 
-        carrinho[index].quantidade--;
+            item.id === produto.id &&
+            item.detalhes === detalhes
+
+        );
+
+
+    if (existente) {
+
+        existente.quantidade += 1;
 
     } else {
 
-        carrinho.splice(index, 1);
+        carrinho.push({
+
+            id:
+                produto.id ||
+                gerarId(),
+
+            nome:
+                produto.nome,
+
+            preco:
+                Number(produto.preco || 0),
+
+            categoria:
+                produto.categoria || "",
+
+            descricao:
+                produto.descricao || "",
+
+            detalhes:
+                detalhes,
+
+            quantidade: 1
+
+        });
 
     }
 
 
-    atualizarCarrinho();
+    salvarCarrinho();
+
+    renderizarCarrinho();
+
 }
 
 
-function remover(index) {
+function removerDoCarrinho(index) {
 
-    if (!carrinho[index]) return;
+    if (
+        index < 0 ||
+        index >= carrinho.length
+    ) {
+        return;
+    }
 
 
     carrinho.splice(index, 1);
 
-    atualizarCarrinho();
+
+    salvarCarrinho();
+
+    renderizarCarrinho();
+
 }
 
 
-// ==========================================
-// CHECKOUT
-// ==========================================
+function alterarQuantidade(index, delta) {
+
+    const item =
+        carrinho[index];
+
+
+    if (!item) {
+        return;
+    }
+
+
+    item.quantidade += delta;
+
+
+    if (item.quantidade <= 0) {
+
+        carrinho.splice(
+            index,
+            1
+        );
+
+    }
+
+
+    salvarCarrinho();
+
+    renderizarCarrinho();
+
+}
+
+
+function calcularSubtotal() {
+
+    return carrinho.reduce(
+        (total, item) =>
+            total +
+            (
+                Number(item.preco || 0) *
+                Number(item.quantidade || 0)
+            ),
+        0
+    );
+
+}
+
+
+function calcularDesconto() {
+
+    const subtotal =
+        calcularSubtotal();
+
+
+    return subtotal *
+        (Number(desconto || 0) / 100);
+
+}
+
+
+function obterTipoRecebimento() {
+
+    const selecionado =
+        document.querySelector(
+            'input[name="recebimento"]:checked'
+        );
+
+
+    return selecionado
+        ? selecionado.value
+        : "retirada";
+
+}
+
+
+function calcularTaxaEntrega() {
+
+    return obterTipoRecebimento() === "entrega"
+        ? TAXA_ENTREGA
+        : 0;
+
+}
+
+
+function calcularTotal() {
+
+    const subtotal =
+        calcularSubtotal();
+
+
+    const valorDesconto =
+        calcularDesconto();
+
+
+    const taxa =
+        calcularTaxaEntrega();
+
+
+    return Math.max(
+        0,
+        subtotal -
+        valorDesconto +
+        taxa
+    );
+
+}
+
+
+function atualizarContadorCarrinho() {
+
+    const contador =
+        document.getElementById(
+            "contadorCarrinho"
+        );
+
+
+    if (!contador) {
+        return;
+    }
+
+
+    const quantidade =
+        carrinho.reduce(
+            (total, item) =>
+                total +
+                Number(item.quantidade || 0),
+            0
+        );
+
+
+    contador.textContent =
+        quantidade;
+
+}
+
+
+function renderizarCarrinho() {
+
+    const container =
+        document.getElementById(
+            "listaCarrinho"
+        );
+
+
+    if (!container) {
+        return;
+    }
+
+
+    if (!carrinho.length) {
+
+        container.innerHTML = `
+
+            <div class="carrinho-vazio">
+
+                <div>
+                    🛒
+                </div>
+
+                <h3>
+                    Seu carrinho está vazio.
+                </h3>
+
+                <p>
+                    Adicione alguns produtos
+                    para começar seu pedido.
+                </p>
+
+                <button
+                    type="button"
+                    onclick="abrirPagina('cardapio')"
+                >
+                    🍽️ VER CARDÁPIO
+                </button>
+
+            </div>
+
+        `;
+
+    } else {
+
+        container.innerHTML =
+            carrinho.map((item, index) => {
+
+                const totalItem =
+                    Number(item.preco) *
+                    Number(item.quantidade);
+
+
+                return `
+
+                    <article class="item-carrinho">
+
+                        <div class="item-carrinho-info">
+
+                            <span class="categoria-tag">
+                                ${escaparHTML(item.categoria)}
+                            </span>
+
+                            <h3>
+                                ${escaparHTML(item.nome)}
+                            </h3>
+
+                            ${
+                                item.detalhes
+                                ? `
+                                    <p>
+                                        ${escaparHTML(item.detalhes)}
+                                    </p>
+                                `
+                                : ""
+                            }
+
+                            <strong>
+                                ${dinheiro(item.preco)}
+                            </strong>
+
+                        </div>
+
+
+                        <div class="item-carrinho-acoes">
+
+                            <button
+                                type="button"
+                                onclick="alterarQuantidade(${index}, -1)"
+                                aria-label="Diminuir quantidade"
+                            >
+                                −
+                            </button>
+
+
+                            <span>
+                                ${item.quantidade}
+                            </span>
+
+
+                            <button
+                                type="button"
+                                onclick="alterarQuantidade(${index}, 1)"
+                                aria-label="Aumentar quantidade"
+                            >
+                                +
+                            </button>
+
+
+                            <strong>
+                                ${dinheiro(totalItem)}
+                            </strong>
+
+
+                            <button
+                                type="button"
+                                class="botao-remover"
+                                onclick="removerDoCarrinho(${index})"
+                            >
+                                🗑️
+                            </button>
+
+                        </div>
+
+                    </article>
+
+                `;
+
+            }).join("");
+
+    }
+
+
+    const subtotal =
+        calcularSubtotal();
+
+
+    const valorDesconto =
+        calcularDesconto();
+
+
+    const taxa =
+        calcularTaxaEntrega();
+
+
+    const total =
+        calcularTotal();
+
+
+    const elementoSubtotal =
+        document.getElementById(
+            "subtotalCarrinho"
+        );
+
+
+    const elementoDesconto =
+        document.getElementById(
+            "descontoCarrinho"
+        );
+
+
+    const elementoTaxa =
+        document.getElementById(
+            "taxaCarrinho"
+        );
+
+
+    const elementoTotal =
+        document.getElementById(
+            "totalCarrinho"
+        );
+
+
+    if (elementoSubtotal) {
+        elementoSubtotal.textContent =
+            dinheiro(subtotal);
+    }
+
+
+    if (elementoDesconto) {
+        elementoDesconto.textContent =
+            dinheiro(valorDesconto);
+    }
+
+
+    if (elementoTaxa) {
+        elementoTaxa.textContent =
+            dinheiro(taxa);
+    }
+
+
+    if (elementoTotal) {
+        elementoTotal.textContent =
+            dinheiro(total);
+    }
+
+
+    atualizarContadorCarrinho();
+
+}
+
+
+/* =========================================================
+   CHECKOUT
+========================================================= */
 
 function abrirCheckout() {
 
-    if (carrinho.length === 0) {
+    if (!carrinho.length) {
 
-        alert("Seu carrinho está vazio.");
+        alert(
+            "Seu carrinho está vazio."
+        );
 
         return;
+
     }
 
 
     abrirPagina("checkout");
 
-    mostrarEndereco();
-
-    mostrarTroco();
-
-    atualizarResumoCheckout();
 }
 
 
-function mostrarEndereco() {
+function atualizarEntrega() {
 
-    const recebimento =
-        document.getElementById("recebimento");
-
-    const area =
-        document.getElementById("enderecoArea");
-
-    if (!recebimento || !area) return;
+    const radio =
+        document.querySelector(
+            'input[name="recebimento"]:checked'
+        );
 
 
-    area.style.display =
-        recebimento.value === "entrega"
-            ? "block"
-            : "none";
+    const endereco =
+        document.getElementById(
+            "enderecoEntrega"
+        );
 
 
-    atualizarResumoCheckout();
+    if (!radio || !endereco) {
+        return;
+    }
+
+
+    const entrega =
+        radio.value === "entrega";
+
+
+    endereco.hidden =
+        !entrega;
+
+
+    const campos = [
+        "rua",
+        "numero",
+        "bairro"
+    ];
+
+
+    campos.forEach(id => {
+
+        const campo =
+            document.getElementById(id);
+
+
+        if (campo) {
+            campo.required = entrega;
+        }
+
+    });
+
+
+    renderizarCarrinho();
+
+    renderizarCheckout();
+
+}
+
+
+function obterPagamento() {
+
+    const radio =
+        document.querySelector(
+            'input[name="pagamento"]:checked'
+        );
+
+
+    return radio
+        ? radio.value
+        : "Pix";
+
 }
 
 
 function mostrarTroco() {
 
+    const campo =
+        document.getElementById(
+            "campoTroco"
+        );
+
+
+    if (!campo) {
+        return;
+    }
+
+
     const pagamento =
-        document.getElementById("pagamento");
-
-    const area =
-        document.getElementById("areaTroco");
-
-    if (!pagamento || !area) return;
+        obterPagamento();
 
 
-    area.style.display =
-        pagamento.value === "dinheiro"
-            ? "block"
-            : "none";
+    campo.hidden =
+        pagamento !== "Dinheiro";
 
 
-    atualizarResumoCheckout();
+    renderizarCheckout();
+
 }
 
 
-function atualizarResumoCheckout() {
+function renderizarCheckout() {
 
-    const elemento =
-        document.getElementById("resumoCheckout");
-
-    if (!elemento) return;
-
-
-    const valorSubtotal =
-        subtotal();
+    const container =
+        document.getElementById(
+            "resumoCheckout"
+        );
 
 
-    const valorDesconto =
-        valorSubtotal *
-        (desconto / 100);
+    if (!container) {
+        return;
+    }
 
 
-    const recebimento =
-        document.getElementById("recebimento")?.value
-        || "retirada";
+    if (!carrinho.length) {
+
+        container.innerHTML =
+            "<p>Seu carrinho está vazio.</p>";
+
+    } else {
+
+        container.innerHTML =
+            carrinho.map(item => `
+
+                <div class="linha-resumo">
+
+                    <span>
+                        ${item.quantidade}x
+                        ${escaparHTML(item.nome)}
+                    </span>
+
+                    <strong>
+                        ${dinheiro(
+                            Number(item.preco) *
+                            Number(item.quantidade)
+                        )}
+                    </strong>
+
+                </div>
+
+            `).join("");
+
+    }
+
+
+    const subtotal =
+        calcularSubtotal();
+
+
+    const descontoValor =
+        calcularDesconto();
 
 
     const taxa =
-        recebimento === "entrega"
-            ? TAXA_ENTREGA
-            : 0;
+        calcularTaxaEntrega();
 
 
-    const totalFinal =
-        valorSubtotal -
-        valorDesconto +
-        taxa;
+    const total =
+        calcularTotal();
 
 
-    elemento.innerHTML = `
-
-        ${carrinho.map(item => `
-
-            <p>
-                ${item.quantidade}x
-                ${item.nome}
-                —
-                ${dinheiro(
-                    item.preco *
-                    item.quantidade
-                )}
-            </p>
-
-        `).join("")}
+    const totalElemento =
+        document.getElementById(
+            "totalCheckout"
+        );
 
 
-        <hr>
+    if (totalElemento) {
+
+        totalElemento.textContent =
+            dinheiro(total);
+
+    }
 
 
-        <p>
-            Subtotal:
+    const linhas = `
+
+        <div class="linha-resumo">
+
+            <span>
+                Subtotal
+            </span>
+
             <strong>
-                ${dinheiro(valorSubtotal)}
+                ${dinheiro(subtotal)}
             </strong>
-        </p>
+
+        </div>
 
 
-        ${
-            desconto > 0
-                ? `
-                    <p>
-                        Desconto:
-                        <strong>
-                            -${dinheiro(valorDesconto)}
-                        </strong>
-                    </p>
-                `
-                : ""
-        }
+        <div class="linha-resumo">
+
+            <span>
+                Desconto
+            </span>
+
+            <strong>
+                - ${dinheiro(descontoValor)}
+            </strong>
+
+        </div>
 
 
-        ${
-            taxa > 0
-                ? `
-                    <p>
-                        Entrega:
-                        <strong>
-                            ${dinheiro(taxa)}
-                        </strong>
-                    </p>
-                `
-                : `
-                    <p>
-                        Entrega:
-                        <strong>
-                            Grátis
-                        </strong>
-                    </p>
-                `
-        }
+        <div class="linha-resumo">
 
+            <span>
+                Entrega
+            </span>
 
-        <h3>
-            Total:
-            ${dinheiro(totalFinal)}
-        </h3>
+            <strong>
+                ${dinheiro(taxa)}
+            </strong>
+
+        </div>
 
     `;
+
+
+    container.insertAdjacentHTML(
+        "beforeend",
+        linhas
+    );
+
 }
 
 
-// ==========================================
-// CUPOM
-// ==========================================
+/* =========================================================
+   CUPONS
+========================================================= */
 
 function aplicarCupom() {
 
-    const campo =
-        document.getElementById("cupom");
+    const input =
+        document.getElementById(
+            "cupom"
+        );
 
-    const resultado =
-        document.getElementById("resultadoCupom");
+
+    const mensagem =
+        document.getElementById(
+            "mensagemCupom"
+        );
 
 
-    if (!campo || !resultado) return;
+    if (!input) {
+        return;
+    }
 
 
     const codigo =
-        campo.value
+        input.value
             .trim()
             .toUpperCase();
 
 
-    if (
-        codigo === "PRIMEIRACOMPRA" ||
-        codigo === "UNESP10"
-    ) {
+    if (!codigo) {
 
-        desconto = 10;
-
-        cupomAplicado = codigo;
+        desconto = 0;
+        cupomAplicado = "";
 
 
-        resultado.innerHTML =
-            "✅ Cupom aplicado! Desconto de 10%.";
+        if (mensagem) {
 
+            mensagem.textContent =
+                "Digite um cupom.";
+
+        }
+
+
+        renderizarCarrinho();
+        renderizarCheckout();
+
+        return;
+
+    }
+
+
+    const cupons = {
+
+        "PRIMEIRACOMPRA": 10,
+
+        "UNESP10": 10
+
+    };
+
+
+    if (cupons[codigo]) {
+
+        desconto =
+            cupons[codigo];
+
+        cupomAplicado =
+            codigo;
+
+
+        if (mensagem) {
+
+            mensagem.textContent =
+                `Cupom ${codigo} aplicado: ${desconto}% de desconto.`;
+
+            mensagem.className =
+                "cupom-sucesso";
+
+        }
 
     } else {
 
         desconto = 0;
-
         cupomAplicado = "";
 
 
-        resultado.innerHTML =
-            "❌ Cupom inválido.";
+        if (mensagem) {
+
+            mensagem.textContent =
+                "Cupom inválido.";
+
+            mensagem.className =
+                "cupom-erro";
+
+        }
 
     }
 
 
-    salvarDados();
+    renderizarCarrinho();
+    renderizarCheckout();
 
-    atualizarResumoCheckout();
 }
 
 
-// ==========================================
-// VALIDAÇÃO
-// ==========================================
+/* =========================================================
+   VALIDAÇÃO DO CHECKOUT
+========================================================= */
 
 function validarCheckout() {
 
-    const nome =
-        document
-            .getElementById("nomeCliente")
-            ?.value.trim();
+    if (!carrinho.length) {
 
-
-    const telefone =
-        document
-            .getElementById("telefoneCliente")
-            ?.value.trim();
-
-
-    if (!nome) {
-
-        alert("Digite seu nome.");
+        alert(
+            "Adicione produtos ao carrinho antes de finalizar."
+        );
 
         return false;
+
     }
 
 
-    if (!telefone) {
+    const nome =
+        document.getElementById(
+            "nomeCliente"
+        );
 
-        alert("Digite seu telefone.");
+
+    const telefone =
+        document.getElementById(
+            "telefoneCliente"
+        );
+
+
+    if (!nome || !nome.value.trim()) {
+
+        alert(
+            "Informe seu nome."
+        );
+
+        nome?.focus();
 
         return false;
+
+    }
+
+
+    if (!telefone || !telefone.value.trim()) {
+
+        alert(
+            "Informe seu WhatsApp."
+        );
+
+        telefone?.focus();
+
+        return false;
+
     }
 
 
     const recebimento =
-        document.getElementById("recebimento")?.value;
+        obterTipoRecebimento();
 
 
     if (recebimento === "entrega") {
 
         const rua =
-            document.getElementById("rua")
-                ?.value.trim();
+            document.getElementById("rua");
+
 
         const numero =
-            document.getElementById("numero")
-                ?.value.trim();
+            document.getElementById("numero");
+
 
         const bairro =
-            document.getElementById("bairro")
-                ?.value.trim();
+            document.getElementById("bairro");
 
 
-        if (!rua || !numero || !bairro) {
+        if (
+            !rua?.value.trim() ||
+            !numero?.value.trim() ||
+            !bairro?.value.trim()
+        ) {
 
             alert(
                 "Preencha rua, número e bairro para a entrega."
             );
 
             return false;
+
         }
+
     }
 
 
     const pagamento =
-        document.getElementById("pagamento")?.value;
+        obterPagamento();
 
 
-    if (pagamento === "dinheiro") {
+    if (pagamento === "Dinheiro") {
 
         const troco =
-            Number(
-                document
-                    .getElementById("troco")
-                    ?.value
+            document.getElementById(
+                "troco"
             );
 
 
-        const valorSubtotal =
-            subtotal();
-
-
-        const valorDesconto =
-            valorSubtotal *
-            (desconto / 100);
-
-
-        const taxa =
-            recebimento === "entrega"
-                ? TAXA_ENTREGA
-                : 0;
-
-
-        const total =
-            valorSubtotal -
-            valorDesconto +
-            taxa;
-
-
-        if (!troco || troco < total) {
+        if (
+            troco &&
+            troco.value &&
+            Number(troco.value) <
+            calcularTotal()
+        ) {
 
             alert(
-                `Informe um valor de troco igual ou maior que ${dinheiro(total)}.`
+                "O valor informado para o troco precisa ser maior ou igual ao total."
             );
 
+            troco.focus();
+
             return false;
+
         }
+
     }
 
 
     return true;
+
 }
 
 
-// ==========================================
-// WHATSAPP
-// ==========================================
+/* =========================================================
+   MONTAGEM DA MENSAGEM DO WHATSAPP
+========================================================= */
 
-function gerarNumeroPedido() {
+function montarMensagemWhatsApp(
+    pedido
+) {
 
-    const agora =
-        new Date();
+    const linhas = [];
 
 
-    return (
-        String(agora.getFullYear()).slice(-2) +
-        String(agora.getMonth() + 1).padStart(2, "0") +
-        String(agora.getDate()).padStart(2, "0") +
-        String(agora.getHours()).padStart(2, "0") +
-        String(agora.getMinutes()).padStart(2, "0") +
-        String(agora.getSeconds()).padStart(2, "0")
+    linhas.push(
+        "🍔 *NOVO PEDIDO*"
     );
+
+
+    linhas.push(
+        "*Restaurante Lanchonete MM*"
+    );
+
+
+    linhas.push(
+        ""
+    );
+
+
+    linhas.push(
+        `📋 *Pedido nº:* ${pedido.numero}`
+    );
+
+
+    linhas.push(
+        `👤 *Cliente:* ${pedido.cliente.nome}`
+    );
+
+
+    linhas.push(
+        `📱 *WhatsApp:* ${pedido.cliente.telefone}`
+    );
+
+
+    linhas.push(
+        ""
+    );
+
+
+    if (
+        pedido.recebimento ===
+        "entrega"
+    ) {
+
+        linhas.push(
+            "🚗 *FORMA: DELIVERY*"
+        );
+
+
+        linhas.push(
+            `📍 *Endereço:* ${pedido.endereco.rua}, ${pedido.endereco.numero}`
+        );
+
+
+        linhas.push(
+            `🏘️ *Bairro:* ${pedido.endereco.bairro}`
+        );
+
+
+        if (
+            pedido.endereco.complemento
+        ) {
+
+            linhas.push(
+                `🏠 *Complemento:* ${pedido.endereco.complemento}`
+            );
+
+        }
+
+
+        if (
+            pedido.endereco.referencia
+        ) {
+
+            linhas.push(
+                `📌 *Referência:* ${pedido.endereco.referencia}`
+            );
+
+        }
+
+
+        linhas.push(
+            "🛵 *Prazo estimado: 60 a 80 minutos.*"
+        );
+
+        linhas.push(
+            "Seu pedido será entregue em aproximadamente 60 a 80 minutos e estará na sua residência."
+        );
+
+    } else {
+
+        linhas.push(
+            "🏪 *FORMA: RETIRADA NO LOCAL*"
+        );
+
+
+        linhas.push(
+            "Seu pedido estará disponível para retirada no local."
+        );
+
+    }
+
+
+    linhas.push(
+        ""
+    );
+
+
+    linhas.push(
+        "🛒 *ITENS DO PEDIDO:*"
+    );
+
+
+    pedido.itens.forEach(item => {
+
+        linhas.push(
+            `• ${item.quantidade}x ${item.nome} — ${dinheiro(item.preco * item.quantidade)}`
+        );
+
+
+        if (item.detalhes) {
+
+            linhas.push(
+                `   ↳ ${item.detalhes}`
+            );
+
+        }
+
+    });
+
+
+    linhas.push(
+        ""
+    );
+
+
+    linhas.push(
+        `💰 *Subtotal:* ${dinheiro(pedido.subtotal)}`
+    );
+
+
+    if (pedido.desconto > 0) {
+
+        linhas.push(
+            `🎟️ *Cupom:* ${pedido.cupom}`
+        );
+
+
+        linhas.push(
+            `🏷️ *Desconto:* -${dinheiro(pedido.valorDesconto)}`
+        );
+
+    }
+
+
+    linhas.push(
+        `🚗 *Taxa de entrega:* ${dinheiro(pedido.taxaEntrega)}`
+    );
+
+
+    linhas.push(
+        `💵 *TOTAL:* ${dinheiro(pedido.total)}`
+    );
+
+
+    linhas.push(
+        ""
+    );
+
+
+    linhas.push(
+        `💳 *Pagamento:* ${pedido.pagamento}`
+    );
+
+
+    if (
+        pedido.pagamento ===
+        "Dinheiro" &&
+        pedido.troco
+    ) {
+
+        linhas.push(
+            `💵 *Troco para:* ${dinheiro(pedido.troco)}`
+        );
+
+
+        linhas.push(
+            `💰 *Troco:* ${dinheiro(
+                pedido.troco -
+                pedido.total
+            )}`
+        );
+
+    }
+
+
+    linhas.push(
+        ""
+    );
+
+
+    linhas.push(
+        "Obrigado por pedir no Restaurante Lanchonete MM! ❤️"
+    );
+
+
+    return linhas.join("\n");
+
 }
 
 
-function enviarWhatsApp() {
+/* =========================================================
+   FINALIZAR PEDIDO
+========================================================= */
+
+function finalizarPedido(event) {
+
+    if (event) {
+        event.preventDefault();
+    }
+
 
     if (!validarCheckout()) {
         return;
     }
 
 
-    if (!pedidoEstaLiberado()) {
-
-        alert(
-            "🔴 No momento estamos fechados para novos pedidos. Seu carrinho continua salvo para você finalizar quando estivermos abertos."
-        );
-
-        return;
-    }
-
-
-    if (carrinho.length === 0) {
-
-        alert("Seu carrinho está vazio.");
-
-        return;
-    }
-
-
-    const numeroPedido =
-        gerarNumeroPedido();
-
-
     const nome =
-        document
-            .getElementById("nomeCliente")
-            .value.trim();
+        document.getElementById(
+            "nomeCliente"
+        ).value.trim();
 
 
     const telefone =
-        document
-            .getElementById("telefoneCliente")
-            .value.trim();
+        document.getElementById(
+            "telefoneCliente"
+        ).value.trim();
 
 
     const recebimento =
-        document
-            .getElementById("recebimento")
-            .value;
+        obterTipoRecebimento();
 
 
     const pagamento =
-        document
-            .getElementById("pagamento")
-            .value;
+        obterPagamento();
 
 
-    const valorSubtotal =
-        subtotal();
+    const subtotal =
+        calcularSubtotal();
 
 
     const valorDesconto =
-        valorSubtotal *
-        (desconto / 100);
+        calcularDesconto();
 
 
-    const taxa =
-        recebimento === "entrega"
-            ? TAXA_ENTREGA
-            : 0;
+    const taxaEntrega =
+        calcularTaxaEntrega();
 
 
     const total =
-        valorSubtotal -
-        valorDesconto +
-        taxa;
+        calcularTotal();
 
 
-    let mensagem =
-        `🍔 *RESTAURANTE LANCHONETE MM*\n\n`;
+    const trocoCampo =
+        document.getElementById(
+            "troco"
+        );
 
 
-    mensagem +=
-        `📋 *Pedido nº ${numeroPedido}*\n\n`;
+    const troco =
+        pagamento === "Dinheiro" &&
+        trocoCampo &&
+        trocoCampo.value
+            ? Number(trocoCampo.value)
+            : 0;
 
 
-    mensagem +=
-        `👤 *Cliente:* ${nome}\n`;
+    const pedidoNumero =
+        "MM-" +
+        new Date()
+            .toISOString()
+            .replace(/\D/g, "")
+            .slice(2, 14);
 
 
-    mensagem +=
-        `📱 *Telefone:* ${telefone}\n\n`;
+    const pedido = {
 
+        numero:
+            pedidoNumero,
 
-    mensagem +=
-        `🛒 *PEDIDO*\n`;
+        data:
+            new Date().toISOString(),
 
+        status:
+            "Recebido",
 
-    carrinho.forEach(item => {
+        cliente: {
 
-        mensagem +=
-            `\n${item.quantidade}x ${item.nome}`;
+            nome:
+                nome,
 
+            telefone:
+                telefone
 
-        if (item.ingredientes) {
+        },
 
-            mensagem +=
-                `\n   ↳ ${item.ingredientes}`;
+        recebimento:
+            recebimento,
 
-        }
-
-
-        mensagem +=
-            `\n   ${dinheiro(
-                item.preco *
-                item.quantidade
-            )}\n`;
-
-    });
-
-
-    mensagem +=
-        `\n💰 *Subtotal:* ${dinheiro(valorSubtotal)}`;
-
-
-    if (desconto > 0) {
-
-        mensagem +=
-            `\n🏷️ *Desconto:* ${desconto}% (-${dinheiro(valorDesconto)})`;
-
-    }
-
-
-    if (recebimento === "entrega") {
-
-        mensagem +=
-            `\n🛵 *Entrega:* ${dinheiro(TAXA_ENTREGA)}`;
-
-    } else {
-
-        mensagem +=
-            `\n🏠 *Retirada no balcão:* Grátis`;
-
-    }
-
-
-    mensagem +=
-        `\n💵 *TOTAL:* ${dinheiro(total)}\n`;
-
-
-    mensagem +=
-        `\n📦 *Recebimento:* ${
+        endereco:
             recebimento === "entrega"
-                ? "Entrega"
-                : "Retirada no balcão"
-        }`;
+            ? {
+
+                rua:
+                    document.getElementById(
+                        "rua"
+                    )?.value.trim() || "",
+
+                numero:
+                    document.getElementById(
+                        "numero"
+                    )?.value.trim() || "",
+
+                bairro:
+                    document.getElementById(
+                        "bairro"
+                    )?.value.trim() || "",
+
+                complemento:
+                    document.getElementById(
+                        "complemento"
+                    )?.value.trim() || "",
+
+                referencia:
+                    document.getElementById(
+                        "referencia"
+                    )?.value.trim() || ""
+
+            }
+            : {},
+
+        pagamento:
+            pagamento,
+
+        troco:
+            troco,
+
+        itens:
+            carrinho.map(item => ({
+                ...item
+            })),
+
+        subtotal:
+            subtotal,
+
+        desconto:
+            desconto,
+
+        cupom:
+            cupomAplicado,
+
+        valorDesconto:
+            valorDesconto,
+
+        taxaEntrega:
+            taxaEntrega,
+
+        total:
+            total
+
+    };
 
 
-    if (recebimento === "entrega") {
+    /* =====================================================
+       HISTÓRICO
+    ====================================================== */
 
-        const rua =
-            document.getElementById("rua").value.trim();
-
-        const numero =
-            document.getElementById("numero").value.trim();
-
-        const bairro =
-            document.getElementById("bairro").value.trim();
-
-        const complemento =
-            document.getElementById("complemento").value.trim();
-
-        const referencia =
-            document.getElementById("referencia").value.trim();
+    let historico = [];
 
 
-        mensagem +=
-            `\n\n📍 *ENDEREÇO*`;
+    try {
 
-        mensagem +=
-            `\n${rua}, ${numero}`;
-
-        mensagem +=
-            `\nBairro: ${bairro}`;
-
-
-        if (complemento) {
-
-            mensagem +=
-                `\nComplemento: ${complemento}`;
-
-        }
-
-
-        if (referencia) {
-
-            mensagem +=
-                `\nReferência: ${referencia}`;
-
-        }
-    }
-
-
-    mensagem +=
-        `\n\n💳 *Pagamento:* `;
-
-
-    if (pagamento === "pix") {
-
-        mensagem += "Pix";
-
-    } else if (pagamento === "cartao") {
-
-        mensagem += "Cartão";
-
-    } else {
-
-        const troco =
-            Number(
-                document
-                    .getElementById("troco")
-                    .value
+        const salvo =
+            localStorage.getItem(
+                CHAVE_HISTORICO
             );
 
 
-        mensagem +=
-            `Dinheiro — troco para ${dinheiro(troco)}`;
+        historico =
+            salvo
+                ? JSON.parse(salvo)
+                : [];
+
+
+        if (!Array.isArray(historico)) {
+            historico = [];
+        }
+
+    } catch {
+
+        historico = [];
 
     }
 
 
-    mensagem +=
-        `\n\n📍 Restaurante Lanchonete MM`;
+    historico.push(pedido);
 
-    mensagem +=
-        `\nRua Guanabara, nº 26`;
 
-    mensagem +=
-        `\nDivinolândia - SP`;
+    localStorage.setItem(
+        CHAVE_HISTORICO,
+        JSON.stringify(historico)
+    );
+
+
+    /* =====================================================
+       ATUALIZA TELA DE SUCESSO
+    ====================================================== */
+
+    const numero =
+        document.getElementById(
+            "numeroPedido"
+        );
+
+
+    const status =
+        document.getElementById(
+            "statusPedido"
+        );
+
+
+    if (numero) {
+        numero.textContent =
+            pedido.numero;
+    }
+
+
+    if (status) {
+
+        if (recebimento === "entrega") {
+
+            status.innerHTML =
+                "🛵 Pedido recebido! Seu pedido será entregue em aproximadamente <strong>60 a 80 minutos</strong> e estará na sua residência.";
+
+        } else {
+
+            status.innerHTML =
+                "🏪 Pedido recebido! Seu pedido estará disponível para retirada no local.";
+
+        }
+
+    }
+
+
+    /* =====================================================
+       MONTA WHATSAPP
+    ====================================================== */
+
+    const mensagem =
+        montarMensagemWhatsApp(
+            pedido
+        );
 
 
     const url =
         `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(mensagem)}`;
 
 
-    salvarHistorico(
-        numeroPedido,
-        mensagem
-    );
-
-
-    document
-        .getElementById("numeroPedido")
-        .textContent =
-            numeroPedido;
-
-
-    document
-        .getElementById("statusPedido")
-        .textContent =
-            "Seu pedido foi preparado e encaminhado para o WhatsApp.";
-
+    /* =====================================================
+       LIMPA CARRINHO
+    ====================================================== */
 
     carrinho = [];
 
     desconto = 0;
-
     cupomAplicado = "";
 
 
-    salvarDados();
+    salvarCarrinho();
 
-    atualizarCarrinho();
 
+    const cupom =
+        document.getElementById(
+            "cupom"
+        );
+
+
+    if (cupom) {
+        cupom.value = "";
+    }
+
+
+    /* =====================================================
+       ABRE TELA DE SUCESSO
+    ====================================================== */
 
     abrirPagina("sucesso");
 
 
-    window.open(
-        url,
-        "_blank"
-    );
+    /*
+     * Abre o WhatsApp depois de mostrar
+     * a confirmação ao cliente.
+     */
+
+    setTimeout(() => {
+
+        window.location.href =
+            url;
+
+    }, 700);
+
 }
 
 
-// ==========================================
-// WHATSAPP CONVERSA
-// ==========================================
-
-function abrirWhatsAppConversa() {
-
-    const mensagem =
-        encodeURIComponent(
-            "Olá! Gostaria de falar com o Restaurante Lanchonete MM."
-        );
-
-
-    window.open(
-        `https://wa.me/${WHATSAPP}?text=${mensagem}`,
-        "_blank"
-    );
-}
-
-
-// ==========================================
-// HISTÓRICO
-// ==========================================
-
-function salvarHistorico(
-    numeroPedido,
-    mensagem
-) {
-
-    let historico = [];
-
-
-    try {
-
-        historico =
-            JSON.parse(
-                localStorage.getItem("historicoMM")
-            ) || [];
-
-    } catch {
-
-        historico = [];
-
-    }
-
-
-    historico.unshift({
-
-        numero:
-            numeroPedido,
-
-        mensagem:
-            mensagem,
-
-        data:
-            new Date().toLocaleString("pt-BR")
-
-    });
-
-
-    historico =
-        historico.slice(0, 20);
-
-
-    localStorage.setItem(
-        "historicoMM",
-        JSON.stringify(historico)
-    );
-}
-
-
-function mostrarHistorico() {
-
-    const elemento =
-        document.getElementById("listaHistorico");
-
-    if (!elemento) return;
-
-
-    let historico = [];
-
-
-    try {
-
-        historico =
-            JSON.parse(
-                localStorage.getItem("historicoMM")
-            ) || [];
-
-    } catch {
-
-        historico = [];
-
-    }
-
-
-    if (historico.length === 0) {
-
-        elemento.innerHTML =
-            "<p>Você ainda não possui pedidos.</p>";
-
-        return;
-    }
-
-
-    elemento.innerHTML =
-        historico.map((pedido, index) => `
-
-            <div class="itemHistorico">
-
-                <h3>
-                    Pedido #${pedido.numero}
-                </h3>
-
-                <p>
-                    ${pedido.data}
-                </p>
-
-                <button
-                    onclick="repetirPedido(${index})">
-
-                    🔄 Repetir pedido
-
-                </button>
-
-            </div>
-
-        `).join("");
-}
-
-
-function repetirPedido(index) {
-
-    let historico = [];
-
-
-    try {
-
-        historico =
-            JSON.parse(
-                localStorage.getItem("historicoMM")
-            ) || [];
-
-    } catch {
-
-        historico = [];
-
-    }
-
-
-    const pedido =
-        historico[index];
-
-
-    if (!pedido) return;
-
-
-    alert(
-        "O histórico serve para consultar seus pedidos anteriores. Monte novamente os itens no cardápio para fazer um novo pedido."
-    );
-}
-
-
-// ==========================================
-// BUSCA
-// ==========================================
-
-function buscarProdutos() {
-
-    const campo =
-        document.getElementById("campoBusca");
-
-    const resultado =
-        document.getElementById("resultadoBusca");
-
-
-    if (!campo || !resultado) return;
-
-
-    const termo =
-        campo.value
-            .trim()
-            .toLowerCase();
-
-
-    if (!termo) {
-
-        resultado.innerHTML = "";
-
-        return;
-    }
-
-
-    const resultados = [];
-
-
-    function procurar(
-        lista,
-        tipo
-    ) {
-
-        lista.forEach((produto, index) => {
-
-            const texto =
-                `
-                ${produto.nome}
-                ${produto.ingredientes || ""}
-                ${produto.categoria || ""}
-                `.toLowerCase();
-
-
-            if (texto.includes(termo)) {
-
-                resultados.push({
-
-                    produto,
-
-                    tipo,
-
-                    index
-
-                });
-
-            }
-
-        });
-
-    }
-
-
-    procurar(lanches, "lanches");
-
-    procurar(hotdogs, "hotdogs");
-
-    procurar(porcoes, "porcoes");
-
-    procurar(bebidas, "bebidas");
-
-    procurar(esfirras, "esfirras");
-
-    procurar(alacarte, "alacarte");
-
-    procurar(pizzas, "pizzas");
-
-
-    if (resultados.length === 0) {
-
-        resultado.innerHTML =
-            "<p>❌ Nenhum produto encontrado.</p>";
-
-        return;
-    }
-
-
-    resultado.innerHTML =
-        resultados.map(item => `
-
-            <div class="resultadoBuscaItem">
-
-                <h3>
-                    ${item.produto.nome}
-                </h3>
-
-                <p>
-                    ${item.produto.ingredientes || ""}
-                </p>
-
-                <strong>
-                    ${dinheiro(item.produto.preco)}
-                </strong>
-
-
-                ${
-                    item.tipo === "pizzas"
-
-                        ? `
-                            <button
-                                onclick="abrirPagina('pizzas'); selecionarPizza(${item.index})">
-
-                                🍕 Escolher pizza
-
-                            </button>
-                          `
-
-                        : item.tipo === "alacarte"
-
-                        ? `
-                            <button
-                                onclick="adicionarAlacarte(${item.index})">
-
-                                🛒 Adicionar
-
-                            </button>
-                          `
-
-                        : `
-                            <button
-                                onclick="adicionarProduto('${item.tipo}', ${item.index})">
-
-                                🛒 Adicionar
-
-                            </button>
-                          `
-                }
-
-            </div>
-
-        `).join("");
-}
-
-
-// ==========================================
-// MAPA
-// ==========================================
+/* =========================================================
+   MAPA
+========================================================= */
 
 function abrirMapa() {
 
     const endereco =
         encodeURIComponent(
-            "Rua Guanabara, 26, Divinolândia - SP"
+            "Rua Guanabara, 26, Divinolândia, SP"
         );
 
 
@@ -3399,52 +5149,285 @@ function abrirMapa() {
         `https://www.google.com/maps/search/?api=1&query=${endereco}`,
         "_blank"
     );
+
 }
 
 
-// ==========================================
-// INICIALIZAÇÃO
-// ==========================================
+/* =========================================================
+   PDV
+========================================================= */
+
+function abrirPDV() {
+
+    window.location.href =
+        "./pdv.html";
+
+}
+
+
+/* =========================================================
+   ATUALIZAR CATEGORIAS
+========================================================= */
+
+function atualizarTodasCategorias() {
+
+    renderizarCategoria(
+        "Lanches",
+        "listaLanches",
+        LANCHES
+    );
+
+
+    renderizarCategoria(
+        "Hot Dogs",
+        "listaHotdogs",
+        HOTDOGS
+    );
+
+
+    renderizarCategoria(
+        "Esfirras",
+        "listaEsfirrasSalgadas",
+        ESFIRRAS_SALGADAS
+    );
+
+
+    renderizarCategoria(
+        "Esfirras",
+        "listaEsfirrasDoces",
+        ESFIRRAS_DOCES
+    );
+
+
+    renderizarCategoria(
+        "Porções",
+        "listaPorcoes",
+        PORCOES
+    );
+
+
+    renderizarCategoria(
+        "À La Carte",
+        "listaAlacarte",
+        ALACARTE
+    );
+
+
+    renderizarCategoria(
+        "Bebidas",
+        "listaBebidas",
+        BEBIDAS
+    );
+
+
+    renderizarParmegianas();
+
+
+    renderizarMarmitas();
+
+
+    mostrarCardapioAlmoco();
+
+
+    mostrarCardapioJantar();
+
+
+    renderizarPizzas();
+
+
+    renderizarBordas();
+
+
+    renderizarComplementos();
+
+
+    atualizarPizza();
+
+}
+
+
+/* =========================================================
+   EVENTOS
+========================================================= */
 
 document.addEventListener(
     "DOMContentLoaded",
     function () {
 
-        document
-            .querySelectorAll(".pagina")
-            .forEach(pagina => {
-                pagina.style.display = "none";
-            });
+        inicializarCatalogo();
 
 
-        const inicio =
-            document.getElementById("inicio");
+        carregarCarrinho();
 
-        if (inicio) {
 
-            inicio.style.display =
-                "block";
+        atualizarContadorCarrinho();
+
+
+        verificarFuncionamento();
+
+
+        atualizarTodasCategorias();
+
+
+        const form =
+            document.getElementById(
+                "formCheckout"
+            );
+
+
+        if (form) {
+
+            form.addEventListener(
+                "submit",
+                finalizarPedido
+            );
 
         }
 
 
-        carregarDados();
+        atualizarEntrega();
 
-        carregarTema();
-
-        atualizarCarrinho();
-
-        verificarFuncionamento();
-
-        mostrarEndereco();
 
         mostrarTroco();
 
+
+        renderizarCarrinho();
+
+
+        renderizarCheckout();
+
+
+        /*
+         * Atualiza o horário a cada minuto.
+         */
 
         setInterval(
             verificarFuncionamento,
             60000
         );
 
+
+        /*
+         * Atualiza o cardápio do dia
+         * quando necessário.
+         */
+
+        setInterval(
+            function () {
+
+                mostrarCardapioAlmoco();
+
+                mostrarCardapioJantar();
+
+                renderizarMarmitas();
+
+            },
+            60000
+        );
+
     }
 );
+
+
+/* =========================================================
+   STORAGE EVENT
+   Sincroniza o site quando o PDV altera produtos.
+========================================================= */
+
+window.addEventListener(
+    "storage",
+    function (event) {
+
+        if (
+            event.key ===
+            CHAVE_PRODUTOS
+        ) {
+
+            atualizarTodasCategorias();
+
+        }
+
+
+        if (
+            event.key ===
+            CHAVE_CARRINHO
+        ) {
+
+            carregarCarrinho();
+
+            renderizarCarrinho();
+
+            renderizarCheckout();
+
+        }
+
+    }
+);
+
+
+/* =========================================================
+   FUNÇÕES GLOBAIS
+========================================================= */
+
+window.abrirPagina =
+    abrirPagina;
+
+window.abrirPDV =
+    abrirPDV;
+
+window.abrirMapa =
+    abrirMapa;
+
+window.adicionarProdutoSimples =
+    adicionarProdutoSimples;
+
+window.adicionarAoCarrinho =
+    adicionarAoCarrinho;
+
+window.removerDoCarrinho =
+    removerDoCarrinho;
+
+window.alterarQuantidade =
+    alterarQuantidade;
+
+window.abrirCheckout =
+    abrirCheckout;
+
+window.atualizarEntrega =
+    atualizarEntrega;
+
+window.mostrarTroco =
+    mostrarTroco;
+
+window.aplicarCupom =
+    aplicarCupom;
+
+window.finalizarPedido =
+    finalizarPedido;
+
+window.atualizarPizza =
+    atualizarPizza;
+
+window.adicionarPizzaCarrinho =
+    adicionarPizzaCarrinho;
+
+window.limitarMisturasMarmita =
+    limitarMisturasMarmita;
+
+window.adicionarMarmita =
+    adicionarMarmita;
+
+window.adicionarParmegiana =
+    adicionarParmegiana;
+
+window.adicionarParmegianaCarne =
+    adicionarParmegianaCarne;
+
+window.renderizarCategoria =
+    renderizarCategoria;
+
+window.mostrarCardapioAlmoco =
+    mostrarCardapioAlmoco;
+
+window.mostrarCardapioJantar =
+    mostrarCardapioJantar;
