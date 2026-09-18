@@ -1,30 +1,12 @@
-/* =========================================================
-   RESTAURANTE LANCHONETE MM
+/* ============================================================
+   RESTAURANTE MM
    STYLE.CSS
-   Tema: Preto + Laranja
-   ========================================================= */
+   PRETO + LARANJA + PRATA
+============================================================ */
 
-:root {
-    --preto: #080808;
-    --preto-2: #101010;
-    --preto-3: #181818;
-    --cinza: #242424;
-    --cinza-2: #333;
-    --laranja: #ff7a00;
-    --laranja-claro: #ff9800;
-    --laranja-escuro: #e65f00;
-    --branco: #fff;
-    --cinza-texto: #cfcfcf;
-    --verde: #20c878;
-    --vermelho: #ff3b30;
-
-    --sombra: 0 8px 25px rgba(0, 0, 0, .55);
-    --raio: 14px;
-}
-
-/* =========================================================
+/* ============================================================
    RESET
-   ========================================================= */
+============================================================ */
 
 * {
     margin: 0;
@@ -37,13 +19,16 @@ html {
 }
 
 body {
-    font-family: Arial, Helvetica, sans-serif;
-    background:
-        radial-gradient(circle at top, rgba(255, 122, 0, .08), transparent 35%),
-        var(--preto);
-    color: var(--branco);
-    line-height: 1.5;
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background: #111111;
+    color: #f5f5f5;
+
     min-height: 100vh;
+    line-height: 1.5;
 }
 
 button,
@@ -58,8 +43,8 @@ button {
 }
 
 img {
-    max-width: 100%;
     display: block;
+    max-width: 100%;
 }
 
 a {
@@ -67,112 +52,324 @@ a {
     text-decoration: none;
 }
 
-/* =========================================================
+
+/* ============================================================
+   VARIÁVEIS
+============================================================ */
+
+:root {
+
+    --preto: #111111;
+    --preto-2: #181818;
+    --preto-3: #222222;
+
+    --laranja: #ff7a00;
+    --laranja-claro: #ff941f;
+    --laranja-escuro: #d95f00;
+
+    --prata: #bdbdbd;
+    --prata-claro: #e5e5e5;
+    --cinza: #888888;
+
+    --branco: #ffffff;
+
+    --verde: #20c66b;
+    --vermelho: #e53935;
+
+    --borda: rgba(255, 255, 255, 0.10);
+
+    --sombra:
+        0 10px 30px rgba(0, 0, 0, 0.35);
+
+    --raio: 14px;
+}
+
+
+/* ============================================================
    CABEÇALHO
-   ========================================================= */
+============================================================ */
 
 .cabecalho {
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-    background: rgba(8, 8, 8, .97);
-    border-bottom: 2px solid var(--laranja);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, .6);
-    padding: 18px 20px;
-    text-align: center;
-    backdrop-filter: blur(10px);
-}
 
-.cabecalho h1 {
-    color: var(--laranja);
-    font-size: 2rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    letter-spacing: .5px;
-    text-shadow: 0 0 15px rgba(255, 122, 0, .35);
-}
-
-.cabecalho p {
-    color: var(--cinza-texto);
-    margin-top: 3px;
-}
-
-#statusFuncionamento {
-    display: inline-block;
-    margin-top: 10px;
-    padding: 7px 14px;
-    border-radius: 30px;
-    background: var(--cinza);
-    border: 1px solid var(--laranja);
-    color: var(--laranja-claro);
-    font-size: .9rem;
-    font-weight: 700;
-}
-
-/* =========================================================
-   NAVEGAÇÃO
-   ========================================================= */
-
-.navegacao,
-nav {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 8px;
-    padding: 14px;
-    background: var(--preto-2);
-    border-bottom: 1px solid #292929;
-}
-
-.navegacao button,
-nav button {
-    border: 1px solid #444;
-    background: var(--preto-3);
-    color: var(--branco);
-    padding: 10px 15px;
-    border-radius: 9px;
-    font-weight: 700;
-    transition: .2s ease;
-}
-
-.navegacao button:hover,
-nav button:hover {
-    background: var(--laranja);
-    border-color: var(--laranja);
-    color: #000;
-    transform: translateY(-2px);
-    box-shadow: 0 5px 15px rgba(255, 122, 0, .25);
-}
-
-.navegacao button:last-child,
-nav button:last-child {
-    border-color: var(--laranja);
-}
-
-/* =========================================================
-   ESTRUTURA PRINCIPAL
-   ========================================================= */
-
-main {
     width: 100%;
-    max-width: 1400px;
-    margin: auto;
+
+    min-height: 90px;
+
+    padding:
+        16px
+        5%;
+
+    background:
+        linear-gradient(
+            135deg,
+            #090909,
+            #191919
+        );
+
+    border-bottom:
+        2px solid var(--laranja);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    position: sticky;
+
+    top: 0;
+
+    z-index: 1000;
+
+    box-shadow:
+        0 5px 20px rgba(0, 0, 0, 0.35);
 }
 
-.pagina {
+
+/* ============================================================
+   LOGO
+============================================================ */
+
+.logo {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 12px;
+}
+
+.logo-icone {
+
+    width: 55px;
+
+    height: 55px;
+
+    border-radius: 50%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--laranja),
+            var(--laranja-escuro)
+        );
+
+    color: var(--branco);
+
+    font-size: 18px;
+
+    font-weight: 900;
+
+    border:
+        2px solid
+        var(--prata);
+
+    box-shadow:
+        0 0 18px
+        rgba(255, 122, 0, 0.35);
+}
+
+.logo h1 {
+
+    color: var(--branco);
+
+    font-size: 25px;
+
+    font-weight: 900;
+
+    letter-spacing: 0.3px;
+}
+
+.logo p {
+
+    color: var(--prata);
+
+    font-size: 13px;
+
+    margin-top: 1px;
+}
+
+
+/* ============================================================
+   STATUS
+============================================================ */
+
+.status-funcionamento {
+
+    padding:
+        8px
+        14px;
+
+    border-radius: 30px;
+
+    background:
+        rgba(255, 255, 255, 0.06);
+
+    border:
+        1px solid
+        var(--borda);
+
+    color: var(--prata-claro);
+
+    font-size: 13px;
+
+    font-weight: 700;
+
+    white-space: nowrap;
+}
+
+
+/* ============================================================
+   NAVEGAÇÃO
+============================================================ */
+
+.navegacao {
+
+    width: 100%;
+
+    padding:
+        12px
+        5%;
+
+    background: #161616;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    gap: 8px;
+
+    flex-wrap: wrap;
+
+    border-bottom:
+        1px solid
+        var(--borda);
+}
+
+.botao-navegacao {
+
+    border: none;
+
+    padding:
+        10px
+        16px;
+
+    border-radius: 9px;
+
+    background:
+        #252525;
+
+    color: var(--prata-claro);
+
+    font-weight: 700;
+
+    transition:
+        0.25s ease;
+}
+
+.botao-navegacao:hover {
+
+    background:
+        var(--laranja);
+
+    color: var(--branco);
+
+    transform:
+        translateY(-2px);
+}
+
+.botao-navegacao.ativo {
+
+    background:
+        var(--laranja);
+
+    color:
+        var(--branco);
+
+    box-shadow:
+        0 5px 15px
+        rgba(255, 122, 0, 0.25);
+}
+
+.botao-carrinho {
+
+    position: relative;
+}
+
+#contadorCarrinho {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    min-width: 22px;
+
+    height: 22px;
+
+    padding:
+        0
+        5px;
+
+    margin-left: 4px;
+
+    border-radius: 20px;
+
+    background:
+        var(--branco);
+
+    color:
+        var(--laranja);
+
+    font-size: 12px;
+
+    font-weight: 900;
+}
+
+
+/* ============================================================
+   SEÇÕES
+============================================================ */
+
+.secao {
+
     display: none;
-    padding: 30px 20px 50px;
-    animation: aparecer .3s ease;
+
+    width: 100%;
+
+    max-width: 1400px;
+
+    margin:
+        0 auto;
+
+    padding:
+        35px 5%;
 }
 
-.pagina.ativa {
+.secao.ativa {
+
     display: block;
+
+    animation:
+        aparecer 0.35s ease;
 }
 
 @keyframes aparecer {
+
     from {
         opacity: 0;
-        transform: translateY(8px);
+        transform: translateY(10px);
     }
 
     to {
@@ -181,973 +378,1409 @@ main {
     }
 }
 
-section h2 {
-    color: var(--laranja);
-    font-size: 2rem;
-    margin-bottom: 10px;
-    text-align: center;
-}
 
-section > p {
-    text-align: center;
-    color: var(--cinza-texto);
-    margin-bottom: 25px;
-}
+/* ============================================================
+   BANNER PRINCIPAL
+============================================================ */
 
-/* =========================================================
-   INÍCIO / HERO
-   ========================================================= */
+.banner-principal {
 
-.hero {
-    min-height: 440px;
-    border: 1px solid #333;
-    border-radius: 20px;
-    overflow: hidden;
+    width: 100%;
+
+    min-height: 480px;
+
     position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    padding: 40px 20px;
-    margin-bottom: 25px;
+
+    overflow: hidden;
+
+    border-radius:
+        var(--raio);
+
     background:
-        linear-gradient(rgba(0, 0, 0, .72), rgba(0, 0, 0, .85)),
-        radial-gradient(circle at center, #4b2100, #080808 70%);
-    box-shadow: var(--sombra);
+        #222;
+
+    box-shadow:
+        var(--sombra);
 }
 
-.hero-conteudo {
-    max-width: 850px;
+.imagem-banner {
+
+    width: 100%;
+
+    height: 480px;
+
+    object-fit: cover;
+
+    opacity: 0.72;
 }
 
-.hero h2 {
-    font-size: clamp(2rem, 5vw, 4rem);
-    color: var(--branco);
-    text-transform: uppercase;
-    margin-bottom: 15px;
-}
+.banner-overlay {
 
-.hero h2 span {
-    color: var(--laranja);
-}
+    position: absolute;
 
-.hero p {
-    color: #eee;
-    font-size: 1.15rem;
-    margin-bottom: 25px;
-}
+    inset: 0;
 
-.hero-botoes {
     display: flex;
-    flex-wrap: wrap;
+
+    flex-direction: column;
+
     justify-content: center;
-    gap: 12px;
+
+    align-items: flex-start;
+
+    padding:
+        50px;
+
+    max-width: 700px;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(0, 0, 0, 0.88),
+            rgba(0, 0, 0, 0.55),
+            transparent
+        );
 }
 
-/* =========================================================
+.etiqueta-banner {
+
+    color:
+        var(--laranja);
+
+    font-size: 14px;
+
+    font-weight: 900;
+
+    letter-spacing: 3px;
+
+    margin-bottom: 12px;
+}
+
+.banner-overlay h2 {
+
+    color:
+        var(--branco);
+
+    font-size:
+        clamp(32px, 5vw, 58px);
+
+    line-height: 1.05;
+
+    margin-bottom: 18px;
+}
+
+.banner-overlay p {
+
+    color:
+        var(--prata-claro);
+
+    font-size: 18px;
+
+    max-width: 550px;
+
+    margin-bottom: 28px;
+}
+
+
+/* ============================================================
    BOTÕES
-   ========================================================= */
+============================================================ */
 
-.btn,
-.botao,
-.btn-principal {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+.botao-principal,
+.botao-finalizar {
+
     border: none;
+
     border-radius: 10px;
-    padding: 12px 20px;
-    background: var(--laranja);
-    color: #000;
+
+    padding:
+        13px
+        22px;
+
+    background:
+        linear-gradient(
+            135deg,
+            var(--laranja),
+            var(--laranja-escuro)
+        );
+
+    color:
+        var(--branco);
+
     font-weight: 900;
-    transition: .2s ease;
+
+    box-shadow:
+        0 7px 20px
+        rgba(255, 122, 0, 0.25);
+
+    transition:
+        0.25s ease;
 }
 
-.btn:hover,
-.botao:hover,
-.btn-principal:hover {
-    background: var(--laranja-claro);
-    transform: translateY(-2px);
-    box-shadow: 0 7px 18px rgba(255, 122, 0, .3);
+.botao-principal:hover,
+.botao-finalizar:hover {
+
+    transform:
+        translateY(-2px);
+
+    filter:
+        brightness(1.08);
+
+    box-shadow:
+        0 10px 25px
+        rgba(255, 122, 0, 0.35);
 }
 
-.btn-secundario {
-    background: var(--preto-3);
-    color: var(--branco);
-    border: 1px solid var(--laranja);
-}
 
-.btn-secundario:hover {
-    background: var(--laranja);
-    color: #000;
-}
+/* ============================================================
+   DESTAQUES
+============================================================ */
 
-/* =========================================================
-   CARDS DE INFORMAÇÃO
-   ========================================================= */
+.destaques {
 
-.info-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 15px;
-    margin-bottom: 30px;
-}
 
-.info-card {
-    background: linear-gradient(145deg, var(--preto-3), #0d0d0d);
-    border: 1px solid #333;
-    border-left: 4px solid var(--laranja);
-    border-radius: var(--raio);
-    padding: 22px;
-    box-shadow: var(--sombra);
-}
+    grid-template-columns:
+        repeat(4, 1fr);
 
-.info-card h3 {
-    color: var(--laranja);
-    margin-bottom: 8px;
-    font-size: 1.15rem;
-}
-
-.info-card p {
-    color: var(--cinza-texto);
-}
-
-/* =========================================================
-   CATEGORIAS
-   ========================================================= */
-
-.categorias {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 12px;
-    margin: 20px 0 30px;
-}
-
-.categorias button {
-    min-height: 70px;
-    border: 1px solid #444;
-    border-radius: 12px;
-    background: var(--preto-3);
-    color: var(--branco);
-    font-size: 1rem;
-    font-weight: 900;
-    padding: 12px;
-    transition: .2s;
-}
-
-.categorias button:hover {
-    border-color: var(--laranja);
-    background: linear-gradient(145deg, #281400, var(--preto-3));
-    color: var(--laranja);
-    transform: translateY(-3px);
-}
-
-/* =========================================================
-   PRODUTOS
-   ========================================================= */
-
-.lista-produtos,
-.grid-produtos,
-.produtos-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
     gap: 18px;
+
+    margin-top: 25px;
 }
+
+.card-destaque {
+
+    background:
+        var(--preto-2);
+
+    border:
+        1px solid
+        var(--borda);
+
+    border-radius:
+        var(--raio);
+
+    overflow: hidden;
+
+    box-shadow:
+        0 8px 20px
+        rgba(0, 0, 0, 0.25);
+
+    transition:
+        0.25s ease;
+}
+
+.card-destaque:hover {
+
+    transform:
+        translateY(-5px);
+
+    border-color:
+        rgba(255, 122, 0, 0.45);
+}
+
+.card-destaque img {
+
+    width: 100%;
+
+    height: 160px;
+
+    object-fit: cover;
+}
+
+.card-destaque div {
+
+    padding: 16px;
+}
+
+.card-destaque h3 {
+
+    color:
+        var(--laranja);
+
+    font-size: 17px;
+
+    margin-bottom: 5px;
+}
+
+.card-destaque p {
+
+    color:
+        var(--prata);
+
+    font-size: 14px;
+}
+
+
+/* ============================================================
+   CABEÇALHO DAS SEÇÕES
+============================================================ */
+
+.cabecalho-secao {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 25px;
+
+    padding-bottom: 15px;
+
+    border-bottom:
+        1px solid
+        var(--borda);
+}
+
+.icone-secao {
+
+    display: block;
+
+    font-size: 35px;
+
+    margin-bottom: 3px;
+}
+
+.cabecalho-secao h2 {
+
+    color:
+        var(--branco);
+
+    font-size:
+        clamp(28px, 4vw, 38px);
+}
+
+.cabecalho-secao p {
+
+    color:
+        var(--prata);
+
+    margin-top: 3px;
+}
+
+
+/* ============================================================
+   LISTA DE PRODUTOS
+============================================================ */
+
+.lista-produtos {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 20px;
+}
+
+
+/* ============================================================
+   CARD DE PRODUTO
+   Preparado para os produtos vindos
+   do administrativo
+============================================================ */
 
 .produto-card {
-    position: relative;
-    background: linear-gradient(145deg, #1b1b1b, #0e0e0e);
-    border: 1px solid #333;
-    border-radius: var(--raio);
-    padding: 18px;
-    box-shadow: var(--sombra);
-    transition: .25s ease;
-    overflow: hidden;
-}
 
-.produto-card::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background: var(--laranja);
+    background:
+        var(--preto-2);
+
+    border:
+        1px solid
+        var(--borda);
+
+    border-radius:
+        var(--raio);
+
+    overflow: hidden;
+
+    box-shadow:
+        0 8px 20px
+        rgba(0, 0, 0, 0.25);
+
+    transition:
+        0.25s ease;
 }
 
 .produto-card:hover {
-    transform: translateY(-5px);
-    border-color: var(--laranja);
+
+    transform:
+        translateY(-4px);
+
+    border-color:
+        rgba(255, 122, 0, 0.5);
 }
 
-.produto-card h3 {
-    color: var(--branco);
-    font-size: 1.1rem;
-    margin-bottom: 8px;
+.produto-card img {
+
+    width: 100%;
+
+    height: 210px;
+
+    object-fit: cover;
+
+    background:
+        #292929;
 }
 
-.produto-card p {
-    color: var(--cinza-texto);
-    font-size: .92rem;
-    margin-bottom: 12px;
+.produto-conteudo {
+
+    padding: 17px;
+}
+
+.produto-conteudo h3 {
+
+    color:
+        var(--branco);
+
+    font-size: 19px;
+
+    margin-bottom: 7px;
+}
+
+.produto-descricao {
+
+    color:
+        var(--prata);
+
+    font-size: 14px;
+
+    min-height: 42px;
+
+    margin-bottom: 13px;
+}
+
+.produto-rodape {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 10px;
 }
 
 .produto-preco {
-    color: var(--laranja);
-    font-size: 1.35rem;
+
+    color:
+        var(--laranja);
+
+    font-size: 20px;
+
     font-weight: 900;
-    margin-bottom: 12px;
 }
 
-.produto-card button {
-    width: 100%;
+.botao-adicionar {
+
     border: none;
-    border-radius: 9px;
-    padding: 11px;
-    background: var(--laranja);
-    color: #000;
-    font-weight: 900;
-}
 
-.produto-card button:hover {
-    background: var(--laranja-claro);
-}
-
-.produto-indisponivel {
-    opacity: .45;
-}
-
-.produto-indisponivel button {
-    background: #555;
-    color: #aaa;
-    cursor: not-allowed;
-}
-
-/* =========================================================
-   ALMOÇO / JANTAR
-   ========================================================= */
-
-.buffet {
-    background:
-        linear-gradient(rgba(0, 0, 0, .86), rgba(0, 0, 0, .9)),
-        radial-gradient(circle, #572900, #111);
-    border: 1px solid var(--laranja);
-    border-radius: 18px;
-    padding: 25px;
-    margin-bottom: 25px;
-    box-shadow: var(--sombra);
-}
-
-.buffet h3 {
-    color: var(--laranja);
-    font-size: 1.5rem;
-    margin: 20px 0 10px;
-}
-
-.buffet h3:first-child {
-    margin-top: 0;
-}
-
-.buffet ul {
-    list-style: none;
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 8px;
-}
-
-.buffet li {
-    background: rgba(255, 255, 255, .04);
-    border: 1px solid #333;
-    padding: 9px 12px;
     border-radius: 8px;
-    color: #eee;
+
+    padding:
+        9px
+        13px;
+
+    background:
+        var(--laranja);
+
+    color:
+        var(--branco);
+
+    font-weight: 800;
+
+    transition:
+        0.2s ease;
 }
 
-.buffet li::before {
-    content: "✓ ";
-    color: var(--laranja);
-    font-weight: 900;
+.botao-adicionar:hover {
+
+    background:
+        var(--laranja-claro);
+
+    transform:
+        scale(1.03);
 }
 
-/* =========================================================
-   PREÇO DO BUFFET
-   ========================================================= */
 
-.preco-buffet {
-    text-align: center;
-    background: var(--laranja);
-    color: #000;
-    border-radius: 12px;
-    padding: 18px;
-    margin: 20px 0;
-    font-size: 1.7rem;
-    font-weight: 900;
-}
+/* ============================================================
+   BANNER DE CATEGORIA
+============================================================ */
 
-/* =========================================================
-   MARMITAS
-   ========================================================= */
+.banner-categoria {
 
-.marmitas-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 18px;
-}
-
-.marmita-card {
-    background: linear-gradient(145deg, #1c1c1c, #0c0c0c);
-    border: 1px solid #3b3b3b;
-    border-radius: 15px;
-    padding: 20px;
-    box-shadow: var(--sombra);
-}
-
-.marmita-card h3 {
-    color: var(--laranja);
-    font-size: 1.3rem;
-}
-
-.marmita-card .preco {
-    color: var(--branco);
-    font-size: 1.5rem;
-    font-weight: 900;
-    margin: 10px 0;
-}
-
-.marmita-card select {
     width: 100%;
-    margin: 8px 0;
-}
 
-/* =========================================================
-   PIZZA
-   ========================================================= */
-
-.pizza-builder {
-    max-width: 950px;
-    margin: auto;
-    background: linear-gradient(145deg, #191919, #0c0c0c);
-    border: 1px solid #333;
-    border-radius: 18px;
-    padding: 25px;
-    box-shadow: var(--sombra);
-}
-
-.pizza-etapa {
     margin-bottom: 25px;
+
+    border-radius:
+        var(--raio);
+
+    overflow: hidden;
+
+    max-height: 280px;
+
+    box-shadow:
+        var(--sombra);
 }
 
-.pizza-etapa h3 {
-    color: var(--laranja);
-    margin-bottom: 10px;
+.banner-categoria img {
+
+    width: 100%;
+
+    height: 280px;
+
+    object-fit: cover;
 }
 
-.pizza-opcoes {
+
+/* ============================================================
+   HORÁRIOS
+============================================================ */
+
+.bloco-horarios {
+
+    margin-top: 35px;
+
+    padding:
+        28px;
+
+    border-radius:
+        var(--raio);
+
+    background:
+        var(--preto-2);
+
+    border:
+        1px solid
+        var(--borda);
+}
+
+.bloco-horarios h2 {
+
+    text-align: center;
+
+    color:
+        var(--branco);
+
+    margin-bottom: 22px;
+}
+
+.horarios-grid {
+
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 15px;
 }
 
-.pizza-opcao {
-    border: 1px solid #444;
-    background: var(--preto-3);
-    color: var(--branco);
+.horario {
+
+    text-align: center;
+
+    padding:
+        18px;
+
     border-radius: 10px;
-    padding: 12px;
-    text-align: left;
-    transition: .2s;
+
+    background:
+        #202020;
 }
 
-.pizza-opcao:hover,
-.pizza-opcao.selecionado {
-    border-color: var(--laranja);
-    background: #291500;
+.horario span {
+
+    font-size: 28px;
 }
 
-.pizza-opcao strong {
-    color: var(--laranja);
+.horario h3 {
+
+    color:
+        var(--laranja);
+
+    margin:
+        7px 0;
 }
 
-#resumoPizza {
-    margin-top: 20px;
-    background: #090909;
-    border: 1px solid var(--laranja);
-    border-radius: 12px;
-    padding: 18px;
+.horario p {
+
+    color:
+        var(--prata);
 }
 
-#precoPizza {
-    color: var(--laranja);
-    font-size: 1.7rem;
-    font-weight: 900;
-}
 
-/* =========================================================
-   FORMULÁRIOS
-   ========================================================= */
-
-form {
-    width: 100%;
-}
-
-.form-grupo {
-    margin-bottom: 15px;
-}
-
-label {
-    display: block;
-    color: #eee;
-    font-weight: 700;
-    margin-bottom: 6px;
-}
-
-input,
-select,
-textarea {
-    width: 100%;
-    background: #111;
-    color: var(--branco);
-    border: 1px solid #444;
-    border-radius: 9px;
-    padding: 12px;
-    outline: none;
-}
-
-input:focus,
-select:focus,
-textarea:focus {
-    border-color: var(--laranja);
-    box-shadow: 0 0 0 2px rgba(255, 122, 0, .12);
-}
-
-textarea {
-    resize: vertical;
-    min-height: 100px;
-}
-
-input[type="radio"],
-input[type="checkbox"] {
-    width: auto;
-    accent-color: var(--laranja);
-}
-
-.radio-grupo {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-}
-
-.radio-opcao {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    background: var(--preto-3);
-    border: 1px solid #444;
-    padding: 10px 13px;
-    border-radius: 9px;
-}
-
-/* =========================================================
+/* ============================================================
    CARRINHO
-   ========================================================= */
+============================================================ */
 
-.carrinho-container {
-    max-width: 1000px;
-    margin: auto;
+.lista-carrinho {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+
+    margin-bottom: 20px;
 }
 
 .item-carrinho {
-    display: grid;
-    grid-template-columns: 1fr auto auto;
-    gap: 15px;
+
+    display: flex;
+
     align-items: center;
-    background: var(--preto-3);
-    border: 1px solid #333;
-    border-left: 4px solid var(--laranja);
-    border-radius: 12px;
-    padding: 15px;
-    margin-bottom: 10px;
+
+    justify-content: space-between;
+
+    gap: 15px;
+
+    padding:
+        16px;
+
+    background:
+        var(--preto-2);
+
+    border:
+        1px solid
+        var(--borda);
+
+    border-radius:
+        12px;
 }
 
 .item-carrinho h3 {
-    color: var(--branco);
+
+    color:
+        var(--branco);
+
+    font-size: 17px;
 }
 
 .item-carrinho p {
-    color: var(--cinza-texto);
+
+    color:
+        var(--prata);
+
+    font-size: 14px;
 }
 
-.quantidade-carrinho {
+.controles-carrinho {
+
     display: flex;
+
     align-items: center;
+
     gap: 7px;
 }
 
-.quantidade-carrinho button {
+.controles-carrinho button {
+
     width: 32px;
+
     height: 32px;
+
     border: none;
-    border-radius: 6px;
-    background: var(--laranja);
-    color: #000;
+
+    border-radius: 7px;
+
+    background:
+        #303030;
+
+    color:
+        var(--branco);
+
     font-weight: 900;
 }
 
-.resumo-carrinho {
-    background: #101010;
-    border: 1px solid #333;
-    border-radius: 14px;
-    padding: 20px;
-    margin-top: 20px;
+.controles-carrinho button:hover {
+
+    background:
+        var(--laranja);
 }
 
-.linha-total {
-    display: flex;
-    justify-content: space-between;
-    gap: 15px;
-    padding: 8px 0;
-    color: var(--cinza-texto);
-}
+.carrinho-vazio {
 
-.linha-total.total {
-    border-top: 1px solid #444;
-    margin-top: 10px;
-    padding-top: 15px;
-    color: var(--laranja);
-    font-size: 1.5rem;
-    font-weight: 900;
-}
-
-/* =========================================================
-   CHECKOUT
-   ========================================================= */
-
-.checkout-container {
-    max-width: 900px;
-    margin: auto;
-    background: linear-gradient(145deg, #191919, #0c0c0c);
-    border: 1px solid #333;
-    border-radius: 18px;
-    padding: 25px;
-    box-shadow: var(--sombra);
-}
-
-.checkout-container h3 {
-    color: var(--laranja);
-    margin: 25px 0 12px;
-}
-
-.checkout-container h3:first-child {
-    margin-top: 0;
-}
-
-.endereco-grid {
-    display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 12px;
-}
-
-.endereco-grid .campo-completo {
-    grid-column: 1 / -1;
-}
-
-#campoTroco {
-    display: none;
-}
-
-/* =========================================================
-   CUPOM
-   ========================================================= */
-
-.cupom-area {
-    display: flex;
-    gap: 8px;
-    margin: 15px 0;
-}
-
-.cupom-area input {
-    flex: 1;
-}
-
-.cupom-area button {
-    background: var(--laranja);
-    color: #000;
-    border: none;
-    border-radius: 8px;
-    padding: 10px 18px;
-    font-weight: 900;
-}
-
-#mensagemCupom {
-    color: var(--laranja);
-    font-weight: 700;
-}
-
-/* =========================================================
-   SUCESSO
-   ========================================================= */
-
-.sucesso {
-    max-width: 700px;
-    margin: 40px auto;
     text-align: center;
-    background: linear-gradient(145deg, #142018, #0b0b0b);
-    border: 1px solid var(--verde);
-    border-radius: 18px;
-    padding: 35px;
-    box-shadow: var(--sombra);
+
+    padding:
+        50px 20px;
+
+    background:
+        var(--preto-2);
+
+    border:
+        1px dashed
+        #444;
+
+    border-radius:
+        var(--raio);
 }
 
-.sucesso h2 {
-    color: var(--verde);
-}
+.carrinho-vazio span {
 
-.sucesso p {
-    color: #ddd;
-    margin: 12px 0;
-}
+    display: block;
 
-#numeroPedido {
-    color: var(--laranja);
-    font-size: 1.6rem;
-    font-weight: 900;
-}
+    font-size: 50px;
 
-/* =========================================================
-   ENDEREÇO / MAPA
-   ========================================================= */
-
-.endereco-card {
-    max-width: 850px;
-    margin: 30px auto;
-    background: var(--preto-3);
-    border: 1px solid #333;
-    border-left: 5px solid var(--laranja);
-    border-radius: 15px;
-    padding: 25px;
-    text-align: center;
-}
-
-.endereco-card h3 {
-    color: var(--laranja);
     margin-bottom: 10px;
 }
 
-.endereco-card p {
-    color: var(--cinza-texto);
-    margin-bottom: 15px;
+.carrinho-vazio h3 {
+
+    color:
+        var(--branco);
+
+    margin-bottom: 5px;
 }
 
-/* =========================================================
-   PDV
-   ========================================================= */
+.carrinho-vazio p {
 
-.pdv-link {
-    color: var(--laranja);
+    color:
+        var(--prata);
+
+    margin-bottom: 20px;
 }
 
-/* =========================================================
-   FOOTER
-   ========================================================= */
 
-footer {
-    background: #050505;
-    border-top: 2px solid var(--laranja);
-    padding: 30px 20px;
-    text-align: center;
-    margin-top: 30px;
+/* ============================================================
+   RESUMO DO CARRINHO
+============================================================ */
+
+.resumo-carrinho {
+
+    max-width: 600px;
+
+    margin:
+        25px
+        0
+        0
+        auto;
+
+    padding:
+        22px;
+
+    background:
+        #1b1b1b;
+
+    border:
+        1px solid
+        var(--borda);
+
+    border-radius:
+        var(--raio);
 }
 
-footer h3 {
-    color: var(--laranja);
-    margin-bottom: 8px;
+.linha-resumo {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    padding:
+        9px 0;
+
+    color:
+        var(--prata);
 }
 
-footer p {
-    color: var(--cinza-texto);
-    margin: 5px 0;
+.linha-resumo strong {
+
+    color:
+        var(--branco);
 }
 
-footer a {
-    color: var(--laranja);
+.linha-total {
+
+    border-top:
+        1px solid
+        var(--borda);
+
+    margin-top: 8px;
+
+    padding-top: 15px;
+
+    font-size: 20px;
+}
+
+.linha-total strong {
+
+    color:
+        var(--laranja);
+
+    font-size: 25px;
+}
+
+.resumo-carrinho .botao-finalizar {
+
+    width: 100%;
+
+    margin-top: 15px;
+}
+
+
+/* ============================================================
+   FORMULÁRIO
+============================================================ */
+
+.formulario-pedido {
+
+    max-width: 800px;
+
+    margin:
+        0 auto;
+
+    padding:
+        25px;
+
+    background:
+        var(--preto-2);
+
+    border:
+        1px solid
+        var(--borda);
+
+    border-radius:
+        var(--raio);
+
+    box-shadow:
+        var(--sombra);
+}
+
+.campo {
+
+    margin-bottom: 18px;
+}
+
+.campo label {
+
+    display: block;
+
+    color:
+        var(--prata-claro);
+
+    font-weight: 700;
+
+    margin-bottom: 7px;
+}
+
+.campo input,
+.campo select,
+.campo textarea {
+
+    width: 100%;
+
+    border:
+        1px solid
+        #3a3a3a;
+
+    border-radius: 9px;
+
+    background:
+        #242424;
+
+    color:
+        var(--branco);
+
+    padding:
+        12px 13px;
+
+    outline: none;
+
+    resize: vertical;
+
+    transition:
+        0.2s ease;
+}
+
+.campo input:focus,
+.campo select:focus,
+.campo textarea:focus {
+
+    border-color:
+        var(--laranja);
+
+    box-shadow:
+        0 0 0 3px
+        rgba(255, 122, 0, 0.10);
+}
+
+.campo small {
+
+    display: block;
+
+    margin-top: 7px;
+
+    color:
+        var(--laranja);
+
     font-weight: 700;
 }
 
-/* =========================================================
-   MENSAGENS
-   ========================================================= */
 
-.mensagem-vazia {
+/* ============================================================
+   RESUMO FINAL
+============================================================ */
+
+.resumo-final-pedido {
+
+    margin:
+        25px 0;
+
+    padding:
+        20px;
+
+    border-radius:
+        12px;
+
+    background:
+        #202020;
+
+    border:
+        1px solid
+        var(--borda);
+}
+
+
+/* ============================================================
+   PEDIDO REALIZADO
+============================================================ */
+
+.pedido-sucesso {
+
+    max-width: 800px;
+
+    margin:
+        20px auto;
+
     text-align: center;
-    padding: 35px 20px;
-    color: #aaa;
-    background: var(--preto-3);
-    border: 1px dashed #444;
-    border-radius: 12px;
+
+    padding:
+        40px 25px;
+
+    background:
+        var(--preto-2);
+
+    border:
+        1px solid
+        var(--borda);
+
+    border-radius:
+        var(--raio);
+
+    box-shadow:
+        var(--sombra);
 }
 
-.aviso {
-    background: #241900;
-    border: 1px solid var(--laranja);
-    color: #ffd8a8;
-    border-radius: 10px;
-    padding: 12px;
-    margin: 15px 0;
-}
+.icone-sucesso {
 
-.erro {
-    background: #260b0b;
-    border: 1px solid var(--vermelho);
-    color: #ffb4b0;
-    border-radius: 10px;
-    padding: 12px;
-}
+    width: 75px;
 
-.sucesso-mensagem {
-    background: #092016;
-    border: 1px solid var(--verde);
-    color: #b5f5d5;
-    border-radius: 10px;
-    padding: 12px;
-}
+    height: 75px;
 
-/* =========================================================
-   SEPARAÇÃO PARMEGIANA
-   ========================================================= */
+    margin:
+        0 auto
+        20px;
 
-.parmegianas-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 18px;
-}
-
-.parmegiana-card {
-    background: linear-gradient(145deg, #1c1c1c, #0c0c0c);
-    border: 1px solid #444;
-    border-top: 4px solid var(--laranja);
-    border-radius: 14px;
-    padding: 20px;
-    box-shadow: var(--sombra);
-}
-
-.parmegiana-card h3 {
-    color: var(--laranja);
-    margin-bottom: 8px;
-}
-
-.parmegiana-card p {
-    color: var(--cinza-texto);
-    margin-bottom: 12px;
-}
-
-.opcoes-carne {
     display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin: 10px 0;
-}
 
-.opcoes-carne button {
-    flex: 1;
-    min-width: 100px;
-    padding: 10px;
-    background: #111;
-    border: 1px solid #444;
-    border-radius: 8px;
-    color: #fff;
-}
-
-.opcoes-carne button:hover,
-.opcoes-carne button.selecionado {
-    background: var(--laranja);
-    color: #000;
-    border-color: var(--laranja);
-}
-
-/* =========================================================
-   TÍTULOS DAS CATEGORIAS
-   ========================================================= */
-
-.titulo-categoria {
-    display: flex;
     align-items: center;
-    gap: 12px;
-    margin: 30px 0 18px;
-}
 
-.titulo-categoria::before,
-.titulo-categoria::after {
-    content: "";
-    height: 1px;
-    background: #333;
-    flex: 1;
-}
+    justify-content: center;
 
-.titulo-categoria span {
-    color: var(--laranja);
-    font-size: 1.4rem;
+    border-radius: 50%;
+
+    background:
+        var(--verde);
+
+    color:
+        var(--branco);
+
+    font-size: 40px;
+
     font-weight: 900;
 }
 
-/* =========================================================
-   RESPONSIVIDADE - TABLET
-   ========================================================= */
+.pedido-sucesso h2 {
 
-@media (max-width: 1100px) {
+    color:
+        var(--branco);
 
-    .info-grid {
-        grid-template-columns: repeat(2, 1fr);
+    font-size:
+        clamp(25px, 4vw, 36px);
+
+    margin-bottom: 10px;
+}
+
+.pedido-sucesso > p {
+
+    color:
+        var(--prata);
+
+    margin-bottom: 8px;
+}
+
+.prazo-entrega {
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    margin:
+        20px 0;
+
+    padding:
+        12px 18px;
+
+    border-radius: 10px;
+
+    background:
+        rgba(255, 122, 0, 0.10);
+
+    border:
+        1px solid
+        rgba(255, 122, 0, 0.35);
+
+    color:
+        var(--laranja);
+}
+
+.detalhes-pedido {
+
+    text-align: left;
+
+    margin:
+        20px 0;
+
+    padding:
+        20px;
+
+    background:
+        #202020;
+
+    border-radius:
+        12px;
+}
+
+
+/* ============================================================
+   HISTÓRICO
+============================================================ */
+
+.lista-historico {
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 15px;
+}
+
+.pedido-historico {
+
+    padding:
+        20px;
+
+    background:
+        var(--preto-2);
+
+    border:
+        1px solid
+        var(--borda);
+
+    border-radius:
+        12px;
+}
+
+
+/* ============================================================
+   RODAPÉ
+============================================================ */
+
+.rodape {
+
+    margin-top:
+        40px;
+
+    background:
+        #090909;
+
+    border-top:
+        2px solid
+        var(--laranja);
+}
+
+.rodape-conteudo {
+
+    max-width:
+        1400px;
+
+    margin:
+        0 auto;
+
+    padding:
+        40px 5%;
+
+    display: grid;
+
+    grid-template-columns:
+        1.5fr
+        repeat(3, 1fr);
+
+    gap: 30px;
+}
+
+.rodape h2,
+.rodape h3 {
+
+    color:
+        var(--branco);
+
+    margin-bottom: 10px;
+}
+
+.rodape h3 {
+
+    color:
+        var(--laranja);
+}
+
+.rodape p {
+
+    color:
+        var(--prata);
+
+    margin-bottom: 5px;
+
+    font-size: 14px;
+}
+
+.rodape-final {
+
+    padding:
+        15px 5%;
+
+    border-top:
+        1px solid
+        var(--borda);
+
+    text-align: center;
+
+    color:
+        var(--cinza);
+
+    font-size: 13px;
+}
+
+
+/* ============================================================
+   ELEMENTOS OCULTOS
+============================================================ */
+
+[hidden] {
+    display: none !important;
+}
+
+
+/* ============================================================
+   RESPONSIVIDADE — TABLET
+============================================================ */
+
+@media (max-width: 1000px) {
+
+    .destaques {
+
+        grid-template-columns:
+            repeat(2, 1fr);
     }
 
-    .lista-produtos,
-    .grid-produtos,
-    .produtos-grid {
-        grid-template-columns: repeat(3, 1fr);
+    .lista-produtos {
+
+        grid-template-columns:
+            repeat(2, 1fr);
     }
 
-    .marmitas-grid {
-        grid-template-columns: repeat(2, 1fr);
+    .horarios-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
     }
 
-    .parmegianas-grid {
-        grid-template-columns: repeat(2, 1fr);
+    .rodape-conteudo {
+
+        grid-template-columns:
+            repeat(2, 1fr);
     }
 }
 
-/* =========================================================
-   RESPONSIVIDADE - CELULAR
-   ========================================================= */
 
-@media (max-width: 750px) {
+/* ============================================================
+   RESPONSIVIDADE — CELULAR
+============================================================ */
+
+@media (max-width: 650px) {
 
     .cabecalho {
-        padding: 14px 10px;
+
+        position: relative;
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        padding:
+            15px 4%;
     }
 
-    .cabecalho h1 {
-        font-size: 1.45rem;
+    .logo h1 {
+
+        font-size: 21px;
     }
 
-    .cabecalho p {
-        font-size: .85rem;
+    .logo p {
+
+        font-size: 12px;
     }
 
-    .navegacao,
-    nav {
-        gap: 6px;
-        padding: 10px;
+    .logo-icone {
+
+        width: 48px;
+
+        height: 48px;
+
+        font-size: 16px;
     }
 
-    .navegacao button,
-    nav button {
-        flex: 1 1 120px;
-        padding: 9px 8px;
-        font-size: .85rem;
+    .status-funcionamento {
+
+        width: 100%;
+
+        text-align: center;
     }
 
-    .pagina {
-        padding: 22px 12px 35px;
+
+    /* Navegação */
+
+    .navegacao {
+
+        justify-content: flex-start;
+
+        overflow-x: auto;
+
+        flex-wrap: nowrap;
+
+        padding:
+            10px 4%;
+
+        scrollbar-width: thin;
     }
 
-    section h2 {
-        font-size: 1.6rem;
+    .botao-navegacao {
+
+        flex-shrink: 0;
+
+        font-size: 13px;
+
+        padding:
+            9px 12px;
     }
 
-    .hero {
-        min-height: 380px;
-        padding: 25px 15px;
+
+    /* Seções */
+
+    .secao {
+
+        padding:
+            25px 4%;
     }
 
-    .hero h2 {
-        font-size: 2rem;
+
+    /* Banner */
+
+    .banner-principal {
+
+        min-height:
+            400px;
     }
 
-    .hero p {
-        font-size: 1rem;
+    .imagem-banner {
+
+        height:
+            400px;
     }
 
-    .info-grid {
-        grid-template-columns: 1fr;
+    .banner-overlay {
+
+        padding:
+            25px;
+
+        justify-content:
+            flex-end;
+
+        padding-bottom:
+            35px;
+
+        background:
+            linear-gradient(
+                0deg,
+                rgba(0, 0, 0, 0.90),
+                rgba(0, 0, 0, 0.25)
+            );
     }
 
-    .lista-produtos,
-    .grid-produtos,
-    .produtos-grid {
-        grid-template-columns: 1fr;
+    .banner-overlay h2 {
+
+        font-size:
+            34px;
     }
 
-    .marmitas-grid {
-        grid-template-columns: 1fr;
+    .banner-overlay p {
+
+        font-size:
+            15px;
     }
 
-    .parmegianas-grid {
-        grid-template-columns: 1fr;
+
+    /* Destaques */
+
+    .destaques {
+
+        grid-template-columns:
+            1fr;
+
+        gap: 14px;
     }
 
-    .buffet ul {
-        grid-template-columns: 1fr;
+    .card-destaque {
+
+        display: flex;
+
+        align-items: center;
     }
 
-    .pizza-opcoes {
-        grid-template-columns: 1fr;
+    .card-destaque img {
+
+        width: 110px;
+
+        height: 100px;
+
+        flex-shrink: 0;
     }
 
-    .endereco-grid {
-        grid-template-columns: 1fr;
+
+    /* Produtos */
+
+    .lista-produtos {
+
+        grid-template-columns:
+            1fr;
+
+        gap: 15px;
     }
 
-    .endereco-grid .campo-completo {
-        grid-column: auto;
+    .produto-card img {
+
+        height:
+            210px;
     }
+
+
+    /* Horários */
+
+    .horarios-grid {
+
+        grid-template-columns:
+            1fr;
+    }
+
+    .bloco-horarios {
+
+        padding:
+            20px 15px;
+    }
+
+
+    /* Carrinho */
 
     .item-carrinho {
-        grid-template-columns: 1fr;
+
+        flex-direction:
+            column;
+
+        align-items:
+            flex-start;
     }
 
-    .cupom-area {
-        flex-direction: column;
-    }
+    .controles-carrinho {
 
-    .hero-botoes {
-        flex-direction: column;
-    }
-
-    .hero-botoes .btn {
         width: 100%;
+
+        justify-content:
+            space-between;
     }
+
+
+    /* Formulário */
+
+    .formulario-pedido {
+
+        padding:
+            18px;
+    }
+
+
+    /* Rodapé */
+
+    .rodape-conteudo {
+
+        grid-template-columns:
+            1fr;
+
+        padding:
+            30px 4%;
+
+        gap:
+            25px;
+    }
+
 }
 
-/* =========================================================
+
+/* ============================================================
    CELULARES PEQUENOS
-   ========================================================= */
+============================================================ */
 
-@media (max-width: 420px) {
+@media (max-width: 400px) {
 
-    .cabecalho h1 {
-        font-size: 1.2rem;
+    .banner-overlay h2 {
+
+        font-size:
+            29px;
     }
 
-    #statusFuncionamento {
-        font-size: .78rem;
+    .banner-overlay p {
+
+        font-size:
+            14px;
     }
 
-    .navegacao button,
-    nav button {
-        flex: 1 1 100%;
+    .produto-card img {
+
+        height:
+            180px;
     }
 
-    .pagina {
-        padding-left: 9px;
-        padding-right: 9px;
+    .botao-principal,
+    .botao-finalizar {
+
+        width: 100%;
+
+        text-align: center;
     }
 
-    .produto-card {
-        padding: 15px;
-    }
-
-    .checkout-container,
-    .pizza-builder,
-    .buffet {
-        padding: 17px;
-    }
 }
